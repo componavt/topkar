@@ -48,7 +48,7 @@ COMMENT = 'Metalevel of types of geographic objects.';
 
 
 -- -----------------------------------------------------
--- Table `geotype_category`
+-- Table `geotype_category` (pivot table)
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `geotype_category` ;
 
@@ -64,30 +64,34 @@ DEFAULT CHARACTER SET = utf8
 COMMENT = 'Metalevel of types of geographic objects.';
 
 -- -----------------------------------------------------
--- Table `regions`
+-- Table `regions` contains Vologda Oblast, Finland, ...
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `regions` ;
 
 CREATE TABLE IF NOT EXISTS `regions` (
   `id` TINYINT UNSIGNED NOT NULL,
-  `name_ru` VARCHAR(150) NOT NULL,
-  `name_en` VARCHAR(150) CHARACTER SET 'utf8' NULL,
+  `name_ru` VARCHAR(150) NOT NULL COMMENT 'Russian name',
+  `name_en` VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin;
 
 -- -----------------------------------------------------
--- Table district (old S_DISTRICT)
+-- Table district (old S_DISTRICT), 
+-- contains Коряжма г., Муезерский район, Город Сегежа и Сегежский район, ... 
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `districts` ;
 
 CREATE TABLE IF NOT EXISTS `districts` (
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, /* codedistrict */
     region_id TINYINT UNSIGNED NOT NULL, /* coderegion */
-    name_ru VARCHAR(150) NOT NULL,      /* name VARCHAR(84) CHARACTER SET UTF8, */
-    `name_en` VARCHAR(150) NULL,
+    name_ru VARCHAR(150) NOT NULL COMMENT 'Russian name',/* name VARCHAR(84) CHARACTER SET UTF8, */
+    name_en VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
     `foundation` SMALLINT UNSIGNED NULL COMMENT 'Year of foundation of this region.',
     `abolition` SMALLINT UNSIGNED NULL COMMENT 'Year of abolition (end of life) of this region.',
     `geotype_id` TINYINT UNSIGNED NULL COMMENT 'Type of geographic objects geotypes.id',
+    `wd` INT UNSIGNED NULL DEFAULT NULL COMMENT 'Wikidata identifier',
     PRIMARY KEY (`id`),
     INDEX `fk_region_idx` (`region_id` ASC),
     INDEX `fk_geotype_idx` (`geotype_id` ASC))
@@ -99,6 +103,7 @@ COMMENT = 'Справочник районов (современное мест�
 
 -- -----------------------------------------------------
 -- Table districts1926 (old S_DISTRICT1926)
+-- contains Шальский район, Тунгудский район
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `districts1926` ; /* S_DISTRICT1926 */
 
@@ -116,6 +121,7 @@ COMMENT = 'Справочник районов по 1926 году';
 
 -- -----------------------------------------------------
 -- Table selsovets1926 (old S_SELSOVET1926)
+-- contains Äyräpää, Sortavala (Sordavala) город, Саримяжский, ... 
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `selsovets1926` ;
 
