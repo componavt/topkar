@@ -1,69 +1,5 @@
 
 -- -----------------------------------------------------
--- Table `geotypes`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `geotypes` ;
-
-CREATE TABLE IF NOT EXISTS `geotypes` (
-  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `short_ru` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in Russian',
-  `name_ru` VARCHAR(64) NOT NULL COMMENT 'Name in Russian',
-  `desc_ru` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in Russian',
-  `short_en` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in English',
-  `name_en` VARCHAR(64) NULL DEFAULT NULL COMMENT 'Name in English',
-  `desc_en` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in English',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `short_ru_UNIQUE` (`short_ru` ASC),
-  UNIQUE INDEX `short_en_UNIQUE` (`short_en` ASC),
-  UNIQUE INDEX `name_en_UNIQUE` (`name_en` ASC),
-  UNIQUE INDEX `name_ru_UNIQUE` (`name_ru` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_bin
-COMMENT = 'Types of geographic objects (geo features).';
-
-
--- -----------------------------------------------------
--- Table `geocategories`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `geocategories` ;
-
-CREATE TABLE IF NOT EXISTS `geocategories` (
-  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `short_ru` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in Russian',
-  `name_ru` VARCHAR(64) NOT NULL COMMENT 'Name in Russian',
-  `desc_ru` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in Russian',
-  `short_en` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in English',
-  `name_en` VARCHAR(64) NULL DEFAULT NULL COMMENT 'Name in English',
-  `desc_en` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in English',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `short_ru_UNIQUE` (`short_ru` ASC),
-  UNIQUE INDEX `short_en_UNIQUE` (`short_en` ASC),
-  UNIQUE INDEX `name_en_UNIQUE` (`name_en` ASC),
-  UNIQUE INDEX `name_ru_UNIQUE` (`name_ru` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_bin
-COMMENT = 'Metalevel of types of geographic objects.';
-
-
--- -----------------------------------------------------
--- Table `geotype_category` (pivot table)
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `geotype_category` ;
-
-CREATE TABLE IF NOT EXISTS `geotype_category` (
-  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `geotype_id` TINYINT UNSIGNED NOT NULL COMMENT 'id',
-  `geocategory_id` TINYINT UNSIGNED NOT NULL COMMENT 'id',
-  PRIMARY KEY (`id`),
-  INDEX `type_category_idx` (`geotype_id` ASC, `geocategory_id` ASC),
-  INDEX `fk_geocategory_id_idx` (`geocategory_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'Metalevel of types of geographic objects.';
-
--- -----------------------------------------------------
 -- Table `regions` contains Vologda Oblast, Finland, ...
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `regions` ;
@@ -108,10 +44,11 @@ COMMENT = 'Справочник районов (современное мест�
 DROP TABLE IF EXISTS `districts1926` ; /* S_DISTRICT1926 */
 
 CREATE TABLE IF NOT EXISTS `districts1926` (
-  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `region_id` TINYINT UNSIGNED NOT NULL,
-  `name_ru` VARCHAR(150) NOT NULL,
-  `name_en` VARCHAR(150) NULL DEFAULT NULL,
+    `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `region_id` TINYINT UNSIGNED NOT NULL,
+    `name_ru` VARCHAR(150) NOT NULL,
+    `name_en` VARCHAR(150) NULL DEFAULT NULL,
+    `wd` INT UNSIGNED NULL DEFAULT NULL COMMENT 'Wikidata identifier',
   PRIMARY KEY (`id`),
   INDEX `fk_region_idx` (`region_id` ASC))
 ENGINE = InnoDB
@@ -126,11 +63,12 @@ COMMENT = 'Справочник районов по 1926 году';
 DROP TABLE IF EXISTS `selsovets1926` ;
 
 CREATE TABLE IF NOT EXISTS `selsovets1926` (
-  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `district1926_id` TINYINT UNSIGNED NOT NULL COMMENT 'district1926.id',
-  `name_ru` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Russian name',
-  `name_en` VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
-  `name_krl` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Karelian name',
+    `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `district1926_id` TINYINT UNSIGNED NOT NULL COMMENT 'district1926.id',
+    `name_ru` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Russian name',
+    `name_en` VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
+    `name_krl` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Karelian name',
+    `wd` INT UNSIGNED NULL DEFAULT NULL COMMENT 'Wikidata identifier',
   PRIMARY KEY (`id`),
   INDEX `fk_DISTRICT1926_idx` (`district1926_id` ASC))
 ENGINE = InnoDB
@@ -140,15 +78,17 @@ COMMENT = 'Справочник сельсоветов по 1926 году';
 
 -- -----------------------------------------------------
 -- Table `settlements1926`
+-- contains "Хирвиениеми, Хирвинаволок", "Песочки", "Vegarus", ... 
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `settlements1926` ;
 
 CREATE TABLE IF NOT EXISTS `settlements1926` (
-  `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `selsovet_id` TINYINT UNSIGNED NOT NULL COMMENT 'selsovets1926.id',
-  `name_ru` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Russian name',
-  `name_en` VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
-  `name_krl` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Karelian name',
+    `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `selsovet_id` TINYINT UNSIGNED NOT NULL COMMENT 'selsovets1926.id',
+    `name_ru` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Russian name',
+    `name_en` VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
+    `name_krl` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Karelian name',
+    `wd` INT UNSIGNED NULL DEFAULT NULL COMMENT 'Wikidata identifier',
   PRIMARY KEY (`id`),
   INDEX `fk_SELSOVET1926_idx` (`selsovet_id` ASC))
 ENGINE = InnoDB
@@ -156,8 +96,79 @@ DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
 COMMENT = 'Справочник населенных пунктов по 1926 году';
 
+
 -- -----------------------------------------------------
--- Table `structs`
+-- Table `geotypes` (old S_OBJKIND)
+-- contains пожога, село, луда, пролив, плес, гора, гумно, ...
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `geotypes` ;
+
+CREATE TABLE IF NOT EXISTS `geotypes` (
+  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `short_ru` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in Russian',
+  `name_ru` VARCHAR(64) NOT NULL COMMENT 'Name in Russian',
+  `desc_ru` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in Russian',
+  `short_en` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in English',
+  `name_en` VARCHAR(64) NULL DEFAULT NULL COMMENT 'Name in English',
+  `desc_en` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in English',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `short_ru_UNIQUE` (`short_ru` ASC),
+  UNIQUE INDEX `short_en_UNIQUE` (`short_en` ASC),
+  UNIQUE INDEX `name_en_UNIQUE` (`name_en` ASC),
+  UNIQUE INDEX `name_ru_UNIQUE` (`name_ru` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'Types of geographic objects (geo features).';
+
+
+-- -----------------------------------------------------
+-- Table `geocategories`
+-- Metalevel of types of geographic objects, 
+-- e.g. all water objects (Hydronym), etc.
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `geocategories` ;
+
+CREATE TABLE IF NOT EXISTS `geocategories` (
+  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `short_ru` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in Russian',
+  `name_ru` VARCHAR(64) NOT NULL COMMENT 'Name in Russian',
+  `desc_ru` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in Russian',
+  `short_en` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in English',
+  `name_en` VARCHAR(64) NULL DEFAULT NULL COMMENT 'Name in English',
+  `desc_en` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Description in English',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `short_ru_UNIQUE` (`short_ru` ASC),
+  UNIQUE INDEX `short_en_UNIQUE` (`short_en` ASC),
+  UNIQUE INDEX `name_en_UNIQUE` (`name_en` ASC),
+  UNIQUE INDEX `name_ru_UNIQUE` (`name_ru` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'Metalevel of types of geographic objects.';
+
+
+-- -----------------------------------------------------
+-- Table `geotype_category` (pivot table)
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `geotype_category` ;
+
+CREATE TABLE IF NOT EXISTS `geotype_category` (
+  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `geotype_id` TINYINT UNSIGNED NOT NULL COMMENT 'id',
+  `geocategory_id` TINYINT UNSIGNED NOT NULL COMMENT 'id',
+  PRIMARY KEY (`id`),
+  INDEX `type_category_idx` (`geotype_id` ASC, `geocategory_id` ASC),
+  INDEX `fk_geocategory_id_idx` (`geocategory_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'Connection of tables geotypes and geocategories.';
+
+
+
+-- -----------------------------------------------------
+-- Table `structs` (old S_STRUCTURE)
+-- contains dögi, рукав, объезд, против, ухаб, яма, избушка
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `structs` ;
 
@@ -175,7 +186,9 @@ COLLATE = utf8_bin
 COMMENT = 'toponyms structures';
 
 -- -----------------------------------------------------
--- Table `structhiers`
+-- Table `structhiers` (old S_STRUCTUREHIERARHY)
+-- contains Русские -> Детерминанты (parent_id), 
+--          Прибалтийско-финские -> Детерминанты...
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `structhiers` ;
 
@@ -183,12 +196,29 @@ CREATE TABLE IF NOT EXISTS `structhiers` (
   `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_ru` VARCHAR(50) NOT NULL COMMENT 'structhiers.id',
   `name_en` VARCHAR(50) NULL COMMENT 'structhiers.id',
-  `parent_id` SMALLINT UNSIGNED NULL COMMENT 'structure name',
+  `parent_id` TINYINT UNSIGNED NULL COMMENT 'ID of parent in the same table',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
 COMMENT = 'Hierarchy tree of structures of toponyms';
+
+
+-- -----------------------------------------------------
+-- Table `struct_toponym` (old T_TOPONIMSTRUCT)
+-- Pivot of tables structs and toponyms
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `struct_toponym` ;
+
+CREATE TABLE IF NOT EXISTS `struct_toponym` (
+  `struct_id` SMALLINT UNSIGNED NOT NULL,
+  `toponym_id` INT UNSIGNED NOT NULL COMMENT 'Pivot of tables structs and toponyms',
+  INDEX `struct_toponym_idx` (`struct_id` ASC, `toponym_id` ASC),
+  INDEX `toponym_idx` (`toponym_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'Pivot of tables structs and toponyms';
 
 
 -- temp table
