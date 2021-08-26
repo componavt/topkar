@@ -26,11 +26,9 @@ CREATE TABLE IF NOT EXISTS `districts` (
     name_en VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
     `foundation` SMALLINT UNSIGNED NULL COMMENT 'Year of foundation of this region.',
     `abolition` SMALLINT UNSIGNED NULL COMMENT 'Year of abolition (end of life) of this region.',
-    `geotype_id` TINYINT UNSIGNED NULL COMMENT 'Type of geographic objects geotypes.id',
     `wd` INT UNSIGNED NULL DEFAULT NULL COMMENT 'Wikidata identifier',
     PRIMARY KEY (`id`),
-    INDEX `fk_region_idx` (`region_id` ASC),
-    INDEX `fk_geotype_idx` (`geotype_id` ASC))
+    INDEX `fk_region_idx` (`region_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
@@ -222,6 +220,7 @@ COMMENT = 'Pivot of tables structs and toponyms';
 
 
 -- temp table
+DROP TABLE IF EXISTS `T_TOPONIM` ;
 /* Table: T_TOPONIM, Owner: SYSDBA */
 CREATE TABLE T_TOPONIM (CODETOPONIM INTEGER NOT NULL,
         CODEDISTRICT INTEGER,
