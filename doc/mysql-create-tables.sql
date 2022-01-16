@@ -192,8 +192,8 @@ DROP TABLE IF EXISTS `structhiers` ;
 
 CREATE TABLE IF NOT EXISTS `structhiers` (
   `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name_ru` VARCHAR(50) NOT NULL COMMENT 'structhiers.id',
-  `name_en` VARCHAR(50) NULL COMMENT 'structhiers.id',
+  `name_ru` VARCHAR(50) NOT NULL COMMENT 'Russian name',
+  `name_en` VARCHAR(50) NULL COMMENT 'English name',
   `parent_id` TINYINT UNSIGNED NULL COMMENT 'ID of parent in the same table',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
@@ -217,6 +217,48 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
 COMMENT = 'Pivot of tables structs and toponyms';
+
+
+
+-- -----------------------------------------------------
+-- Table `etymology_nations`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `etymology_nations` ;
+
+CREATE TABLE IF NOT EXISTS `etymology_nations` (
+  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `short_ru` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in Russian',
+  `name_ru` VARCHAR(64) NOT NULL COMMENT 'Name in Russian',
+  `short_en` VARCHAR(32) NULL DEFAULT NULL COMMENT 'Short description in English',
+  `name_en` VARCHAR(64) NULL DEFAULT NULL COMMENT 'Name in English',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `short_ru_UNIQUE` (`short_ru` ASC),
+  UNIQUE INDEX `short_en_UNIQUE` (`short_en` ASC),
+  UNIQUE INDEX `name_en_UNIQUE` (`name_en` ASC),
+  UNIQUE INDEX `name_ru_UNIQUE` (`name_ru` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'National sign of etymology (Russians, Baltic-Finnish, Sami and obscure).';
+
+
+-- -----------------------------------------------------
+-- Table `ethnos_territories`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ethnos_territories` ;
+
+CREATE TABLE IF NOT EXISTS `ethnos_territories` (
+  `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name_ru` VARCHAR(50) NOT NULL COMMENT 'Russian name',
+  `name_en` VARCHAR(50) NULL DEFAULT NULL COMMENT 'English name',
+  `name_krl` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Karelian name',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'Territory of settlement of ethnolocal groups of the population of Karelia ';
+
+
 
 
 -- temp table
@@ -250,20 +292,26 @@ CONSTRAINT PK_T_TOPONIM PRIMARY KEY (CODETOPONIM));
 -- -----------------------------------------------------
 -- Table `toponym`  // old title: T_TOPONIM
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `toponym` ;
+DROP TABLE IF EXISTS `toponyms` ;
 
-CREATE TABLE IF NOT EXISTS `toponym` (
+CREATE TABLE IF NOT EXISTS `toponyms` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `district_id` TINYINT UNSIGNED NOT NULL,
   `settlement1926_id` SMALLINT UNSIGNED NOT NULL,
-  `geotype_id` TINYINT UNSIGNED NOT NULL COMMENT 'Type of geographic objects geotypes.id',
-  `name_en` VARCHAR(150) NULL,
-  `foundation` SMALLINT UNSIGNED NULL COMMENT 'Year of foundation of this region.',
-  `abolition` SMALLINT UNSIGNED NULL COMMENT 'Year of abolition (end of life) of this region.',
+  `geotype_id` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT 'Type of geographic objects geotypes.id',
+  `name` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Name of toponym in Russian, or Karelian, or...',
+  `etymology_nation_id` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT 'National sign of etymology, etymology_nations.id',
+  `ethnos_territory_id` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT 'Territory of ethno groups of Karelia, ethnos_territories.id',
+  `accent` SMALLINT UNSIGNED NULL DEFAULT NULL,
+  `foundation` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT 'Year of foundation of this object.',
+  `abolition` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT 'Year of abolition (end of life) of this object.',
+  `area` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Cell on a map (text)',
   PRIMARY KEY (`id`),
   INDEX `fk_district_idx` (`district_id` ASC),
   INDEX `fk_settlement1926_idx` (`settlement1926_id` ASC),
-  INDEX `fk_geotype_idx` (`geotype_id` ASC))
+  INDEX `fk_geotype_idx` (`geotype_id` ASC),
+  INDEX `fk_etymology_nation_idx` (`etymology_nation_id` ASC),
+  INDEX `fk_ethnos_territory_idx` (`ethnos_territory_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
