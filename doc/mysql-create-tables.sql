@@ -1,4 +1,33 @@
 
+
+-- -----------------------------------------------------
+-- Table `places`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `places` ;
+
+CREATE TABLE IF NOT EXISTS `places` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `latitude` DECIMAL(17,14) NULL,
+  `longitude` DECIMAL(17,14) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'Place on the map.';
+
+-- -----------------------------------------------------
+-- Table `place_toponym`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `place_toponym` ;
+
+CREATE TABLE IF NOT EXISTS `place_toponym` (
+  `place_id` INT UNSIGNED NOT NULL,
+  `toponym_id` INT UNSIGNED NOT NULL,
+  INDEX `place_idx` (`place_id` ASC),
+  INDEX `toponym_idx` (`toponym_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
 -- -----------------------------------------------------
 -- Table `regions` contains Vologda Oblast, Finland, ...
 -- -----------------------------------------------------
@@ -175,7 +204,6 @@ CREATE TABLE IF NOT EXISTS `structs` (
   `structhier_id` TINYINT UNSIGNED NULL COMMENT 'structhiers.id',
   `name_ru` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Russian name',
   `name_en` VARCHAR(150) NULL DEFAULT NULL COMMENT 'English name',
-  `name_krl` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Karelian name',
   PRIMARY KEY (`id`),
   INDEX `structhier_idx` (`structhier_id` ASC))
 ENGINE = InnoDB
@@ -251,13 +279,33 @@ CREATE TABLE IF NOT EXISTS `ethnos_territories` (
   `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_ru` VARCHAR(50) NOT NULL COMMENT 'Russian name',
   `name_en` VARCHAR(50) NULL DEFAULT NULL COMMENT 'English name',
-  `name_krl` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Karelian name',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
 COMMENT = 'Territory of settlement of ethnolocal groups of the population of Karelia ';
 
+
+
+
+-- -----------------------------------------------------
+-- Table `RECORDS`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `RECORDS` ;
+
+CREATE TABLE IF NOT EXISTS `RECORDS` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `toponym_id` INT UNSIGNED NOT NULL COMMENT 'region_id',
+  `informant` VARCHAR(150) NULL DEFAULT NULL,
+  `recorder` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Who wrote down the toponym.',
+  `record_year` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT 'Year of toponym recording.',
+  `record_place` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Place of toponym recording.',
+  PRIMARY KEY (`id`),
+  INDEX `toponym_idx` (`toponym_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'About the informant, who, where and when wrote down the toponym.';
 
 
 
@@ -296,18 +344,21 @@ DROP TABLE IF EXISTS `toponyms` ;
 
 CREATE TABLE IF NOT EXISTS `toponyms` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `district_id` TINYINT UNSIGNED NOT NULL,
+  `DISTRICT_ID` TINYINT UNSIGNED NOT NULL,
   `settlement1926_id` SMALLINT UNSIGNED NOT NULL,
   `geotype_id` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT 'Type of geographic objects geotypes.id',
   `name` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Name of toponym in Russian, or Karelian, or...',
   `etymology_nation_id` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT 'National sign of etymology, etymology_nations.id',
   `ethnos_territory_id` TINYINT UNSIGNED NULL DEFAULT NULL COMMENT 'Territory of ethno groups of Karelia, ethnos_territories.id',
+  `caseform` VARCHAR(250) NULL DEFAULT NULL COMMENT 'Locative form.',
   `accent` SMALLINT UNSIGNED NULL DEFAULT NULL,
+  `legend` VARCHAR(8192) NULL DEFAULT NULL COMMENT 'Legend.',
   `foundation` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT 'Year of foundation of this object.',
   `abolition` SMALLINT UNSIGNED NULL DEFAULT NULL COMMENT 'Year of abolition (end of life) of this object.',
   `area` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Cell on a map (text)',
+  `SETTLEMENT` VARCHAR(150) NULL DEFAULT NULL COMMENT 'Населённый пункт.',
   PRIMARY KEY (`id`),
-  INDEX `fk_district_idx` (`district_id` ASC),
+  INDEX `fk_district_idx` (`DISTRICT_ID` ASC),
   INDEX `fk_settlement1926_idx` (`settlement1926_id` ASC),
   INDEX `fk_geotype_idx` (`geotype_id` ASC),
   INDEX `fk_etymology_nation_idx` (`etymology_nation_id` ASC),
@@ -316,3 +367,21 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin
 COMMENT = 'toponyms - main table';
+
+
+-- -----------------------------------------------------
+-- Table `district_toponym`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `district_toponym` ;
+
+CREATE TABLE IF NOT EXISTS `district_toponym` (
+  `district_id` TINYINT UNSIGNED NOT NULL,
+  `toponym_id` INT UNSIGNED NOT NULL,
+  `include_from` SMALLINT UNSIGNED NULL COMMENT 'Start year of inclusion toponym to district.',
+  `include_to` SMALLINT UNSIGNED NULL COMMENT 'End year of inclusion toponym to district.',
+  INDEX `district_idx` (`district_id` ASC),
+  INDEX `toponym_idx` (`toponym_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
