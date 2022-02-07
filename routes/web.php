@@ -2,6 +2,7 @@
 
 //use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Dict\RegionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,17 @@ use App\Http\Controllers\WelcomeController;
 |
 */
 
-//Route::get('/', function () {
+Route::get('/', function () {
 //    return 'TopKar site';
-    //return view('welcome');
-//});
+    return view('welcome'); // return view('dashboard');
+});
+
+Route::get('/dict/regions', [RegionController::class, 'index']);
+
+Route::get('/dict/districts1926', function () {
+    return view('main');
+});
+
 
 //Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
