@@ -1,14 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Регионы
+            {{-- ucfirst, see https://stackoverflow.com/a/12066075/1173350 --}}
+            {{mb_convert_case(trans('general.regions'), MB_CASE_TITLE, 'UTF-8')}}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <table><tr><th>N</th>
+                <table class="table table-striped table-hover"><tr><th>&numero;</th>
                            <th>{{trans('general.in_english')}}</th>
                            <th>{{trans('general.in_russian')}}</th>
                         </tr>

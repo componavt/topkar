@@ -3,6 +3,7 @@
 //use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Dict\RegionController;
+use App\Http\Controllers\Dict\District1926Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,21 +16,30 @@ use App\Http\Controllers\Dict\RegionController;
 |
 */
 
-Route::get('/', function () {
-//    return 'TopKar site';
-    return view('welcome'); // return view('dashboard');
-});
+/*Route::group(
+    [
+        'prefix' => '{locale}' //,
+        //'middleware' => [ 'localeSessionRedirect', 'localizationRedirect'] // , 'web'
 
-Route::get('/dict/regions', [RegionController::class, 'index']);
+    ],
+    function()
+    {*/
+        //app()->setLocale($locale);
+    Route::get('/', function () {
+        return view('welcome'); // return view('dashboard');
+    });
 
-Route::get('/dict/districts1926', function () {
-    return view('main');
-});
+    Route::get('/dict/regions',       [RegionController::class, 'index'])->name('dict-regions');
+    Route::get('/dict/districts1926', [District1926Controller::class, 'index'])->name('dict-districts1926');
+
+    //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
+    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+/*
+    }
+);*/
 
 
 //Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
-//Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');

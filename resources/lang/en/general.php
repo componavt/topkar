@@ -16,4 +16,7 @@ return [
     'in_english' => 'in English',
     'in_russian' => 'in Russian',
 
+    'region'  => 'region',
+    'regions' => 'regions',
+    'Districts_in_1926_year' => 'Districts in 1926',
 ];
