@@ -16,15 +16,9 @@ use App\Http\Controllers\Dict\District1926Controller;
 |
 */
 
-/*Route::group(
-    [
-        'prefix' => '{locale}' //,
-        //'middleware' => [ 'localeSessionRedirect', 'localizationRedirect'] // , 'web'
-
-    ],
-    function()
-    {*/
-        //app()->setLocale($locale);
+Route::group(['prefix' => LaravelLocalization::setLocale()], function()
+{
+    /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
     Route::get('/', function () {
         return view('welcome'); // return view('dashboard');
     });
@@ -36,10 +30,8 @@ use App\Http\Controllers\Dict\District1926Controller;
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-/*
-    }
-);*/
+});
 
+/** OTHER PAGES THAT SHOULD NOT BE LOCALIZED **/
 
 //Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
-

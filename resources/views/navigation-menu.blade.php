@@ -121,20 +121,18 @@
             </div><!-- eo of old ul -->
             
             <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    
-                    {{--@foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        @if ($localeCode != LaravelLocalization::getCurrentLocale())--}}
-                        
+                <ul class="nav navbar-nav navbar-right lang">
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        @if ($localeCode != LaravelLocalization::getCurrentLocale())
                         <li>
-                            <a rel="alternate" hreflang="ru" href="http://local.topkar.com/ru/dict/districts1926">
-                            <span class="lang-sm lang-lbl" lang="ru"></span>
+                            <a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
+                            {{-- Thin space &thinsp; between flag and language name. --}}
+                            <span class="lang-sm lang-lbl" lang="{{$localeCode}}">&thinsp;</span>
+                                {{-- $properties['native'] --}}
                             </a>
                         </li>
-                        
-                       {{-- @endif
-                    @endforeach--}}
-                    
+                        @endif
+                    @endforeach
                 </ul>
             
         </div>
