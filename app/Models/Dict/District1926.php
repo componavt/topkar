@@ -17,6 +17,22 @@ class District1926 extends Model
      */
     protected $table = 'districts1926';
     
+    
+    /**
+     * Get localized name (->name).
+     * If name in English is absent, then return name in Russian
+     */
+    public function getNameAttribute()
+    {
+        $locale = app()->getLocale();
+        $r = $this->{'name_'.$locale};
+        
+        if( empty($r) and $locale == "en") 
+            $r = $this->{'name_ru'};
+        
+        return $r;
+    }
+    
     /**
      * Get the region which contains this district
      * One To Many (Inverse) / Belongs To

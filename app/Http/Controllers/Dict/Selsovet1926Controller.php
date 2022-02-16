@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Dict\Selsovet1926;
 
-class Selsovets1926Controller extends Controller
+class Selsovet1926Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class Selsovets1926Controller extends Controller
      */
     public function index()
     {
-        //
+        $selsovets1926 = Selsovet1926::all();
+        return view('dict.selsovets1926.index', compact('selsovets1926'));
     }
 
     /**

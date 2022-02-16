@@ -13,8 +13,11 @@ return [
     |
     */
 
-    'regions' => 'Regions',
     'dictionary' => 'Dictionary',
-    'districts1926' => 'Districts 1926',
+    
+    'regions' => 'Regions',
+    'districts1926' => 'Districts in 1926',
+    'selsovets1926' => 'Selsovets in 1926',
+    
 
 ];

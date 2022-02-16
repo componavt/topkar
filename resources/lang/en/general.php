@@ -13,10 +13,14 @@ return [
     |
     */
 
-    'in_english' => 'in English',
-    'in_russian' => 'in Russian',
+    'in_english'  => 'in English',
+    'in_russian'  => 'in Russian',
+    'in_karelian' => 'in Karelian',
 
     'region'  => 'region',
     'regions' => 'regions',
+    'district1926' => 'Districts 1926',
     'Districts_in_1926_year' => 'Districts in 1926',
+    'Selsovets_in_1926_year' => 'Selsovets in 1926',
+    
 ];

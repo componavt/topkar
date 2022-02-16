@@ -17,6 +17,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{{ route('dict-regions') }}">{{ trans('navigation.regions') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('dict-districts1926') }}">{{ trans('navigation.districts1926') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('dict-selsovets1926') }}">{{ trans('navigation.selsovets1926') }}</a></li>
                 </ul>
               </li>
             </ul>
@@ -120,21 +121,10 @@
                 @endauth
             </div><!-- eo of old ul -->
             
-            <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right lang">
-                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        @if ($localeCode != LaravelLocalization::getCurrentLocale())
-                        <li>
-                            <a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
-                            {{-- Thin space &thinsp; between flag and language name. --}}
-                            <span class="lang-sm lang-lbl" lang="{{$localeCode}}">&thinsp;</span>
-                                {{-- $properties['native'] --}}
-                            </a>
-                        </li>
-                        @endif
-                    @endforeach
-                </ul>
-            
+            <!-- Language switcher in navigation bar (right side) -->
+            <ul class="nav navbar-nav navbar-right lang">
+                @include('header.lang_switch')
+            </ul>
         </div>
     </div>
 </nav>
