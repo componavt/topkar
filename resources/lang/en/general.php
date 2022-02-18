@@ -19,8 +19,12 @@ return [
 
     'region'  => 'region',
     'regions' => 'regions',
-    'district1926' => 'Districts 1926',
+    'districts_1926' => 'Districts 1926',
     'Districts_in_1926_year' => 'Districts in 1926',
+    
+    'selsovets_1926' => 'Selsovets 1926',
     'Selsovets_in_1926_year' => 'Selsovets in 1926',
+    
+    'Settlements_in_1926_year' => 'Settlements in 1926',
     
 ];

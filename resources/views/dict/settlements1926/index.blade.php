@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{trans('general.Selsovets_in_1926_year')}}
+            {{trans('general.Settlements_in_1926_year')}}
         </h2>
     </x-slot>
 
@@ -11,16 +11,18 @@
                 <table class="table table-striped table-hover"><tr><th>&numero;</th>
                            <th>{{trans('general.region')}}</th>
                            <th>{{trans('general.districts_1926')}}</th>
+                           <th>{{trans('general.selsovets_1926')}}</th>
                            <th>{{trans('general.in_english')}}</th>
                            <th>{{trans('general.in_russian')}}</th>
                            <th>{{trans('general.in_karelian')}}</th>
                         </tr>
                     
-                        @foreach( $selsovets1926 as $r )
+                        @foreach( $settlements1926 as $r )
                         <tr>
                             <td>{{ $loop->iteration }}{{-- Starts with 1 --}}</td>
-                            <td>{{ $r->district1926->region->name }}</td>
-                            <td>{{ $r->district1926->name }}</td>
+                            <td>{{ $r->selsovet1926->district1926->region->name}}</td>
+                            <td>{{ $r->selsovet1926->district1926->name }}</td>
+                            <td>{{ $r->selsovet1926->name }}</td>
                             
                             <td>{{ $r->name_en }}</td>
                             <td>{{ $r->name_ru }}</td>
