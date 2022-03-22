@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | General Language Lines
+    | Dictionary Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines are used during authentication for various
@@ -12,12 +12,9 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
-    'dictionary' => 'Словарь',
     
-    'regions' => 'Регионы',
-    'districts_1926' => 'Районы на 1926 год',
-    'selsovets_1926' => 'Сельсоветы на 1926 год',
-    'settlements_1926' => 'Поселения на 1926 год',
-    'toponyms' => 'Топонимы',
+    'location_1926' => 'Регион, район, сельсовет, поселение 1926',
+    'location'      => 'Регион, район, поселение',
+
+    'toponym' => 'Топоним',
 ];

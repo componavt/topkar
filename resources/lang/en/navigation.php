@@ -19,5 +19,6 @@ return [
     'districts_1926' => 'Districts in 1926',
     'selsovets_1926' => 'Selsovets in 1926',
     'settlements_1926' => 'Settlements in 1926',
+    'toponyms' => 'Toponyms',
 
 ];

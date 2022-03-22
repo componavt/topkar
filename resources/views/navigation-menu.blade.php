@@ -19,6 +19,7 @@
                   <li><a class="dropdown-item" href="{{ route('dict-districts1926') }}">{{ trans('navigation.districts_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('dict-selsovets1926') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('dict-settlements1926') }}">{{ trans('navigation.settlements_1926') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('dict-toponyms') }}">{{ trans('navigation.toponyms') }}</a></li>
                 </ul>
               </li>
             </ul>
@@ -26,7 +27,7 @@
             <!-- Right side Of Navbar: search -->
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button class="btn btn-outline-success" type="submit">Search</button>&thinsp;
             </form>
         </div>
             

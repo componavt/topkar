@@ -4,24 +4,17 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Dict\Settlement1926;
 
-class Settlement1926Controller extends Controller
+class DistrictController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        //$settlements1926 = Settlement1926::all();
-        
-        $page = (int)$request->input('page');
-        $portion = 10;
-        
-        $settlements1926 = Settlement1926::paginate($portion);
-        return view('dict.settlements1926.index', compact('settlements1926', 'portion', 'page' ));
+        //
     }
 
     /**

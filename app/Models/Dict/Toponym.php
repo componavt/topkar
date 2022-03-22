@@ -1,0 +1,135 @@
+<?php
+
+namespace App\Models\Dict;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Dict\Settlement1926;
+
+class Toponym extends Model
+{
+    use HasFactory;
+   // use \App\Traits\Methods\getNameAttribute;
+    
+    
+    /**
+     * Get the settlement1926 which contains this toponym
+     * One To Many (Inverse) / Belongs To.
+     * One settlement1926 and many toponyms.
+     * https://laravel.com/docs/8.x/eloquent-relationships#one-to-many-inverse
+     */
+    public function settlement1926()
+    {
+        return $this->belongsTo(Settlement1926::class);
+    }
+    
+    /**
+     * Get the district which contains this toponym
+     * One To Many (Inverse) / Belongs To, https://laravel.com/docs/8.x/eloquent-relationships#one-to-many-inverse
+     */
+    public function district()
+    {
+        //                                       'foreign_key', 'owner_key'
+        return $this->belongsTo(District::class, 'DISTRICT_ID', 'id');
+    }
+    
+    
+    /**
+     * Get 'Region, district, SETTLEMENT (String)' concatenated by comma.
+     */
+    public function getLocationAttribute()
+    {
+        return $this->getRegionNameAttribute().', '. 
+               $this->getDistrictNameAttribute().', '. 
+               $this->getSettlementNameAttribute();
+    }
+    
+    public function getRegionNameAttribute()
+    {
+        if( $this->district && 
+            $this->district->region ) 
+        { 
+            return $this->district->region->name; 
+        }
+        return "";
+    }
+    
+    public function getDistrictNameAttribute()
+    {
+        if( $this->district ) 
+        { 
+            return $this->district->name; 
+        }
+        return "";
+    }
+    
+    public function getSettlementNameAttribute()
+    {
+        // TODO: to change string to settlement_id,
+        // to create tables (pink colors): settlements
+        return $this->SETTLEMENT;
+    }
+    
+    /**
+     * Get 'Region, district1926, selsovet1926, settlement1926' concatenated by comma.
+     */
+    public function getLocation1926Attribute()
+    {
+        return $this->getRegion1926NameAttribute().', '. 
+               $this->getDistrict1926NameAttribute().', '. 
+               $this->getSelsovet1926NameAttribute().', '.
+               $this->getSettlment1926NameAttribute();
+    }
+    
+    /**
+     * Get name of region via selsovet1926->district1926.
+     * If name is absent, then return empty string.
+     */
+    public function getRegion1926NameAttribute()
+    {
+        if( $this->settlement1926 &&
+            $this->settlement1926->selsovet1926 &&
+            $this->settlement1926->selsovet1926->district1926 &&
+            $this->settlement1926->selsovet1926->district1926->region ) 
+        { 
+            return $this->settlement1926->selsovet1926->district1926->region->name; 
+        }
+        
+        return "";
+    }
+    
+    public function getDistrict1926NameAttribute()
+    {
+        if( $this->settlement1926 &&
+            $this->settlement1926->selsovet1926 &&
+            $this->settlement1926->selsovet1926->district1926 ) 
+        { 
+            return $this->settlement1926->selsovet1926->district1926->name; 
+        }
+        
+        return "";
+    }
+    
+    // selsovet1926->name
+    public function getSelsovet1926NameAttribute()
+    {
+        if( $this->settlement1926 &&
+            $this->settlement1926->selsovet1926 ) 
+        { 
+            return $this->settlement1926->selsovet1926->name; 
+        }
+        
+        return "";
+    }
+    
+    public function getSettlment1926NameAttribute()
+    {
+        if( $this->settlement1926 ) 
+        { 
+            return $this->settlement1926->name; 
+        }
+        
+        return "";
+    }
+    
+}

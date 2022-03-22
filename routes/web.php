@@ -1,11 +1,12 @@
 <?php
 
 //use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WelcomeController;
+//use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Dict\RegionController;
 use App\Http\Controllers\Dict\District1926Controller;
 use App\Http\Controllers\Dict\Selsovet1926Controller;
 use App\Http\Controllers\Dict\Settlement1926Controller;
+use App\Http\Controllers\Dict\ToponymController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/districts1926', [District1926Controller::class, 'index'])->name('dict-districts1926');
     Route::get('/dict/selsovets1926', [Selsovet1926Controller::class, 'index'])->name('dict-selsovets1926');
     Route::get('/dict/settlements1926', [Settlement1926Controller::class, 'index'])->name('dict-settlements1926');
+    
+    Route::get('/dict/toponyms', [ToponymController::class, 'index'])->name('dict-toponyms');
 
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

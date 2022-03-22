@@ -9,6 +9,7 @@ use App\Models\Dict\Selsovet1926;
 class Settlement1926 extends Model
 {
     use HasFactory;
+    use \App\Traits\Methods\getNameAttribute;
     
     /**
      * The table associated with the model.

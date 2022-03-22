@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Dict\Settlement1926;
+use App\Models\Dict\Toponym;
 
-class Settlement1926Controller extends Controller
+class ToponymController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +15,11 @@ class Settlement1926Controller extends Controller
      */
     public function index(Request $request)
     {
-        //$settlements1926 = Settlement1926::all();
-        
         $page = (int)$request->input('page');
         $portion = 10;
         
-        $settlements1926 = Settlement1926::paginate($portion);
-        return view('dict.settlements1926.index', compact('settlements1926', 'portion', 'page' ));
+        $toponyms = Toponym::paginate($portion);
+        return view('dict.toponyms.index', compact('toponyms', 'portion', 'page' ));
     }
 
     /**
