@@ -31,14 +31,22 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/selsovets1926', [Selsovet1926Controller::class, 'index'])->name('dict-selsovets1926');
     Route::get('/dict/settlements1926', [Settlement1926Controller::class, 'index'])->name('dict-settlements1926');
     
-    Route::get('/dict/toponyms', [ToponymController::class, 'index'])->name('dict-toponyms');
+    
 
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-});
+
 
 /** OTHER PAGES THAT SHOULD NOT BE LOCALIZED **/
-
 //Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+
+
+    // Route::get('/dict/toponyms', [ToponymController::class, 'index'])->name('dict-toponyms');
+Route::resources([
+    'dict/toponyms' => ToponymController::class,
+]);
+
+
+}); // eo LaravelLocalization

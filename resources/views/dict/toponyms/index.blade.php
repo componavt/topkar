@@ -13,9 +13,6 @@
                            <th>{{trans('toponym.location_1926')}}</th>
                            
                            <th>{{trans('toponym.toponym')}}</th>
-                           <th>{{trans('general.in_english')}}</th>
-                           <th>{{trans('general.in_russian')}}</th>
-                           <th>{{trans('general.in_karelian')}}</th>
                         </tr>
                     
                         @foreach( $toponyms as $r ) <?php //dd($r) ?>
@@ -24,10 +21,7 @@
                             <td>{{ $r->location }}</td>
                             <td>{{ $r->location1926 }}</td>
                             
-                            <td>{{ $r->name }}</td>
-                            <td>{{ $r->name_en }}</td>
-                            <td>{{ $r->name_ru }}</td>
-                            <td>{{ $r->name_krl }}</td>
+                            <td><a href="{{route("toponyms.show", $r)}}">{{ $r->name }}</a></td>
                         </tr>
                         @endforeach
                 </table>

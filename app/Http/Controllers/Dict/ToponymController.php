@@ -51,7 +51,8 @@ class ToponymController extends Controller
      */
     public function show($id)
     {
-        //
+        $toponym = Toponym::find($id);
+        return view('dict.toponyms.show', compact('toponym'));
     }
 
     /**

@@ -19,7 +19,7 @@
                   <li><a class="dropdown-item" href="{{ route('dict-districts1926') }}">{{ trans('navigation.districts_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('dict-selsovets1926') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('dict-settlements1926') }}">{{ trans('navigation.settlements_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('dict-toponyms') }}">{{ trans('navigation.toponyms') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.toponyms') }}</a></li>
                 </ul>
               </li>
             </ul>
