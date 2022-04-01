@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="#">TopKar</a>
+        <a class="navbar-brand" href="/">TopKar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,11 +15,11 @@
                   {{ trans('navigation.dictionary') }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{{ route('dict-regions') }}">{{ trans('navigation.regions') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('dict-districts1926') }}">{{ trans('navigation.districts_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('dict-selsovets1926') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('dict-settlements1926') }}">{{ trans('navigation.settlements_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.toponyms') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('regions.index') }}">{{ trans('navigation.regions') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('districts1926.index') }}">{{ trans('navigation.districts_1926') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('selsovets1926.index') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('settlements1926.index') }}">{{ trans('navigation.settlements_1926') }}</a></li>
                 </ul>
               </li>
               <li class="nav-item dropdown">

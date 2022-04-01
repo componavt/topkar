@@ -15,7 +15,7 @@ class ToponymController extends Controller
      */
     public function index(Request $request)
     {
-        $page = (int)$request->input('page');
+        $page = (int)$request->input('page')>0 ? (int)$request->input('page') : 1;
         $portion = 10;
         
         $toponyms = Toponym::paginate($portion);

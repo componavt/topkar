@@ -27,10 +27,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
         return view('welcome'); // return view('dashboard');
     });
 
-    Route::get('/dict/regions',       [RegionController::class, 'index'])->name('dict-regions');
+/*    Route::get('/dict/regions',       [RegionController::class, 'index'])->name('dict-regions');
     Route::get('/dict/districts1926', [District1926Controller::class, 'index'])->name('dict-districts1926');
     Route::get('/dict/selsovets1926', [Selsovet1926Controller::class, 'index'])->name('dict-selsovets1926');
-    Route::get('/dict/settlements1926', [Settlement1926Controller::class, 'index'])->name('dict-settlements1926');
+    Route::get('/dict/settlements1926', [Settlement1926Controller::class, 'index'])->name('dict-settlements1926');*/
     
     
 
@@ -46,6 +46,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
     // Route::get('/dict/toponyms', [ToponymController::class, 'index'])->name('dict-toponyms');
 Route::resources([
+    'dict/districts1926' => District1926Controller::class,
+    'dict/regions' => RegionController::class,
+    'dict/selsovets1926' => Selsovet1926Controller::class,
+    'dict/settlements1926' => Settlement1926Controller::class,
     'dict/toponyms' => ToponymController::class,
     
     'aux/geotypes' => GeotypeController::class,
