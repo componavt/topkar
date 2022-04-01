@@ -12,8 +12,13 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    
+    'auxiliaries' => 'Auxiliaries',
 
     'dictionary' => 'Dictionary',
+    
+    'geotypes' => 'Geotypes',
+    
     
     'regions' => 'Regions',
     'districts_1926' => 'Districts in 1926',

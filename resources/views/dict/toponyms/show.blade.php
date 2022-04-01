@@ -17,6 +17,9 @@
                 <p><b>{{trans('toponym.location_1926')}}</b>: 
                 {{ $toponym->location1926 }}</p>
                 
+                <p><b>{{trans('toponym.geotype')}}</b>: 
+                {{ optional($toponym->geotype)->name }}</p>
+                
             </div>
         </div>
     </div>

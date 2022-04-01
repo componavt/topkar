@@ -12,12 +12,19 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    
+    'auxiliaries' => 'Справочники',
+    
     'dictionary' => 'Словарь',
+    
+    'geotypes' => 'Виды топонимов',
     
     'regions' => 'Регионы',
     'districts_1926' => 'Районы на 1926 год',
     'selsovets_1926' => 'Сельсоветы на 1926 год',
     'settlements_1926' => 'Поселения на 1926 год',
     'toponyms' => 'Топонимы',
+    
+    
+    
 ];

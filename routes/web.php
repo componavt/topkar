@@ -7,6 +7,7 @@ use App\Http\Controllers\Dict\District1926Controller;
 use App\Http\Controllers\Dict\Selsovet1926Controller;
 use App\Http\Controllers\Dict\Settlement1926Controller;
 use App\Http\Controllers\Dict\ToponymController;
+use App\Http\Controllers\Aux\GeotypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     // Route::get('/dict/toponyms', [ToponymController::class, 'index'])->name('dict-toponyms');
 Route::resources([
     'dict/toponyms' => ToponymController::class,
+    
+    'aux/geotypes' => GeotypeController::class,
 ]);
 
 

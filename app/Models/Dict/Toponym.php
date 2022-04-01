@@ -5,6 +5,7 @@ namespace App\Models\Dict;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Dict\Settlement1926;
+use App\Models\Dict\Geotype;
 
 class Toponym extends Model
 {
@@ -31,6 +32,16 @@ class Toponym extends Model
     {
         //                                       'foreign_key', 'owner_key'
         return $this->belongsTo(District::class, 'DISTRICT_ID', 'id');
+    }
+    
+    /**
+     * Get the geotype which contains this toponym
+     * One To Many (Inverse) / Belongs To
+     */
+    public function geotype()
+    {
+        //                                      'foreign_key','owner_key'
+        return $this->belongsTo(Geotype::class, 'geotype_id', 'id');
     }
     
     
