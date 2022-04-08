@@ -26,7 +26,7 @@
                 <p><b>{{trans('toponym.etymology')}}</b>: 
                 {{ $toponym->etymology }}</p>
                 
-                <hr>
+                <hr>{{-- Structure of toponym word --}}
                 <p><b>{{trans('aux.struct')}}</b></p>
                     <ol>
                     @foreach ($toponym->structs as $struct)
