@@ -13,15 +13,15 @@ return [
     |
     */
 
-    'caseform' => 'Locative form',
-    'etymology' => 'Etymology',
+    'ethnos_territory' => 'Ethnos territory',
     
-    'location_1926' => 'Region, district, selsovet, settlement 1926',
-    'location'      => 'Region, district, settlement',
+    'etymology_nation' => 'Etymology nation',
     
     
-    'toponym' => 'Toponym',
     
+    'geotype' => 'Geotype',
     
+    'struct' => 'Structure',
+    'structhier' => 'Structure type',
     
 ];

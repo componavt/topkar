@@ -12,16 +12,15 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    
+    'ethnos_territory' => 'Территория этноса',
+    
+    'etymology_nation' => 'Национальный признак этимологии',
+    
+    'geotype' => 'Вид топонима',
+    
+    'struct' => 'Структура',
+    'structhier' => 'Тип структуры',
 
-    'caseform' => 'Locative form',
-    'etymology' => 'Etymology',
-    
-    'location_1926' => 'Region, district, selsovet, settlement 1926',
-    'location'      => 'Region, district, settlement',
-    
-    
-    'toponym' => 'Toponym',
-    
-    
     
 ];

@@ -5,12 +5,15 @@ namespace App\Models\Dict;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Dict\Settlement1926;
-use App\Models\Dict\Geotype;
+use App\Models\Aux\Geotype;
+use App\Models\Aux\EtymologyNation;
+use App\Models\Aux\EthnosTerritory;
+use App\Models\Aux\Struct;
 
 class Toponym extends Model
 {
     use HasFactory;
-   // use \App\Traits\Methods\getNameAttribute;
+    //use \App\Traits\Methods\getNameAttribute;
     
     
     /**
@@ -43,6 +46,33 @@ class Toponym extends Model
         //                                      'foreign_key','owner_key'
         return $this->belongsTo(Geotype::class, 'geotype_id', 'id');
     }
+    
+    /**
+     * Get the etymology nation name which contains this toponym
+     * One To Many (Inverse) / Belongs To
+     */
+    public function etymologyNation()
+    {
+        return $this->belongsTo(EtymologyNation::class);
+    }
+    
+    /**
+     * Get the geotype which contains this toponym
+     * One To Many (Inverse) / Belongs To
+     */
+    public function ethnosTerritory()
+    {
+        return $this->belongsTo(EthnosTerritory::class);
+    }
+    
+    /**
+     * The structures that belong to the toponym. (many to many relation)
+     */
+    public function structs()
+    {
+        return $this->belongsToMany(Struct::class);
+    }
+    
     
     
     /**
