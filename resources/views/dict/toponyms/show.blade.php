@@ -4,6 +4,7 @@
     </x-slot>
 
                 <h2>{{ $toponym->name }}</h2>
+                {{to_link('редактировать', 'edit')}}
                 
                 <p><b>{{trans('toponym.location')}}</b>: 
                 {{ $toponym->location }}</p>

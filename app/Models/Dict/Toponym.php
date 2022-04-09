@@ -173,4 +173,25 @@ class Toponym extends Model
         return "";
     }
     
+    /** Gets array of search parameters.
+     * 
+     * @param type $request
+     * @return type
+     */
+    public static function urlArgs($request) {
+        $url_args = url_args($request) + [
+                    'search_toponym'     => $request->input('search_toponym'),
+            /*
+                    'search_district'  => (array)$request->input('search_district'),
+                    'search_lang'     => (int)$request->input('search_lang'),
+                    'search_place'    => (array)$request->input('search_place'),
+                    'search_region' => $request->input('search_region'),
+                    
+                    'search_text'     => $request->input('search_text'),*/
+                ];
+        
+        return $url_args;
+    }
+
+    
 }
