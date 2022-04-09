@@ -40,7 +40,7 @@ class ToponymController extends Controller
         $portion = 10;
         
         $toponyms = Toponym::paginate($portion);
-        return view('dict.toponyms.index', compact('toponyms', 'portion', 'page' ));
+        return view('dict.toponyms.index', compact('toponyms', 'portion', 'page', 'url_args' ));
     }
 
     /**
