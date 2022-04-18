@@ -4,6 +4,7 @@ namespace App\Models\Dict;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Dict\Region;
 
 class District extends Model
 {
@@ -16,6 +17,6 @@ class District extends Model
      */
     public function region()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(Region::class);
     }
 }

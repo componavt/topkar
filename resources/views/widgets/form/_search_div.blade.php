@@ -4,14 +4,14 @@ if (!isset($submit_value) || !$submit_value) {
 }
 
 ?>
-    <div class="col-sm-4 search-button-b">       
+    <div class="col-sm-3 search-button-b">       
         <span>
         {{trans('search.show_by')}}
         </span>
         @include('widgets.form.formitem._text', 
-                ['name' => 'limit_num', 
-                'value' => $url_args['limit_num'], 
-                'attributes'=>['placeholder' => trans('messages.limit_num') ]]) 
+                ['name' => 'portion', 
+                'value' => $url_args['portion'], 
+                'attributes'=>['placeholder' => trans('messages.portion') ]]) 
         <span>
                 {{ trans('messages.records') }}
         </span>

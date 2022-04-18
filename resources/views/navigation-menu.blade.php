@@ -10,23 +10,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar: dictionary, ...  -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ trans('navigation.dictionary') }}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('toponyms.index') }}" role="button">
+                  {{ trans('navigation.toponyms') }}
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.toponyms') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('regions.index') }}">{{ trans('navigation.regions') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('districts1926.index') }}">{{ trans('navigation.districts_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('selsovets1926.index') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('settlements1926.index') }}">{{ trans('navigation.settlements_1926') }}</a></li>
-                </ul>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {{ trans('navigation.auxiliaries') }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{{ route('regions.index') }}">{{ trans('navigation.regions') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('districts1926.index') }}">{{ trans('navigation.districts_1926') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('selsovets1926.index') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('settlements1926.index') }}">{{ trans('navigation.settlements_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('geotypes.index') }}">{{ trans('navigation.geotypes') }}</a></li>
                 </ul>
               </li>

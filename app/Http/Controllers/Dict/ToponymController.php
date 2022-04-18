@@ -27,7 +27,7 @@ class ToponymController extends Controller
     }
     
     /**
-     * Display a listing of the resource.
+     * Display toponyms.
      *
      * @return \Illuminate\Http\Response
      */
@@ -36,11 +36,11 @@ class ToponymController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
-        $page = (int)$request->input('page')>0 ? (int)$request->input('page') : 1;
-        $portion = 10;
+        $toponyms = Toponym::search($url_args);
+        $n_records = $toponyms->count();
         
-        $toponyms = Toponym::paginate($portion);
-        return view('dict.toponyms.index', compact('toponyms', 'portion', 'page', 'url_args' ));
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        return view('dict.toponyms.index', compact('toponyms', 'n_records', 'url_args' ));
     }
 
     /**

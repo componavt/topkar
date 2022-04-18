@@ -18,7 +18,7 @@
 
         @livewireStyles
 
-        {{ $headExtra }}
+        {{ $headExtra ?? "" }}
         
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
@@ -50,7 +50,7 @@
         @stack('modals')
 
         @livewireScripts
-        {{ $footScriptExtra }}
+        {{ $footScriptExtra ?? "" }}
         @stack('scripts')
     </body>
 </html>

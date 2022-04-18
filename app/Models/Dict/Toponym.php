@@ -87,12 +87,8 @@ class Toponym extends Model
     
     public function getRegionNameAttribute()
     {
-        if( $this->district && 
-            $this->district->region ) 
-        { 
-            return $this->district->region->name; 
-        }
-        return "";
+
+        return optional(optional($this->district)->region)->name; 
     }
     
     public function getDistrictNameAttribute()
@@ -191,6 +187,25 @@ class Toponym extends Model
                 ];
         
         return $url_args;
+    }
+    
+    
+    /** Search toponym by various parameters. 
+     * 
+     * @param array $url_args
+     * @return type
+     */
+    public static function search(Array $url_args) {
+        
+        $toponyms = self::orderBy('name');        
+        //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
+        
+        if ($url_args['search_toponym']) {
+            $toponyms = $toponyms->where('name','LIKE',$url_args['search_toponym']);
+        } 
+//dd($toponyms->toSql());                                
+
+        return $toponyms;
     }
 
     

@@ -17,7 +17,8 @@ class Settlement1926Controller extends Controller
     {
         //$settlements1926 = Settlement1926::all();
         
-        $page = (int)$request->input('page');
+        $page = (int)$request->input('page') 
+              ? (int)$request->input('page') : 1;
         $portion = 10;
         
         $settlements1926 = Settlement1926::paginate($portion);
