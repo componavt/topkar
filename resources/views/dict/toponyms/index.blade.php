@@ -36,8 +36,9 @@
                 
     <x-slot name="footScriptExtra">
           {!!Html::script('js/select2.min.js')!!}
+          {!!Html::script('js/lists.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-           $(".select-district").select2();
+           selectDistrict('search_region','{{trans('toponym.district')}}');
     </x-slot>
 </x-app-layout>

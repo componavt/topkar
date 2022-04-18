@@ -31,7 +31,6 @@
                 ['name' => 'search_district', 
                  'values' => $district_values,
                  'value' => $url_args['search_district'],
-                 'title' => trans('toponym.district'),
                  'class'=>'select-district form-control'
         ]) 
     </div>

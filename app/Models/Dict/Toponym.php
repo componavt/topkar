@@ -210,6 +210,10 @@ class Toponym extends Model
         
         if ($url_args['search_settlement']) {
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
+        }
+        
+        if ($url_args['search_district']) {
+            $toponyms = $toponyms->where('DISTRICT_ID',$url_args['search_district']);
         } 
         
         $toponyms = self::searchByRegion($toponyms, $url_args['search_region']);
