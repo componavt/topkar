@@ -50,7 +50,17 @@
         @stack('modals')
 
         @livewireScripts
+        {!!Html::script('js/jquery-3.6.0.min.js')!!}
+        
         {{ $footScriptExtra ?? "" }}
+        
+        <script type="text/javascript">
+            $(document).ready(function(){
+                {{ $jqueryFunc ?? "" }}
+            });
+        </script>
+
+        
         @stack('scripts')
     </body>
 </html>

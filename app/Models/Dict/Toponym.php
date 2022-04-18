@@ -176,7 +176,11 @@ class Toponym extends Model
      */
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
-                    'search_toponym'     => $request->input('search_toponym'),
+                    'search_toponym'    => $request->input('search_toponym'),
+                    'search_region'     => (int)$request->input('search_region'),
+                    'search_district'   => (int)$request->input('search_district'),
+                    'search_settlement' => $request->input('search_settlement'),
+
             /*
                     'search_district'  => (array)$request->input('search_district'),
                     'search_lang'     => (int)$request->input('search_lang'),
@@ -197,12 +201,39 @@ class Toponym extends Model
      */
     public static function search(Array $url_args) {
         
-        $toponyms = self::orderBy('name');        
+        $toponyms = self::orderBy('name');
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
         if ($url_args['search_toponym']) {
             $toponyms = $toponyms->where('name','LIKE',$url_args['search_toponym']);
         } 
+        
+        if ($url_args['search_settlement']) {
+            $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
+        } 
+        
+        $toponyms = self::searchByRegion($toponyms, $url_args['search_region']);
+//dd($toponyms->toSql());                                
+
+        return $toponyms;
+    }
+    
+    /** Search toponym by region. 
+     * 
+     * @param array $url_args
+     * @return type
+     */
+    public static function searchByRegion($toponyms, $search_region) {
+        
+        if(! $search_region) {
+            return $toponyms;
+        }
+        
+        $toponyms = $toponyms->whereIn('district_id', function($query) use ($search_region) {
+            $query -> select ('id') -> from ('districts') 
+                    -> whereRegionId( $search_region );
+        });
+        
 //dd($toponyms->toSql());                                
 
         return $toponyms;

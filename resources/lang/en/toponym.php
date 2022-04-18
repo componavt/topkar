@@ -14,11 +14,16 @@ return [
     */
 
     'caseform' => 'Locative form',
+    'district' => 'District',
+    
+    
     'etymology' => 'Etymology',
     
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
     
+    'region' => 'Region',
+    'settlement' => 'Settlement',
     
     'toponym' => 'Toponym',
     

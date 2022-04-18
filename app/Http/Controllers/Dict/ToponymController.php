@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Dict;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Dict\Toponym;
+use App\Models\Dict\Region;
+use App\Models\Dict\District;
 
 class ToponymController extends Controller
 {
@@ -40,7 +42,12 @@ class ToponymController extends Controller
         $n_records = $toponyms->count();
         
         $toponyms = $toponyms->paginate($this->url_args['portion']);
-        return view('dict.toponyms.index', compact('toponyms', 'n_records', 'url_args' ));
+        $region_values = Region::getList();
+        $district_values = District::getList();
+
+        //$region_values = ["" => NULL] + Region::getList();
+        return view('dict.toponyms.index', 
+                compact('district_values', 'region_values', 'toponyms', 'n_records', 'url_args' ));
     }
 
     /**

@@ -10,6 +10,7 @@ class District extends Model
 {
     use HasFactory;
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
     
     /**
      * Get the district which contains this toponym

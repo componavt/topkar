@@ -5,20 +5,13 @@ namespace App\Models\Dict;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Dict\District1926;
+//use LaravelLocalization;
 
 class Region extends Model
 {
     use HasFactory;
-    
-    
-    /**
-     * Get localized name (->name).
-     */
-    public function getNameAttribute()
-    {
-        $locale = app()->getLocale();
-        return $this->{'name_'.$locale};
-    }
+    use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
     
     
     /**

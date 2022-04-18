@@ -16,23 +16,36 @@
                  //'help_func' => "callHelp('help-text-fields')",
     -->
     
-    {{--
+    
     <div class="col-md-4">
         @include('widgets.form.formitem._select', 
                 ['name' => 'search_region', 
                  'values' => $region_values,
                  'value' => $url_args['search_region'],
-                 'title' => trans('corpus.region'). ' '. trans('corpus.of_recording')]) 
+                 'attributes' => ['placeholder' => trans('toponym.region')] 
+                 ]) 
     </div>
+    {{--                                _select2 - helps to write name in search field --}} 
     <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_district', 
                  'values' => $district_values,
                  'value' => $url_args['search_district'],
-                 'title' => trans('corpus.district'). ' '. trans('corpus.of_recording'),
+                 'title' => trans('toponym.district'),
                  'class'=>'select-district form-control'
         ]) 
+    </div>
+        
+    <div class="col-md-4">
+        @include('widgets.form.formitem._text', 
+                ['name' => 'search_settlement', 
+                 
+                 'value' => $url_args['search_settlement'],
+                 'attributes' => ['placeholder' => trans('toponym.settlement')],
+                ])                               
     </div>    
+    
+    {{-- 
     <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_place', 
