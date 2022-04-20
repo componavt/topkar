@@ -35,7 +35,7 @@ class ToponymController extends Controller
      */
     public function index(Request $request)
     {
-        $args_by_get = $this->args_by_get;
+//        $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
         $toponyms = Toponym::search($url_args);
@@ -57,7 +57,11 @@ class ToponymController extends Controller
      */
     public function create()
     {
-        //
+        $url_args = $this->url_args;
+        
+        $region_values = Region::getList();
+        $district_values = District::getList();
+        return view('dict.toponyms.create', compact('district_values', 'region_values', 'url_args'));
     }
 
     /**

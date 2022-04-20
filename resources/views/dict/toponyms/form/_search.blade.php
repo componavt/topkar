@@ -28,9 +28,9 @@
     {{--                                _select2 - helps to write name in search field --}} 
     <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
-                ['name' => 'search_district', 
+                ['name' => 'search_districts', 
                  'values' => $district_values,
-                 'value' => $url_args['search_district'],
+                 'value' => $url_args['search_districts'],
                  'class'=>'select-district form-control'
         ]) 
     </div>

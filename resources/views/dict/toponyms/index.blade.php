@@ -1,20 +1,24 @@
 <x-app-layout>
     
     <x-slot name="headExtra">
-          {!!Html::style('css/select2.min.css')!!}  
+        {!!Html::style('css/select2.min.css')!!}  
     </x-slot>
     
     <x-slot name="header">
-            {{trans('navigation.toponyms')}}
+        {{trans('navigation.toponyms')}}
     </x-slot>
     
+    <x-slot name="search_form">
+        @include("dict.toponyms.form._search")
+        @include('widgets.found_records', ['n_records'=>$n_records])
+    </x-slot>
+        
+    <div class="page-buttons">
+        <a class="btn btn-secondary btn-default" href="{{route('toponyms.create')}}">Создать новый</a>
+    </div>
     
-    
-    @include("dict.toponyms.form._search")
-    
-    @include('widgets.found_records', ['n_records'=>$n_records])
-
-                <table class="table table-striped table-hover">
+    <x-slot name="table_block">
+                <table class="table table-bordered table-hover">
                     <tr><th>&numero;</th>    
                         <th>{{trans('toponym.toponym')}}</th>
                         <th>{{trans('toponym.location')}} / <br>
@@ -32,7 +36,8 @@
                 </table>
                 
                 {{-- $toponyms->links() --}}
-                {{ $toponyms->onEachSide(3)->links() }}
+                {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
+    </x-slot>
                 
     <x-slot name="footScriptExtra">
           {!!Html::script('js/select2.min.js')!!}

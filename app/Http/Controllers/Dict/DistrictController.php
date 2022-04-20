@@ -99,6 +99,7 @@ class DistrictController extends Controller
 
         $list = [];
         $districts = District::where(function($q) use ($district_name){
+//                            $q->whereRaw('low(name_en) like low(?)', [$district_name])
                             $q->where('name_en','like', $district_name)
                               ->orWhere('name_ru','like', $district_name);
                          });

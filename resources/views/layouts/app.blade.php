@@ -32,17 +32,22 @@
             <div class="container">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ $header }}
-                </h2>
+                </h2> 
+                
+                <div class="search-form">
+                {{ $search_form ?? ''}}
+                </div>                
             </div>
         </header>
 
         <!-- Page Content -->
         <main class="container my-5">
             <div class="py-12">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">     
                     <div class="page">
                     {{ $slot }}
                     </div>
+                    {{ $table_block ?? '' }}
                 </div>
             </div>
         </main>

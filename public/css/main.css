@@ -1,9 +1,26 @@
+h2 {
+   color: #e12454; 
+}
+
 th:first-letter{
     text-transform: uppercase;
 }
 
+.search-form {
+/*    background-color: #fff;*/
+    overflow: hidden;
+/*    padding: 20px; */
+}
 .page {
     background-color: #fff;
     overflow: hidden;
     padding: 20px;
+}
+
+.table-bordered th {
+    color: #e12454;
+}
+
+.table-bordered a {
+    text-decoration: none;
 }
