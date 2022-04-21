@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Redirect;
+
 use App\Models\Dict\Toponym;
 use App\Models\Dict\Region;
 use App\Models\Dict\District;
@@ -35,19 +37,21 @@ class ToponymController extends Controller
      */
     public function index(Request $request)
     {
-//        $args_by_get = $this->args_by_get;
+        $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        
+
         $toponyms = Toponym::search($url_args);
-        $n_records = $toponyms->count();
-        
+        $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
         $region_values = Region::getList();
         $district_values = District::getList();
+        $sort_values = Toponym::sortList();
 
         //$region_values = ["" => NULL] + Region::getList();
         return view('dict.toponyms.index', 
-                compact('district_values', 'region_values', 'toponyms', 'n_records', 'url_args' ));
+                compact('district_values', 'region_values', 'sort_values', 
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
 
     /**
@@ -57,13 +61,23 @@ class ToponymController extends Controller
      */
     public function create()
     {
+        $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
         $region_values = Region::getList();
         $district_values = District::getList();
-        return view('dict.toponyms.create', compact('district_values', 'region_values', 'url_args'));
+        return view('dict.toponyms.create', 
+                compact('district_values', 'region_values', 'args_by_get', 'url_args'));
     }
 
+    public function validateRequest(Request $request) {
+        $this->validate($request, [
+            'name'  => 'required|max:255'
+            ]);
+        $data = $request->only('name', 'DISTRICT_ID', 'SETTLEMENT');
+        return $data;
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -72,7 +86,10 @@ class ToponymController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $toponym = Toponym::create($this->validateRequest($request)); 
+        
+        return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
     /**
@@ -81,10 +98,11 @@ class ToponymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Toponym $toponym)
     {
-        $toponym = Toponym::find($id);
-        return view('dict.toponyms.show', compact('toponym'));
+        $args_by_get = $this->args_by_get;
+        return view('dict.toponyms.show', 
+                    compact('toponym', 'args_by_get'));
     }
 
     /**
@@ -93,9 +111,16 @@ class ToponymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Toponym $toponym)
     {
-        //
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $region_values = [''=>NULL] + Region::getList();
+        $district_values = [''=>NULL] + District::getList();
+        return view('dict.toponyms.edit', 
+                compact('district_values', 'region_values', 'toponym', 
+                        'args_by_get', 'url_args'));
     }
 
     /**
@@ -105,9 +130,12 @@ class ToponymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Toponym $toponym)
     {
-        //
+        $toponym->fill($this->validateRequest($request))->save();
+        
+        return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
     /**

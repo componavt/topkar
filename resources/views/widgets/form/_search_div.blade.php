@@ -4,7 +4,7 @@ if (!isset($submit_value) || !$submit_value) {
 }
 
 ?>
-    <div class="col-sm-3 search-button-b">       
+    <div class="col-sm-2 search-button-b">       
         <span>
         {{trans('search.show_by')}}
         </span>
@@ -15,5 +15,7 @@ if (!isset($submit_value) || !$submit_value) {
         <span>
                 {{ trans('messages.records') }}
         </span>
+    </div>
+    <div class="col-sm-2" style="align: right">       
         @include('widgets.form.formitem._submit', ['title' => trans('messages.'.$submit_value)])
     </div>

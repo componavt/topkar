@@ -13,6 +13,13 @@ use App\Models\Aux\Struct;
 class Toponym extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'DISTRICT_ID', 'SETTLEMENT'];
+    public $timestamps = false;
+    const SortList=[
+        1 => 'name',
+        2 => 'id'
+//        2 => 'created_at'
+    ];
     //use \App\Traits\Methods\getNameAttribute;
     
     
@@ -176,20 +183,17 @@ class Toponym extends Model
      */
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
+                    'in_desc'     => (int)$request->input('in_desc'),
                     'search_toponym'    => $request->input('search_toponym'),
                     'search_region'     => (int)$request->input('search_region'),
                     'search_districts'   => (array)$request->input('search_districts'),
                     'search_settlement' => $request->input('search_settlement'),
-
-            /*
-                    'search_district'  => (array)$request->input('search_district'),
-                    'search_lang'     => (int)$request->input('search_lang'),
-                    'search_place'    => (array)$request->input('search_place'),
-                    'search_region' => $request->input('search_region'),
-                    
-                    'search_text'     => $request->input('search_text'),*/
+                    'sort_by' => $request->input('sort_by'),
                 ];
-        
+        $sort_list = self::SortList();
+        if (!in_array($url_args['sort_by'], array_keys($sort_list))) {
+            $url_args['sort_by']= array_key_first($sort_list);
+        }
         return $url_args;
     }
     
@@ -201,7 +205,7 @@ class Toponym extends Model
      */
     public static function search(Array $url_args) {
         
-        $toponyms = self::orderBy('name');
+        $toponyms = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
         if ($url_args['search_toponym']) {
@@ -218,7 +222,7 @@ class Toponym extends Model
         
         $toponyms = self::searchByRegion($toponyms, $url_args['search_region']);
 //dd($toponyms->toSql());                                
-
+//dd(to_sql($toponyms));
         return $toponyms;
     }
     
@@ -242,6 +246,12 @@ class Toponym extends Model
 
         return $toponyms;
     }
-
     
+    public function sortList() {
+        $list = [];
+        foreach (self::SortList as $field) {
+            $list[$field] = \Lang::get('messages.sort'). ' '. \Lang::get('toponym.by_'.$field);
+        }
+        return $list;
+    }
 }

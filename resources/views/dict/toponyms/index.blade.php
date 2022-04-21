@@ -18,25 +18,41 @@
     </div>
     
     <x-slot name="table_block">
-                <table class="table table-bordered table-hover">
-                    <tr><th>&numero;</th>    
-                        <th>{{trans('toponym.toponym')}}</th>
-                        <th>{{trans('toponym.location')}} / <br>
-                            {{trans('toponym.location_1926')}}</th>       
-                    </tr>
-                    
-                    @foreach( $toponyms as $r ) <?php //dd($r) ?>
-                    <tr>
-                        <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
-                        <td><a href="{{route("toponyms.show", $r)}}">{{ $r->name }}</a></td>
-                        <td>{{ $r->location }} / <br>
-                            {{ $r->location1926 }}</td>
-                    </tr>
-                    @endforeach
-                </table>
+        <table class="table table-bordered table-hover wide-md">
+            <tr><th>&numero;</th>    
+                <th>{{trans('toponym.toponym')}}</th>
+                <th>{{trans('toponym.location')}} / <br>
+                    {{trans('toponym.location_1926')}}</th>       
+                @if (user_dict_edit())
+                <th>{{ trans('messages.actions') }}</th>
+                @endif
+            </tr>
+
+            @foreach( $toponyms as $r ) <?php //dd($r) ?>
+            <tr>
+                <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
+                <td><a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a></td>
+                <td>{{ $r->location }} / <br>
+                    {{ $r->location1926 }}</td>
                 
-                {{-- $toponyms->links() --}}
-                {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
+                @if (user_dict_edit())
+                <td data-th="{{ trans('messages.actions') }}">
+                    @include('widgets.form.button._edit', 
+                            ['without_text' => 1,
+                             'route' => route('toponyms.edit', $r)])
+                    @include('widgets.form.button._delete', 
+                            ['without_text' => 1,
+                             'route' => 'toponyms.destroy', 
+                             'obj' => $r, 
+                             'args'=>['id' => $r->id]])             
+                </td>
+                @endif
+            </tr>
+            @endforeach
+        </table>
+
+        {{-- $toponyms->links() --}}
+        {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
     </x-slot>
                 
     <x-slot name="footScriptExtra">

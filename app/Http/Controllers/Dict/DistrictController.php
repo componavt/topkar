@@ -95,7 +95,7 @@ class DistrictController extends Controller
     {
         $locale = app()->getLocale();
         $district_name = '%'.$request->input('q').'%';
-        $region_id = $request->input('region_id');
+        $region_id = (int)$request->input('region_id');
 
         $list = [];
         $districts = District::where(function($q) use ($district_name){

@@ -95,8 +95,10 @@ input[type="radio"]:checked+span:before{
     vertical-align: bottom;
 }
 .search-button-b {
+    align-items: cemter;
     display: flex;
     justify-content: space-between;
+    align-items: cemter;
 }
 
 .search-button-b span {

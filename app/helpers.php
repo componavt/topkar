@@ -58,3 +58,25 @@ if (! function_exists('url_args')) {
         return $url_args;
     }
 }
+
+if (! function_exists('user_dict_edit')) {
+    function user_dict_edit()
+    {
+        return true;//User::checkAccess('dict.edit');
+    }
+}
+
+if (! function_exists('user_corpus_edit')) {
+    function user_corpus_edit()
+    {
+        return User::checkAccess('corpus.edit');
+    }
+}
+
+if (! function_exists('to_sql')) {
+    function to_sql($query)
+    {
+        return vsprintf(str_replace(array('?'), array('\'%s\''), $query->toSql()), $query->getBindings());            
+
+    }
+}

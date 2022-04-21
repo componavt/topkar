@@ -1,5 +1,6 @@
 function selectDistrict(region_var, placeholder='', allow_clear=false, selector='.select-district'){
     var route = "/dict/districts/list";
+//console.log(selectedValuesToURL("#"+region_var));    
     $(selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,

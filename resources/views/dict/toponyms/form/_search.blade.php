@@ -37,24 +37,29 @@
         
     <div class="col-md-4">
         @include('widgets.form.formitem._text', 
-                ['name' => 'search_settlement', 
-                 
+                ['name' => 'search_settlement',                  
                  'value' => $url_args['search_settlement'],
                  'attributes' => ['placeholder' => trans('toponym.settlement')],
                 ])                               
     </div>    
-    
-    {{-- 
-    <div class="col-md-4">
-        @include('widgets.form.formitem._select2', 
-                ['name' => 'search_place', 
-                 'values' => $place_values,
-                 'value' => $url_args['search_place'],
-                 'title' => trans('corpus.place'). ' '. trans('corpus.of_recording'),
-                 'class'=>'select-place form-control'
-        ]) 
+</div>    
+<div class="row">
+    <div class="col-md-3">
+        @include('widgets.form.formitem._select', 
+                ['name' => 'sort_by', 
+                 'values' => $sort_values,
+                 'value' => $url_args['sort_by'],
+                 ]) 
     </div>
-    --}}
+    
+    <div class="col-md-2" style='display: flex; flex-direction: column; justify-content: center'>
+        @include('widgets.form.formitem._checkbox', 
+                ['name' => 'in_desc', 
+                'value' => 1,
+                'checked' => $url_args['in_desc']==1,
+                 'tail' => trans('messages.in_desc'),
+                 ]) 
+    </div>    
     
     @include('widgets.form._search_div')
 </div>                 

@@ -4,17 +4,16 @@
     </x-slot>
     
     <x-slot name="header">
-        {{trans('navigation.toponyms')}} / Создание нового
+        {{trans('navigation.toponyms')}} / Редактирование
     </x-slot>
     
     @include('dict.toponyms._top_links_create_edit')
     
-    {!! Form::open(array('method'=>'POST', 'route' => array('toponyms.store'))) !!}
+    {!! Form::model($toponym, array('method'=>'PUT', 'route' => ['toponyms.update', $toponym->id])) !!}
     @include('dict.toponyms.form._create_edit', 
-                ['submit_title' => trans('messages.create'),
-                 'action' => 'create',
-                 'district_value' => []])
-    {!! Form::close() !!}
+                ['submit_title' => trans('messages.save'),
+                 'action' => 'edit'])
+        {!! Form::close() !!}
     
     <x-slot name="footScriptExtra">
           {!!Html::script('js/select2.min.js')!!}

@@ -13,6 +13,10 @@ return [
     |
     */
 
+    'by_created_at' => 'by creation date',
+    'by_id' => 'by creation date',
+    'by_name' => 'by name',
+    
     'caseform' => 'Locative form',
     'district' => 'District',
     
@@ -21,6 +25,8 @@ return [
     
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
+    
+    'name' => 'Name',
     
     'region' => 'Region',
     'settlement' => 'Settlement',

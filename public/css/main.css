@@ -24,3 +24,15 @@ th:first-letter{
 .table-bordered a {
     text-decoration: none;
 }
+
+.top-links {
+    margin-bottom: 20px;
+}
+
+.top-links a {
+    text-decoration: none;
+}
+
+.top-links a:hover {
+  text-decoration: underline;
+}
