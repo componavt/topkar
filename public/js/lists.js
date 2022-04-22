@@ -12,7 +12,7 @@ function selectDistrict(region_var, placeholder='', allow_clear=false, selector=
           data: function (params) {
             return {
               q: params.term, // search term
-              region_id: selectedValuesToURL("#"+region_var)
+              region_id: $("#"+region_var).val()
             };
           },
           processResults: function (data) {

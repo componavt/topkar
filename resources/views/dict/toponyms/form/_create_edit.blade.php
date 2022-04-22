@@ -5,29 +5,43 @@
         @include('widgets.form.formitem._text', 
                 ['name' => 'name', 
                  'title'=>trans('toponym.name')])
-                 
+        
+        <!-- Region -->
         @include('widgets.form.formitem._select', 
                 ['name' => 'region_id', 
                  'values' => $region_values,
-                 'value' => optional($toponym)->DISTRICT_ID && $toponym->district 
+                 'value' => optional($toponym)->district_id && $toponym->district 
                                 ? $toponym->district->region_id
                                 : $url_args['search_region'],
                  'title' => trans('toponym.region') 
-                 ]) 
+                 ])
 
+        <!-- District -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'district_id', 
                  'values' => $district_values,
-                 'value' => (array)(optional($toponym)->DISTRICT_ID) ?? [],
+                 'value' => (array)(optional($toponym)->district_id) ?? [],
                  'title' => trans('toponym.district'),
                  'is_multiple' => false,
                  'class'=>'select-district form-control'
         ]) 
         
+        <!-- Settlement -->
         @include('widgets.form.formitem._text', 
                 ['name' => 'SETTLEMENT',                  
                  'title' => trans('toponym.settlement'),
                 ])                               
+    </div>
+    <div class="col-sm-6">
+        <!-- Region 1926 -->
+        @include('widgets.form.formitem._select', 
+                ['name' => 'region1926_id', 
+                 'values' => $region_values,
+                 'value' => optional($toponym)->district_id && $toponym->district 
+                                ? $toponym->district->region_id
+                                : $url_args['search_region'],
+                 'title' => trans('toponym.region') 
+                 ])
     </div>
     
 </div>

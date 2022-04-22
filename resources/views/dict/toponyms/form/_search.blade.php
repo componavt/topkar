@@ -1,4 +1,4 @@
-        {!! Form::open(['url' => '/dict/toponyms/', 
+        {!! Form::open(['url' => route('toponyms.index'), 
                              'method' => 'get']) 
         !!}
 <div class="row">

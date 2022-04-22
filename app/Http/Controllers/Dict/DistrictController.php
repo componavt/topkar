@@ -96,7 +96,7 @@ class DistrictController extends Controller
         $locale = app()->getLocale();
         $district_name = '%'.$request->input('q').'%';
         $region_id = (int)$request->input('region_id');
-
+//dd($region_id);
         $list = [];
         $districts = District::where(function($q) use ($district_name){
 //                            $q->whereRaw('low(name_en) like low(?)', [$district_name])

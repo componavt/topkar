@@ -21,6 +21,6 @@
           {!!Html::script('js/lists.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-           selectDistrict('region_id');
+           selectDistrict('region_id', '', true);
     </x-slot>
 </x-app-layout>

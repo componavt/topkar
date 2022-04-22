@@ -74,7 +74,7 @@ class ToponymController extends Controller
         $this->validate($request, [
             'name'  => 'required|max:255'
             ]);
-        $data = $request->only('name', 'DISTRICT_ID', 'SETTLEMENT');
+        $data = $request->only('name', 'district_id', 'SETTLEMENT');
         return $data;
     }
     
