@@ -9,4 +9,5 @@ class Geotype extends Model
 {
     use HasFactory;
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
 }

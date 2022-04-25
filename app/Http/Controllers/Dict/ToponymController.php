@@ -6,9 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Redirect;
 
-use App\Models\Dict\Toponym;
-use App\Models\Dict\Region;
+use App\Models\Aux\Geotype;
+use App\Models\Aux\EthnosTerritory;
+use App\Models\Aux\EtymologyNation;
+
 use App\Models\Dict\District;
+use App\Models\Dict\District1926;
+use App\Models\Dict\Region;
+use App\Models\Dict\Selsovet1926;
+use App\Models\Dict\Settlement1926;
+use App\Models\Dict\Toponym;
 
 class ToponymController extends Controller
 {
@@ -44,14 +51,19 @@ class ToponymController extends Controller
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
         
+        $geotype_values = Geotype::getList();
         $region_values = Region::getList();
         $district_values = District::getList();
         $sort_values = Toponym::sortList();
+        $district1926_values = District1926::getList();
+        $selsovet1926_values = Selsovet1926::getList();
+        $settlement1926_values = Settlement1926::getList();
 
         //$region_values = ["" => NULL] + Region::getList();
         return view('dict.toponyms.index', 
-                compact('district_values', 'region_values', 'sort_values', 
-                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+                compact('district_values', 'district1926_values', 'geotype_values', 
+                        'region_values', 'selsovet1926_values', 'settlement1926_values', 
+                        'sort_values', 'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
 
     /**
@@ -64,17 +76,28 @@ class ToponymController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
-        $region_values = Region::getList();
-        $district_values = District::getList();
+        $geotype_values = [''=>NULL] + Geotype::getList();
+        $region_values = [''=>NULL] + Region::getList();
+        $district_values = [''=>NULL] + District::getList();
+        $district1926_values = [''=>NULL] + District1926::getList();
+        $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+        $settlement1926_values = [''=>NULL] + Settlement1926::getList();
+        $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
+        $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
+        
         return view('dict.toponyms.create', 
-                compact('district_values', 'region_values', 'args_by_get', 'url_args'));
+                compact('district_values', 'district1926_values', 'ethnos_territory_values', 
+                        'etymology_nation_values', 'geotype_values', 
+                        'region_values', 'selsovet1926_values', 'settlement1926_values', 
+                        'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {
         $this->validate($request, [
             'name'  => 'required|max:255'
             ]);
-        $data = $request->only('name', 'district_id', 'SETTLEMENT');
+        $data = $request->only('name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
+                    'geotype_id', 'etymology', 'etymology_nation_id', 'ethnos_territory_id', 'caseform');
         return $data;
     }
     
@@ -115,11 +138,24 @@ class ToponymController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
+        
+//dd($toponym->selsovet1926_id, $toponym->district1926_id, $toponym->region1926_id);
 
+        $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
+        $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
+        $geotype_values = [''=>NULL] + Geotype::getList();
+        
         $region_values = [''=>NULL] + Region::getList();
         $district_values = [''=>NULL] + District::getList();
+        $district1926_values = [''=>NULL] + District1926::getList();
+        $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+        $settlement1926_values = [''=>NULL] + Settlement1926::getList();
+        
         return view('dict.toponyms.edit', 
-                compact('district_values', 'region_values', 'toponym', 
+                compact('district_values', 'district1926_values', 'ethnos_territory_values', 
+                        'etymology_nation_values', 'geotype_values', 
+                        'region_values', 'selsovet1926_values', 
+                        'settlement1926_values', 'toponym', 
                         'args_by_get', 'url_args'));
     }
 

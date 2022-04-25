@@ -17,29 +17,8 @@ class District1926 extends Model
      */
     protected $table = 'districts1926';
     
+    use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
     
-    /**
-     * Get localized name (->name).
-     * If name in English is absent, then return name in Russian
-     */
-    public function getNameAttribute()
-    {
-        $locale = app()->getLocale();
-        $r = $this->{'name_'.$locale};
-        
-        if( empty($r) and $locale == "en") 
-            $r = $this->{'name_ru'};
-        
-        return $r;
-    }
-    
-    /**
-     * Get the region which contains this district
-     * One To Many (Inverse) / Belongs To
-     * https://laravel.com/docs/8.x/eloquent-relationships#one-to-many-inverse
-     */
-    public function region()
-    {
-        return $this->belongsTo(Region::class);
-    }
+    use \App\Traits\Relations\BelongsTo\Region;
 }

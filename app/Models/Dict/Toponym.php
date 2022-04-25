@@ -13,7 +13,9 @@ use App\Models\Aux\Struct;
 class Toponym extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'DISTRICT_ID', 'SETTLEMENT'];
+    protected $fillable = ['name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
+                           'geotype_id', 'etymology', 'etymology_nation_id', 'ethnos_territory_id', 
+                           'caseform'];
     public $timestamps = false;
     const SortList=[
         1 => 'name',
@@ -41,7 +43,7 @@ class Toponym extends Model
     public function district()
     {
         //                                       'foreign_key', 'owner_key'
-        return $this->belongsTo(District::class, 'DISTRICT_ID', 'id');
+        return $this->belongsTo(District::class, 'district_id', 'id');
     }
     
     /**
@@ -122,9 +124,32 @@ class Toponym extends Model
         return $this->getRegion1926NameAttribute().', '. 
                $this->getDistrict1926NameAttribute().', '. 
                $this->getSelsovet1926NameAttribute().', '.
-               $this->getSettlment1926NameAttribute();
+               $this->getSettlement1926NameAttribute();
     }
     
+    public function getSelsovet1926IdAttribute()
+    {
+        return $this->settlement1926 
+                    ? $this->settlement1926->selsovet_id : NULL;
+    }
+
+    public function getDistrict1926IdAttribute()
+    {
+        return $this->settlement1926 && $this->settlement1926->selsovet1926
+                    ? $this->settlement1926->selsovet1926->district1926_id : NULL;
+    }
+
+    public function getRegion1926IdAttribute()
+    {
+        return $this->settlement1926 && $this->settlement1926->selsovet1926  
+                        && $this->settlement1926->selsovet1926->district1926
+                    ? $this->settlement1926->selsovet1926->district1926->region_id : NULL;
+    }
+    
+    public function getRegionIdAttribute()
+    {
+        return $this->district ? $this->district->region_id : NULL;
+    }
     /**
      * Get name of region via selsovet1926->district1926.
      * If name is absent, then return empty string.
@@ -166,14 +191,44 @@ class Toponym extends Model
         return "";
     }
     
-    public function getSettlment1926NameAttribute()
+    public function getSettlement1926NameAttribute()
     {
-        if( $this->settlement1926 ) 
-        { 
-            return $this->settlement1926->name; 
-        }
-        
-        return "";
+        return $this->settlement1926 ? $this->settlement1926->name : '';
+    }
+    
+    public function geotypeValue()
+    {
+        return $this->geotype_id ? [$this->geotype_id] : [];
+    }
+    
+    public function ethnosTerritoryValue()
+    {
+        return $this->ethnos_territory_id ? [$this->ethnos_territory_id] : [];
+    }
+    
+    public function etymologyNationValue()
+    {
+        return $this->etymology_nation_id ? [$this->etymology_nation_id] : [];
+    }
+    
+    public function districtValue()
+    {
+        return $this->district_id ? [$this->district_id] : [];
+    }
+    
+    public function district1926Value()
+    {
+        return $this->district1926_id ? [$this->district1926_id] : [];
+    }
+    
+    public function selsovet1926Value()
+    {
+        return $this->selsovet1926_id ? [$this->selsovet1926_id] : [];
+    }
+    
+    public function settlement1926Value()
+    {
+        return $this->settlement1926_id ? [$this->settlement1926_id] : '';
     }
     
     /** Gets array of search parameters.
@@ -184,10 +239,15 @@ class Toponym extends Model
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
                     'in_desc'     => (int)$request->input('in_desc'),
-                    'search_toponym'    => $request->input('search_toponym'),
-                    'search_region'     => (int)$request->input('search_region'),
                     'search_districts'   => (array)$request->input('search_districts'),
+                    'search_districts1926'   => (array)$request->input('search_districts1926'),
+                    'search_geotypes'    => (array)$request->input('search_geotypes'),
+                    'search_regions'     => (array)$request->input('search_regions'),
+                    'search_regions1926'     => (array)$request->input('search_regions1926'),
+                    'search_selsovets1926' => (array)$request->input('search_selsovets1926'),
                     'search_settlement' => $request->input('search_settlement'),
+                    'search_settlements1926' => (array)$request->input('search_settlements1926'),
+                    'search_toponym'    => $request->input('search_toponym'),
                     'sort_by' => $request->input('sort_by'),
                 ];
         $sort_list = self::SortList();
@@ -216,11 +276,20 @@ class Toponym extends Model
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
         }
         
-        if ($url_args['search_districts']) {
-            $toponyms = $toponyms->whereIn('DISTRICT_ID',$url_args['search_districts']);
+        if ($url_args['search_geotypes']) {
+            $toponyms = $toponyms->whereIn('geotype_id',$url_args['search_geotypes']);
         } 
         
-        $toponyms = self::searchByRegion($toponyms, $url_args['search_region']);
+        if ($url_args['search_districts']) {
+            $toponyms = $toponyms->whereIn('district_id',$url_args['search_districts']);
+        } 
+        
+        if ($url_args['search_settlements1926']) {
+            $toponyms = $toponyms->whereIn('settlement1926_id',$url_args['search_settlements1926']);
+        } 
+        
+        $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
+        $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
 //dd($toponyms->toSql());                                
 //dd(to_sql($toponyms));
         return $toponyms;
@@ -231,15 +300,15 @@ class Toponym extends Model
      * @param array $url_args
      * @return type
      */
-    public static function searchByRegion($toponyms, $search_region) {
+    public static function searchByRegion($toponyms, $search_regions) {
         
-        if(! $search_region) {
+        if(!sizeof($search_regions)) {
             return $toponyms;
         }
         
-        $toponyms = $toponyms->whereIn('district_id', function($query) use ($search_region) {
+        $toponyms = $toponyms->whereIn('district_id', function($query) use ($search_regions) {
             $query -> select ('id') -> from ('districts') 
-                    -> whereRegionId( $search_region );
+                    -> whereIn('region_id', $search_regions );
         });
         
 //dd($toponyms->toSql());                                
@@ -247,6 +316,38 @@ class Toponym extends Model
         return $toponyms;
     }
     
+    public static function searchByLocation1926($toponyms, $search_selsovets1926, $search_districts1926, $search_regions1926) {
+        
+        if(!sizeof($search_selsovets1926) && !sizeof($search_districts1926) && !sizeof($search_regions1926)) {
+            return $toponyms;
+        }
+        
+        $toponyms = $toponyms->whereIn('settlement1926_id', function($q1) use ($search_selsovets1926, $search_districts1926, $search_regions1926) {
+            $q1->select('id')->from('settlements1926');
+            if (sizeof($search_selsovets1926)) {
+                $q1->whereIn('selsovet_id', $search_selsovets1926);
+            }
+            if (sizeof($search_districts1926) || sizeof($search_regions1926)) {
+                $q1->whereIn('selsovet_id', function ($q2) use ($search_districts1926, $search_regions1926) {
+                    $q2->select('id')->from('selsovets1926');
+                    if (sizeof($search_districts1926)) {
+                        $q2->whereIn('district1926_id', $search_districts1926);                        
+                    }
+                    if (sizeof($search_regions1926)) {
+                        $q2->whereIn('district1926_id', function ($q3) use ($search_regions1926) {
+                            $q3->select('id')->from('districts1926')
+                               ->whereIn('region_id', $search_regions1926);
+                        });                        
+                        
+                    }
+                });
+            }
+        });
+        
+//dd($toponyms->toSql());                                
+
+        return $toponyms;
+    }
     public function sortList() {
         $list = [];
         foreach (self::SortList as $field) {

@@ -9,7 +9,6 @@ use App\Models\Dict\Selsovet1926;
 class Settlement1926 extends Model
 {
     use HasFactory;
-    use \App\Traits\Methods\getNameAttribute;
     
     /**
      * The table associated with the model.
@@ -17,6 +16,9 @@ class Settlement1926 extends Model
      * @var string
      */
     protected $table = 'settlements1926';
+    
+    use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
     
     /**
      * Get the selsovet1926 which contains this settlement1926

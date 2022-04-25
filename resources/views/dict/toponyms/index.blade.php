@@ -21,6 +21,7 @@
         <table class="table table-bordered table-hover wide-md">
             <tr><th>&numero;</th>    
                 <th>{{trans('toponym.toponym')}}</th>
+                <th>{{trans('aux.geotype')}}</th>
                 <th>{{trans('toponym.location')}} / <br>
                     {{trans('toponym.location_1926')}}</th>       
                 @if (user_dict_edit())
@@ -32,6 +33,7 @@
             <tr>
                 <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
                 <td><a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a></td>
+                <td>{{ $r->geotype->name }}</td>
                 <td>{{ $r->location }} / <br>
                     {{ $r->location1926 }}</td>
                 
@@ -60,6 +62,12 @@
           {!!Html::script('js/lists.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-           selectDistrict('search_region','{{trans('toponym.district')}}');
+        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('aux.geotype')}}'});
+        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
+        $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}'});
+        selectDistrict('search_regions','{{trans('toponym.district')}}', false);
+        selectDistrict1926('search_regions1926', '{{trans('toponym.district1926')}}', false);
+        selectSelsovet1926('search_regions1926', 'search_districts1926', '{{trans('toponym.selsovet1926')}}', false);
+        selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{trans('toponym.settlement1926')}}', false);
     </x-slot>
 </x-app-layout>

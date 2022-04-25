@@ -36,3 +36,29 @@ th:first-letter{
 .top-links a:hover {
   text-decoration: underline;
 }
+
+label {
+    font-weight: bold;
+}
+
+/*.field-name {
+  font-size: calc(1.26rem + 0.12vw);
+}
+@media (min-width: 1200px) {
+  .field-name {
+    font-size: 1.35rem;
+  }
+} */ 
+.field-value {
+    font-weight: bold;
+}
+
+.form-group .select2-container .select2-selection--single {
+    height: 36px;
+    border-color: #ced4da;
+    box-shadow: 0 0 10px rgba(0,0,0,.075);
+}
+
+.form-group .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding: 0.25rem 0.9rem;
+}

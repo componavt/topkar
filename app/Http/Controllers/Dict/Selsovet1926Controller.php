@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Response;
+
 use App\Models\Dict\Selsovet1926;
 
 class Selsovet1926Controller extends Controller
@@ -83,5 +85,42 @@ class Selsovet1926Controller extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    /**
+     * Gets list of selsovets1926 for drop down list in JSON format
+     * Test url: /dict/selsovets1926/list?districts[]=1&regions[]=1
+     * 
+     * @return JSON response
+     */
+    public function list(Request $request)
+    {
+        $locale = app()->getLocale();
+        $selsovet_name = '%'.$request->input('q').'%';
+        $districts = (array)$request->input('districts');
+        $regions = (array)$request->input('regions');
+
+        $list = [];
+        $selsovets = Selsovet1926::where(function($q) use ($selsovet_name){
+                            $q->where(  'name_en','like',  $selsovet_name)
+                              ->orWhere('name_ru','like',  $selsovet_name);
+                         });
+        if (sizeof($districts)) {                 
+            $selsovets -> whereIn('district1926_id',$districts);
+        }
+        if (sizeof($regions)) {                 
+            $selsovets -> whereIn('district1926_id', function ($q) use ($regions) {
+                        $q->select('id')->from('districts1926')
+                           ->whereIn('region_id', $regions);
+            });
+        }
+//dd(to_sql($settlements));
+        $selsovets = $selsovets->orderBy('name_'.$locale)->get();
+                         
+        foreach ($selsovets as $selsovet) {
+            $list[]=['id'  => $selsovet->id, 
+                     'text'=> $selsovet->name];
+        }  
+        return Response::json($list);
     }
 }

@@ -16,33 +16,33 @@
         @endif 
     </div>
     
-    <p><b>{{trans('toponym.location')}}</b>: 
-    {{ $toponym->location }}</p>
+    <p><span class='field-name'>{{trans('toponym.location')}}</span>: 
+    <span class='field-value'>{{ $toponym->location }}</span></p>
 
-    <p><b>{{trans('toponym.location_1926')}}</b>: 
-    {{ $toponym->location1926 }}</p>
+    <p><span class='field-name'>{{trans('toponym.location_1926')}}</span>: 
+    <span class='field-value'>{{ $toponym->location1926 }}</span></p>
 
-    <p><b>{{trans('aux.geotype')}}</b>: 
-    {{ optional($toponym->geotype)->name }}</p>
+    <p><span class='field-name'>{{trans('aux.geotype')}}</span>: 
+    <span class='field-value'>{{ optional($toponym->geotype)->name }}</span></p>
 
-    <p><b>{{trans('toponym.caseform')}}</b>: 
-    {{ $toponym->caseform }}</p>
+    <p><span class='field-name'>{{trans('toponym.caseform')}}</span>: 
+    <span class='field-value'>{{ $toponym->caseform }}</span></p>
 
-    <p><b>{{trans('aux.etymology_nation')}}</b>: 
-    {{ optional($toponym->etymologyNation)->name }}</p>
+    <p><span class='field-name'>{{trans('aux.etymology_nation')}}</span>: 
+    <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
 
-    <p><b>{{trans('aux.ethnos_territory')}}</b>: 
-    {{ optional($toponym->ethnosTerritory)->name }}</p>
+    <p><span class='field-name'>{{trans('aux.ethnos_territory')}}</span>: 
+    <span class='field-value'>{{ optional($toponym->ethnosTerritory)->name }}</span></p>
 
-    <p><b>{{trans('toponym.etymology')}}</b>: 
-    {{ $toponym->etymology }}</p>
+    <p><span class='field-name'>{{trans('toponym.etymology')}}</span>: 
+    <span class='field-value'>{{ $toponym->etymology }}</span></p>
 
     <hr>{{-- Structure of toponym word --}}
-    <p><b>{{trans('aux.struct')}}</b></p>
+    <p><span class='field-name'>{{trans('aux.struct')}}</span></p>
         <ol>
         @foreach ($toponym->structs as $struct)
         <li>
-            {{ optional($struct)->name }} ({{ optional($struct->structhier)->name }})
+            <span class='field-value'>{{ optional($struct)->name }}</span> ({{ optional($struct->structhier)->name }})
         </li>
         @endforeach 
         </ol>

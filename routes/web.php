@@ -29,6 +29,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     });
 
     Route::get('/dict/districts/list', [DistrictController::class, 'list']);
+    Route::get('/dict/districts1926/list', [District1926Controller::class, 'list']);
+    Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'list']);
+    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);
 /*    Route::get('/dict/regions',       [RegionController::class, 'index'])->name('dict-regions');
     Route::get('/dict/districts1926', [District1926Controller::class, 'index'])->name('dict-districts1926');
     Route::get('/dict/selsovets1926', [Selsovet1926Controller::class, 'index'])->name('dict-selsovets1926');

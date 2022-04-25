@@ -17,20 +17,8 @@ class Selsovet1926 extends Model
      */
     protected $table = 'selsovets1926';
     
-    /**
-     * Get localized name (->name).
-     * If name in English is absent, then return name in Russian
-     */
-    public function getNameAttribute()
-    {
-        $locale = app()->getLocale();
-        $r = $this->{'name_'.$locale};
-        
-        if( empty($r) and $locale == "en") 
-            $r = $this->{'name_ru'};
-        
-        return $r;
-    }
+    use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
     
     /**
      * Get the district1926 which contains this selsovet1926

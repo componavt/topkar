@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Response;
+
 use App\Models\Dict\District1926;
 
 class District1926Controller extends Controller
@@ -84,5 +86,35 @@ class District1926Controller extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    /**
+     * Gets list of districts1926 for drop down list in JSON format
+     * Test url: /dict/districts1926/list?regions[]=1
+     * 
+     * @return JSON response
+     */
+    public function list(Request $request)
+    {
+        $locale = app()->getLocale();
+        $district_name = '%'.$request->input('q').'%';
+        $regions = (array)$request->input('regions');
+//dd($region_id);
+        $list = [];
+        $districts = District1926::where(function($q) use ($district_name){
+                            $q->where('name_en',  'like',  $district_name)
+                              ->orWhere('name_ru','like',  $district_name);
+                         });
+        if (sizeof($regions)) {
+            $districts -> whereIn('region_id',$regions);
+        }
+        
+        $districts = $districts->orderBy('name_'.$locale)->get();
+                         
+        foreach ($districts as $district) {
+            $list[]=['id'  => $district->id, 
+                     'text'=> $district->name];
+        }  
+        return Response::json($list);
     }
 }

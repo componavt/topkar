@@ -19,7 +19,7 @@ return [
     
     'caseform' => 'Locative form',
     'district' => 'District',
-    
+    'district1926' => 'District 1926',    
     
     'etymology' => 'Etymology',
     
@@ -29,7 +29,11 @@ return [
     'name' => 'Name',
     
     'region' => 'Region',
+    'region1926' => 'Region 1926',
+    
+    'selsovet1926' => 'Selsovet 1926',
     'settlement' => 'Settlement',
+    'settlement1926' => 'Settlement 1926',
     
     'toponym' => 'Toponym',
     

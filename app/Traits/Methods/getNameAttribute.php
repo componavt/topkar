@@ -6,7 +6,7 @@ trait getNameAttribute
      * 
      * @return String
      */
-    public function getNameAttribute() : String
+    public function getNameAttribute()
     {
         $locale = app()->getLocale();
         $r = $this->{'name_'.$locale};

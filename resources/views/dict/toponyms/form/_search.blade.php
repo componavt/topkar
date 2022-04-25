@@ -1,28 +1,33 @@
         {!! Form::open(['url' => route('toponyms.index'), 
                              'method' => 'get']) 
         !!}
-<div class="row">
-    
+<div class="row">    
     <div class="col-md-4">
         @include('widgets.form.formitem._text', 
-                ['name' => 'search_toponym', 
-                 
+                ['name' => 'search_toponym',                  
                  'value' => $url_args['search_toponym'],
                  'attributes' => ['placeholder' => trans('toponym.toponym')],
                 ])                               
-    </div>
-    
     <!-- 'special_symbol' => true,
                  //'help_func' => "callHelp('help-text-fields')",
     -->
-    
-    
+    </div>        
     <div class="col-md-4">
-        @include('widgets.form.formitem._select', 
-                ['name' => 'search_region', 
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_geotypes', 
+                 'values' => $geotype_values,
+                 'value' => $url_args['search_geotypes'],
+                 'class'=>'select-geotype form-control'
+        ]) 
+    </div>
+</div>
+<div class="row">    
+    <div class="col-md-4">
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_regions', 
                  'values' => $region_values,
-                 'value' => $url_args['search_region'],
-                 'attributes' => ['placeholder' => trans('toponym.region')] 
+                 'value' => $url_args['search_regions'],
+                 'class'=>'select-region form-control'
                  ]) 
     </div>
     {{--                                _select2 - helps to write name in search field --}} 
@@ -42,6 +47,44 @@
                  'attributes' => ['placeholder' => trans('toponym.settlement')],
                 ])                               
     </div>    
+</div>    
+<div class="row">
+    <div class="col-md-3">
+        <!-- Region 1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_regions1926', 
+                 'values' => $region_values,
+                 'value' => $url_args['search_regions1926'],
+                 'class'=>'select-region1926 form-control'
+                 ])
+    </div>       
+    <div class="col-md-3">
+        <!-- District1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_districts1926', 
+                 'values' => $district1926_values,
+                 'value' => $url_args['search_districts1926'],
+                 'class'=>'select-district1926 form-control'
+        ]) 
+    </div>       
+    <div class="col-md-3">        
+        <!-- Selsovet1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_selsovets1926', 
+                 'values' => $selsovet1926_values,
+                 'value' => $url_args['search_selsovets1926'],
+                 'class'=>'select-selsovet1926 form-control'
+        ]) 
+    </div>       
+    <div class="col-md-3">        
+        <!-- Settlement1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_settlement1926', 
+                 'values' => $settlement1926_values,
+                 'value' => $url_args['search_settlements1926'],
+                 'class'=>'select-settlement1926 form-control'
+        ]) 
+    </div>
 </div>    
 <div class="row">
     <div class="col-md-3">

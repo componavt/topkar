@@ -87,7 +87,7 @@ class DistrictController extends Controller
     
     /**
      * Gets list of districts for drop down list in JSON format
-     * Test url: /dict/districts/list?region_id=1
+     * Test url: /dict/districts/list?regions[]=1
      * 
      * @return JSON response
      */
@@ -95,25 +95,23 @@ class DistrictController extends Controller
     {
         $locale = app()->getLocale();
         $district_name = '%'.$request->input('q').'%';
-        $region_id = (int)$request->input('region_id');
+        $regions = (array)$request->input('regions');
 //dd($region_id);
         $list = [];
         $districts = District::where(function($q) use ($district_name){
-//                            $q->whereRaw('low(name_en) like low(?)', [$district_name])
                             $q->where('name_en','like', $district_name)
                               ->orWhere('name_ru','like', $district_name);
                          });
-        if ($region_id) {                 
-            $districts -> where('region_id',$region_id);
+        if (sizeof($regions)) {                 
+            $districts -> whereIn('region_id',$regions);
         }
         
         $districts = $districts->orderBy('name_'.$locale)->get();
                          
         foreach ($districts as $district) {
-            $list[]=['id'  => $district->id, 
-                     'text'=> $district->name];
+            $list[]=['id'  =>  $district->id, 
+                     'text'=>  $district->name];
         }  
         return Response::json($list);
-
     }
 }

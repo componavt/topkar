@@ -7,10 +7,8 @@
  * Updated: 24.08.2016 by Nataly Krizhanovsky
  */?>
 <?php 
-if(!isset($value)) 
-    $value = null;
-if(!isset($title)) 
-    $title = null;
+if(!isset($value)) $value = null;
+if(!isset($title)) $title = null;
 if(!isset($attributes['class'])) 
     $attributes['class'] = 'form-control';
 if(!isset($special_symbol)) 
@@ -22,7 +20,7 @@ $attributes['id'] = $id_name;
 <div class="form-group {!! $errors->has($name) ? 'has-error' : null !!}">
     @if($title)
 	<label for="{{$name}}">{{ $title }}</label>
-        <span class='imp'>{!!@isset($help_text) ? $help_text : ''!!}</span>
+        <span class='imp'>{!!isset($help_text) ? $help_text : ''!!}</span>
     @endif
     {!! Form::textarea($name, $value, $attributes) !!}
     @if ($special_symbol) 

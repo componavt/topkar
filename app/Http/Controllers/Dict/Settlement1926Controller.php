@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Response;
+
 use App\Models\Dict\Settlement1926;
 
 class Settlement1926Controller extends Controller
@@ -89,5 +91,49 @@ class Settlement1926Controller extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    /**
+     * Gets list of settlements1926 for drop down list in JSON format
+     * Test url: /dict/settlements1926/list?selsovets[]=1&districts[]=1&regions[]=1
+     * 
+     * @return JSON response
+     */
+    public function list(Request $request)
+    {
+        $locale = app()->getLocale();
+        $settlement_name = '%'.$request->input('q').'%';
+        $selsovets = (array)$request->input('selsovets');
+        $districts = (array)$request->input('districts');
+        $regions = (array)$request->input('regions');
+
+        $list = [];
+        $settlements = Settlement1926::where(function($q) use ($settlement_name){
+                            $q->where('name_en','like', $settlement_name)
+                              ->orWhere('name_ru','like', $settlement_name);
+                         });
+        if (sizeof($selsovets)) {                 
+            $settlements -> whereIn('selsovet_id',$selsovets);
+        }
+        if (sizeof($districts) || sizeof($regions)) {                 
+            $settlements -> whereIn('selsovet_id', function ($q) use ($districts, $regions) {
+                $q->select('id')->from('selsovets1926')
+                  ->whereIn('district1926_id', $districts);
+                if (sizeof($regions)) {
+                    $q->whereIn('district1926_id', function ($q2) use ($regions) {
+                        $q2->select('id')->from('districts1926')
+                           ->whereIn('region_id', $regions);
+                    });
+                }
+            });
+        }
+//dd(to_sql($settlements));
+        $settlements = $settlements->orderBy('name_'.$locale)->get();
+                         
+        foreach ($settlements as $settlement) {
+            $list[]=['id'  => $settlement->id, 
+                     'text'=> $settlement->name];
+        }  
+        return Response::json($list);
     }
 }
