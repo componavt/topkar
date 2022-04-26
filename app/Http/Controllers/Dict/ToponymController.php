@@ -9,6 +9,8 @@ use Redirect;
 use App\Models\Aux\Geotype;
 use App\Models\Aux\EthnosTerritory;
 use App\Models\Aux\EtymologyNation;
+use App\Models\Aux\Struct;
+use App\Models\Aux\Structhier;
 
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;
@@ -51,19 +53,24 @@ class ToponymController extends Controller
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
         
+        $district_values = District::getList();
+        $district1926_values = District1926::getList();
+        $ethnos_territory_values = EthnosTerritory::getList();
+        $etymology_nation_values = EtymologyNation::getList();
         $geotype_values = Geotype::getList();
         $region_values = Region::getList();
-        $district_values = District::getList();
-        $sort_values = Toponym::sortList();
-        $district1926_values = District1926::getList();
         $selsovet1926_values = Selsovet1926::getList();
         $settlement1926_values = Settlement1926::getList();
+        $sort_values = Toponym::sortList();
+        $struct_values = Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
 
-        //$region_values = ["" => NULL] + Region::getList();
         return view('dict.toponyms.index', 
-                compact('district_values', 'district1926_values', 'geotype_values', 
+                compact('district_values', 'district1926_values', 
+                        'ethnos_territory_values', 'etymology_nation_values', 'geotype_values', 
                         'region_values', 'selsovet1926_values', 'settlement1926_values', 
-                        'sort_values', 'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+                        'sort_values', 'struct_values', 'structhier_values', 'toponyms', 
+                        'n_records', 'args_by_get', 'url_args' ));
     }
 
     /**
@@ -76,20 +83,28 @@ class ToponymController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
-        $geotype_values = [''=>NULL] + Geotype::getList();
-        $region_values = [''=>NULL] + Region::getList();
         $district_values = [''=>NULL] + District::getList();
         $district1926_values = [''=>NULL] + District1926::getList();
+        $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
+        $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
+        $geotype_values = [''=>NULL] + Geotype::getList();
+        $region_values = [''=>NULL] + Region::getList();
         $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
-        $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
-        $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
+        $struct_values = [''=>NULL] + Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
         
+        for ($i=0; $i<4; $i++) {
+            $structs[]=[];
+            $structhiers[]=[];            
+        }
+
         return view('dict.toponyms.create', 
-                compact('district_values', 'district1926_values', 'ethnos_territory_values', 
-                        'etymology_nation_values', 'geotype_values', 
-                        'region_values', 'selsovet1926_values', 'settlement1926_values', 
-                        'args_by_get', 'url_args'));
+                compact('district_values', 'district1926_values', 
+                        'ethnos_territory_values', 'etymology_nation_values', 
+                        'geotype_values', 'region_values', 'selsovet1926_values', 
+                        'settlement1926_values', 'structs', 'structhiers', 
+                        'struct_values', 'structhier_values', 'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {
@@ -150,13 +165,24 @@ class ToponymController extends Controller
         $district1926_values = [''=>NULL] + District1926::getList();
         $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
+        $struct_values = [''=>NULL] + Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
         
+        $structs = $structhiers = [];
+        foreach ($toponym->structs as $struct) {
+            $structs[]=[$struct->id];
+            $structhiers[]=[$struct->structhier_id];
+        }
+        for ($i=sizeof($toponym->structs); $i<4; $i++) {
+            $structs[]=[];
+            $structhiers[]=[];            
+        }
         return view('dict.toponyms.edit', 
-                compact('district_values', 'district1926_values', 'ethnos_territory_values', 
-                        'etymology_nation_values', 'geotype_values', 
-                        'region_values', 'selsovet1926_values', 
-                        'settlement1926_values', 'toponym', 
-                        'args_by_get', 'url_args'));
+                compact('district_values', 'district1926_values', 
+                        'ethnos_territory_values', 'etymology_nation_values', 
+                        'geotype_values', 'region_values', 'selsovet1926_values', 
+                        'settlement1926_values', 'structs', 'structhiers', 
+                        'struct_values', 'structhier_values', 'toponym', 'args_by_get', 'url_args'));
     }
 
     /**
@@ -169,6 +195,8 @@ class ToponymController extends Controller
     public function update(Request $request, Toponym $toponym)
     {
         $toponym->fill($this->validateRequest($request))->save();
+        $structs = array_filter((array)$request->structs, 'strlen');        
+        $toponym->structs()->sync($structs);
         
         return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        

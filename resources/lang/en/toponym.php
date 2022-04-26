@@ -13,11 +13,19 @@ return [
     |
     */
 
-    'by_created_at' => 'by creation date',
+    'add_district' => 'Add a district',
+    'add_district1926' => 'Add a district 1926',
+    'add_geotype' => 'Add a geotype',
+    'add_selsovet1926' => 'Add a selsovet 1926',
+    'add_settlement1926' => 'Add a settlement 1926',
+    
+//    'by_created_at' => 'by creation date',
     'by_id' => 'by creation date',
     'by_name' => 'by name',
     
     'caseform' => 'Locative form',
+    
+    'desc' => 'Description',
     'district' => 'District',
     'district1926' => 'District 1926',    
     
@@ -34,6 +42,7 @@ return [
     'selsovet1926' => 'Selsovet 1926',
     'settlement' => 'Settlement',
     'settlement1926' => 'Settlement 1926',
+    'short_name' => 'Short name',
     
     'toponym' => 'Toponym',
     

@@ -2,7 +2,7 @@
                              'method' => 'get']) 
         !!}
 <div class="row">    
-    <div class="col-md-4">
+    <div class="col-md-3">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_toponym',                  
                  'value' => $url_args['search_toponym'],
@@ -12,7 +12,7 @@
                  //'help_func' => "callHelp('help-text-fields')",
     -->
     </div>        
-    <div class="col-md-4">
+    <div class="col-md-3">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_geotypes', 
                  'values' => $geotype_values,
@@ -20,9 +20,25 @@
                  'class'=>'select-geotype form-control'
         ]) 
     </div>
+    <div class="col-md-3">        
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_ethnos_territories', 
+                 'values' => $ethnos_territory_values,
+                 'value' => $url_args['search_ethnos_territories'],
+                 'class'=>'select-ethnos_territory form-control'
+        ]) 
+    </div>
+    <div class="col-md-3">        
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_etymology_nations', 
+                 'values' => $etymology_nation_values,
+                 'value' => $url_args['search_etymology_nations'],
+                 'class'=>'select-etymology_nation form-control'
+        ]) 
+    </div>
 </div>
 <div class="row">    
-    <div class="col-md-4">
+    <div class="col-md-3">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_regions', 
                  'values' => $region_values,
@@ -31,7 +47,7 @@
                  ]) 
     </div>
     {{--                                _select2 - helps to write name in search field --}} 
-    <div class="col-md-4">
+    <div class="col-md-3">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_districts', 
                  'values' => $district_values,
@@ -40,7 +56,7 @@
         ]) 
     </div>
         
-    <div class="col-md-4">
+    <div class="col-md-3">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_settlement',                  
                  'value' => $url_args['search_settlement'],
@@ -87,6 +103,25 @@
     </div>
 </div>    
 <div class="row">
+    <div class="col-md-3">        
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_structhiers', 
+                 'values' => $structhier_values,
+                 'value' => $url_args['search_structhiers'],
+                 'grouped' => true,
+                 'class'=>'select-structhier form-control'
+        ]) 
+    </div>
+    <div class="col-md-3">        
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_structs', 
+                 'values' => $struct_values,
+                 'value' => $url_args['search_structs'],
+                 'class'=>'select-struct form-control'
+        ]) 
+    </div>
+</div>    
+<div class="row">    
     <div class="col-md-3">
         @include('widgets.form.formitem._select', 
                 ['name' => 'sort_by', 

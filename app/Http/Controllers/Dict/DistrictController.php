@@ -29,6 +29,15 @@ class DistrictController extends Controller
         //
     }
 
+    public function validateRequest(Request $request) {
+        $this->validate($request, [
+            'name_en'  => 'max:150',
+            'name_ru'  => 'required|max:150',
+//            'district_id' => 'required|numeric',
+            'region_id' => 'required|numeric',
+        ]);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -40,6 +49,15 @@ class DistrictController extends Controller
         //
     }
 
+    public function simpleStore(Request $request)
+    {
+        $field = $request->locale == 'en' ? 'name_en' : 'name_ru';
+        $this->validateRequest($request);
+        $district = District::create($request->all());
+        return Response::json(['id'=>$district->id, 'name'=>$district->{$field}, 
+                'region_id'=>$district->region_id, 'region_name'=>$district->region->{$field}]);
+    }
+    
     /**
      * Display the specified resource.
      *

@@ -1,9 +1,9 @@
 <?php 
-if(!isset($value)) 
+/*if(!isset($value)) 
     $value = null;
 if(!isset($values)) 
     $values = []; 
-if(!isset($title)) 
+*/if(!isset($title)) 
     $title = null;
 
 if (!isset($attributes)) {
@@ -13,9 +13,9 @@ if (!isset($attributes)) {
 if (!isset($attributes['class'])) {
     $attributes['class'] = 'form-control';
 }
+
 $id_name = preg_replace("/[\.\]\[]/","_",$name);
 $attributes['id'] = $id_name;
-
 ?>
 
 <div class="form-group {{ $errors->has($name) || $errors->has($name) ? 'has-error' : '' }}">
@@ -29,8 +29,8 @@ $attributes['id'] = $id_name;
     @endif
     
 	{!! Form::select($name, 
-                     $values, 
-                     $value,
+                     $values ?? [], 
+                     $value ?? NULL,
                      $attributes) 
         !!}
     <p class="help-block">{!! $errors->first($name) !!}</p>

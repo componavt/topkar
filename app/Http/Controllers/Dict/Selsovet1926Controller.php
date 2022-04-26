@@ -21,6 +21,15 @@ class Selsovet1926Controller extends Controller
         return view('dict.selsovets1926.index', compact('selsovets1926'));
     }
 
+    public function validateRequest(Request $request) {
+        $this->validate($request, [
+            'name_en'  => 'max:150',
+            'name_ru'  => 'required|max:150',
+            'name_krl'  => 'max:150',
+            'district1926_id' => 'required|numeric',
+        ]);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -42,6 +51,15 @@ class Selsovet1926Controller extends Controller
         //
     }
 
+    public function simpleStore(Request $request)
+    {
+        $field = $request->locale == 'en' ? 'name_en' : 'name_ru';
+        $this->validateRequest($request);
+        $selsovet = Selsovet1926::create($request->all());
+        return Response::json(['id'=>$selsovet->id, 'name'=>$selsovet->{$field}, 
+                'district_id'=>$selsovet->district1926_id, 'district_name'=>$selsovet->district1926->{$field}]);
+    }
+    
     /**
      * Display the specified resource.
      *

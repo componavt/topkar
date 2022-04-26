@@ -16,6 +16,8 @@ class District1926 extends Model
      * @var string
      */
     protected $table = 'districts1926';
+    public $timestamps = false;
+    protected $fillable = ['region_id','name_en','name_ru'];
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;

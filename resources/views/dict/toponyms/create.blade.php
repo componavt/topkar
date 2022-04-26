@@ -16,7 +16,7 @@
         @endif 
     </div>
     
-    {!! Form::open(array('method'=>'POST', 'route' => array('toponyms.store'))) !!}
+    {!! Form::open(['method'=>'POST', 'route' => ['toponyms.store'], 'id'=>'toponymForm']) !!}
     @include('dict.toponyms.form._create_edit', 
                 ['submit_title' => trans('messages.create'),
                  'action' => 'create',
@@ -28,12 +28,6 @@
         {!!Html::script('js/lists.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-        $('.select-geotype').select2({allowClear: true, placeholder: ''});
-        selectDistrict('region_id', '', true);
-        selectDistrict1926('region1926_id', '', true);
-        selectSelsovet1926('region1926_id', 'district1926_id', '', true);
-        selectSettlement1926('region1926_id', 'district1926_id', 'selsovet1926_id', '', true);
-        $('.select-etymology-nation').select2({allowClear: true, placeholder: ''});
-        $('.select-ethnos-territory').select2({allowClear: true, placeholder: ''});
+        @include('dict.toponyms._jquery_func_for_create_edit')
     </x-slot>
 </x-app-layout>

@@ -16,6 +16,8 @@ class Settlement1926 extends Model
      * @var string
      */
     protected $table = 'settlements1926';
+    public $timestamps = false;
+    protected $fillable = ['selsovet_id','name_en','name_ru', 'name_krl'];
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;

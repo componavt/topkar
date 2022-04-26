@@ -23,6 +23,7 @@
                  'value' => optional($toponym)->districtValue(),
                  'title' => trans('toponym.district'),
                  'is_multiple' => false,
+                 'call_add_onClick' => "addDistrict()",
                  'class'=>'select-district form-control'
         ]) 
         
@@ -44,6 +45,7 @@
                  'value' => optional($toponym)->geotypeValue(),
                  'title' => trans('aux.geotype'),
                  'is_multiple' => false,
+                 'call_add_onClick' => "addGeotype()",
                  'class'=>'select-geotype form-control'
         ])
         
@@ -64,6 +66,7 @@
                  'value' => optional($toponym)->district1926Value(),
                  'title' => trans('toponym.district1926'),
                  'is_multiple' => false,
+                 'call_add_onClick' => "addDistrict('1926')",
                  'class'=>'select-district1926 form-control'
         ]) 
         
@@ -74,6 +77,7 @@
                  'value' => optional($toponym)->selsovet1926Value(),
                  'title' => trans('toponym.selsovet1926'),
                  'is_multiple' => false,
+                 'call_add_onClick' => "addSelsovet1926()",
                  'class'=>'select-selsovet1926 form-control'
         ]) 
         
@@ -84,6 +88,7 @@
                  'value' => optional($toponym)->settlement1926Value(),
                  'title' => trans('toponym.settlement1926'),
                  'is_multiple' => false,
+                 'call_add_onClick' => "addSettlement1926()",
                  'class'=>'select-settlement1926 form-control'
         ]) 
     </div><!-- eo Second column -->    
@@ -114,6 +119,29 @@
                  'title'=>trans('toponym.etymology')])
     </div>
     <div class="col-sm-6">
+        <p><b>{{trans('aux.struct')}}</b></p>
+        @for ($i=0; $i < sizeof($structs); $i++)
+        <div class='row'>
+            <div class="col-sm-6">
+            @include('widgets.form.formitem._select', 
+                    ['name' => 'structhiers['.$i.']', 
+                     'values' => $structhier_values,
+                     'value' => $structhiers[$i],
+                     'grouped' => true,
+                     'attributes'=>['placeholder'=>trans('aux.structhier')]
+            ]) 
+            </div>
+            <div class="col-sm-6">
+            @include('widgets.form.formitem._select2', 
+                    ['name' => 'structs['.$i.']', 
+                     'values' => $struct_values,
+                     'value' => $structs[$i],
+                     'is_multiple' => false,
+                     'class'=>'select-struct'.$i.' form-control'
+            ]) 
+            </div>            
+        </div>
+        @endfor
     </div>
 </div><!-- eo Second row -->
 

@@ -16,6 +16,8 @@ class Selsovet1926 extends Model
      * @var string
      */
     protected $table = 'selsovets1926';
+    public $timestamps = false;
+    protected $fillable = ['district1926_id','name_en','name_ru', 'name_krl'];
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;

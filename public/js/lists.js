@@ -27,8 +27,7 @@ function selectAjax(route, data, placeholder, allow_clear, selector){
     });   
 }
 */
-function selectDistrict(region_var, placeholder='', allow_clear=true, selector='.select-district', route='/dict/districts/list'){
-//console.log(selectedValuesToURL("#"+region_var));   
+function selectDistrict(region_var, placeholder='', allow_clear=true, selector='.select-district', form='', route='/dict/districts/list'){
     $(selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,
@@ -40,7 +39,7 @@ function selectDistrict(region_var, placeholder='', allow_clear=true, selector='
           data: function (params) {
             return {
               q: params.term, // search term
-              regions: selectedValuesToURL("#"+region_var)
+              regions: selectedValuesToURL(form + " #"+region_var),
             };
           },
           processResults: function (data) {
@@ -53,14 +52,14 @@ function selectDistrict(region_var, placeholder='', allow_clear=true, selector='
     });   
 }
 
-function selectDistrict1926(region_var, placeholder='', allow_clear=true, selector='.select-district1926'){
-    selectDistrict(region_var, placeholder, allow_clear, selector, route='/dict/districts1926/list');
+function selectDistrict1926(region_var, placeholder='', allow_clear=true, selector='.select-district1926', form=''){
+    selectDistrict(region_var, placeholder, allow_clear, selector, form, '/dict/districts1926/list');
 }
 
-function selectSelsovet1926(region_var, district_var, placeholder='', allow_clear=true, selector='.select-selsovet1926'){
+function selectSelsovet1926(region_var, district_var, placeholder='', allow_clear=true, selector='.select-selsovet1926', form=''){
     var route='/dict/selsovets1926/list'
 //console.log(selectedValuesToURL("#"+region_var));   
-    $(selector).select2({
+    $(form + ' ' + selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,
         width: '100%',
@@ -71,8 +70,8 @@ function selectSelsovet1926(region_var, district_var, placeholder='', allow_clea
           data: function (params) {
             return {
               q: params.term, // search term
-              regions: selectedValuesToURL("#"+region_var),
-              districts: selectedValuesToURL("#"+district_var)
+              regions: selectedValuesToURL(form + " #"+region_var),
+              districts: selectedValuesToURL(form + "#"+district_var)
             };
           },
           processResults: function (data) {
@@ -85,9 +84,8 @@ function selectSelsovet1926(region_var, district_var, placeholder='', allow_clea
     });   
 }
 
-function selectSettlement1926(region_var, district_var, selsovet_var, placeholder='', allow_clear=true, selector='.select-settlement1926'){
+function selectSettlement1926(region_var, district_var, selsovet_var, placeholder='', allow_clear=true, selector='.select-settlement1926', form=''){
     var route='/dict/settlements1926/list'
-//console.log(selectedValuesToURL("#"+region_var));   
     $(selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,
@@ -99,9 +97,9 @@ function selectSettlement1926(region_var, district_var, selsovet_var, placeholde
           data: function (params) {
             return {
               q: params.term, // search term
-              regions: selectedValuesToURL("#"+region_var),
-              districts: selectedValuesToURL("#"+district_var),
-              selsovets: selectedValuesToURL("#"+selsovet_var)
+              regions: selectedValuesToURL(form + " #"+region_var),
+              districts: selectedValuesToURL(form + " #"+district_var),
+              selsovets: selectedValuesToURL(form + " #"+selsovet_var)
             };
           },
           processResults: function (data) {
@@ -113,3 +111,29 @@ function selectSettlement1926(region_var, district_var, selsovet_var, placeholde
         }
     });   
 }
+
+function selectStruct(structhier_var, placeholder='', allow_clear=true, selector='.select-struct', form='', route='/aux/structs/list'){
+    $(selector).select2({
+        allowClear: allow_clear,
+        placeholder: placeholder,
+        width: '100%',
+        ajax: {
+          url: route,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+              structhiers: selectedValuesToURL(form + " #"+structhier_var),
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },          
+          cache: true
+        }
+    });   
+}
+

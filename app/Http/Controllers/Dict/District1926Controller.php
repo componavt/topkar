@@ -22,6 +22,15 @@ class District1926Controller extends Controller
         return view('dict.districts1926.index', compact('districts1926'));
     }
 
+    public function validateRequest(Request $request) {
+        $this->validate($request, [
+            'name_en'  => 'max:150',
+            'name_ru'  => 'required|max:150',
+//            'district_id' => 'required|numeric',
+            'region_id' => 'required|numeric',
+        ]);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -43,6 +52,15 @@ class District1926Controller extends Controller
         //
     }
 
+    public function simpleStore(Request $request)
+    {
+        $field = $request->locale == 'en' ? 'name_en' : 'name_ru';
+        $this->validateRequest($request);
+        $district = District1926::create($request->all());
+        return Response::json(['id'=>$district->id, 'name'=>$district->{$field}, 
+                'region_id'=>$district->region_id, 'region_name'=>$district->region->{$field}]);
+    }
+    
     /**
      * Display the specified resource.
      *

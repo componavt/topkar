@@ -40,6 +40,7 @@ return [
     'history' => 'history',
     'in_desc' => 'in decreasing order',
     'in_english' => 'in English',
+    'in_karelian' => 'in Karelian',
     'in_pl' => 'in plural',
     'in_russian' => 'in Russian',
     'including' => 'including',

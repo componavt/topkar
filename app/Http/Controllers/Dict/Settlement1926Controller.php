@@ -27,6 +27,15 @@ class Settlement1926Controller extends Controller
         return view('dict.settlements1926.index', compact('settlements1926', 'portion', 'page' ));
     }
 
+    public function validateRequest(Request $request) {
+        $this->validate($request, [
+            'name_en'  => 'max:150',
+            'name_ru'  => 'required|max:150',
+            'name_krl'  => 'max:150',
+            'selsovet_id' => 'required|numeric',
+        ]);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -46,6 +55,15 @@ class Settlement1926Controller extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function simpleStore(Request $request)
+    {
+        $field = $request->locale == 'en' ? 'name_en' : 'name_ru';
+        $this->validateRequest($request);
+        $settlement = Settlement1926::create($request->all());
+        return Response::json(['id'=>$settlement->id, 'name'=>$settlement->{$field}, 
+                'selsovet_id'=>$settlement->selsovet_id, 'selsovet_name'=>$settlement->selsovet1926->{$field}]);
     }
 
     /**

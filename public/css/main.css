@@ -62,3 +62,37 @@ label {
 .form-group .select2-container--default .select2-selection--single .select2-selection__rendered {
     padding: 0.25rem 0.9rem;
 }
+
+.call-add {
+  color: #3437dc;
+  cursor: pointer;
+}
+
+.modal-header .close {
+  margin-top: -2px;
+}
+
+button.close {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+}
+
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+
+.modal-footer .cancel {
+  color: #000;
+  background-color: #ced4da;
+  border-color: #ced4da;
+}

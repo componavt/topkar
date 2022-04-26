@@ -211,6 +211,16 @@ class Toponym extends Model
         return $this->etymology_nation_id ? [$this->etymology_nation_id] : [];
     }
     
+    public function regionValue()
+    {
+        return $this->region_id ? [$this->region_id] : [];
+    }
+    
+    public function region1926Value()
+    {
+        return $this->region1926_id ? [$this->region1926_id] : [];
+    }
+    
     public function districtValue()
     {
         return $this->district_id ? [$this->district_id] : [];
@@ -241,12 +251,16 @@ class Toponym extends Model
                     'in_desc'     => (int)$request->input('in_desc'),
                     'search_districts'   => (array)$request->input('search_districts'),
                     'search_districts1926'   => (array)$request->input('search_districts1926'),
+                    'search_ethnos_territories'   => (array)$request->input('search_ethnos_territories'),
+                    'search_etymology_nations'   => (array)$request->input('search_etymology_nations'),
                     'search_geotypes'    => (array)$request->input('search_geotypes'),
                     'search_regions'     => (array)$request->input('search_regions'),
                     'search_regions1926'     => (array)$request->input('search_regions1926'),
                     'search_selsovets1926' => (array)$request->input('search_selsovets1926'),
                     'search_settlement' => $request->input('search_settlement'),
                     'search_settlements1926' => (array)$request->input('search_settlements1926'),
+                    'search_structs'    => (array)$request->input('search_structs'),
+                    'search_structhiers'    => (array)$request->input('search_structhiers'),
                     'search_toponym'    => $request->input('search_toponym'),
                     'sort_by' => $request->input('sort_by'),
                 ];
@@ -268,28 +282,31 @@ class Toponym extends Model
         $toponyms = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
+        $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
+        $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
+        $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
+        
         if ($url_args['search_toponym']) {
             $toponyms = $toponyms->where('name','LIKE',$url_args['search_toponym']);
-        } 
-        
+        }         
         if ($url_args['search_settlement']) {
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
-        }
-        
+        }        
         if ($url_args['search_geotypes']) {
             $toponyms = $toponyms->whereIn('geotype_id',$url_args['search_geotypes']);
-        } 
-        
+        }         
         if ($url_args['search_districts']) {
             $toponyms = $toponyms->whereIn('district_id',$url_args['search_districts']);
-        } 
-        
+        }         
         if ($url_args['search_settlements1926']) {
             $toponyms = $toponyms->whereIn('settlement1926_id',$url_args['search_settlements1926']);
         } 
-        
-        $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
-        $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
+        if ($url_args['search_ethnos_territories']) {
+            $toponyms = $toponyms->whereIn('ethnos_territory_id',$url_args['search_ethnos_territories']);
+        }         
+        if ($url_args['search_etymology_nations']) {
+            $toponyms = $toponyms->whereIn('etymology_nation_id',$url_args['search_etymology_nations']);
+        }         
 //dd($toponyms->toSql());                                
 //dd(to_sql($toponyms));
         return $toponyms;
@@ -342,12 +359,34 @@ class Toponym extends Model
                     }
                 });
             }
-        });
-        
+        });        
 //dd($toponyms->toSql());                                
-
         return $toponyms;
     }
+    
+    public static function searchByStruct($toponyms, $search_structs, $search_structhiers) {
+        
+        if(!sizeof($search_structs) && !$search_structhiers) {
+            return $toponyms;
+        }
+        
+        $toponyms = $toponyms->whereIn('id', function($q1) use ($search_structs, $search_structhiers) {
+            $q1->select('toponym_id')->from('struct_toponym');
+            if (sizeof($search_structs)) {
+                $q1->whereIn('struct_id', $search_structs);
+            }
+            if ($search_structhiers) {
+                $q1->whereIn('struct_id', function ($q2) use ($search_structhiers) {
+                    $q2->select('id')->from('structs');
+                    if ($search_structhiers) {
+                        $q2->whereIn('structhier_id', $search_structhiers);                        
+                    }
+                });
+            }
+        });
+        return $toponyms;
+    }
+    
     public function sortList() {
         $list = [];
         foreach (self::SortList as $field) {

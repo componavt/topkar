@@ -10,7 +10,10 @@ use App\Models\Aux\Structhier;
 class Struct extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    protected $fillable = ['name_ru',  'name_en', 'structhier_id'];
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getList;
     
     /**
      * The toponyms that belong to the structure. (many to many relation)

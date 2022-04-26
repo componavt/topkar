@@ -2,13 +2,16 @@
 
 //use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\Dict\RegionController;
+use App\Http\Controllers\Aux\GeotypeController;
+use App\Http\Controllers\Aux\StructController;
+
 use App\Http\Controllers\Dict\DistrictController;
 use App\Http\Controllers\Dict\District1926Controller;
+use App\Http\Controllers\Dict\RegionController;
 use App\Http\Controllers\Dict\Selsovet1926Controller;
+use App\Http\Controllers\Dict\SettlementController;
 use App\Http\Controllers\Dict\Settlement1926Controller;
 use App\Http\Controllers\Dict\ToponymController;
-use App\Http\Controllers\Aux\GeotypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,16 +31,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
         return view('welcome'); // return view('dashboard');
     });
 
+    Route::get('/aux/structs/list', [StructController::class, 'list']);
+    
     Route::get('/dict/districts/list', [DistrictController::class, 'list']);
+    Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
     Route::get('/dict/districts1926/list', [District1926Controller::class, 'list']);
+    Route::get('/dict/districts1926/store', [District1926Controller::class, 'simpleStore']);
+    Route::get('/dict/geotypes/store', [GeotypeController::class, 'simpleStore']);
     Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'list']);
-    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);
-/*    Route::get('/dict/regions',       [RegionController::class, 'index'])->name('dict-regions');
-    Route::get('/dict/districts1926', [District1926Controller::class, 'index'])->name('dict-districts1926');
-    Route::get('/dict/selsovets1926', [Selsovet1926Controller::class, 'index'])->name('dict-selsovets1926');
-    Route::get('/dict/settlements1926', [Settlement1926Controller::class, 'index'])->name('dict-settlements1926');*/
-    
-    
+    Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
+    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);    
+    Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
 
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

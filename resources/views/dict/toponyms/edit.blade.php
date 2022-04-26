@@ -17,7 +17,9 @@
         @endif 
     </div>
     
-    {!! Form::model($toponym, array('method'=>'PUT', 'route' => ['toponyms.update', $toponym->id])) !!}
+    @include('dict.toponyms.modals_for_edition')
+    
+    {!! Form::model($toponym, array('method'=>'PUT', 'route' => ['toponyms.update', $toponym->id], 'id'=>'toponymForm')) !!}
     @include('dict.toponyms.form._create_edit', 
                 ['submit_title' => trans('messages.save'),
                  'action' => 'edit'])
@@ -26,16 +28,9 @@
     <x-slot name="footScriptExtra">
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-        $('.select-geotype').select2({allowClear: true, placeholder: ''});
-        $('.select-region').select2({allowClear: true, placeholder: ''});
-        $('.select-region1926').select2({allowClear: true, placeholder: ''});
-        selectDistrict('region_id', '', true);
-        selectDistrict1926('region1926_id', '', true);
-        selectSelsovet1926('region1926_id', 'district1926_id', '', true);
-        selectSettlement1926('region1926_id', 'district1926_id', 'selsovet1926_id', '', true);
-        $('.select-etymology-nation').select2({allowClear: true, placeholder: ''});
-        $('.select-ethnos-territory').select2({allowClear: true, placeholder: ''});
+        @include('dict.toponyms._jquery_func_for_create_edit')
     </x-slot>
 </x-app-layout>

@@ -28,11 +28,11 @@
     <p><span class='field-name'>{{trans('toponym.caseform')}}</span>: 
     <span class='field-value'>{{ $toponym->caseform }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.etymology_nation')}}</span>: 
-    <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
-
     <p><span class='field-name'>{{trans('aux.ethnos_territory')}}</span>: 
     <span class='field-value'>{{ optional($toponym->ethnosTerritory)->name }}</span></p>
+
+    <p><span class='field-name'>{{trans('aux.etymology_nation')}}</span>: 
+    <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
 
     <p><span class='field-name'>{{trans('toponym.etymology')}}</span>: 
     <span class='field-value'>{{ $toponym->etymology }}</span></p>
@@ -42,7 +42,8 @@
         <ol>
         @foreach ($toponym->structs as $struct)
         <li>
-            <span class='field-value'>{{ optional($struct)->name }}</span> ({{ optional($struct->structhier)->name }})
+            <span class='field-value'>{{ optional($struct)->name }}</span> 
+            ({{ optional($struct->structhier->parent)->name }} {{ mb_strtolower(optional($struct->structhier)->name) }})
         </li>
         @endforeach 
         </ol>
