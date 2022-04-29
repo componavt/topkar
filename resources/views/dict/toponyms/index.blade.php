@@ -13,9 +13,11 @@
         @include('widgets.found_records', ['n_records'=>$n_records])
     </x-slot>
         
+    @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('toponyms.create')}}">Создать новый</a>
     </div>
+    @endif
     
     <x-slot name="table_block">
         <table class="table table-bordered table-hover wide-md">
@@ -24,7 +26,7 @@
                 <th>{{trans('aux.geotype')}}</th>
                 <th>{{trans('toponym.location')}} / <br>
                     {{trans('toponym.location_1926')}}</th>       
-                @if (user_dict_edit())
+                @if (user_can_edit())
                 <th>{{ trans('messages.actions') }}</th>
                 @endif
             </tr>
@@ -37,7 +39,7 @@
                 <td>{{ $r->location }} / <br>
                     {{ $r->location1926 }}</td>
                 
-                @if (user_dict_edit())
+                @if (user_can_edit())
                 <td data-th="{{ trans('messages.actions') }}">
                     @include('widgets.form.button._edit', 
                             ['without_text' => 1,

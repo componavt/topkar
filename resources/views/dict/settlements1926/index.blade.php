@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-            {{trans('general.Settlements_in_1926_year')}}
+            {{trans('toponym.Settlements_in_1926_year')}}
     </x-slot>
 
                 <table class="table table-striped table-hover"><tr><th>&numero;</th>
-                           <th>{{trans('general.region')}}</th>
-                           <th>{{trans('general.districts_1926')}}</th>
-                           <th>{{trans('general.selsovets_1926')}}</th>
+                           <th>{{trans('toponym.region')}}</th>
+                           <th>{{trans('toponym.districts_1926')}}</th>
+                           <th>{{trans('toponym.selsovets_1926')}}</th>
                            <th>{{trans('general.in_english')}}</th>
                            <th>{{trans('general.in_russian')}}</th>
                            <th>{{trans('general.in_karelian')}}</th>

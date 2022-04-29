@@ -96,3 +96,33 @@ button.close {
   background-color: #ced4da;
   border-color: #ced4da;
 }
+
+.user-enter {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.user-enter-add {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;    
+}
+
+.user-enter-add label {
+    font-weight: normal;
+}
+
+.reset_password {
+    color: rgba(0, 0, 0, 0.55);
+    line-height: 18px;
+    text-decoration: none;
+}
+
+.remember_me label {
+    color: rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+}

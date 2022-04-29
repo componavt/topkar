@@ -45,7 +45,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-        return view('dashboard');
+        return view('welcome');
     })->name('dashboard');
 
 

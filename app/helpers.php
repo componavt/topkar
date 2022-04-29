@@ -2,6 +2,8 @@
 
 //use Illuminate\Support\Str;
 
+use App\Models\Team;
+
 // to_link("Hello, World!", "/dict/") -> <a href="/ru/dict/">Hello, World!</a>
 if (! function_exists('to_link')) {
     function to_link($str, $link)
@@ -59,10 +61,34 @@ if (! function_exists('url_args')) {
     }
 }
 
-if (! function_exists('user_dict_edit')) {
-    function user_dict_edit()
+if (! function_exists('user_is_admin')) {
+    function user_is_admin()
     {
-        return true;//User::checkAccess('dict.edit');
+        $user = Auth::user();
+        if (!$user) {
+            return false;
+        }
+        $team = Team::whereName('TopKar editors')->first();
+        if ($user->belongsToTeam($team) && $user->hasTeamRole($team, 'admin')) {
+            return true;
+        }
+//User::checkAccess('dict.edit');        
+    }
+}
+
+if (! function_exists('user_can_edit')) {
+    function user_can_edit()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return false;
+        }
+        $team = Team::whereName('TopKar editors')->first();
+        if ($user->belongsToTeam($team) && 
+            ($user->hasTeamRole($team, 'admin') || $user->hasTeamRole($team, 'editor'))) {
+            return true;
+        }
+//        return true;//User::checkAccess('dict.edit');
     }
 }
 

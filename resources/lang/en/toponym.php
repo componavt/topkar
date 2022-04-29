@@ -28,7 +28,9 @@ return [
     'desc' => 'Description',
     'district' => 'District',
     'district1926' => 'District 1926',    
-    
+    'districts_1926' => 'Districts 1926',
+    'Districts_in_1926_year' => 'Districts in 1926',
+        
     'etymology' => 'Etymology',
     
     'location_1926' => 'Region, district, selsovet, settlement 1926',
@@ -37,11 +39,16 @@ return [
     'name' => 'Name',
     
     'region' => 'Region',
+    'regions' => 'regions',
     'region1926' => 'Region 1926',
-    
+        
     'selsovet1926' => 'Selsovet 1926',
+    'selsovets_1926' => 'Selsovets 1926',
+    'Selsovets_in_1926_year' => 'Selsovets in 1926',
+    
     'settlement' => 'Settlement',
     'settlement1926' => 'Settlement 1926',
+    'Settlements_in_1926_year' => 'Settlements in 1926',
     'short_name' => 'Short name',
     
     'toponym' => 'Toponym',

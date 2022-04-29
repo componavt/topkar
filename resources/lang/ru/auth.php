@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | General Language Lines
+    | Authentication Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines are used during authentication for various
@@ -13,13 +13,8 @@ return [
     |
     */
 
-    'in_english'  => 'по-английски',
-    'in_russian'  => 'по-русски',
-    'in_karelian' => 'по-карельски',
-    
-    'log_in' => 'Войти',
-    
-    'password' => 'Пароль',
-    'remember_me' => 'Запомнить меня',    
-    'reset_password' => 'Забыли пароль?',
+    'failed' => 'Этих учетных данных нет в БД.',
+    'password' => 'Введен неправильный пароль.',
+    'throttle' => 'Слишком много попыток входа. Пожалуйста, попробуйте через :seconds секунд.',
+
 ];

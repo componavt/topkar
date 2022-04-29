@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-            {{trans('general.Districts_in_1926_year')}}
+            {{trans('toponym.Districts_in_1926_year')}}
     </x-slot>
 
                 <table class="table table-striped table-hover"><tr><th>&numero;</th>
-                           <th>{{trans('general.region')}}</th>
+                           <th>{{trans('toponym.region')}}</th>
                            <th>{{trans('general.in_english')}}</th>
                            <th>{{trans('general.in_russian')}}</th>
                         </tr>

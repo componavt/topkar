@@ -27,14 +27,17 @@
                   <li><a class="dropdown-item" href="{{ route('geotypes.index') }}">{{ trans('navigation.geotypes') }}</a></li>
                 </ul>
               </li>
+              <li class="nav-item">
+                @include('header.lang_switch')
+              </li>              
             </ul>
             
-            <!-- Right side Of Navbar: search -->
+            <!-- Right side Of Navbar: search 
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>&thinsp;
             </form>
-        </div>
+        </div>-->
             
 
             <!-- Right Side Of Navbar -- User and Team-->
@@ -56,9 +59,10 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <h6 class="dropdown-header small text-muted">
+{{--                            <h6 class="dropdown-header small text-muted">
                                 {{ __('Manage Account') }}
                             </h6>
+--}}
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
@@ -69,43 +73,47 @@
                                     {{ __('API Tokens') }}
                                 </x-jet-dropdown-link>
                             @endif
-
+{{--
                             <hr class="dropdown-divider">
 
                             
-                            
+--}}                            
                             <!-- Teams sub-menu -->
                             @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+                              @if (user_is_admin())
                     
                                 <!-- Team Management un-clickable faded header -->
-                                <h6 class="dropdown-header">
-                                    {{-- __('Manage Team') --}}
+{{--                                <h6 class="dropdown-header">
+                                    {{ __('Manage Team') }}
                                     {{ Auth::user()->currentTeam->name }}
                                 </h6>
+--}}
 
                                 <!-- Team Settings -->
                                 <x-jet-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
                                     {{ __('Team Settings') }}
                                 </x-jet-dropdown-link>
-
+                              @endif
+{{--                                
                                 @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
                                     <x-jet-dropdown-link href="{{ route('teams.create') }}">
                                         {{ __('Create New Team') }}
                                     </x-jet-dropdown-link>
                                 @endcan
-
+                                
                                 <hr class="dropdown-divider">
 
                                 <!-- Team Switcher -->
                                 <h6 class="dropdown-header">
                                     {{ __('Switch Teams') }}
                                 </h6>
-
+                                
                                 @foreach (Auth::user()->allTeams() as $team)
                                     <x-jet-switchable-team :team="$team" />
                                 @endforeach
 
-                                <hr class="dropdown-divider">
+                                <hr class="dropdown-divider"> 
+--}}
                             @endif <!-- eo Teams sub-menu -->
                             
                             
@@ -121,13 +129,54 @@
                             </form>
                         </x-slot>
                     </x-jet-dropdown>
+                @else
+            <x-jet-validation-errors/>
+
+            @if (session('status'))
+                <div class="alert alert-success mb-3 rounded-0" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <form method="POST" class="user-enter" action="{{ route('login') }}">
+                @csrf
+                <div>
+                    <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email"
+                                 placeholder="{{ __('Email') }}" name="email" :value="old('email')" required />
+                    <x-jet-input-error for="email"></x-jet-input-error>
+                </div>
+                <div>
+                    <x-jet-input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password"
+                                 placeholder="{{ __('general.password') }}" name="password" required autocomplete="current-password" />
+                    <x-jet-input-error for="password"></x-jet-input-error>
+                </div>
+                <div>
+                    <div class="user-enter-add">
+                    <div class="remember_me">
+                        <x-jet-checkbox id="remember_me" name="remember" />
+                        <label for="remember_me">
+                            {{ __('general.remember_me') }}
+                        </label>
+                    </div>
+
+                        @if (Route::has('password.request'))
+                            <a class="reset_password" href="{{ route('password.request') }}">
+                                {{ __('general.reset_password') }}
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary text-uppercase">
+                    {{ __('general.log_in') }}
+                </button>
+            </form>                
                 @endauth
             </div><!-- eo of old ul -->
             
             <!-- Language switcher in navigation bar (right side) -->
-            <ul class="nav navbar-nav navbar-right lang">
+{{--            <ul class="nav navbar-nav navbar-right lang">
                 @include('header.lang_switch')
-            </ul>
+            </ul>--}}
         </div>
     </div>
 </nav>
