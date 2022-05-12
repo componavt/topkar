@@ -16,4 +16,49 @@ class District extends Model
     use \App\Traits\Methods\getList;
     
     use \App\Traits\Relations\BelongsTo\Region;
+    use \App\Traits\Relations\HasMany\Toponyms;
+    
+    /** Gets array of search parameters.
+     * 
+     * @param type $request
+     * @return type
+     */
+    public static function urlArgs($request) {
+        $url_args = url_args($request) + [
+                    'search_regions'     => (array)$request->input('search_regions'),
+                    'search_name'    => $request->input('search_name'),
+                ];
+        return $url_args;
+    }
+    
+    /** Search district by various parameters. 
+     * 
+     * @param array $url_args
+     * @return type
+     */
+    public static function search(Array $url_args) {
+        
+        $districts = self::orderBy('name_ru');
+        
+        $districts = self::searchByName($districts, $url_args['search_name']);
+        
+        if ($url_args['search_regions']) {
+            $districts = $districts->whereIn('region_id',$url_args['search_regions']);
+        }         
+        return $districts;
+    }
+    
+    public static function searchByName($districts, $search_name) {
+        
+        if(!$search_name) {
+            return $districts;
+        }
+        
+        $districts = $districts->where(function($query) use ($search_name) {
+            $query -> where('name_ru','LIKE',$search_name)
+                   -> whereOr('name_en','LIKE',$search_name);
+        });
+        
+        return $districts;
+    }
 }

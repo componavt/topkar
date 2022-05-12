@@ -39,15 +39,19 @@
 
     <hr>{{-- Structure of toponym word --}}
     <p><span class='field-name'>{{trans('aux.struct')}}</span></p>
-        <ol>
-        @foreach ($toponym->structs as $struct)
-        <li>
-            <span class='field-value'>{{ optional($struct)->name }}</span> 
-            ({{ optional($struct->structhier->parent)->name }} {{ mb_strtolower(optional($struct->structhier)->name) }})
-        </li>
-        @endforeach 
-        </ol>
-                    
-                
-                
+    <ol>
+    @foreach ($toponym->structs as $struct)
+    <li>
+        <span class='field-value'>{{ optional($struct)->name }}</span> 
+        ({{ optional($struct->structhier->parent)->name }} {{ mb_strtolower(optional($struct->structhier)->name) }})
+    </li>
+    @endforeach 
+    </ol>
+    
+    <x-slot name="footScriptExtra">
+        {!!Html::script('js/rec-delete-link.js')!!}
+    </x-slot>
+    <x-slot name="jqueryFunc">
+        recDelete('{{ trans('messages.confirm_delete') }}');
+    </x-slot>                                                        
 </x-app-layout>

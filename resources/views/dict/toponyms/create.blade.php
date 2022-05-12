@@ -16,6 +16,8 @@
         @endif 
     </div>
     
+    @include('dict.toponyms.modals_for_edition')
+    
     {!! Form::open(['method'=>'POST', 'route' => ['toponyms.store'], 'id'=>'toponymForm']) !!}
     @include('dict.toponyms.form._create_edit', 
                 ['submit_title' => trans('messages.create'),
@@ -26,6 +28,7 @@
     <x-slot name="footScriptExtra">
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
         @include('dict.toponyms._jquery_func_for_create_edit')

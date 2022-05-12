@@ -13,13 +13,14 @@ return [
     |
     */
 
+    'add_geotype' => 'Add a geotype',
+    
     'ethnos_territory' => 'Ethnos territory',
     
-    'etymology_nation' => 'Etymology nation',
-    
-    
+    'etymology_nation' => 'Etymology nation',       
     
     'geotype' => 'Geotype',
+    'geotype_removed' => 'Geotype ":name" is removed successfully.',
     
     'struct' => 'Structure',
     'structhier' => 'Structure type',

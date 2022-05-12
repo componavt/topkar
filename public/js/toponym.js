@@ -27,7 +27,7 @@ function saveDistrict(year='') {
               },
         type: 'GET',
         success: function(district){       
-/*console.log('qid: ' +qid);    */
+console.log("#district" + year + "_id");
             if (district) {
                 var opt = new Option(district['name'], district['id']);
                 $("#district" + year + "_id").append(opt);

@@ -1,5 +1,4 @@
-<x-app-layout>
-    
+<x-app-layout>    
     <x-slot name="headExtra">
         {!!Html::style('css/select2.min.css')!!}  
     </x-slot>
@@ -15,7 +14,7 @@
         
     @if (user_can_edit())
     <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('toponyms.create')}}">Создать новый</a>
+        <a class="btn btn-secondary btn-default" href="{{route('toponyms.create')}}{{$args_by_get}}">Создать новый</a>
     </div>
     @endif
     
@@ -35,7 +34,7 @@
             <tr>
                 <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
                 <td><a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a></td>
-                <td>{{ $r->geotype->name }}</td>
+                <td>{{ optional($r->geotype)->name }}</td>
                 <td>{{ $r->location }} / <br>
                     {{ $r->location1926 }}</td>
                 
@@ -60,10 +59,12 @@
     </x-slot>
                 
     <x-slot name="footScriptExtra">
-          {!!Html::script('js/select2.min.js')!!}
-          {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/select2.min.js')!!}
+        {!!Html::script('js/rec-delete-link.js')!!}
+        {!!Html::script('js/lists.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
+        recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('aux.geotype')}}'});
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
         $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}'});

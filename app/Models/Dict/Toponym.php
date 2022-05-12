@@ -17,9 +17,7 @@ class Toponym extends Model
                            'geotype_id', 'etymology', 'etymology_nation_id', 'ethnos_territory_id', 
                            'caseform'];
     public $timestamps = false;
-    const SortList=[
-        1 => 'name',
-        2 => 'id'
+    const SortList=['name', 'id'
 //        2 => 'created_at'
     ];
     //use \App\Traits\Methods\getNameAttribute;
@@ -264,9 +262,11 @@ class Toponym extends Model
                     'search_toponym'    => $request->input('search_toponym'),
                     'sort_by' => $request->input('sort_by'),
                 ];
-        $sort_list = self::SortList();
-        if (!in_array($url_args['sort_by'], array_keys($sort_list))) {
-            $url_args['sort_by']= array_key_first($sort_list);
+        $sort_list = self::SortList;
+
+//dd($sort_list, $url_args['sort_by']);        
+        if (!in_array($url_args['sort_by'], $sort_list)) {
+            $url_args['sort_by']= $sort_list[0];
         }
         return $url_args;
     }
@@ -313,9 +313,6 @@ class Toponym extends Model
     }
     
     /** Search toponym by region. 
-     * 
-     * @param array $url_args
-     * @return type
      */
     public static function searchByRegion($toponyms, $search_regions) {
         
@@ -387,7 +384,7 @@ class Toponym extends Model
         return $toponyms;
     }
     
-    public function sortList() {
+    public static function sortList() {
         $list = [];
         foreach (self::SortList as $field) {
             $list[$field] = \Lang::get('messages.sort'). ' '. \Lang::get('toponym.by_'.$field);

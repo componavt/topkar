@@ -208,8 +208,42 @@ class ToponymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $error = false;
+        $status_code = 200;
+        $result =[];
+        if($id > 0) {
+            try{
+                $obj = Toponym::find($id);
+                if($obj){
+                    $obj_name = $obj->name;
+                    $obj->structs()->detach();
+                    $obj->delete();
+                    $result['message'] = \Lang::get('toponym.toponym_removed', ['name'=>$obj_name]);
+                }
+                else{
+                    $error = true;
+                    $result['error_message'] = \Lang::get('messages.record_not_exists');
+                }
+          }catch(\Exception $ex){
+                    $error = true;
+                    $status_code = $ex->getCode();
+                    $result['error_code'] = $ex->getCode();
+                    $result['error_message'] = $ex->getMessage();
+                }
+        }else{
+            $error =true;
+            $status_code = 400;
+            $result['message']='Request data is empty';
+        }
+        
+        if ($error) {
+                return Redirect::to(route('toponyms.index').($this->args_by_get))
+                               ->withErrors($result['error_message']);
+        } else {
+            return Redirect::to(route('toponyms.index').($this->args_by_get))
+                  ->withSuccess($result['message']);
+        }
     }
 }

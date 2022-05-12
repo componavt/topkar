@@ -4,11 +4,31 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Dict\District;
+use Redirect;
 use Response;
+
+use App\Models\Dict\District;
+use App\Models\Dict\Region;
 
 class DistrictController extends Controller
 {
+    public $url_args=[];
+    public $args_by_get='';
+    
+     /**
+     * Instantiate a new new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Request $request)
+    {
+        // permission= corpus.edit, redirect failed users to /corpus/text/, authorized actions list:
+        //$this->middleware('auth:corpus.edit,/corpus/text/', 
+        //                 ['only' => ['create','store','edit','update','destroy']]);
+        $this->url_args = District::urlArgs($request);  
+        
+        $this->args_by_get = search_values_by_URL($this->url_args);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +36,18 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        //
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        
+        $districts = District::search($url_args);
+        $n_records = $districts->count();        
+        $districts = $districts->paginate($this->url_args['portion']);
+         
+        $region_values = [''=>NULL] + Region::getList();
+        
+        return view('dict.districts.index', 
+                compact('districts', 'n_records', 'region_values', 
+                        'args_by_get', 'url_args'));
     }
 
     /**
@@ -26,14 +57,19 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        //
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        
+        $region_values = [''=>NULL] + Region::getList();
+
+        return view('dict.districts.create', 
+                compact('region_values', 'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {
-        $this->validate($request, [
+        return $this->validate($request, [
             'name_en'  => 'max:150',
             'name_ru'  => 'required|max:150',
-//            'district_id' => 'required|numeric',
             'region_id' => 'required|numeric',
         ]);
     }
@@ -46,7 +82,10 @@ class DistrictController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $obj = District::create($this->validateRequest($request)); 
+        
+        return Redirect::to(route('districts.index').($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
     public function simpleStore(Request $request)
@@ -64,9 +103,9 @@ class DistrictController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(District $district)
     {
-        //
+        Redirect::to(route('districts.index').($this->args_by_get));
     }
 
     /**
@@ -75,9 +114,14 @@ class DistrictController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(District $district)
     {
-        //
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        
+        $region_values = [''=>NULL] + Region::getList();
+        return view('dict.districts.edit', 
+                compact('district', 'region_values', 'args_by_get', 'url_args'));
     }
 
     /**
@@ -87,9 +131,12 @@ class DistrictController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, District $district)
     {
-        //
+        $district->fill($this->validateRequest($request))->save();
+       
+        return Redirect::to(route('districts.index', $district).($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
     /**
@@ -100,7 +147,40 @@ class DistrictController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $error = false;
+        $status_code = 200;
+        $result =[];
+        if($id != "" && $id > 0) {
+            try{
+                $district = District::find($id);
+                if($district){
+                    $district_name = $district->name;
+                    $district->delete();
+                    $result['message'] = \Lang::get('toponym.district_removed', ['name'=>$district_name]);
+                }
+                else{
+                    $error = true;
+                    $result['error_message'] = \Lang::get('messages.record_not_exists');
+                }
+          }catch(\Exception $ex){
+                    $error = true;
+                    $status_code = $ex->getCode();
+                    $result['error_code'] = $ex->getCode();
+                    $result['error_message'] = $ex->getMessage();
+                }
+        }else{
+            $error =true;
+            $status_code = 400;
+            $result['message']='Request data is empty';
+        }
+        
+        if ($error) {
+                return Redirect::to(route('districts.index'))
+                               ->withErrors($result['error_message']);
+        } else {
+            return Redirect::to(route('districts.index'))
+                  ->withSuccess($result['message']);
+        }
     }
     
     /**

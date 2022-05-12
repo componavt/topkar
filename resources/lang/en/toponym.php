@@ -15,7 +15,6 @@ return [
 
     'add_district' => 'Add a district',
     'add_district1926' => 'Add a district 1926',
-    'add_geotype' => 'Add a geotype',
     'add_selsovet1926' => 'Add a selsovet 1926',
     'add_settlement1926' => 'Add a settlement 1926',
     
@@ -27,7 +26,9 @@ return [
     
     'desc' => 'Description',
     'district' => 'District',
+    'district_removed' => 'District ":name" is removed successfully.',
     'district1926' => 'District 1926',    
+    'district1926_removed' => 'District 1926 ":name" is removed successfully.',
     'districts_1926' => 'Districts 1926',
     'Districts_in_1926_year' => 'Districts in 1926',
         
@@ -43,11 +44,13 @@ return [
     'region1926' => 'Region 1926',
         
     'selsovet1926' => 'Selsovet 1926',
+    'selsovet1926_removed' => 'Selsovet 1926 ":name" is removed successfully.',
     'selsovets_1926' => 'Selsovets 1926',
     'Selsovets_in_1926_year' => 'Selsovets in 1926',
     
     'settlement' => 'Settlement',
     'settlement1926' => 'Settlement 1926',
+    'settlement1926_removed' => 'Settlement 1926 ":name" is removed successfully.',
     'Settlements_in_1926_year' => 'Settlements in 1926',
     'short_name' => 'Short name',
     

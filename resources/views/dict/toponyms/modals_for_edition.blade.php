@@ -1,5 +1,5 @@
 @include('widgets.modal',['name'=>'modalAddGeotype',
-                      'title'=>trans('toponym.add_geotype'),
+                      'title'=>trans('aux.add_geotype'),
                       'submit_onClick' => 'saveGeotype()',
                       'submit_title' => trans('messages.save'),
                       'modal_view'=>'aux.geotypes._form_create_edit'])
