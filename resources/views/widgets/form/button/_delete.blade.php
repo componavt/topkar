@@ -15,8 +15,7 @@
 
     $format .= '><i class="fa fa-trash fa-lg'. (isset($class) ? ' '.$class : ''). '"></i> %s</a>';
 
-    $link = URL::route($route, $obj, $args);
-//    $link = URL::route($route, $args);
+    $link = URL::route($route, $args);
     $token = csrf_token();
 
     if (isset($without_text) && $without_text) {

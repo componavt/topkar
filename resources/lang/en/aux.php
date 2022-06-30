@@ -15,6 +15,8 @@ return [
 
     'add_geotype' => 'Add a geotype',
     
+    'desc' => 'Description',
+    
     'ethnos_territory' => 'Ethnos territory',
     
     'etymology_nation' => 'Etymology nation',       
@@ -22,6 +24,7 @@ return [
     'geotype' => 'Geotype',
     'geotype_removed' => 'Geotype ":name" is removed successfully.',
     
+    'short_name' => 'Short name',
     'struct' => 'Structure',
     'structhier' => 'Structure type',
     

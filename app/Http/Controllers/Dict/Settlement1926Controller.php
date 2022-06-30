@@ -4,12 +4,33 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Redirect;
 use Response;
 
+use App\Models\Dict\District1926;
+use App\Models\Dict\Region;
+use App\Models\Dict\Selsovet1926;
 use App\Models\Dict\Settlement1926;
 
 class Settlement1926Controller extends Controller
 {
+    public $url_args=[];
+    public $args_by_get='';
+    
+     /**
+     * Instantiate a new new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Request $request)
+    {
+        $this->middleware('is_editor', 
+                         ['except' => ['index','list','show']]);
+        $this->url_args = Settlement1926::urlArgs($request);  
+        
+        $this->args_by_get = search_values_by_URL($this->url_args);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,18 +38,24 @@ class Settlement1926Controller extends Controller
      */
     public function index(Request $request)
     {
-        //$settlements1926 = Settlement1926::all();
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
         
-        $page = (int)$request->input('page') 
-              ? (int)$request->input('page') : 1;
-        $portion = 10;
+        $settlements1926 = Settlement1926::search($url_args);
+        $n_records = $settlements1926->count();        
+        $settlements1926 = $settlements1926->paginate($this->url_args['portion']);
+         
+        $region_values = [''=>NULL] + Region::getList();
+        $district1926_values = District1926::getList();
+        $selsovet1926_values = Selsovet1926::getList();
         
-        $settlements1926 = Settlement1926::paginate($portion);
-        return view('dict.settlements1926.index', compact('settlements1926', 'portion', 'page' ));
-    }
+        return view('dict.settlements1926.index', 
+                compact('district1926_values', 'n_records', 'region_values', 'selsovet1926_values',
+                        'settlements1926', 'args_by_get', 'url_args'));
+     }
 
     public function validateRequest(Request $request) {
-        $this->validate($request, [
+        return $this->validate($request, [
             'name_en'  => 'max:150',
             'name_ru'  => 'required|max:150',
             'name_krl'  => 'max:150',
@@ -43,7 +70,16 @@ class Settlement1926Controller extends Controller
      */
     public function create()
     {
-        //
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        
+        $region_values = [''=>NULL] + Region::getList();
+        $district1926_values = [''=>NULL] + District1926::getList();
+        $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+
+        return view('dict.settlements1926.create', 
+                compact('district1926_values', 'region_values', 
+                        'selsovet1926_values', 'args_by_get', 'url_args'));
     }
 
     /**
@@ -54,7 +90,10 @@ class Settlement1926Controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $obj = Settlement1926::create($this->validateRequest($request)); 
+        
+        return Redirect::to(route('settlements1926.index').($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
     public function simpleStore(Request $request)
@@ -72,9 +111,14 @@ class Settlement1926Controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        $settlement= Settlement1926::findOrFail($id);
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        
+        return view('dict.settlements1926.show', 
+                compact('settlement', 'args_by_get', 'url_args'));
     }
 
     /**
@@ -83,9 +127,20 @@ class Settlement1926Controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
-        //
+        $settlement= Settlement1926::findOrFail($id);
+
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        
+        $region_values = [''=>NULL] + Region::getList();
+        $district1926_values = [''=>NULL] + District1926::getList();
+        $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+        
+        return view('dict.settlements1926.edit', 
+                compact('district1926_values', 'region_values', 'selsovet1926_values', 
+                        'settlement', 'args_by_get', 'url_args'));
     }
 
     /**
@@ -95,9 +150,13 @@ class Settlement1926Controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $settlement= Settlement1926::findOrFail($id);
+        $settlement->fill($this->validateRequest($request))->save();
+       
+        return Redirect::to(route('settlements1926.index', $settlement).($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
     /**
@@ -108,7 +167,44 @@ class Settlement1926Controller extends Controller
      */
     public function destroy($id)
     {
-        //
+        $error = false;
+        $status_code = 200;
+        $result =[];
+        if($id != "" && $id > 0) {
+            try{
+                $obj = Settlement1926::find($id);
+                if($obj){
+                    $obj_name = $obj->name;
+                    if ($obj->toponyms()->count()) {
+                        $result['error_message'] = \Lang::get('toponym.settlement1926_can_not_be_removed');
+                    } else {
+                        $obj->delete();
+                        $result['message'] = \Lang::get('toponym.settlement1926_removed', ['name'=>$obj_name]);
+                    }
+                }
+                else{
+                    $error = true;
+                    $result['error_message'] = \Lang::get('messages.record_not_exists');
+                }
+          }catch(\Exception $ex){
+                    $error = true;
+                    $status_code = $ex->getCode();
+                    $result['error_code'] = $ex->getCode();
+                    $result['error_message'] = $ex->getMessage();
+                }
+        }else{
+            $error =true;
+            $status_code = 400;
+            $result['message']='Request data is empty';
+        }
+        
+        if ($error) {
+                return Redirect::to(route('settlements1926.index').$this->args_by_get)
+                               ->withErrors($result['error_message']);
+        } else {
+            return Redirect::to(route('settlements1926.index').$this->args_by_get)
+                  ->withSuccess($result['message']);
+        }
     }
     
     /**

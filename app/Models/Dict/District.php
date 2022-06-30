@@ -14,6 +14,7 @@ class District extends Model
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
+    use \App\Traits\Methods\search\byName;
     
     use \App\Traits\Relations\BelongsTo\Region;
     use \App\Traits\Relations\HasMany\Toponyms;
@@ -46,19 +47,5 @@ class District extends Model
             $districts = $districts->whereIn('region_id',$url_args['search_regions']);
         }         
         return $districts;
-    }
-    
-    public static function searchByName($districts, $search_name) {
-        
-        if(!$search_name) {
-            return $districts;
-        }
-        
-        $districts = $districts->where(function($query) use ($search_name) {
-            $query -> where('name_ru','LIKE',$search_name)
-                   -> whereOr('name_en','LIKE',$search_name);
-        });
-        
-        return $districts;
-    }
+    }    
 }

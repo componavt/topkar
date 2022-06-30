@@ -131,7 +131,7 @@
                         </x-slot>
                     </x-jet-dropdown>
                 @else
-            <x-jet-validation-errors/>
+{{--            <x-jet-validation-errors/>--}}
 
             @if (session('status'))
                 <div class="alert alert-success mb-3 rounded-0" role="alert">

@@ -14,7 +14,7 @@
         
     {!! Form::open(['method'=>'POST', 'route' => ['selsovets1926.store'], 'id'=>'selsovet1926Form']) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
-    @include('dict.selsovets1926._form_create_edit')
+    @include('dict.selsovets1926._form_create_edit', ['selsovet'=>null])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
 </x-app-layout>

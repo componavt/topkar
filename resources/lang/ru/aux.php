@@ -15,6 +15,8 @@ return [
     
     'add_geotype' => 'Добавить вид топонима',
     
+    'desc' => 'Описание',
+    
     'ethnos_territory' => 'Территория этноса',
     
     'etymology_nation' => 'Национальный признак этимологии',
@@ -22,6 +24,7 @@ return [
     'geotype' => 'Вид топонима',
     'geotype_removed' => 'Вид топонима ":name" удален.',
     
+    'short_name' => 'Короткое название',
     'struct' => 'Структура',
     'structhier' => 'Тип структуры',
 

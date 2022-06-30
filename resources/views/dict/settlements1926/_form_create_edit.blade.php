@@ -16,6 +16,7 @@
 @include('widgets.form.formitem._select2', 
         ['name' => 'selsovet_id', 
          'values' => $selsovet1926_values,
+         'value' => optional($settlement)->selsovet1926Value(),
          'title' => trans('toponym.selsovet1926'),
          'is_multiple' => false,
          'class'=>'select-selsovet1926 form-control'

@@ -18,10 +18,10 @@
          'title'=>trans('toponym.name').' '.trans('messages.in_english')])
 @include('widgets.form.formitem._text', 
         ['name' => 'short_en', 
-         'title'=>trans('toponym.short_name').' '.trans('messages.in_russian')])
+         'title'=>trans('toponym.short_name').' '.trans('messages.in_english')])
 @include('widgets.form.formitem._textarea', 
         ['name' => 'desc_en', 
          'attributes' => ['rows' => 3],
-         'title'=>trans('toponym.desc').' '.trans('messages.in_russian')])        
+         'title'=>trans('toponym.desc').' '.trans('messages.in_english')])        
     </div>
 </div>

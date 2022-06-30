@@ -22,6 +22,7 @@ class Selsovet1926 extends Model
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
+    use \App\Traits\Methods\search\byNameKRL;
     
     public function getRegionIdAttribute()
     {
@@ -82,21 +83,6 @@ class Selsovet1926 extends Model
         if ($url_args['search_districts1926']) {
             $selsovets = $selsovets->whereIn('district1926_id',$url_args['search_districts1926']);
         }         
-        return $selsovets;
-    }
-    
-    public static function searchByName($selsovets, $search_name) {
-        
-        if(!$search_name) {
-            return $selsovets;
-        }
-        
-        $selsovets = $selsovets->where(function($query) use ($search_name) {
-            $query -> where('name_ru','LIKE',$search_name)
-                   -> whereOr('name_en','LIKE',$search_name)
-                   -> whereOr('name_krl','LIKE',$search_name);
-        });
-        
         return $selsovets;
     }
     

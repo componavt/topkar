@@ -22,13 +22,13 @@ class DistrictController extends Controller
      */
     public function __construct(Request $request)
     {
-        // permission= corpus.edit, redirect failed users to /corpus/text/, authorized actions list:
-        //$this->middleware('auth:corpus.edit,/corpus/text/', 
-        //                 ['only' => ['create','store','edit','update','destroy']]);
+        $this->middleware('is_editor', 
+                         ['except' => ['index','list','show']]);
         $this->url_args = District::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
     }
+    
     /**
      * Display a listing of the resource.
      *

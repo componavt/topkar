@@ -35,7 +35,7 @@
                     
             @foreach( $selsovets1926 as $r )
             <tr>
-                <td data-th="No">{{ $loop->iteration }}{{-- Starts with 1 --}}</td>
+                <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
                 <td data-th="{{trans('toponym.region')}}">{{ optional($r->district1926->region)->name }}</td>
                 <td data-th="{{trans('toponym.district1926')}}">{{ optional($r->district1926)->name }}</td>
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
@@ -63,8 +63,7 @@
                     @include('widgets.form.button._delete', 
                             ['without_text' => 1,
                              'route' => 'selsovets1926.destroy', 
-                             'obj' => $r, 
-                             'args'=>['id' => $r->id]])             
+                             'args'=>['selsovets1926' => $r->id]])             
                 </td>
                 @endif
             </tr>

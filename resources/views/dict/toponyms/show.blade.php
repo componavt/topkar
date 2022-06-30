@@ -9,7 +9,7 @@
         <a href="{{ route('toponyms.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
         @if (user_can_edit())
             | @include('widgets.form.button._edit', ['route' => route('toponyms.edit', $toponym)])
-            | @include('widgets.form.button._delete', ['route' => 'toponyms.destroy', 'obj' => $toponym, 'args'=>['id' => $toponym->id]])             
+            | @include('widgets.form.button._delete', ['route' => 'toponyms.destroy', 'args'=>['toponym' => $toponym->id]])             
             | <a href="{{ route('toponyms.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_m')) }}</a>
         @else
             | {{ trans('messages.edit') }} | {{ trans('messages.delete') }} | {{ trans('messages.create_new_m') }}

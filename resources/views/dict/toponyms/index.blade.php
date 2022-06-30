@@ -46,8 +46,7 @@
                     @include('widgets.form.button._delete', 
                             ['without_text' => 1,
                              'route' => 'toponyms.destroy', 
-                             'obj' => $r, 
-                             'args'=>['id' => $r->id]])             
+                             'args'=>['toponym' => $r->id]])             
                 </td>
                 @endif
             </tr>

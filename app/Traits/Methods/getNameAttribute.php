@@ -14,6 +14,11 @@ trait getNameAttribute
         if( empty($r) and $locale == "en") 
             $r = $this->{'name_ru'};
         
+        if( empty($r) and $locale == "ru") 
+            $r = $this->{'name_en'};
+        
+        if( empty($r) )
+            $r = $this->{'name_krl'};
         return $r;
     }
 }
