@@ -19,6 +19,7 @@
     @endif
     
     <x-slot name="table_block">
+    @if ($toponyms->count())
         <table class="table table-bordered table-hover wide-md">
             <tr><th>&numero;</th>    
                 <th>{{trans('toponym.toponym')}}</th>
@@ -55,6 +56,7 @@
 
         {{-- $toponyms->links() --}}
         {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
+        @endif
     </x-slot>
                 
     <x-slot name="footScriptExtra">

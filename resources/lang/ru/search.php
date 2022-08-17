@@ -21,7 +21,7 @@ return [
     'd_f' => 'от',
     'd_t' => 'до',
     'distance' => 'Расстояние',
-    'found_count' => '{0} Не найдено записей.|{1} Найдена :count запись.|[2,4] Найдено :count записи.|[2,*] Найдено :count записей.',
+    'found_count' => '{0} <span class="important">Не найдено записей.</span>|{1} Найдена <span class="important">:count</span> запись.|[2,4] Найдено <span class="important">:count</span> записи.|[2,*] Найдено <span class="important">:count</span> записей.',
     'for_text_fields' => '<p>В текстовых полях, если Вам нужен неточный поиск, используйте <span class="warning">процент %</span> для замены любого количества символов, '
                       . '<span class="warning">подчеркивание _</span> &nbsp; для замены одного символа.</p>'
                       . '<p>Например, шаблон %ta найдет все строки, оканчивающиеся на ta.</p>',

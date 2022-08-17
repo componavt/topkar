@@ -23,9 +23,9 @@
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
                 <th>{{trans('toponym.district1926')}}</th>
-                <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('general.in_russian')}}</th>
                 <th>{{trans('general.in_karelian')}}</th>
+                <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('navigation.settlements_1926')}}</th>
                 <th>{{trans('navigation.toponyms')}}</th>
                 @if (user_can_edit())
@@ -38,9 +38,9 @@
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
                 <td data-th="{{trans('toponym.region')}}">{{ optional($r->district1926->region)->name }}</td>
                 <td data-th="{{trans('toponym.district1926')}}">{{ optional($r->district1926)->name }}</td>
-                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('general.in_russian')}}">{{ $r->name_ru }}</td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
+                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('navigation.settlements_1926')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('settlements1926.index')}}?search_selsovets1926[]={{$r->id}}">{{ $r->settlements1926->count() }}</a>

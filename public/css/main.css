@@ -126,3 +126,13 @@ button.close {
     color: rgba(0, 0, 0, 0.55);
     cursor: pointer;
 }
+
+.important {
+    color: #3437dc;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.dropdown-item {
+    white-space: normal;
+}

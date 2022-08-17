@@ -18,7 +18,7 @@ class District1926Controller extends Controller
      */
     public function index()
     {
-        $districts1926 = District1926::all();
+        $districts1926 = District1926::orderBy('name_ru')->get();
         return view('dict.districts1926.index', compact('districts1926'));
     }
 

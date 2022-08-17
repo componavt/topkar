@@ -22,11 +22,11 @@
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
-                <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('general.in_russian')}}</th>
-                <th>{{trans('navigation.toponyms')}}</th>
+                <th>{{trans('general.in_english')}}</th>
+                <th style="text-align: right">{{trans('navigation.toponyms')}}</th>
                 @if (user_can_edit())
-                <th>{{ trans('messages.actions') }}</th>
+                <th style="text-align: center">{{ trans('messages.actions') }}</th>
                 @endif
             </tr>
 
@@ -34,17 +34,19 @@
             <tr>
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
                 <td data-th="{{trans('toponym.region')}}">{{ $r->region->name }}</td>
-                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('general.in_russian')}}">{{ $r->name_ru }}</td>
-                <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
+                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
+                <td data-th="{{trans('navigation.toponyms')}}" style="text-align: right">
                     @if ($r->toponyms->count() > 0)
-                    <a href="{{route('toponyms.index')}}?search_districts[]={{$r->id}}">{{ $r->toponyms->count() }}</a>
+                    <a href="{{route('toponyms.index')}}?search_districts[]={{$r->id}}">
+                        {{ number_format($r->toponyms->count(), 0, ',', ' ') }}
+                    </a>
                     @else
                     0
                     @endif
                 </td>
                 @if (user_can_edit())
-                <td data-th="{{ trans('messages.actions') }}">
+                <td data-th="{{ trans('messages.actions') }}" style="text-align: center">
                     @include('widgets.form.button._edit', 
                             ['without_text' => 1,
                              'route' => route('districts.edit', $r)])

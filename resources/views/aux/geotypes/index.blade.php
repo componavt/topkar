@@ -18,8 +18,8 @@
         <table class="table table-striped table-hover">
             <tr>
                 <th>&numero;</th>
-                <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('general.in_russian')}}</th>
+                <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('navigation.toponyms')}}</th>
                 @if (user_can_edit())
                 <th>{{ trans('messages.actions') }}</th>
@@ -29,8 +29,8 @@
             @foreach( $geotypes as $r )
             <tr>
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
-                <td data-th="{{trans('general.in_english')}}">{{$r->name_en}}</td>
                 <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('geotypes.show', $r).$args_by_get)!!}</td>
+                <td data-th="{{trans('general.in_english')}}">{{$r->name_en}}</td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_geotypes[]={{$r->id}}">{{ $r->toponyms->count() }}</a>

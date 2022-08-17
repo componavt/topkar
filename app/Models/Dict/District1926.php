@@ -23,4 +23,17 @@ class District1926 extends Model
     use \App\Traits\Methods\getList;
     
     use \App\Traits\Relations\BelongsTo\Region;
+    
+    public function toponyms()
+    {
+        $district_id = $this->id;
+        return Toponym::whereIn('settlement1926_id', function($q2) use ($district_id) {
+                    $q2 -> select ('id') -> from ('settlements1926')
+                        -> whereIn('selsovet_id', function($q3) use ($district_id) {
+                            $q3 -> select ('id') -> from ('selsovets1926')
+                                -> where('district1926_id', $district_id);
+                        });
+                });
+    }
+    
 }

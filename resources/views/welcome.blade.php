@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        TopKar - Toponimic dictionary
+        TopKar - Toponymy of Karelia
     </x-slot>
 
     Welcome to TopKar!

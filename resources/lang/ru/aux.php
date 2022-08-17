@@ -17,7 +17,7 @@ return [
     
     'desc' => 'Описание',
     
-    'ethnos_territory' => 'Территория этноса',
+    'ethnos_territory' => 'Территория расселения',
     
     'etymology_nation' => 'Национальный признак этимологии',
     
