@@ -3,5 +3,5 @@
         {{trans('page.site_title')}}
     </x-slot>
 
-    {!!trans('page.welcome')!!}
+    {!!trans('page.welcome_text')!!}
 </x-app-layout>
