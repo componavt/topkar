@@ -323,7 +323,7 @@ class Toponym extends Model
         $toponyms = $toponyms->whereIn('district_id', function($query) use ($search_regions) {
                     $query -> select ('id') -> from ('districts') 
                             -> whereIn('region_id', $search_regions );
-                })->orWhere(function ($q1) use ($search_regions) {
+                })/*->orWhere(function ($q1) use ($search_regions) {
                     $q1-> whereIn('settlement1926_id', function($q2) use ($search_regions) {
                         $q2 -> select ('id') -> from ('settlements1926')
                             -> whereIn('selsovet_id', function($q3) use ($search_regions) {
@@ -334,7 +334,7 @@ class Toponym extends Model
                                     });
                                 });
                         });
-                });
+                })*/;
         
 //dd($toponyms->toSql());                                
 

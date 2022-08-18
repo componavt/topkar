@@ -40,7 +40,8 @@ class DistrictController extends Controller
         $url_args = $this->url_args;
         
         $districts = District::search($url_args);
-        $n_records = $districts->count();        
+        $n_records = $districts->count(); 
+        
         $districts = $districts->paginate($this->url_args['portion']);
          
         $region_values = [''=>NULL] + Region::getList();
@@ -175,10 +176,10 @@ class DistrictController extends Controller
         }
         
         if ($error) {
-                return Redirect::to(route('districts.index'))
+                return Redirect::to(route('districts.index').($this->args_by_get))
                                ->withErrors($result['error_message']);
         } else {
-            return Redirect::to(route('districts.index'))
+            return Redirect::to(route('districts.index').($this->args_by_get))
                   ->withSuccess($result['message']);
         }
     }

@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="search_form">
-        @include("dict.districts._form_search")
+        @include("dict.districts._form_search", ['route'=> route('districts.index')])
         @include('widgets.found_records', ['n_records'=>$n_records])
     </x-slot>
     

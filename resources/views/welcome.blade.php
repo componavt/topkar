@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        TopKar - Toponymy of Karelia
+        {{trans('page.site_title')}}
     </x-slot>
 
-    Welcome to TopKar!
+    {!!trans('page.welcome')!!}
 </x-app-layout>

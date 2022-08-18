@@ -39,7 +39,7 @@ class District extends Model
      */
     public static function search(Array $url_args) {
         
-        $districts = self::orderBy('name_ru');
+        $districts = self::orderBy('region_id')->orderBy('name_ru');
         
         $districts = self::searchByName($districts, $url_args['search_name']);
         

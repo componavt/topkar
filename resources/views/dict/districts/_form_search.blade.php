@@ -1,5 +1,4 @@
-        {!! Form::open(['url' => route('districts.index'), 
-                             'method' => 'get']) 
+        {!! Form::open(['url' => $route, 'method' => 'get']) 
         !!}
 <div class="row">    
     <div class="col-md-4">
