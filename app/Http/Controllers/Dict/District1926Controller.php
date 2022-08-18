@@ -139,7 +139,7 @@ class District1926Controller extends Controller
         $district1926->fill($this->validateRequest($request))->save();
        
         return Redirect::to(route('districts1926.index', $district1926).($this->args_by_get))
-                       ->withSuccess(\Lang::get('messages.created_success'));        
+                       ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
     /**

@@ -137,7 +137,7 @@ class DistrictController extends Controller
         $district->fill($this->validateRequest($request))->save();
        
         return Redirect::to(route('districts.index', $district).($this->args_by_get))
-                       ->withSuccess(\Lang::get('messages.created_success'));        
+                       ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
     /**

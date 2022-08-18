@@ -198,7 +198,7 @@ class ToponymController extends Controller
         $toponym->structs()->sync($structs);
         
         return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))
-                       ->withSuccess(\Lang::get('messages.created_success'));        
+                       ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
     /**

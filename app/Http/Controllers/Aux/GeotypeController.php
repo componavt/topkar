@@ -150,7 +150,7 @@ class GeotypeController extends Controller
         $geotype->fill($this->validateRequest($request))->save();
        
         return Redirect::to(route('geotypes.index', $geotype).($this->args_by_get))
-                       ->withSuccess(\Lang::get('messages.created_success'));        
+                       ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
     /**
