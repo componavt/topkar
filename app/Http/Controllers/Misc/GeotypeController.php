@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Aux;
+namespace App\Http\Controllers\Misc;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Redirect;
 use Response;
 
-use App\Models\Aux\Geotype;
+use App\Models\Misc\Geotype;
 
 class GeotypeController extends Controller
 {
@@ -42,7 +42,7 @@ class GeotypeController extends Controller
         $n_records = $geotypes->count();        
         $geotypes = $geotypes->paginate($this->url_args['portion']);
                 
-        return view('aux.geotypes.index', 
+        return view('misc.geotypes.index', 
                 compact('geotypes', 'n_records', 'args_by_get', 'url_args'));
    }
 
@@ -67,7 +67,7 @@ class GeotypeController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
-        return view('aux.geotypes.create', compact('args_by_get', 'url_args'));
+        return view('misc.geotypes.create', compact('args_by_get', 'url_args'));
     }
 
     /**
@@ -119,7 +119,7 @@ class GeotypeController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
-        return view('aux.geotypes.show', 
+        return view('misc.geotypes.show', 
                 compact('geotype', 'args_by_get', 'url_args'));
     }
 
@@ -134,7 +134,7 @@ class GeotypeController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
-        return view('aux.geotypes.edit', 
+        return view('misc.geotypes.edit', 
                 compact('geotype', 'args_by_get', 'url_args'));
     }
 
@@ -170,7 +170,7 @@ class GeotypeController extends Controller
                 if($geotype){
                     $geotype_name = $geotype->name;
                     $geotype->delete();
-                    $result['message'] = \Lang::get('aux.geotype_removed', ['name'=>$geotype_name]);
+                    $result['message'] = \Lang::get('misc.geotype_removed', ['name'=>$geotype_name]);
                 }
                 else{
                     $error = true;

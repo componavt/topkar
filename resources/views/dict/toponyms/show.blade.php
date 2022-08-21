@@ -22,23 +22,23 @@
     <p><span class='field-name'>{{trans('toponym.location_1926')}}</span>: 
     <span class='field-value'>{{ $toponym->location1926 }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.geotype')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.geotype')}}</span>: 
     <span class='field-value'>{{ optional($toponym->geotype)->name }}</span></p>
 
     <p><span class='field-name'>{{trans('toponym.caseform')}}</span>: 
     <span class='field-value'>{{ $toponym->caseform }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.ethnos_territory')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.ethnos_territory')}}</span>: 
     <span class='field-value'>{{ optional($toponym->ethnosTerritory)->name }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.etymology_nation')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.etymology_nation')}}</span>: 
     <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
 
     <p><span class='field-name'>{{trans('toponym.etymology')}}</span>: 
     <span class='field-value'>{{ $toponym->etymology }}</span></p>
 
     <hr>{{-- Structure of toponym word --}}
-    <p><span class='field-name'>{{trans('aux.struct')}}</span></p>
+    <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
     <ol>
     @foreach ($toponym->structs as $struct)
     <li>

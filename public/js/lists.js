@@ -112,7 +112,7 @@ function selectSettlement1926(region_var, district_var, selsovet_var, placeholde
     });   
 }
 
-function selectStruct(structhier_var, placeholder='', allow_clear=true, selector='.select-struct', form='', route='/aux/structs/list'){
+function selectStruct(structhier_var, placeholder='', allow_clear=true, selector='.select-struct', form='', route='/misc/structs/list'){
     $(selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Aux;
+namespace App\Models\Misc;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Dict\Toponym;
-use App\Models\Aux\Structhier;
+use App\Models\Misc\Structhier;
 
 class Struct extends Model
 {

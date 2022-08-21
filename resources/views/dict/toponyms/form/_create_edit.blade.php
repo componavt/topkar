@@ -43,7 +43,7 @@
                 ['name' => 'geotype_id', 
                  'values' => $geotype_values,
                  'value' => optional($toponym)->geotypeValue(),
-                 'title' => trans('aux.geotype'),
+                 'title' => trans('misc.geotype'),
                  'is_multiple' => false,
                  'call_add_onClick' => "addGeotype()",
                  'class'=>'select-geotype form-control'
@@ -101,7 +101,7 @@
                 ['name' => 'etymology_nation_id', 
                  'values' => $etymology_nation_values,
                  'value' => optional($toponym)->etymologyNationValue(),
-                 'title' => trans('aux.etymology_nation'),
+                 'title' => trans('misc.etymology_nation'),
                  'is_multiple' => false,
                  'class'=>'select-etymology-nation form-control'
         ])
@@ -109,7 +109,7 @@
                 ['name' => 'ethnos_territory_id', 
                  'values' => $ethnos_territory_values,
                  'value' => optional($toponym)->ethnosTerritoryValue(),
-                 'title' => trans('aux.ethnos_territory'),
+                 'title' => trans('misc.ethnos_territory'),
                  'is_multiple' => false,
                  'class'=>'select-ethnos-territory form-control'
         ])
@@ -119,7 +119,7 @@
                  'title'=>trans('toponym.etymology')])
     </div>
     <div class="col-sm-6">
-        <p><b>{{trans('aux.struct')}}</b></p>
+        <p><b>{{trans('misc.struct')}}</b></p>
         @for ($i=0; $i < sizeof($structs); $i++)
         <div class='row'>
             <div class="col-sm-6">
@@ -128,7 +128,7 @@
                      'values' => $structhier_values,
                      'value' => $structhiers[$i],
                      'grouped' => true,
-                     'attributes'=>['placeholder'=>trans('aux.structhier')]
+                     'attributes'=>['placeholder'=>trans('misc.structhier')]
             ]) 
             </div>
             <div class="col-sm-6">

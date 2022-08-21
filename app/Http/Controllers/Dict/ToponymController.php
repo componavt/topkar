@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Redirect;
 
-use App\Models\Aux\Geotype;
-use App\Models\Aux\EthnosTerritory;
-use App\Models\Aux\EtymologyNation;
-use App\Models\Aux\Struct;
-use App\Models\Aux\Structhier;
+use App\Models\Misc\Geotype;
+use App\Models\Misc\EthnosTerritory;
+use App\Models\Misc\EtymologyNation;
+use App\Models\Misc\Struct;
+use App\Models\Misc\Structhier;
 
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;

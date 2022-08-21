@@ -2,8 +2,8 @@
 
 //use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\Aux\GeotypeController;
-use App\Http\Controllers\Aux\StructController;
+use App\Http\Controllers\Misc\GeotypeController;
+use App\Http\Controllers\Misc\StructController;
 
 use App\Http\Controllers\Dict\DistrictController;
 use App\Http\Controllers\Dict\District1926Controller;
@@ -31,7 +31,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
         return view('welcome'); // return view('dashboard');
     });
 
-    Route::get('/aux/structs/list', [StructController::class, 'list']);
+    Route::get('/misc/structs/list', [StructController::class, 'list']);
     
     Route::get('/dict/districts/list', [DistrictController::class, 'list']);
     Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
@@ -62,7 +62,7 @@ Route::resources([
     'dict/settlements1926' => Settlement1926Controller::class,
     'dict/toponyms' => ToponymController::class,
     
-    'aux/geotypes' => GeotypeController::class,
+    'misc/geotypes' => GeotypeController::class,
 ]);
 
 

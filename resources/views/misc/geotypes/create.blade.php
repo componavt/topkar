@@ -1,6 +1,6 @@
 <x-app-layout>   
     <x-slot name="header">
-        {{trans('navigation.geotypes')}} / {{__('messages.new_m')}} {{mb_strtolower(__('aux.geotype'))}}
+        {{trans('navigation.geotypes')}} / {{__('messages.new_m')}} {{mb_strtolower(__('misc.geotype'))}}
     </x-slot>
     
     <div class='top-links'>        
@@ -13,7 +13,7 @@
     </div>
         
     {!! Form::open(['method'=>'POST', 'route' => ['geotypes.store'], 'id'=>'geotypeForm']) !!}
-    @include('aux.geotypes._form_create_edit')
+    @include('misc.geotypes._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
 </x-app-layout>

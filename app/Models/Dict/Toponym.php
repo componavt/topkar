@@ -5,10 +5,10 @@ namespace App\Models\Dict;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Dict\Settlement1926;
-use App\Models\Aux\Geotype;
-use App\Models\Aux\EtymologyNation;
-use App\Models\Aux\EthnosTerritory;
-use App\Models\Aux\Struct;
+use App\Models\Misc\Geotype;
+use App\Models\Misc\EtymologyNation;
+use App\Models\Misc\EthnosTerritory;
+use App\Models\Misc\Struct;
 
 class Toponym extends Model
 {

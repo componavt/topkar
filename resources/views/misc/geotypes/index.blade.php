@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="search_form">
-        @include("aux.geotypes._form_search")
+        @include("misc.geotypes._form_search")
         @include('widgets.found_records', ['n_records'=>$n_records])
     </x-slot>
     

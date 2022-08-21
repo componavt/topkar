@@ -20,20 +20,20 @@
     <p><span class='field-name'>{{trans('toponym.name')}}</span>: 
     <span class='field-value'>{{ $geotype->name_ru }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.short_name')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.short_name')}}</span>: 
     <span class='field-value'>{{ $geotype->short_ru }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.desc')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.desc')}}</span>: 
     <span class='field-value'>{{ $geotype->desc_ru }}</span></p>
 
     <h3>{{mb_ucfirst(trans('messages.in_english'))}}</h3>
     <p><span class='field-name'>{{trans('toponym.name')}}</span>: 
     <span class='field-value'>{{ $geotype->name_en }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.short_name')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.short_name')}}</span>: 
     <span class='field-value'>{{ $geotype->short_en }}</span></p>
 
-    <p><span class='field-name'>{{trans('aux.desc')}}</span>: 
+    <p><span class='field-name'>{{trans('misc.desc')}}</span>: 
     <span class='field-value'>{{ $geotype->desc_en }}</span></p>
     
     <x-slot name="footScriptExtra">

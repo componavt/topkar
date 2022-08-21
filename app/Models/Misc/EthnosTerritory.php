@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Aux;
+namespace App\Models\Misc;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EtymologyNation extends Model
+class EthnosTerritory extends Model
 {
     use HasFactory;
     use \App\Traits\Methods\getNameAttribute;
