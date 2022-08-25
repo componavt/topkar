@@ -40,6 +40,12 @@
     <p><span class='field-name'>{{trans('toponym.main_info')}}</span>: 
     <span class='field-value'>{{ $toponym->main_info }}</span></p>
 
+    <p><span class='field-name'>{{trans('toponym.folk')}}</span>: 
+    <span class='field-value'>{{ $toponym->folk }}</span></p>
+
+    <p><span class='field-name'>{{trans('toponym.legend')}}</span>: 
+    <span class='field-value'>{{ $toponym->legend }}</span></p>
+
     <hr>{{-- Structure of toponym word --}}
     <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
     <ol>

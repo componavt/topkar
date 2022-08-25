@@ -15,7 +15,7 @@ class Toponym extends Model
     use HasFactory;
     protected $fillable = ['name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
                            'geotype_id', 'etymology', 'etymology_nation_id', 'ethnos_territory_id', 
-                           'caseform', 'main_info'];
+                           'caseform', 'main_info', 'folk', 'legend'];
     public $timestamps = false;
     const SortList=['name', 'id'
 //        2 => 'created_at'

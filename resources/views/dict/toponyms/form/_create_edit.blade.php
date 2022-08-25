@@ -96,6 +96,23 @@
 
 <div class="row"><!-- Second row-->
     <div class="col-sm-6">
+        <!-- Main information -->
+        @include('widgets.form.formitem._textarea', 
+                ['name' => 'main_info', 
+                 'attributes' => ['rows' => 3],
+                 'title'=>trans('toponym.main_info')])
+        <!-- Popular interpretation -->
+        @include('widgets.form.formitem._textarea', 
+                ['name' => 'folk', 
+                 'attributes' => ['rows' => 3],
+                 'title'=>trans('toponym.folk')])
+        <!-- Legend -->
+        @include('widgets.form.formitem._textarea', 
+                ['name' => 'legend', 
+                 'attributes' => ['rows' => 3],
+                 'title'=>trans('toponym.legend')])
+    </div>
+    <div class="col-sm-6">
         <!-- Etymology nation -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'etymology_nation_id', 
@@ -117,13 +134,6 @@
                 ['name' => 'etymology', 
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.etymology')])
-        <!-- Main information -->
-        @include('widgets.form.formitem._textarea', 
-                ['name' => 'main_info', 
-                 'attributes' => ['rows' => 3],
-                 'title'=>trans('toponym.main_info')])
-    </div>
-    <div class="col-sm-6">
         <p><b>{{trans('misc.struct')}}</b></p>
         @for ($i=0; $i < sizeof($structs); $i++)
         <div class='row'>
