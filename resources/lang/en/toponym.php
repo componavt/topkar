@@ -37,6 +37,7 @@ return [
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
     
+    'main_info' => 'Main information',
     'name' => 'Name',
     
     'region' => 'Region',

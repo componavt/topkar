@@ -117,6 +117,11 @@
                 ['name' => 'etymology', 
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.etymology')])
+        <!-- Main information -->
+        @include('widgets.form.formitem._textarea', 
+                ['name' => 'main_info', 
+                 'attributes' => ['rows' => 3],
+                 'title'=>trans('toponym.main_info')])
     </div>
     <div class="col-sm-6">
         <p><b>{{trans('misc.struct')}}</b></p>

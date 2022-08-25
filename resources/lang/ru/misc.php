@@ -24,7 +24,7 @@ return [
     'geotype' => 'Вид объекта',
     'geotype_removed' => 'Вид объекта ":name" удален.',
     
-    'short_name' => 'Короткое название',
+    'short_name' => 'Сокращение',
     'struct' => 'Структура',
     'structhier' => 'Тип структуры',
 

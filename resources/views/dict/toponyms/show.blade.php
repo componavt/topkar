@@ -37,6 +37,9 @@
     <p><span class='field-name'>{{trans('toponym.etymology')}}</span>: 
     <span class='field-value'>{{ $toponym->etymology }}</span></p>
 
+    <p><span class='field-name'>{{trans('toponym.main_info')}}</span>: 
+    <span class='field-value'>{{ $toponym->main_info }}</span></p>
+
     <hr>{{-- Structure of toponym word --}}
     <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
     <ol>

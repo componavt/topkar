@@ -111,7 +111,8 @@ class ToponymController extends Controller
             'name'  => 'required|max:255'
             ]);
         $data = $request->only('name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
-                    'geotype_id', 'etymology', 'etymology_nation_id', 'ethnos_territory_id', 'caseform');
+                    'geotype_id', 'etymology', 'etymology_nation_id', 
+                    'ethnos_territory_id', 'caseform', 'main_info');
         return $data;
     }
     
