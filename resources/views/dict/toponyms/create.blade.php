@@ -22,7 +22,8 @@
     @include('dict.toponyms.form._create_edit', 
                 ['submit_title' => trans('messages.create'),
                  'action' => 'create',
-                 'toponym' => NULL])
+                 'toponym' => NULL,
+                 'topnames' => [] ])
     {!! Form::close() !!}
     
     <x-slot name="footScriptExtra">

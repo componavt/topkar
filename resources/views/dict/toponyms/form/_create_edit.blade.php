@@ -5,7 +5,17 @@
         @include('widgets.form.formitem._text', 
                 ['name' => 'name', 
                  'title'=>trans('toponym.name')])
-        
+
+        <div class="form-group ">
+            <label for="name">
+                {{trans('toponym.topnames')}}
+                <i onclick="addTopName()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
+            </label>
+            @foreach($topnames as $topname)
+            <input class="form-control" name="topnames[{{$topname->id}}]" type="text" value="{{$topname->name}}">
+            @endforeach
+            <div id='new-topnames'></div>
+        </div>        
         <!-- Region -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'region_id', 

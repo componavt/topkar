@@ -19,10 +19,15 @@
     
     @include('dict.toponyms.modals_for_edition', ['selsovet'=>null, 'settlement'=>null])
     
-    {!! Form::model($toponym, array('method'=>'PUT', 'route' => ['toponyms.update', $toponym->id], 'id'=>'toponymForm')) !!}
+    {!! Form::model($toponym, [
+                    'method'=>'PUT', 
+                    'route' => ['toponyms.update', $toponym->id], 
+                    'id'=>'toponymForm'
+    ]) !!}
     @include('dict.toponyms.form._create_edit', 
                 ['submit_title' => trans('messages.save'),
-                 'action' => 'edit'])
+                 'action' => 'edit',
+                 'topnames' => $toponym->topnames()->count() ? $toponym->topnames : []])
         {!! Form::close() !!}
     
     <x-slot name="footScriptExtra">

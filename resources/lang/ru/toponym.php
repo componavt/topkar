@@ -57,6 +57,7 @@ return [
     'Settlements_in_1926_year' => 'Поселения по состоянию на 1926 год',
     'short_name' => 'сокращенное название',
     
+    'topnames' => 'Другие названия',
     'toponym' => 'Топоним',        
     'toponym_removed' => 'Топоним ":name" удален.',
 ];

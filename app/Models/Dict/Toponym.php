@@ -246,6 +246,41 @@ class Toponym extends Model
         return $this->settlement1926_id ? [$this->settlement1926_id] : '';
     }
     
+    public static function storeData(array $data, $request) {
+        $toponym = Toponym::create($data); 
+        $toponym->name_for_search = to_search_form($toponym->name);
+        $toponym->save(); 
+        
+        foreach ((array)$request->new_topname as $t_name) {
+            Topname::storeData($toponym->id, $t_name);
+        }
+        
+        return $toponym;
+    }
+    
+    public function updateData(array $data, $request) {
+        $this->fill($data);
+        $this->name_for_search = to_search_form($this->name);
+        $this->save();
+        foreach ((array)$request->topnames as $t_id => $t_name) {
+//dd($t_name);            
+            $topname = Topname::find($t_id);
+            if (!$t_name) {
+                $topname->delete();
+            } elseif ($t_name != $topname->name) {
+                $topname->updateData($t_name); 
+            }
+        }
+        
+        foreach ((array)$request->new_topname as $t_name) {
+            Topname::storeData($this->id, $t_name);
+        }
+        
+        $structs = array_filter((array)$request->structs, 'strlen');        
+        $this->structs()->sync($structs);
+        
+    }
+    
     /** Gets array of search parameters.
      * 
      * @param type $request
@@ -289,13 +324,11 @@ class Toponym extends Model
         $toponyms = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
+        $toponyms = self::searchByNames($toponyms, $url_args['search_toponym']);
         $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
         $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
         $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
         
-        if ($url_args['search_toponym']) {
-            $toponyms = $toponyms->where('name','LIKE',$url_args['search_toponym']);
-        }         
         if ($url_args['search_settlement']) {
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
         }        
@@ -317,6 +350,22 @@ class Toponym extends Model
 //dd($toponyms->toSql());                                
 //dd(to_sql($toponyms));
         return $toponyms;
+    }
+    
+    /** Search toponym by names. 
+     */
+    public static function searchByNames($toponyms, $search_toponym) {
+        if (!$search_toponym) {
+            return $toponyms;
+        }   
+        
+        return $toponyms->where(function ($q) use ($search_toponym){ 
+                            $q->where('name','LIKE',$search_toponym)
+                              ->orWhereIn('id', function ($q2) use ($search_toponym){
+                                  $q2->select('toponym_id')->from('topnames')
+                                     ->where('name','LIKE',$search_toponym);
+                              });
+                        });
     }
     
     /** Search toponym by region. 

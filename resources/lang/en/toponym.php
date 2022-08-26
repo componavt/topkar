@@ -57,6 +57,7 @@ return [
     'Settlements_in_1926_year' => 'Settlements in 1926',
     'short_name' => 'Short name',
     
+    'topnames' => 'Other names',
     'toponym' => 'Toponym',
     
     

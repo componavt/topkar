@@ -44,6 +44,7 @@ return [
     'in_pl' => 'in plural',
     'in_russian' => 'in Russian',
     'including' => 'including',
+    'insert_new_field' => 'Insert a new field',
     'invalid_id' => 'Invalid identifier',
     'name' => 'Name',
     'new_g' => 'New',

@@ -34,7 +34,12 @@
             @foreach( $toponyms as $r ) <?php //dd($r) ?>
             <tr>
                 <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
-                <td><a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a></td>
+                <td>
+                    <a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a>
+                    @if ($r->topnames()->count())
+                    ({{join(', ', $r->topnames()->pluck('name')->toArray())}})
+                    @endif
+                </td>
                 <td>{{ optional($r->geotype)->name }}</td>
                 <td>{{ $r->location }} / <br>
                     {{ $r->location1926 }}</td>

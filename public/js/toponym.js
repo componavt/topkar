@@ -184,3 +184,7 @@ function saveGeotype() {
     }); 
 }
 
+function addTopName() {
+    $('#new-topnames').append('<input class="form-control" name="new_topname[]" type="text" value="">');
+}
+
