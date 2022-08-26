@@ -4,7 +4,9 @@ namespace App\Models\Dict;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 use App\Models\Dict\Settlement1926;
+
 use App\Models\Misc\Geotype;
 use App\Models\Misc\EtymologyNation;
 use App\Models\Misc\EthnosTerritory;
@@ -13,10 +15,10 @@ use App\Models\Misc\Struct;
 class Toponym extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
-                           'geotype_id', 'etymology', 'etymology_nation_id', 'ethnos_territory_id', 
+    protected $fillable = ['name', 'name_for_search', 'district_id', 'SETTLEMENT', 
+                           'settlement1926_id', 'geotype_id', 'etymology', 
+                           'etymology_nation_id', 'ethnos_territory_id', 
                            'caseform', 'main_info', 'folk', 'legend'];
-    public $timestamps = false;
     const SortList=['name', 'id'
 //        2 => 'created_at'
     ];
@@ -80,6 +82,11 @@ class Toponym extends Model
         return $this->belongsToMany(Struct::class);
     }
     
+    public function topnames()
+    {
+        //                                       
+        return $this->hasMany(Topname::class);
+    }
     
     
     /**

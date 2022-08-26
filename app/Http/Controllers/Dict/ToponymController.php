@@ -113,6 +113,7 @@ class ToponymController extends Controller
         $data = $request->only('name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
                     'geotype_id', 'etymology', 'etymology_nation_id', 'legend',
                     'ethnos_territory_id', 'caseform', 'main_info', 'folk');
+        $data['name'] = to_right_form($data['name']);
         return $data;
     }
     
@@ -125,6 +126,8 @@ class ToponymController extends Controller
     public function store(Request $request)
     {
         $toponym = Toponym::create($this->validateRequest($request)); 
+        $toponym->name_for_search = to_search_form($toponym->name);
+        $toponym->save();
         
         return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        
@@ -195,6 +198,9 @@ class ToponymController extends Controller
     public function update(Request $request, Toponym $toponym)
     {
         $toponym->fill($this->validateRequest($request))->save();
+        $toponym->name_for_search = to_search_form($toponym->name);
+        $toponym->save();
+        
         $structs = array_filter((array)$request->structs, 'strlen');        
         $toponym->structs()->sync($structs);
         

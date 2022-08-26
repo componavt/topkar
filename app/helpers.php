@@ -108,3 +108,32 @@ if (! function_exists('mb_ucfirst')) {
         return mb_strtoupper($firstChar, $encoding) . $then;
     }
 }
+
+if (! function_exists('to_search_form')) {
+    function to_search_form($word) {
+        $word = str_replace('’','',$word);
+        if (preg_match("/^\-(.+)$/u", $word, $regs)) {
+            $word = $regs[1];
+        }
+        $word = mb_strtolower($word);
+        return $word;
+    }
+}
+
+if (! function_exists('remove_spaces')) {
+    function remove_spaces($word) {
+        $word = trim($word);
+        $word = preg_replace("/\s{2,}/", " ", $word);
+        return $word;
+    }
+}
+
+if (! function_exists('to_right_form')) {
+    function to_right_form($word) {
+        $word = trim($word);
+        $word = remove_spaces($word);
+        $word = preg_replace("/['´`΄]+/u", "’", $word);
+        return $word;
+    }
+}
+

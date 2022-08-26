@@ -2,6 +2,9 @@
 
 //use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\WelcomeController;
+
+use App\Http\Controllers\Library\ServiceController;
+
 use App\Http\Controllers\Misc\GeotypeController;
 use App\Http\Controllers\Misc\StructController;
 
@@ -31,6 +34,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
         return view('welcome'); // return view('dashboard');
     });
 
+    Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
+    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
     Route::get('/misc/structs/list', [StructController::class, 'list']);
     
     Route::get('/dict/districts/list', [DistrictController::class, 'list']);
