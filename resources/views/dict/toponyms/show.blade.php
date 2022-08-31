@@ -52,7 +52,8 @@
     <p>
         <span class='field-name'>{{trans('toponym.sources')}}</span>:
         @foreach ($toponym->sources as $source)
-        <br><span class='field-value'><i>{{ $source->mention }}</i> {{ $source->source }} 
+        <br>{{ $source->sequence_number }}. <span class='field-value'><i>{{ $source->mention }}</i> 
+            {!! preg_replace("/\n/", '<br>', $source->source) !!} 
         @endforeach
     </p>
 

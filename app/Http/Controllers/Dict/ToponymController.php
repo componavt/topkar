@@ -43,7 +43,7 @@ class ToponymController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;

@@ -58,7 +58,7 @@ print 'done.';
     }
     
     
-    // service/tmp_fill_services
+    // service/tmp_fill_sources
     public function tmp_fill_sources() {
         ini_set('max_execution_time', 7200);
         ini_set('memory_limit', '512M');
@@ -71,6 +71,9 @@ print 'done.';
                 ->orderBy('id')->get();
 //dd($toponyms);  
         foreach ($toponyms as $toponym) {
+            $last_source = Source::whereToponymId($toponym->id)->orderBy('sequence_number', 'desc')->first();
+            $sequence_number = 1 + ($last_source ? $last_source->sequence_number : 0);
+            
             foreach(preg_split("/\r\n/", $toponym->source) as $source) {
 /*                if (preg_match("/\(карта\)$/", trim($source))) {
                     $is_map = 1;
@@ -94,9 +97,10 @@ print 'done.';
                           ->count()) {
 //print "<p>".trim($source).'<br>'.$toponym->id.'|'.trim($regs[1]).'|'.$regs[2].'|'.$is_map.'</p>';                
                     Source::create([
-                        'toponym_id'=>$toponym->id,
-                        'mention'=>$mention, 
-                        'source'=>$source,
+                        'toponym_id' => $toponym->id,
+                        'mention' => $mention, 
+                        'source' => $source,
+                        'sequence_number' => $sequence_number++,
 //                        'is_map'=>$is_map
                     ]);
                 }

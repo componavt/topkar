@@ -121,6 +121,25 @@
                 ['name' => 'legend', 
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.legend')])
+        <!-- Sources -->                 
+        <b>{{trans('toponym.sources')}}</b>
+        <i onclick="addSource()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
+        <div class='row'>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+            <b>{{trans('toponym.mention')}}</b>
+            </div>
+            <div class="col-sm-6">
+            <b>{{trans('toponym.source')}}</b>
+            </div>            
+        </div>
+        @if ($action == 'edit') 
+            @foreach ($toponym->sources as $source)
+                @include('dict.sources._create_edit', ['num'=>$source->id, 'var_name'=>'sources'])
+            @endforeach
+        @endif
+        <input type='hidden' id='next-source-num' value='{{1 + (isset($source) ? $source->sequence_number : 0) }}'>
+        <div id='new-sources'></div>
     </div>
     <div class="col-sm-6">
         <!-- Etymology nation -->

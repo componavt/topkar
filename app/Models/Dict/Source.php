@@ -8,22 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Source extends Model
 {
     use HasFactory;
-    protected $fillable = ['toponym_id', 'mention', 'source'/*,'is_map'*/];
+    protected $fillable = ['toponym_id', 'mention', 'source', 'sequence_number'/*,'is_map'*/];
     public $timestamps = false;
     
-/*    public function updateData(string $source) {
-        $this->name = to_right_form($name);
-        $this->name_for_search = to_search_form($this->name);
+    public function updateData($data) {
+        if (!$data['source']) {
+            $this->delete();
+            return;
+        }
+        
+        $this->mention = $data['mention'];
+        $this->source = $data['source'];
+        $this->sequence_number = $data['sequence_number'];
         $this->save();
     }
     
-    public static function storeData(int $toponym_id, $name) {
-            $name = to_right_form($name);
-            if (!$name) {
-                return;
-            }
-            Topname::create(['toponym_id' => $toponym_id, 
-                             'name' => $name,
-                             'name_for_search' => to_search_form($name)]);         
-    }*/
+    public static function storeData(int $toponym_id, $data) {
+        if (!$data['source']) {
+            return;
+        }
+        Source::create(['toponym_id' => $toponym_id, 
+                        'mention' => $data['mention'],
+                        'source' => $data['source'],
+                        'sequence_number' => $data['sequence_number']]);         
+}
 }

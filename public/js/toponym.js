@@ -188,3 +188,18 @@ function addTopName() {
     $('#new-topnames').append('<input class="form-control" name="new_topname[]" type="text" value="">');
 }
 
+function addSource() {
+    var num = $('#next-source-num').val();
+    $.ajax({
+        url: '/dict/sources/create', 
+        data: {num: num},
+        type: 'GET',
+        success: function(html){       
+            $('#new-sources').append(html);
+            $('#next-source-num').val(1+num);
+        },
+        error: function () {
+           alert('ERROR');
+        }
+    }); 
+}

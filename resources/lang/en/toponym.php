@@ -42,6 +42,7 @@ return [
     'location'      => 'Region, district, settlement',
     
     'main_info' => 'Main information',
+    'mention' => 'Mention',
     'name' => 'Name',
     
     'official_name' => 'Oficial name',
@@ -60,6 +61,7 @@ return [
     'settlement1926_removed' => 'Settlement 1926 ":name" is removed successfully.',
     'Settlements_in_1926_year' => 'Settlements in 1926',
     'short_name' => 'Short name',
+    'source' => 'Source',
     'sources' => 'Sources',
     
     'topnames' => 'Other names',

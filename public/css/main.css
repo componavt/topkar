@@ -136,3 +136,7 @@ button.close {
 .dropdown-item {
     white-space: normal;
 }
+
+.compact-field {
+    padding: 5px;
+}

@@ -92,7 +92,8 @@ class Toponym extends Model
     public function sources()
     {
         //                                       
-        return $this->hasMany(Source::class);
+        return $this->hasMany(Source::class)
+                ->orderBy('sequence_number');
     }
         
     /**
@@ -261,6 +262,10 @@ class Toponym extends Model
             Topname::storeData($toponym->id, $t_name);
         }
         
+        foreach ((array)$request->new_sources as $i => $s_data) {
+            Source::storeData($toponym->id, $s_data);
+        }
+        
         return $toponym;
     }
     
@@ -280,6 +285,14 @@ class Toponym extends Model
         
         foreach ((array)$request->new_topname as $t_name) {
             Topname::storeData($this->id, $t_name);
+        }
+        
+        foreach ((array)$request->sources as $s_id => $s_data) {
+            Source::find($s_id)->updateData($s_data);
+        }
+        
+        foreach ((array)$request->new_sources as $i => $s_data) {
+            Source::storeData($this->id, $s_data);
         }
         
         $structs = array_filter((array)$request->structs, 'strlen');        
