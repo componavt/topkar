@@ -52,8 +52,7 @@
     <p>
         <span class='field-name'>{{trans('toponym.sources')}}</span>:
         @foreach ($toponym->sources as $source)
-        <br><span class='field-value'>{{ $source->mention }} [{{ $source->source }}] 
-            {{$is_map ? '('.trans('toponym.is_map').')' : ''}}</span>
+        <br><span class='field-value'><i>{{ $source->mention }}</i> {{ $source->source }} 
         @endforeach
     </p>
 

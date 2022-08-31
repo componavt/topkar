@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Source extends Model
 {
     use HasFactory;
-    protected $fillable = ['toponym_id', 'mention', 'source','is_map'];
+    protected $fillable = ['toponym_id', 'mention', 'source'/*,'is_map'*/];
     public $timestamps = false;
     
 /*    public function updateData(string $source) {
