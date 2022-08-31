@@ -35,6 +35,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     });
 
     Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
+    Route::get('/service/tmp_fill_services', [ServiceController::class, 'tmp_fill_services']);
     Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
     Route::get('/misc/structs/list', [StructController::class, 'list']);
     

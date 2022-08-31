@@ -49,6 +49,14 @@
     <p><span class='field-name'>{{trans('toponym.legend')}}</span>: 
     <span class='field-value'>{{ $toponym->legend }}</span></p>
 
+    <p>
+        <span class='field-name'>{{trans('toponym.sources')}}</span>:
+        @foreach ($toponym->sources as $source)
+        <br><span class='field-value'>{{ $source->mention }} [{{ $source->source }}] 
+            {{$is_map ? '('.trans('toponym.is_map').')' : ''}}</span>
+        @endforeach
+    </p>
+
     <hr>{{-- Structure of toponym word --}}
     <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
     <ol>

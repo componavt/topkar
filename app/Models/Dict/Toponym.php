@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Dict\Settlement1926;
+use App\Models\Dict\Source;
 
 use App\Models\Misc\Geotype;
 use App\Models\Misc\EtymologyNation;
@@ -88,7 +89,12 @@ class Toponym extends Model
         return $this->hasMany(Topname::class);
     }
     
-    
+    public function sources()
+    {
+        //                                       
+        return $this->hasMany(Source::class);
+    }
+        
     /**
      * Get 'Region, district, SETTLEMENT (String)' concatenated by comma.
      */

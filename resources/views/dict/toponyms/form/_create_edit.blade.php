@@ -4,7 +4,7 @@
     <div class="col-sm-6">
         @include('widgets.form.formitem._text', 
                 ['name' => 'name', 
-                 'title'=>trans('toponym.name')])
+                 'title'=>trans('toponym.official_name')])
 
         <div class="form-group ">
             <label for="name">
