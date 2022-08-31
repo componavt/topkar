@@ -17,7 +17,7 @@ class CreateSourcesTable extends Migration
             $table->increments('id');
             $table->integer('toponym_id')->unsigned();
             $table->string('mention', 128)->collation('utf8_bin')->nullable();
-            $table->string('source', 256)->collation('utf8_bin');
+            $table->string('source', 4096)->collation('utf8_bin');
             $table->smallInteger('sequence_number')->default(1);
 //            $table->tinyInteger('is_map')->default(0);
             //$table->timestamps();
