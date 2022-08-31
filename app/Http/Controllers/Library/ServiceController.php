@@ -59,7 +59,7 @@ print 'done.';
     
     
     // service/tmp_fill_services
-    public function tmp_fill_services() {
+    public function tmp_fill_sources() {
         ini_set('max_execution_time', 7200);
         ini_set('memory_limit', '512M');
         
