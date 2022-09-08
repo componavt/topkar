@@ -177,9 +177,8 @@ class Settlement extends Model
         }
         return $places->where(function($q) use ($place_name){
                             $q->where('name_ru','like', $place_name)
-                              ->orWhere('name_old_ru','like', $place_name)            
                               ->orWhere('name_krl','like', $place_name)            
-                              ->orWhere('name_old_krl','like', $place_name);           
+                              ->orWhere('name_en','like', $place_name);           
                 });
     }
     
