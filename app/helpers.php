@@ -140,7 +140,9 @@ if (! function_exists('to_right_form')) {
 if (! function_exists('array_remove_null')) {
     function array_remove_null($arr)
     {
-        return array_filter($arr, fn($value)=>!is_null($value) && $value !== '');            
+//        return array_filter($arr, fn($value)=>!is_null($value) && $value !== '');            
+        return array_filter($arr, function ($value) { 
+            return !is_null($value) && $value !== '';
     }
 }
 
