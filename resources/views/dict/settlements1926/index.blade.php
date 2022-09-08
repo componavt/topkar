@@ -74,7 +74,7 @@
     <x-slot name="jqueryFunc">
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-        selectDistrict1926('search_regions', '{{trans('toponym.district1926')}}', false);
-        selectSelsovet1926('search_regions', 'search_districts1926', '{{trans('toponym.selsovet1926')}}', false);
+        selectDistrict1926('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district1926')}}', false);
+        selectSelsovet1926('search_regions', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
     </x-slot>    
 </x-app-layout>

@@ -31,5 +31,5 @@ class Source extends Model
                         'mention' => $data['mention'],
                         'source' => $data['source'],
                         'sequence_number' => $data['sequence_number']]);         
-}
+    }
 }

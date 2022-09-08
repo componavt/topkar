@@ -94,6 +94,53 @@ function saveSelsovet1926() {
     }); 
 }
 
+function addSettlement() {
+    $("#modalAddSettlement #region_id").val($("#toponymForm #region_id").val());
+    $("#modalAddSettlement #district_id").val($("#toponymForm #district_id").val());
+    $("#modalAddSettlement").modal('show');
+    
+    $("#modalAddSettlement .close, #modalAddSettlement .cancel").click(function () {
+        $("#modalAddSettlement").modal('hide');
+    });
+}
+
+function saveSettlement() {
+    var name_ru = $( "#modalAddSettlement #name_ru" ).val();
+    var name_en = $( "#modalAddSettlement #name_en" ).val();
+    var name_krl = $( "#modalAddSettlement #name_krl" ).val();
+    var district_id = $( "#modalAddSettlement #district_id" ).val();
+    var route = '/dict/settlements/store';
+    var test_url = '?name_ru='+name_ru+'&name_en='+name_en+'&name_krl='+name_krl;
+    var locale = $("#locale").val();
+
+    $.ajax({
+        url: route, 
+        data: {name_ru: name_ru, 
+               name_en: name_en,
+               name_krl: name_krl,
+               district_id: district_id,
+               locale: locale
+              },
+        type: 'GET',
+        success: function(settlement){       
+            if (settlement) {
+                var opt = new Option(settlement['name'], settlement['id']);
+                $("#toponymForm #settlement_id").append(opt);
+                opt.setAttribute('selected','selected')
+                var opt2 = new Option(settlement['district_name'], settlement['district_id']);
+                $("#toponymForm #district_id").append(opt2);
+                opt2.setAttribute('selected','selected')
+            }
+            $("#modalAddSettlement").modal('hide');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var text = 'Ajax Request Error: ' + 'XMLHTTPRequestObject status: ('+jqXHR.status + ', ' + jqXHR.statusText+'), ' + 
+               	       'text status: ('+textStatus+'), error thrown: ('+errorThrown+'), route: ' + route + test_url;
+            alert(text);
+        }
+    }); 
+}
+
 function addSettlement1926() {
     $("#modalAddSettlement1926 #region1926_id").val($("#toponymForm #region1926_id").val());
     $("#modalAddSettlement1926 #district1926_id").val($("#toponymForm #district1926_id").val());
@@ -112,12 +159,14 @@ function saveSettlement1926() {
     var name_krl = $( "#modalAddSettlement1926 #name_krl" ).val();
     var route = '/dict/settlements1926/store';
     var test_url = '?name_ru='+name_ru+'&name_en='+name_en+'&name_krl='+name_krl+'&selsovet_id='+selsovet_id;
+    var locale = $("#locale").val();
 
     $.ajax({
         url: route, 
         data: {name_ru: name_ru, 
                name_en: name_en,
                selsovet_id: selsovet_id,
+               locale: locale
               },
         type: 'GET',
         success: function(settlement){       

@@ -6,18 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Redirect;
 
-use App\Models\Misc\Geotype;
-use App\Models\Misc\EthnosTerritory;
-use App\Models\Misc\EtymologyNation;
-use App\Models\Misc\Struct;
-use App\Models\Misc\Structhier;
-
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;
 use App\Models\Dict\Region;
 use App\Models\Dict\Selsovet1926;
+use App\Models\Dict\Settlement;
 use App\Models\Dict\Settlement1926;
 use App\Models\Dict\Toponym;
+
+use App\Models\Misc\Geotype;
+use App\Models\Misc\EthnosTerritory;
+use App\Models\Misc\EtymologyNation;
+use App\Models\Misc\Informant;
+use App\Models\Misc\Recorder;
+use App\Models\Misc\Struct;
+use App\Models\Misc\Structhier;
 
 class ToponymController extends Controller
 {
@@ -57,8 +60,11 @@ class ToponymController extends Controller
         $ethnos_territory_values = EthnosTerritory::getList();
         $etymology_nation_values = EtymologyNation::getList();
         $geotype_values = Geotype::getList();
+        $informant_values = Informant::getList();
+        $recorder_values = Recorder::getList();
         $region_values = Region::getList();
         $selsovet1926_values = Selsovet1926::getList();
+        $settlement_values = Settlement::getList();
         $settlement1926_values = Settlement1926::getList();
         $sort_values = Toponym::sortList();
         $struct_values = Struct::getList();
@@ -66,9 +72,11 @@ class ToponymController extends Controller
 
         return view('dict.toponyms.index', 
                 compact('district_values', 'district1926_values', 
-                        'ethnos_territory_values', 'etymology_nation_values', 'geotype_values', 
-                        'region_values', 'selsovet1926_values', 'settlement1926_values', 
-                        'sort_values', 'struct_values', 'structhier_values', 'toponyms', 
+                        'ethnos_territory_values', 'etymology_nation_values', 
+                        'geotype_values', 'informant_values', 'recorder_values',
+                        'region_values', 'selsovet1926_values', 
+                        'settlement_values', 'settlement1926_values', 'sort_values', 
+                        'struct_values', 'structhier_values', 'toponyms', 
                         'n_records', 'args_by_get', 'url_args' ));
     }
 
@@ -87,8 +95,11 @@ class ToponymController extends Controller
         $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
         $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
         $geotype_values = [''=>NULL] + Geotype::getList();
+        $informant_values = Informant::getList();
+        $recorder_values = Recorder::getList();
         $region_values = [''=>NULL] + Region::getList();
         $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+        $settlement_values = [''=>NULL] + Settlement::getList();
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
@@ -101,7 +112,8 @@ class ToponymController extends Controller
         return view('dict.toponyms.create', 
                 compact('district_values', 'district1926_values', 
                         'ethnos_territory_values', 'etymology_nation_values', 
-                        'geotype_values', 'region_values', 'selsovet1926_values', 
+                        'geotype_values',  'informant_values', 'recorder_values',
+                        'region_values', 'selsovet1926_values', 'settlement_values', 
                         'settlement1926_values', 'structs', 'structhiers', 
                         'struct_values', 'structhier_values', 'args_by_get', 'url_args'));
     }
@@ -160,11 +172,14 @@ class ToponymController extends Controller
         $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
         $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
         $geotype_values = [''=>NULL] + Geotype::getList();
+        $informant_values = Informant::getList();
+        $recorder_values = Recorder::getList();
         
         $region_values = [''=>NULL] + Region::getList();
         $district_values = [''=>NULL] + District::getList();
         $district1926_values = [''=>NULL] + District1926::getList();
         $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+        $settlement_values = [''=>NULL] + Settlement::getList();
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
@@ -181,7 +196,8 @@ class ToponymController extends Controller
         return view('dict.toponyms.edit', 
                 compact('district_values', 'district1926_values', 
                         'ethnos_territory_values', 'etymology_nation_values', 
-                        'geotype_values', 'region_values', 'selsovet1926_values', 
+                        'geotype_values',  'informant_values', 'recorder_values', 
+                        'region_values', 'selsovet1926_values', 'settlement_values', 
                         'settlement1926_values', 'structs', 'structhiers', 
                         'struct_values', 'structhier_values', 'toponym', 'args_by_get', 'url_args'));
     }
@@ -195,6 +211,7 @@ class ToponymController extends Controller
      */
     public function update(Request $request, Toponym $toponym)
     {
+//dd($request->events);        
         $toponym->updateData($this->validateRequest($request), $request);
         
         return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))
@@ -217,8 +234,7 @@ class ToponymController extends Controller
                 $obj = Toponym::find($id);
                 if($obj){
                     $obj_name = $obj->name;
-                    $obj->structs()->detach();
-                    $obj->delete();
+                    $obj->remove();
                     $result['message'] = \Lang::get('toponym.toponym_removed', ['name'=>$obj_name]);
                 }
                 else{

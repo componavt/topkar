@@ -5,9 +5,6 @@
 
 use App\Http\Controllers\Library\ServiceController;
 
-use App\Http\Controllers\Misc\GeotypeController;
-use App\Http\Controllers\Misc\StructController;
-
 use App\Http\Controllers\Dict\DistrictController;
 use App\Http\Controllers\Dict\District1926Controller;
 use App\Http\Controllers\Dict\RegionController;
@@ -16,6 +13,11 @@ use App\Http\Controllers\Dict\SettlementController;
 use App\Http\Controllers\Dict\Settlement1926Controller;
 use App\Http\Controllers\Dict\SourceController;
 use App\Http\Controllers\Dict\ToponymController;
+
+use App\Http\Controllers\Misc\GeotypeController;
+use App\Http\Controllers\Misc\InformantController;
+use App\Http\Controllers\Misc\RecorderController;
+use App\Http\Controllers\Misc\StructController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,14 +32,19 @@ use App\Http\Controllers\Dict\ToponymController;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 {
-    /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
+    /** ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
     Route::get('/', function () {
         return view('welcome'); // return view('dashboard');
     });
 
-    Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
-    Route::get('/service/tmp_fill_sources', [ServiceController::class, 'tmp_fill_sources']);
-    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
+//    Route::get('/service/tmp_fill_events', [ServiceController::class, 'tmp_fill_events']);
+//    Route::get('/service/tmp_fill_settlements', [ServiceController::class, 'tmp_fill_settlements']);
+//    Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
+//    Route::get('/service/tmp_fill_sources', [ServiceController::class, 'tmp_fill_sources']);
+//    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
+
+    Route::get('/misc/informants/list', [InformantController::class, 'list']);
+    Route::get('/misc/recorders/list', [RecorderController::class, 'list']);
     Route::get('/misc/structs/list', [StructController::class, 'list']);
     
     Route::get('/dict/districts/list', [DistrictController::class, 'list']);
@@ -47,6 +54,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/geotypes/store', [GeotypeController::class, 'simpleStore']);
     Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'list']);
     Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
+    Route::get('/dict/settlements/list', [SettlementController::class, 'list']);    
+    Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     Route::get('/dict/sources/create', [SourceController::class, 'create']);
@@ -67,10 +76,13 @@ Route::resources([
     'dict/districts1926' => District1926Controller::class,
     'dict/regions' => RegionController::class,
     'dict/selsovets1926' => Selsovet1926Controller::class,
+    'dict/settlements' => SettlementController::class,
     'dict/settlements1926' => Settlement1926Controller::class,
     'dict/toponyms' => ToponymController::class,
     
     'misc/geotypes' => GeotypeController::class,
+    'misc/informants' => InformantController::class,
+    'misc/recorders' => RecorderController::class,
 ]);
 
 

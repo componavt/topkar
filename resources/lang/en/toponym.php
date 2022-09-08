@@ -16,6 +16,7 @@ return [
     'add_district' => 'Add a district',
     'add_district1926' => 'Add a district 1926',
     'add_selsovet1926' => 'Add a selsovet 1926',
+    'add_settlement' => 'Add a settlement',
     'add_settlement1926' => 'Add a settlement 1926',
     
 //    'by_created_at' => 'by creation date',
@@ -57,7 +58,10 @@ return [
     'Selsovets_in_1926_year' => 'Selsovets in 1926',
     
     'settlement' => 'Settlement',
+    'settlement_can_not_be_removed' => 'Settlement ":name" can not be removed.',
+    'settlement_removed' => 'Settlement ":name" is removed successfully.',
     'settlement1926' => 'Settlement 1926',
+    'settlement1926_can_not_be_removed' => 'Settlement 1926 ":name" can not be removed.',
     'settlement1926_removed' => 'Settlement 1926 ":name" is removed successfully.',
     'Settlements_in_1926_year' => 'Settlements in 1926',
     'short_name' => 'Short name',

@@ -15,14 +15,22 @@ return [
     
     'add_geotype' => 'Добавить вид объекта',
     
+    'birth_date' => 'год рождения',
     'desc' => 'Описание',
     
-    'ethnos_territory' => 'Территория расселения',
-    
+    'ethnos_territory' => 'Территория расселения',    
     'etymology_nation' => 'Национальный признак этимологии',
+    'events' => 'События записи',
     
     'geotype' => 'Вид объекта',
     'geotype_removed' => 'Вид объекта ":name" удален.',
+    
+    'informant_removed' => 'Информант ":name" удален.',
+    
+    'record_place' => 'Место записи',
+    'recorded_by' => 'записал(и)',
+    'recorder' => 'собиратель',
+    'recorder_removed' => 'Собиратель ":name" удален.',
     
     'short_name' => 'Сокращение',
     'struct' => 'Структура',

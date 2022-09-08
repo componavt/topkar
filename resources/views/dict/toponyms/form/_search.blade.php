@@ -57,11 +57,13 @@
     </div>
         
     <div class="col-md-3">
-        @include('widgets.form.formitem._text', 
-                ['name' => 'search_settlement',                  
-                 'value' => $url_args['search_settlement'],
-                 'attributes' => ['placeholder' => trans('toponym.settlement')],
-                ])                               
+        <!-- Settlement1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_settlements', 
+                 'values' => $settlement_values,
+                 'value' => $url_args['search_settlements'],
+                 'class'=>'select-settlement form-control'
+        ]) 
     </div>    
 </div>    
 <div class="row">
@@ -118,6 +120,22 @@
                  'values' => $struct_values,
                  'value' => $url_args['search_structs'],
                  'class'=>'select-struct form-control'
+        ]) 
+    </div>
+    <div class="col-md-3">
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_informants', 
+                 'values' => $informant_values,
+                 'value' => $url_args['search_informants'],
+                 'class'=>'select-informant form-control'
+        ]) 
+    </div>
+    <div class="col-md-3">
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_recorders', 
+                 'values' => $recorder_values,
+                 'value' => $url_args['search_recorders'],
+                 'class'=>'select-recorder form-control'
         ]) 
     </div>
 </div>    

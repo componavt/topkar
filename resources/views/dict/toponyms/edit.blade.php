@@ -36,6 +36,6 @@
         {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-        @include('dict.toponyms._jquery_func_for_create_edit')
+        @include('dict.toponyms._jquery_func_for_create_edit', ['action' => 'edit'])
     </x-slot>
 </x-app-layout>

@@ -10,6 +10,12 @@
                       'submit_title' => trans('messages.save'),
                       'modal_view'=>'dict.districts._form_create_edit'])
 
+@include('widgets.modal',['name'=>'modalAddSettlement',
+                      'title'=>trans('toponym.add_settlement'),
+                      'submit_onClick' => 'saveSettlement()',
+                      'submit_title' => trans('messages.save'),
+                      'modal_view'=>'dict.settlements._form_create_edit'])
+                      
 @include('widgets.modal',['name'=>'modalAddDistrict1926',
                       'title'=>trans('toponym.add_district1926'),
                       'submit_onClick' => 'saveDistrict(1926)',

@@ -208,8 +208,8 @@ class Selsovet1926Controller extends Controller
     {
         $locale = app()->getLocale();
         $selsovet_name = '%'.$request->input('q').'%';
-        $districts = (array)$request->input('districts');
-        $regions = (array)$request->input('regions');
+        $districts = array_remove_null($request->input('districts'));
+        $regions = array_remove_null($request->input('regions'));
 
         $list = [];
         $selsovets = Selsovet1926::where(function($q) use ($selsovet_name){

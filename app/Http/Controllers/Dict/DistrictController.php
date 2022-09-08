@@ -194,8 +194,8 @@ class DistrictController extends Controller
     {
         $locale = app()->getLocale();
         $district_name = '%'.$request->input('q').'%';
-        $regions = (array)$request->input('regions');
-//dd($region_id);
+        $regions = array_remove_null($request->input('regions'));
+//dd($regions);
         $list = [];
         $districts = District::where(function($q) use ($district_name){
                             $q->where('name_en','like', $district_name)

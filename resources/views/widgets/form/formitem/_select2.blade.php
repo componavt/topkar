@@ -24,7 +24,9 @@ if (!isset($is_multiple) || $is_multiple) {
 if (!isset($class)) {
     $class = 'multiple-select form-control';
 }
-$id_name = preg_replace("/[\.\]\[]/","_",$name);
+if (!isset($id_name)) {
+    $id_name = preg_replace("/[\.\]\[]/","_",$name);
+}
 ?>
 <div class="form-group {{ $errors->has($name) || $errors->has($name) ? 'has-error' : '' }}
         <?=isset($group_class)  ? ' '.$group_class : '';?>

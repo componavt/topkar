@@ -15,14 +15,22 @@ return [
 
     'add_geotype' => 'Add a geotype',
     
+    'birth_date' => 'Birth date',
     'desc' => 'Description',
     
-    'ethnos_territory' => 'Ethnos territory',
-    
+    'ethnos_territory' => 'Ethnos territory',    
     'etymology_nation' => 'Etymology nation',       
+    'events' => 'Events of recording',
     
     'geotype' => 'Geotype',
     'geotype_removed' => 'Geotype ":name" is removed successfully.',
+
+    'informant_removed' => 'Informant ":name" is removed successfully.',
+    
+    'record_place' => 'Place of recording',
+    'recorded_by' => 'recorded by',
+    'recorder' => 'recorder',
+    'recorder_removed' => 'Recorder ":name" is removed successfully.',
     
     'short_name' => 'Short name',
     'struct' => 'Structure',

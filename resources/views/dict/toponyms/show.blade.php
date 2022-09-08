@@ -53,7 +53,17 @@
         <span class='field-name'>{{trans('toponym.sources')}}</span>:
         @foreach ($toponym->sources as $source)
         <br>{{ $source->sequence_number }}. <span class='field-value'><i>{{ $source->mention }}</i> 
-            {!! preg_replace("/\n/", '<br>', $source->source) !!} 
+            {!! preg_replace("/\n/", '<br>', $source->source) !!}</span> 
+        @endforeach
+    </p>
+
+    <p> <?php $count=1;?>
+        <span class='field-name'>{{trans('misc.events')}}</span>:
+        @foreach ($toponym->events as $event)
+        <br>{{ $count++ }}. 
+            <span class='field-value'>
+                {{ $event->eventString() }}
+            </span> 
         @endforeach
     </p>
 
@@ -63,7 +73,7 @@
     @foreach ($toponym->structs as $struct)
     <li>
         <span class='field-value'>{{ optional($struct)->name }}</span> 
-        ({{ optional($struct->structhier->parent)->name }} {{ mb_strtolower(optional($struct->structhier)->name) }})
+        ({{ $struct && $struct->structhier ? $struct->structhier->parent->name. ' '. mb_strtolower($struct->structhier->name) : '' }})
     </li>
     @endforeach 
     </ol>

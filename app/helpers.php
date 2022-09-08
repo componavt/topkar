@@ -137,3 +137,16 @@ if (! function_exists('to_right_form')) {
     }
 }
 
+if (! function_exists('array_remove_null')) {
+    function array_remove_null($arr)
+    {
+        return array_filter($arr, fn($value)=>!is_null($value) && $value !== '');            
+    }
+}
+
+if (! function_exists('mb_ucfirst')) {
+    function mb_ucfirst($str) {
+        $fc = mb_strtoupper(mb_substr($str, 0, 1));
+        return $fc.mb_substr($str, 1);
+    }
+}

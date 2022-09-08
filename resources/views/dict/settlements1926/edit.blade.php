@@ -28,7 +28,7 @@
         {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-        selectDistrict1926('region1926_id', '', true, '.select-district1926');
-        selectSelsovet1926('region1926_id', 'district1926_id', '', true, '.select-selsovet1926');
+        selectDistrict1926('region1926_id', '{{app()->getLocale()}}', '', true, '.select-district1926');
+        selectSelsovet1926('region1926_id', 'district1926_id', '{{app()->getLocale()}}', '', true, '.select-selsovet1926');
     </x-slot>
 </x-app-layout>

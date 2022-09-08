@@ -38,10 +38,15 @@
         ]) 
         
         <!-- Settlement -->
-        @include('widgets.form.formitem._text', 
-                ['name' => 'SETTLEMENT',                  
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'settlement_id', 
+                 'values' => $settlement_values,
+                 'value' => optional($toponym)->settlementValue(),
                  'title' => trans('toponym.settlement'),
-                ])     
+                 'is_multiple' => false,
+                 'call_add_onClick' => "addSettlement()",
+                 'class'=>'select-settlement form-control'
+        ]) 
                 
         @include('widgets.form.formitem._text', 
                 ['name' => 'caseform', 
@@ -126,12 +131,8 @@
         <i onclick="addSource()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
         <div class='row'>
             <div class="col-sm-1"></div>
-            <div class="col-sm-5">
-            <b>{{trans('toponym.mention')}}</b>
-            </div>
-            <div class="col-sm-6">
-            <b>{{trans('toponym.source')}}</b>
-            </div>            
+            <div class="col-sm-5"><b>{{trans('toponym.mention')}}</b></div>
+            <div class="col-sm-6"><b>{{trans('toponym.source')}}</b></div>            
         </div>
         @if ($action == 'edit') 
             @foreach ($toponym->sources as $source)
@@ -188,5 +189,34 @@
         @endfor
     </div>
 </div><!-- eo Second row -->
+
+<!-- Events -->                
+<?php $count=1;?>
+<div class='row'>
+    <div class="col-sm-4"><b>{{trans('misc.record_place')}}</b></div>
+    <div class="col-sm-2"><b>{{mb_ucfirst(trans('messages.year'))}}</b></div>
+    <div class="col-sm-3"><b>{{trans('navigation.informants')}}</b></div>            
+    <div class="col-sm-3"><b>{{trans('navigation.recorders')}}</b></div>            
+</div>
+@if ($action == 'edit') 
+    @foreach ($toponym->events as $event)
+        @include('misc.events._create_edit', [
+            'num' => $count++,
+            'var_name'=>"events[".$event->id."]", 
+            'settlements_value' => $event->settlementsValue(),
+            'informants_value' => $event->informantsValue(),
+            'recorders_value' => $event->recordersValue(),
+        ])
+    @endforeach
+@endif
+
+@include('misc.events._create_edit', [
+            'num' => $count,
+            'var_name'=>"new_event",
+            'settlements_value' => [],
+            'informants_value' => [],
+            'recorders_value' => [],
+            'event' => null,
+])
 
 @include('widgets.form.formitem._submit', ['title' => $submit_title])

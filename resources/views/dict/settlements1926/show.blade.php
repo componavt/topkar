@@ -8,7 +8,7 @@
     <div class='top-links'>        
         <a href="{{ route('settlements1926.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
         @if (user_can_edit())
-            | @include('widgets.form.button._edit', ['route' => route('settlements1926.edit', $toponym)])
+            | @include('widgets.form.button._edit', ['route' => route('settlements1926.edit', $settlement)])
             | @include('widgets.form.button._delete', ['route' => 'settlements1926.destroy', 'args'=>['settlements1926' => $settlement->id]])             
             | <a href="{{ route('settlements1926.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_g')) }}</a>
         @else

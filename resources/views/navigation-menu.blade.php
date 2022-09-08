@@ -22,10 +22,13 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{{ route('regions.index') }}">{{ trans('navigation.regions') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('districts.index') }}">{{ trans('navigation.districts') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('settlements.index') }}">{{ trans('navigation.settlements') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('districts1926.index') }}">{{ trans('navigation.districts_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('selsovets1926.index') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('settlements1926.index') }}">{{ trans('navigation.settlements_1926') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('geotypes.index') }}">{{ trans('navigation.geotypes') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('informants.index') }}">{{ trans('navigation.informants') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('recorders.index') }}">{{ trans('navigation.recorders') }}</a></li>
                 </ul>
               </li>
               <li class="nav-item">

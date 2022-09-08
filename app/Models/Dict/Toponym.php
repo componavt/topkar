@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Dict\Settlement1926;
 use App\Models\Dict\Source;
 
+use App\Models\Misc\Event;
 use App\Models\Misc\Geotype;
 use App\Models\Misc\EtymologyNation;
 use App\Models\Misc\EthnosTerritory;
@@ -16,15 +17,27 @@ use App\Models\Misc\Struct;
 class Toponym extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'name_for_search', 'district_id', 'SETTLEMENT', 
+    protected $fillable = ['name', 'name_for_search', 'district_id',  
                            'settlement1926_id', 'geotype_id', 'etymology', 
                            'etymology_nation_id', 'ethnos_territory_id', 
                            'caseform', 'main_info', 'folk', 'legend'];
     const SortList=['name', 'id'
 //        2 => 'created_at'
     ];
-    //use \App\Traits\Methods\getNameAttribute;
+    //use \App\Traits\Methods\getNameAttribute;    
     
+    // Belongs To Many Relations
+    use \App\Traits\Relations\BelongsToMany\Settlements;
+    
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function settlementsToString() {
+        $locale = app()->getLocale();
+        return join(', ', $this->settlements()->pluck('name_'.$locale)->toArray());
+    }    
     
     /**
      * Get the settlement1926 which contains this toponym
@@ -75,6 +88,11 @@ class Toponym extends Model
         return $this->belongsTo(EthnosTerritory::class);
     }
     
+    public function informants()
+    {
+        return $this->hasManyThrough('Informant', 'Event', 'toponym_id', 'event_id');
+    }
+    
     /**
      * The structures that belong to the toponym. (many to many relation)
      */
@@ -103,7 +121,7 @@ class Toponym extends Model
     {
         return $this->getRegionNameAttribute().', '. 
                $this->getDistrictNameAttribute().', '. 
-               $this->getSettlementNameAttribute();
+               $this->settlementsToString();
     }
     
     public function getRegionNameAttribute()
@@ -248,6 +266,11 @@ class Toponym extends Model
         return $this->selsovet1926_id ? [$this->selsovet1926_id] : [];
     }
     
+    public function settlementValue()
+    {
+        return $this->settlements ? $this->settlements()->pluck('id')->toArray() : '';
+    }
+    
     public function settlement1926Value()
     {
         return $this->settlement1926_id ? [$this->settlement1926_id] : '';
@@ -266,6 +289,8 @@ class Toponym extends Model
             Source::storeData($toponym->id, $s_data);
         }
         
+        Event::storeData($toponym->id, $request->new_event);
+
         return $toponym;
     }
     
@@ -294,10 +319,27 @@ class Toponym extends Model
         foreach ((array)$request->new_sources as $i => $s_data) {
             Source::storeData($this->id, $s_data);
         }
+        foreach ((array)$request->events as $e_id => $e_data) {
+            $event = Event::find($e_id);
+            $event -> updateData($e_data);
+        }
+        
+        Event::storeData($this->id, $request->new_event);
         
         $structs = array_filter((array)$request->structs, 'strlen');        
-        $this->structs()->sync($structs);
-        
+        $this->structs()->sync($structs);        
+    }
+    
+    public function remove() {
+        $this->structs()->detach();
+        $this->settlements()->detach();
+        foreach ($this->sources as $source) {
+            $source->delete();
+        } 
+        foreach ($this->events as $event) {
+            $event->remove();
+        } 
+        $this->delete();
     }
     
     /** Gets array of search parameters.
@@ -313,10 +355,12 @@ class Toponym extends Model
                     'search_ethnos_territories'   => (array)$request->input('search_ethnos_territories'),
                     'search_etymology_nations'   => (array)$request->input('search_etymology_nations'),
                     'search_geotypes'    => (array)$request->input('search_geotypes'),
+                    'search_informants'    => (array)$request->input('search_informants'),
+                    'search_recorders'    => (array)$request->input('search_recorders'),
                     'search_regions'     => (array)$request->input('search_regions'),
                     'search_regions1926'     => (array)$request->input('search_regions1926'),
                     'search_selsovets1926' => (array)$request->input('search_selsovets1926'),
-                    'search_settlement' => $request->input('search_settlement'),
+                    'search_settlements' => (array)$request->input('search_settlements'),
                     'search_settlements1926' => (array)$request->input('search_settlements1926'),
                     'search_structs'    => (array)$request->input('search_structs'),
                     'search_structhiers'    => (array)$request->input('search_structhiers'),
@@ -344,13 +388,15 @@ class Toponym extends Model
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
         $toponyms = self::searchByNames($toponyms, $url_args['search_toponym']);
+        $toponyms = self::searchBySettlements($toponyms, $url_args['search_settlements']);
         $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
         $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
         $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
+        $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
         
-        if ($url_args['search_settlement']) {
+/*        if ($url_args['search_settlement']) {
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
-        }        
+        }   */     
         if ($url_args['search_geotypes']) {
             $toponyms = $toponyms->whereIn('geotype_id',$url_args['search_geotypes']);
         }         
@@ -416,12 +462,51 @@ class Toponym extends Model
         return $toponyms;
     }
     
-    public static function searchByLocation1926($toponyms, $search_selsovets1926, $search_districts1926, $search_regions1926) {
+    public static function searchBySettlements($toponyms, $search_settlements) {
         
-        if(!sizeof($search_selsovets1926) && !sizeof($search_districts1926) && !sizeof($search_regions1926)) {
+        if(!sizeof($search_settlements)) {
             return $toponyms;
         }
         
+        $toponyms = $toponyms->whereIn('id', function($q1) use ($search_settlements) {
+            $q1->select('toponym_id')->from('settlement_toponym')
+               ->whereIn('settlement_id', $search_settlements);
+        });        
+//dd($toponyms->toSql());                                
+        return $toponyms;
+    }
+    
+    public static function searchByEvents($toponyms, $search_informants, $search_recorders) {
+        
+        if(!sizeof($search_informants) && !sizeof($search_recorders)) {
+            return $toponyms;
+        }
+        
+        $toponyms = $toponyms->whereIn('id', function($q1) use ($search_informants, $search_recorders) {
+            $q1->select('toponym_id')->from('events');
+            if (sizeof($search_informants)) {
+               $q1->whereIn('id', function ($q2) use ($search_informants) {
+                    $q2->select('event_id')->from('event_informant')
+                       ->whereIn('informant_id', $search_informants);
+               });
+            }
+            if (sizeof($search_recorders)) {
+               $q1->whereIn('id', function ($q2) use ($search_recorders) {
+                    $q2->select('event_id')->from('event_recorder')
+                       ->whereIn('recorder_id', $search_recorders);
+               });
+            }
+        });        
+//dd($toponyms->toSql());                                
+        return $toponyms;
+    }
+    
+    public static function searchByLocation1926($toponyms, $search_selsovets1926, $search_districts1926, $search_regions1926) 
+    {     
+        if(!sizeof($search_selsovets1926) && !sizeof($search_districts1926) && !sizeof($search_regions1926)) {
+             return $toponyms;
+         }
+         
         $toponyms = $toponyms->whereIn('settlement1926_id', function($q1) use ($search_selsovets1926, $search_districts1926, $search_regions1926) {
             $q1->select('id')->from('settlements1926');
             if (sizeof($search_selsovets1926)) {
@@ -442,9 +527,9 @@ class Toponym extends Model
                     }
                 });
             }
-        });        
-//dd($toponyms->toSql());                                
-        return $toponyms;
+         });        
+ //dd($toponyms->toSql());                                
+         return $toponyms;
     }
     
     public static function searchByStruct($toponyms, $search_structs, $search_structhiers) {

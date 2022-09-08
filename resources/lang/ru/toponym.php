@@ -16,6 +16,7 @@ return [
     'add_district' => 'Добавить район',
     'add_district1926' => 'Добавить район 1926',
     'add_selsovet1926' => 'Добавить сельсовет 1926',
+    'add_settlement' => 'Добавить поселение',
     'add_settlement1926' => 'Добавить поселение 1926',
     
 //    'by_created_at' => 'по дате создания',
@@ -57,8 +58,11 @@ return [
     'Selsovets_in_1926_year'   => 'Сельсоветы по состоянию на 1926 год',
     
     'settlement' => 'Поселение',
+    'settlement_can_not_be_removed' => 'Поселение ":name" не может быть удалено.',
+    'settlement_removed' => 'Поселение ":name" удален.',
     'settlement1926' => 'Поселение 1926',
-    'settlement1926_removed' => 'Поселение 1926 ":name" is удален.',
+    'settlement_can_not_be_removed' => 'Поселение 1926 ":name" не может быть удалено.',
+    'settlement1926_removed' => 'Поселение 1926 ":name" удален.',
     'Settlements_in_1926_year' => 'Поселения по состоянию на 1926 год',
     'short_name' => 'сокращенное название',
     'source' => 'Источник',
