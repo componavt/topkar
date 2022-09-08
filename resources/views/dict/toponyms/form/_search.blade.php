@@ -57,12 +57,21 @@
     </div>
         
     <div class="col-md-3">
-        <!-- Settlement1926 -->
+        <!-- Settlement -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_settlements', 
                  'values' => $settlement_values,
                  'value' => $url_args['search_settlements'],
                  'class'=>'select-settlement form-control'
+        ]) 
+    </div>    
+    <div class="col-md-3">
+        <!-- Record place -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_record_places', 
+                 'values' => $settlement_values,
+                 'value' => $url_args['search_record_places'],
+                 'class'=>'select-record-place form-control'
         ]) 
     </div>    
 </div>    

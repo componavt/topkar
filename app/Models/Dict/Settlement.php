@@ -28,6 +28,17 @@ class Settlement extends Model
         return $this->settlementString();//name;
     }    
     
+    public function recordPlaces() {
+        $place_id = $this->id;
+        return Toponym::whereIn('id', function($q1) use ($place_id) {
+                    $q1->select('toponym_id')->from('events')
+                       ->whereIn('id', function($q2) use ($place_id) {
+                            $q2->select('event_id')->from('event_settlement')
+                               ->whereSettlementId($place_id);
+                        });
+                    });        
+    }
+    
     public function regions()
     {
         $settlement_id = $this->id;

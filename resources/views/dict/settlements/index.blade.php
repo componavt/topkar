@@ -26,6 +26,7 @@
                 <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('general.in_russian')}}</th>
                 <th>{{trans('general.in_karelian')}}</th>
+                <th>{{trans('misc.record_place')}}</th>
                 <th>{{trans('navigation.toponyms')}}</th>
                 @if (user_can_edit())
                 <th>{{ trans('messages.actions') }}</th>
@@ -41,6 +42,15 @@
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('settlements.show', $r).$args_by_get)!!}</td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
+                
+                <td data-th="{{trans('misc.record_place')}}" style="text-align: left">
+                    @if ($r->recordPlaces()->count() > 0)
+                    <a href="{{route('toponyms.index')}}?search_record_places[]={{$r->id}}">{{ $r->recordPlaces()->count() }}</a>
+                    @else
+                    0
+                    @endif
+                </td>
+                
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_settlements[]={{$r->id}}">{{ $r->toponyms->count() }}</a>
@@ -48,6 +58,7 @@
                     0
                     @endif
                 </td>
+                
                  @if (user_can_edit())
                 <td data-th="{{ trans('messages.actions') }}">
                     @include('widgets.form.button._edit', 
