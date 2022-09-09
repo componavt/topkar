@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             
            // toponym 
-            $table->integer('toponym_id')->unsigned()->nullable();
+            $table->integer('toponym_id')->unsigned();
             $table->foreign('toponym_id')->references('id')->on('toponyms');
 
             $table->smallInteger('date')->unsigned()->nullable();

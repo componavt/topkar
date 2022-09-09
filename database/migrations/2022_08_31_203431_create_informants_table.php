@@ -20,8 +20,8 @@ class CreateInformantsTable extends Migration
             // year 
             $table->smallInteger('birth_date')->unsigned()->nullable();
 
-            $table->string('name_en', 150)->nullable()->nullable();
-            $table->string('name_ru', 150)->nullable();
+            $table->string('name_en', 150)->nullable();
+            $table->string('name_ru', 150);
             
             //$table->timestamps();
         });
