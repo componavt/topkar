@@ -56,11 +56,6 @@ class Settlement extends Model
         return join(', ', $this->regions()->pluck('name_'.$locale)->toArray());
     }    
     
-    public function districtsToString() {
-        $locale = app()->getLocale();
-        return join(', ', $this->districts()->pluck('name_'.$locale)->toArray());
-    }    
-    
     /**
      * Gets IDs of dialects for dialect's form field
      *
@@ -78,6 +73,11 @@ class Settlement extends Model
         return $value = collect($value)->sortBy('from')->toArray();
     }
 
+    public function districtsToString() {
+        $locale = app()->getLocale();
+        return join(', ', $this->districts()->pluck('name_'.$locale)->toArray());
+    }    
+    
     public function districtListToString() {
         $out = $this->districts->pluck('name')->toArray();
         if (!sizeof($out)) {

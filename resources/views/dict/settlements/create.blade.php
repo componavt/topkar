@@ -18,7 +18,7 @@
         
     {!! Form::open(['method'=>'POST', 'route' => ['settlements.store'], 'id'=>'settlementForm']) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
-    @include('dict.settlements._form_create_edit', ['settlement'=>null])
+    @include('dict.settlements._form_create_edit', ['settlement'=>null, 'district_value'=>[]])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
     
@@ -28,6 +28,11 @@
         {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-        selectDistrict('region_id', '', true, '.select-district');
+        selectDistrict('region_id', '{{app()->getLocale()}}', '{{trans('toponym.select_district')}}', true, '.select-district-0');
+      $('.select-district-0').select2({
+        allowClear: true,
+        placeholder: '{{trans('toponym.select_district')}}',
+        width: '100%'
+    });      
     </x-slot>
 </x-app-layout>

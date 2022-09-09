@@ -18,16 +18,19 @@
         
     {!! Form::model($settlement, array('method'=>'PUT', 'route' => ['settlements.update', $settlement->id], 'id'=>'settlement1926Form')) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
-    @include('dict.settlements._form_create_edit')
+    @include('dict.settlements._form_create_edit', ['district_value'=>$settlement->districtValue()])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
     
     <x-slot name="footScriptExtra">
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/special_symbols.js')!!}
         {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
-        selectDistrict('region_id', '', true, '.select-district');
+        @for ($i=0; $i<=sizeof($settlement->districtValue()); $i++)
+            selectDistrict('region_id', '{{app()->getLocale()}}', '{{trans('toponym.select_district')}}', true, '.select-district-{{$i}}');
+        @endfor
     </x-slot>
 </x-app-layout>

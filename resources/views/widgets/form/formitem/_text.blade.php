@@ -37,7 +37,7 @@ $attributes['id'] = $id_name;
     @endif
     
     @if (isset($special_symbol) && $special_symbol) 
-        @include('dict.special_symbols',['id_name'=>$id_name])
+        @include('widgets.special_symbols',['id_name'=>$id_name])
     @endif
     
     @if (isset($help_func) && $help_func) 

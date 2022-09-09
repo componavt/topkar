@@ -57,6 +57,7 @@ return [
     'selsovets_1926' => 'Selsovets 1926',
     'Selsovets_in_1926_year' => 'Selsovets in 1926',
     
+    'select_district' => 'Select a district',
     'settlement' => 'Settlement',
     'settlement_can_not_be_removed' => 'Settlement ":name" can not be removed.',
     'settlement_removed' => 'Settlement ":name" is removed successfully.',

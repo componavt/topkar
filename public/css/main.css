@@ -140,3 +140,39 @@ button.close {
 .compact-field {
     padding: 5px;
 }
+
+.special-symbols-link {
+    color: #c9302c;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    position: absolute;
+    right: 5px;
+    text-align:right;
+    top: 0;
+}
+ 
+.special-symbols {
+    display: none;
+    position: absolute;
+    right: 0;
+    text-align:right;
+    top: -25px;
+    width: 300px;
+}
+
+.special-symbol-b {
+    font-size: 14px;
+    line-height: 14px;
+    padding: 0;
+}
+
+.flex-hor-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.flex-hor-group .form-group {
+    margin-bottom: 5px;
+}

@@ -150,6 +150,7 @@ class SettlementController extends Controller
     {
         $settlement= Settlement::findOrFail($id);
         $settlement->fill($this->validateRequest($request))->save();
+        $settlement->saveDistricts($request->districts);
        
         return Redirect::to(route('settlements.index', $settlement).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        

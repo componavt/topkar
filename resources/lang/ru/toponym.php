@@ -57,6 +57,7 @@ return [
     'selsovets_1926' => 'Сельсоветы 1926',
     'Selsovets_in_1926_year'   => 'Сельсоветы по состоянию на 1926 год',
     
+    'select_district' => 'Выберите район',
     'settlement' => 'Поселение',
     'settlement_can_not_be_removed' => 'Поселение ":name" не может быть удалено.',
     'settlement_removed' => 'Поселение ":name" удален.',

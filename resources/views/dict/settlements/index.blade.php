@@ -37,7 +37,12 @@
             <tr>
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
                 <td data-th="{{trans('toponym.region')}}">{{ $r->regionsToString() }}</td>
-                <td data-th="{{trans('navigation.districts')}}">{{ $r->districtsToString() }}</td>
+                
+                <td data-th="{{trans('navigation.districts')}}">
+                @if ($r->districts)
+                    {{$r->districtNamesWithDates()}}
+                @endif
+                </td>
 
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('settlements.show', $r).$args_by_get)!!}</td>

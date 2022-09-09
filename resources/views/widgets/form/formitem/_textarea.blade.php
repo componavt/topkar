@@ -24,7 +24,7 @@ $attributes['id'] = $id_name;
     @endif
     {!! Form::textarea($name, $value, $attributes) !!}
     @if ($special_symbol) 
-        @include('dict.special_symbols',['id_name'=>$id_name])
+        @include('widgets.special_symbols',['id_name'=>$id_name])
     @endif
     <p class="help-block">
         {!! $errors->first($name) !!}
