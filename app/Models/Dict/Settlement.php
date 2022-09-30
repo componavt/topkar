@@ -18,7 +18,8 @@ class Settlement extends Model
     const Types=[
         93, // city
         21, // village
-        3, // selo
+        3,  // selo
+        91, // poselok
     ];
 
 
