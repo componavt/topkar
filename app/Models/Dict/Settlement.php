@@ -20,6 +20,11 @@ class Settlement extends Model
         21, // village
         3,  // selo
         91, // poselok
+        100, // station
+        101, // mestechko
+        102, // pgt
+        103, // siding
+        40, // hamlet
     ];
 
 
