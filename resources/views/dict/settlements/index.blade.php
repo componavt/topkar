@@ -14,7 +14,7 @@
     
     @if (user_can_edit())
     <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('settlements.create')}}">{{__('messages.create_new_m')}}</a>
+        <a class="btn btn-secondary btn-default" href="{{route('settlements.create')}}{{$args_by_get}}">{{__('messages.create_new_m')}}</a>
     </div>
     @endif
     
