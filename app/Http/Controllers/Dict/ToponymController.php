@@ -124,7 +124,7 @@ class ToponymController extends Controller
         $this->validate($request, [
             'name'  => 'required|max:255'
             ]);
-        $data = $request->only('name', 'district_id', 'SETTLEMENT', 'settlement1926_id', 
+        $data = $request->only('name', 'district_id', 'settlement1926_id', 
                     'geotype_id', 'etymology', 'etymology_nation_id', 'legend',
                     'ethnos_territory_id', 'caseform', 'main_info', 'folk');
         $data['name'] = to_right_form($data['name']);

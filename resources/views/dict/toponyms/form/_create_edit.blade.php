@@ -43,7 +43,6 @@
                  'values' => $settlement_values,
                  'value' => optional($toponym)->settlementValue(),
                  'title' => trans('toponym.settlement'),
-                 'is_multiple' => false,
                  'call_add_onClick' => "addSettlement()",
                  'class'=>'select-settlement form-control'
         ]) 

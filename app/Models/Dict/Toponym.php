@@ -292,6 +292,7 @@ class Toponym extends Model
         $this->fill($data);
         $this->name_for_search = to_search_form($this->name);
         $this->save();
+        $this->settlements()->sync($request->settlement_id);
         foreach ((array)$request->topnames as $t_id => $t_name) {
 //dd($t_name);            
             $topname = Topname::find($t_id);

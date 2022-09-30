@@ -4,6 +4,7 @@
         $('.select-region').select2({allowClear: true, placeholder: ''});
         $('.select-region1926').select2({allowClear: true, placeholder: ''});
         
+selectSettlement('region_id', 'district_id', '{{app()->getLocale()}}', '', false, '.select-settlement', '#toponymForm');
         selectDistrict('region_id', '{{app()->getLocale()}}', '', true, '.select-district', '#toponymForm');
         selectDistrict1926('region1926_id', '{{app()->getLocale()}}', '', true, '.select-district1926', '#toponymForm');
         selectSettlement('region_id', 'district_id', '{{app()->getLocale()}}', '', true, '.select-settlement', '#toponymForm');
