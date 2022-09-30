@@ -17,7 +17,6 @@
     </div>
         
     {!! Form::open(['method'=>'POST', 'route' => ['settlements.store'], 'id'=>'settlementForm']) !!}
-    @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
     @include('dict.settlements._form_create_edit', ['settlement'=>null, 'district_value'=>[]])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
