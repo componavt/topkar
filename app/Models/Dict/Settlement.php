@@ -188,7 +188,7 @@ class Settlement extends Model
             return $settlements;
         }
         
-        return $settlements->whereIn('settlement_id', function($q) use ($regions, $districts) {
+        return $settlements->whereIn('id', function($q) use ($regions, $districts) {
                         $q->select('settlement_id')->from('district_settlement');
                         if (sizeof($districts)) {
                             $q->whereIn('district_id', $districts);
