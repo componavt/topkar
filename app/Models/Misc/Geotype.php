@@ -13,6 +13,7 @@ class Geotype extends Model
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
+    use \App\Traits\Methods\getShortNameAttribute;
     use \App\Traits\Methods\search\byName;
     
     use \App\Traits\Relations\HasMany\Toponyms;

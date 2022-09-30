@@ -7,17 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Dict\Region;
 
+use App\Models\Misc\Geotype;
+
 class Settlement extends Model
 {
     use HasFactory;
     
     public $timestamps = false;
-    protected $fillable = ['name_ru', 'name_en', 'name_krl', 'wd', 'latitude', 'longitude'];
-    
+    protected $fillable = ['name_ru', 'name_en', 'name_krl', 'wd', 'latitude', 'longitude', 'geotype_id'];
+    const Types=[
+        93, // city
+        21, // village
+        3, // selo
+    ];
+
+
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\search\byNameKRL;
 
+    // Belongs To One Relations
+    use \App\Traits\Relations\BelongsTo\Geotype;
+    
     // Belongs To Many Relations
     use \App\Traits\Relations\BelongsToMany\Districts;
     use \App\Traits\Relations\BelongsToMany\Events;
@@ -107,6 +118,12 @@ class Settlement extends Model
                          'include_to'=>$district['to']]);
             }
         }        
+    }
+    
+    public static function getTypeList() {
+        $locale = app()->getLocale();
+        return Geotype::whereIn('id', self::Types)->orderBy('name_'.$locale)
+                      ->pluck('name_'.$locale, 'id')->toArray();
     }
 
     public static function getListWithDistricts() {     

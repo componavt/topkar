@@ -4,20 +4,25 @@
 
 <div class="row">
     <div class="col-sm-6">
+        @include('widgets.form.formitem._select', 
+                ['name' => 'geotype_id', 
+                 'values' =>$type_values,
+                 'title' => trans('misc.type')]) 
+                 
         @include('widgets.form.formitem._text', 
                 ['name' => 'name_ru', 
                  'title'=>trans('toponym.name').' '.trans('messages.in_russian')])
+                 
+        @include('widgets.form.formitem._text', 
+                ['name' => 'name_krl', 
+                 'special_symbol' => true,
+                 'title'=>trans('toponym.name').' '.trans('messages.in_karelian')])
                  
         @include('widgets.form.formitem._text', 
                 ['name' => 'name_en', 
                  'special_symbol' => true,
                  'title'=>trans('toponym.name').' '.trans('messages.in_english')])
                                   
-        @include('widgets.form.formitem._text', 
-                ['name' => 'name_krl', 
-                 'special_symbol' => true,
-                 'title'=>trans('toponym.name').' '.trans('messages.in_karelian')])
-                 
     </div>
     <div class="col-sm-6">
         @include('widgets.form.formitem._select', 

@@ -36,4 +36,6 @@ return [
     'struct' => 'Structure',
     'structhier' => 'Structure type',
     
+    'type' => 'Type',
+    'types' => 'Types',
 ];

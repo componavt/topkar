@@ -26,6 +26,9 @@ class Toponym extends Model
     ];
     //use \App\Traits\Methods\getNameAttribute;    
     
+    // Belongs To One Relations
+    use \App\Traits\Relations\BelongsTo\Geotype;
+    
     // Belongs To Many Relations
     use \App\Traits\Relations\BelongsToMany\Settlements;
     
@@ -60,15 +63,6 @@ class Toponym extends Model
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
     
-    /**
-     * Get the geotype which contains this toponym
-     * One To Many (Inverse) / Belongs To
-     */
-    public function geotype()
-    {
-        //                                      'foreign_key','owner_key'
-        return $this->belongsTo(Geotype::class, 'geotype_id', 'id');
-    }
     
     /**
      * Get the etymology nation name which contains this toponym

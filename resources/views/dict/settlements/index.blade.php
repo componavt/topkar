@@ -23,9 +23,10 @@
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
                 <th>{{trans('navigation.districts')}}</th>
-                <th>{{trans('general.in_english')}}</th>
+                <th>{{trans('misc.type')}}</th>
                 <th>{{trans('general.in_russian')}}</th>
                 <th>{{trans('general.in_karelian')}}</th>
+                <th>{{trans('general.in_english')}}</th>
                 <th>{{trans('misc.record_place')}}</th>
                 <th>{{trans('navigation.toponyms')}}</th>
                 @if (user_can_edit())
@@ -44,9 +45,10 @@
                 @endif
                 </td>
 
-                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
+                <td data-th="{{trans('misc.type')}}">{{ $r->geotype ? $r->geotype->short_name : '' }}</td>
                 <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('settlements.show', $r).$args_by_get)!!}</td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
+                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 
                 <td data-th="{{trans('misc.record_place')}}" style="text-align: left">
                     @if ($r->recordPlaces()->count() > 0)

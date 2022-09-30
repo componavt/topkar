@@ -56,7 +56,8 @@ class SettlementController extends Controller
         return $this->validate($request, [
             'name_en'  => 'max:150',
             'name_ru'  => 'required|max:150',
-            'name_krl'  => 'max:150'
+            'name_krl'  => 'max:150',
+            'geotype_id' => 'integer'
         ]);
     }
     
@@ -72,9 +73,10 @@ class SettlementController extends Controller
         
         $region_values = [''=>NULL] + Region::getList();
         $district_values = [''=>NULL] + District::getList();
+        $type_values = [''=>NULL] + Settlement::getTypeList();
 
         return view('dict.settlements.create', 
-                compact('district_values', 'region_values', 
+                compact('district_values', 'region_values', 'type_values', 
                         'args_by_get', 'url_args'));
     }
 
@@ -133,10 +135,11 @@ class SettlementController extends Controller
         
         $region_values = [''=>NULL] + Region::getList();
         $district_values = [''=>NULL] + District::getList();
+        $type_values = [''=>NULL] + Settlement::getTypeList();
         
         return view('dict.settlements.edit', 
-                compact('district_values', 'region_values', 
-                        'settlement', 'args_by_get', 'url_args'));
+                compact('district_values', 'region_values', 'settlement', 
+                        'type_values', 'args_by_get', 'url_args'));
     }
 
     /**
