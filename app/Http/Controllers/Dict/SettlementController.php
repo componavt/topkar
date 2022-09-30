@@ -89,7 +89,8 @@ class SettlementController extends Controller
      */
     public function store(Request $request)
     {
-        $obj = Settlement::create($this->validateRequest($request)); 
+        $settlement = Settlement::create($this->validateRequest($request)); 
+        $settlement->saveDistricts($request->districts);
         
         return Redirect::to(route('settlements.index').($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        
