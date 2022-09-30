@@ -103,6 +103,7 @@ class ToponymController extends Controller
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
+        $type_values = [''=>NULL] + Settlement::getTypeList();
         
         for ($i=0; $i<4; $i++) {
             $structs[]=[];
@@ -115,7 +116,8 @@ class ToponymController extends Controller
                         'geotype_values',  'informant_values', 'recorder_values',
                         'region_values', 'selsovet1926_values', 'settlement_values', 
                         'settlement1926_values', 'structs', 'structhiers', 
-                        'struct_values', 'structhier_values', 'args_by_get', 'url_args'));
+                        'struct_values', 'structhier_values', 'type_values', 
+                        'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {
@@ -183,6 +185,7 @@ class ToponymController extends Controller
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
+        $type_values = [''=>NULL] + Settlement::getTypeList();
         
         $structs = $structhiers = [];
         foreach ($toponym->structs as $struct) {
@@ -199,7 +202,8 @@ class ToponymController extends Controller
                         'geotype_values',  'informant_values', 'recorder_values', 
                         'region_values', 'selsovet1926_values', 'settlement_values', 
                         'settlement1926_values', 'structs', 'structhiers', 
-                        'struct_values', 'structhier_values', 'toponym', 'args_by_get', 'url_args'));
+                        'struct_values', 'structhier_values', 'toponym', 
+                        'type_values', 'args_by_get', 'url_args'));
     }
 
     /**
