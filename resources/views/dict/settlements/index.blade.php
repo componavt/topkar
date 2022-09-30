@@ -90,6 +90,6 @@
     <x-slot name="jqueryFunc">
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-        selectDistrict('search_regions', '{{trans('toponym.district')}}', false);
+        selectDistrict('search_regions', '{{$locale}}', '{{trans('toponym.district')}}', false);
     </x-slot>    
 </x-app-layout>

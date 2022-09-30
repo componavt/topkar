@@ -39,6 +39,7 @@ class SettlementController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
+        $locale = app()->getLocale();
         
         $settlements = Settlement::search($url_args);
         $n_records = $settlements->count();        
@@ -48,7 +49,7 @@ class SettlementController extends Controller
         $district_values = District::getList();
         
         return view('dict.settlements.index', 
-                compact('district_values', 'n_records', 'region_values', 
+                compact('district_values', 'locale', 'n_records', 'region_values', 
                         'settlements', 'args_by_get', 'url_args'));
      }
 
