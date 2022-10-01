@@ -54,7 +54,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/geotypes/store', [GeotypeController::class, 'simpleStore']);
     Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'list']);
     Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
-    Route::get('/dict/settlements/list', [SettlementController::class, 'list']);    
+    Route::get('/dict/settlements/list', [SettlementController::class, 'sList']);    
     Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
