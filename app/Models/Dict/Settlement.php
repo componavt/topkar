@@ -105,10 +105,11 @@ class Settlement extends Model
     
     public function districtNamesWithDates() {
         $out = [];
+//dd($this->districts);        
         foreach ($this->districts as $district) {
             $from = $district->pivot->include_from;
             $to = $district->pivot->include_to;
-            $out[$from] = $district->name.($from || $to ? ' ('.$from.'-'.$to.')' : '');
+            $out[$from.'_'.$district->id] = $district->name.($from || $to ? ' ('.$from.'-'.$to.')' : '');
         }
         ksort($out);
         return join(', ',$out);
