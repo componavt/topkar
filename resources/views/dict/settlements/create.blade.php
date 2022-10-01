@@ -17,7 +17,7 @@
     </div>
         
     {!! Form::open(['method'=>'POST', 'route' => ['settlements.store'], 'id'=>'settlementForm']) !!}
-    @include('dict.settlements._form_create_edit', ['settlement'=>null, 'district_value'=>[]])
+    @include('dict.settlements._form_create_edit', ['settlement'=>null, 'district_value'=>[], 'action'=>'creation'])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
     

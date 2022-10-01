@@ -18,7 +18,8 @@
         
     {!! Form::model($settlement, array('method'=>'PUT', 'route' => ['settlements.update', $settlement->id], 'id'=>'settlement1926Form')) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
-    @include('dict.settlements._form_create_edit', ['district_value'=>$settlement->districtValue()])
+    @include('dict.settlements._form_create_edit', 
+            ['district_value'=>$settlement->districtValue(), 'action'=>'edition'])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
     
