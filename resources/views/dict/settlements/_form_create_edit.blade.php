@@ -36,7 +36,7 @@
             <?php $i++;?>
         @endforeach
         @include('dict.settlements._form_district_group', 
-            ['district'=> ['id'=>$action=='creation' && isset($url_args['search_districts'][0]) 
+            ['district'=> ['id'=>isset($action) && $action=='creation' && isset($url_args['search_districts'][0]) 
                                 ? $url_args['search_districts'][0] : null]])        
     </div>
 </div> 
