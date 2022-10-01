@@ -54,12 +54,12 @@ class SettlementController extends Controller
      }
 
     public function validateRequest(Request $request) {
-        return $this->validate($request, [
+        $this->validate($request, [
             'name_en'  => 'max:150',
             'name_ru'  => 'required|max:150',
             'name_krl'  => 'max:150',
-            'geotype_id' => 'integer'
         ]);
+        return $request->all();
     }
     
     /**
@@ -217,7 +217,7 @@ class SettlementController extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function sList(Request $request)
     {
         $locale = app()->getLocale();
         $settlement_name = '%'.$request->input('q').'%';
