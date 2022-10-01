@@ -59,7 +59,7 @@ class SettlementController extends Controller
             'name_ru'  => 'required|max:150',
             'name_krl'  => 'max:150',
         ]);
-        return $request->only(Settlement::fillable);
+        return $request->all();
     }
     
     /**
