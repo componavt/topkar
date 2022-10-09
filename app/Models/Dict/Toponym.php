@@ -275,6 +275,7 @@ class Toponym extends Model
         $toponym->name_for_search = to_search_form($toponym->name);
         $toponym->save(); 
         
+        $toponym->settlements()->attach($request->settlement_id);
         foreach ((array)$request->new_topname as $t_name) {
             Topname::storeData($toponym->id, $t_name);
         }
