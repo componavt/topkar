@@ -275,17 +275,8 @@ class Toponym extends Model
         $toponym->name_for_search = to_search_form($toponym->name);
         $toponym->save(); 
         
-        $toponym->settlements()->attach($request->settlement_id);
-        foreach ((array)$request->new_topname as $t_name) {
-            Topname::storeData($toponym->id, $t_name);
-        }
+        $toponym->updateAddInfo($data, $request);
         
-        foreach ((array)$request->new_sources as $i => $s_data) {
-            Source::storeData($toponym->id, $s_data);
-        }
-        
-        Event::storeData($toponym->id, $request->new_event);
-
         return $toponym;
     }
     
@@ -293,7 +284,7 @@ class Toponym extends Model
         $this->fill($data);
         $this->name_for_search = to_search_form($this->name);
         $this->save();
-        $this->settlements()->sync($request->settlement_id);
+        
         foreach ((array)$request->topnames as $t_id => $t_name) {
 //dd($t_name);            
             $topname = Topname::find($t_id);
@@ -304,26 +295,34 @@ class Toponym extends Model
             }
         }
         
-        foreach ((array)$request->new_topname as $t_name) {
-            Topname::storeData($this->id, $t_name);
-        }
-        
         foreach ((array)$request->sources as $s_id => $s_data) {
             Source::find($s_id)->updateData($s_data);
         }
         
-        foreach ((array)$request->new_sources as $i => $s_data) {
-            Source::storeData($this->id, $s_data);
-        }
         foreach ((array)$request->events as $e_id => $e_data) {
             $event = Event::find($e_id);
             $event -> updateData($e_data);
         }
         
-        Event::storeData($this->id, $request->new_event);
+        $this->updateAddInfo($data, $request);        
+    }
+    
+    public function updateAddInfo(array $data, $request) {
+        $this->settlements()->sync($request->settlement_id);
         
+        foreach ((array)$request->new_topname as $t_name) {
+            Topname::storeData($this->id, $t_name);
+        }
+        
+        foreach ((array)$request->new_sources as $i => $s_data) {
+            Source::storeData($this->id, $s_data);
+        }
+        
+        Event::storeData($this->id, $request->new_event);
+
         $structs = array_filter((array)$request->structs, 'strlen');        
         $this->structs()->sync($structs);        
+        
     }
     
     public function remove() {
