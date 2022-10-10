@@ -383,7 +383,7 @@ class Toponym extends Model
         $toponyms = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
-        $toponyms = self::searchByNames($toponyms, $url_args['search_toponym']);
+        $toponyms = self::searchByNames($toponyms, to_search_form($url_args['search_toponym']));
         $toponyms = self::searchBySettlements($toponyms, $url_args['search_settlements']);
         $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
         $toponyms = self::searchByRecordPlace($toponyms, $url_args['search_record_places']);

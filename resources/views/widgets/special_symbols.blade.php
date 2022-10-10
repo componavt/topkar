@@ -1,5 +1,10 @@
 <?php
-    $symb_list = ['ä'=>'','ö'=>'','ü'=>'','č'=>'','š'=>'','ž'=>'','’'=>''];
+    $symb_list = [
+//        'ä'=>'','ö'=>'','ü'=>'','č'=>'','š'=>'','ž'=>'','’'=>''
+        'ä', 'ö', 'ü', 'č','š', 'ž','’',
+        'а́', 'е́', 'и́', 'о́', 'у́', 'ы́', 'э́', 'ю́', 'я́',
+        'А́', 'Е́', 'И́', 'О́', 'У́', 'Ы́', 'Э́', 'Ю́', 'Я́'
+        ];
 ?>
 <a class='special-symbols-link' type='button' onClick="toggleSpecial('{{$id_name}}-special')">ä</a>
 
@@ -10,9 +15,10 @@
         </div>
     </div>
     <div class="special-symbols-body">
-    @foreach($symb_list as $sym=>$sym_title)
-    <input class='special-symbol-b' title='{{$sym_title}}' type='button' value='{{$sym}}' onClick='insertSymbol("{{$sym}}","{{$id_name}}")'>
+    @foreach($symb_list as $sym)
+    <input class='special-symbol-b' type='button' value="{{$sym}}" onClick='insertSymbol("{{$sym}}","{{$id_name}}")'>
+    {{--title='{{$sym_title}}'--}}
     @endforeach
     </div>
 </div>
-{{--, '́а́', '́е́', '́и́', '́о́', '́у́', '́ы́', '́э́', '́ю́', '́я́','́А','́Е','́И','́О','́У','́Ы','́Э','́Ю','́Я'́--}}
+́

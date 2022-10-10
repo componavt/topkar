@@ -171,10 +171,10 @@ button.close {
     width: 30px;
     margin: 0;
     border: 1px solid rgba(128,128,128,.13);
-    padding: 0;
+    padding: 2px 0;
     border-radius: 0;
     background: none;
-    line-height: 14px;
+    line-height: 19px;
 } 
 
 .special-symbol-sup {

@@ -111,10 +111,17 @@ if (! function_exists('mb_ucfirst')) {
 
 if (! function_exists('to_search_form')) {
     function to_search_form($word) {
-        $word = str_replace('’','',$word);
-        if (preg_match("/^\-(.+)$/u", $word, $regs)) {
-            $word = $regs[1];
+        $special_chars = [
+            '’' => '',
+            'а́' => 'а', 'е́' => 'е', 'и́' => 'и', 'о́' => 'о', 'у́' => 'у', 'ы́' => 'ы', 'э́' => 'э', 'ю́' => 'ю', 'я́' => 'я',
+            'А́' => 'а', 'Е́' => 'е', 'И́' => 'и', 'О́' => 'о', 'У́' => 'у', 'Ы́' => 'ы', 'Э́' => 'э', 'Ю́' => 'ю', 'Я́' => 'я'
+        ];
+        foreach ($special_chars as $from => $to) {
+            $word = str_replace($from,$to,$word);
         }
+    /*    if (preg_match("/^\-(.+)$/u", $word, $regs)) {
+            $word = $regs[1];
+        }*/
         $word = mb_strtolower($word);
         return $word;
     }
