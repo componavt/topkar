@@ -1,14 +1,19 @@
 /*******************************************
   Shows and hides the special symbol buttons 
   ******************************************/
-function toggleSpecial(id) {
-/*    $(".special-symbols-link").click(function(){
-        var id=$(this).attr('data-for');*/
-        $(".special-symbols").hide();
-        $(".special-symbols-link").show();
-        $(this).hide();
-        $("#"+id).show(); /*"slow"*/
-/*    });*/
+function toggleSpecial(id='') {
+//        $(".special-symbols-link").click(function(){
+//            var id=$(this).attr('data-for');
+/*            $(".special-symbols").hide();
+            $(".special-symbols-link").show();*/
+            $(this).hide();
+            $("#"+id).show(); /*"slow"*/
+//        });
+}
+
+function closeSpecial(id) {
+    $("#"+id).hide();
+    $(".special-symbols-link").show();
 }
 
 function insertSymbol (text, fieldName) {

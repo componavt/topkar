@@ -1,4 +1,4 @@
-        $('.select-geotype').select2({allowClear: true, placeholder: ''});
+$('.select-geotype').select2({allowClear: true, placeholder: ''});
         $('.select-etymology-nation').select2({allowClear: true, placeholder: ''});
         $('.select-ethnos-territory').select2({allowClear: true, placeholder: ''});
         $('.select-region').select2({allowClear: true, placeholder: ''});

@@ -12,6 +12,7 @@ use App\Http\Controllers\Dict\Selsovet1926Controller;
 use App\Http\Controllers\Dict\SettlementController;
 use App\Http\Controllers\Dict\Settlement1926Controller;
 use App\Http\Controllers\Dict\SourceController;
+use App\Http\Controllers\Dict\TopnameController;
 use App\Http\Controllers\Dict\ToponymController;
 
 use App\Http\Controllers\Misc\GeotypeController;
@@ -59,6 +60,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     Route::get('/dict/sources/create', [SourceController::class, 'create']);
+    Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
 
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

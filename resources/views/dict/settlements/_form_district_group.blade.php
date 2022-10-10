@@ -1,5 +1,5 @@
 <div class='row'>
-    <div class="col-sm-8">
+    <div class="col-sm-6">
         @include('widgets.form.formitem._select2',
                 ['name' => 'districts['.$i.'][id]', 
                  'values' =>$district_values,
@@ -8,14 +8,14 @@
                  'title' => trans('toponym.district'),
                  'class'=>'select-district-'.$i.' form-control'])
     </div>
-    <div class="col-sm-2">          
+    <div class="col-sm-3">          
         @include('widgets.form.formitem._text', 
                 ['name' => 'districts['.$i.'][from]',
                  'title' => 'c',
                  'value' => $district['from'] ?? '',
                  'attributes' => ['size'=>4, 'placeholder'=>'гггг']])
     </div>
-    <div class="col-sm-2">        
+    <div class="col-sm-3">        
         @include('widgets.form.formitem._text', 
                 ['name' => 'districts['.$i.'][to]',
                  'title' => 'по',

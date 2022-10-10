@@ -4,7 +4,9 @@
     <div class="col-sm-6">
         @include('widgets.form.formitem._text', 
                 ['name' => 'name', 
+                 'special_symbol' => true,
                  'title'=>trans('toponym.official_name')])
+{{--                 'help_func' => "callHelp('help-text-fields')",--}}
 
         <div class="form-group ">
             <label for="name">
@@ -12,8 +14,13 @@
                 <i onclick="addTopName()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
             </label>
             @foreach($topnames as $topname)
-            <input class="form-control" name="topnames[{{$topname->id}}]" type="text" value="{{$topname->name}}">
+                @include('dict.topnames._create_edit',
+                    ['id_name'=>'topnames_'.$topname->id, 
+                     'var_name'=>'topnames['.$topname->id.']',
+                     'value' => $topname->name
+                    ])
             @endforeach
+            <input type='hidden' name='next-name-num' value='0'>
             <div id='new-topnames'></div>
         </div>        
         <!-- Region -->
@@ -113,16 +120,19 @@
         <!-- Main information -->
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'main_info', 
+                 'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.main_info')])
         <!-- Popular interpretation -->
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'folk', 
+                 'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.folk')])
         <!-- Legend -->
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'legend', 
+                 'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.legend')])
         <!-- Sources -->                 
@@ -161,6 +171,7 @@
         ])
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'etymology', 
+                 'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.etymology')])
         <p><b>{{trans('misc.struct')}}</b></p>

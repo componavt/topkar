@@ -8,6 +8,7 @@
             <div class="col-sm-5">
             @include('widgets.form.formitem._textarea', 
                     ['name' => $var_name.'['.$num.'][mention]', 
+                     'special_symbol' => true,
                      'attributes' => ['rows' => 3],
                      'value' => $source->mention ?? null,
             ]) 
@@ -15,6 +16,7 @@
             <div class="col-sm-6">
             @include('widgets.form.formitem._textarea', 
                     ['name' => $var_name.'['.$num.'][source]', 
+                     'special_symbol' => true,
                      'attributes' => ['rows' => 3],
                      'value' => $source->source ?? null,
             ]) 

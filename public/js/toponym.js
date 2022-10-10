@@ -234,7 +234,19 @@ function saveGeotype() {
 }
 
 function addTopName() {
-    $('#new-topnames').append('<input class="form-control" name="new_topname[]" type="text" value="">');
+    var num = $('#next-topname-num').val();
+    $.ajax({
+        url: '/dict/topnames/create', 
+        data: {num: num},
+        type: 'GET',
+        success: function(html){       
+            $('#new-topnames').append(html);
+            $('#next-topname-num').val(1+num);
+        },
+        error: function () {
+           alert('ERROR');
+        }
+    }); 
 }
 
 function addSource() {

@@ -29,6 +29,7 @@
     <x-slot name="footScriptExtra">
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/special_symbols.js')!!}
         {!!Html::script('js/toponym.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">

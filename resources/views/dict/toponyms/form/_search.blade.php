@@ -5,6 +5,7 @@
     <div class="col-md-3">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_toponym',                  
+                 'special_symbol' => true,
                  'value' => $url_args['search_toponym'],
                  'attributes' => ['placeholder' => trans('toponym.toponym')],
                 ])                               
