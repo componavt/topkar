@@ -1,10 +1,13 @@
 <?php
     $symb_list = [
 //        'ä'=>'','ö'=>'','ü'=>'','č'=>'','š'=>'','ž'=>'','’'=>''
-        'ä', 'ö', 'ü', 'č','š', 'ž','’',
+        'ä', 'ö', 'ü', 'č','š', 'ž','’'];
+    if (isset($full_special_list) && $full_special_list) {
+        array_push($symb_list,
         'а́', 'е́', 'и́', 'о́', 'у́', 'ы́', 'э́', 'ю́', 'я́',
         'А́', 'Е́', 'И́', 'О́', 'У́', 'Ы́', 'Э́', 'Ю́', 'Я́'
-        ];
+        );
+    }
 ?>
 <a class='special-symbols-link' type='button' onClick="toggleSpecial('{{$id_name}}-special')">ä</a>
 

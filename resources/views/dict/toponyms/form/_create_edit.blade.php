@@ -5,6 +5,7 @@
         @include('widgets.form.formitem._text', 
                 ['name' => 'name', 
                  'special_symbol' => true,
+                 'full_special_list' => true,
                  'title'=>trans('toponym.official_name')])
 {{--                 'help_func' => "callHelp('help-text-fields')",--}}
 
