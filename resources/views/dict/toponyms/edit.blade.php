@@ -34,6 +34,7 @@
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/toponym.js')!!}
+        {!!Html::script('js/special_symbols.js')!!}
     </x-slot>
     <x-slot name="jqueryFunc">
         @include('dict.toponyms._jquery_func_for_create_edit', ['action' => 'edit'])
