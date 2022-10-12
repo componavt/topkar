@@ -34,6 +34,8 @@ return [
     
     'short_name' => 'Short name',
     'struct' => 'Structure',
+    'struct_can_not_be_removed' => 'Structure ":name" can not be removed.',
+    'struct_removed' => 'Structure ":name" is removed successfully.',
     'structhier' => 'Structure type',
     
     'type' => 'Type',

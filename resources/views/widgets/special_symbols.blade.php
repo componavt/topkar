@@ -19,7 +19,7 @@
     </div>
     <div class="special-symbols-body">
     @foreach($symb_list as $sym)
-    <input class='special-symbol-b' type='button' value="{{$sym}}" onClick='insertSymbol("{{$sym}}","{{$id_name}}")'>
+    <input class='special-symbol-b' type='button' value="{{$sym}}" onClick="insertSymbol('{{$sym}}','{{$id_name}}')">
     {{--title='{{$sym_title}}'--}}
     @endforeach
     </div>

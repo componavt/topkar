@@ -85,6 +85,7 @@ Route::resources([
     'misc/geotypes' => GeotypeController::class,
     'misc/informants' => InformantController::class,
     'misc/recorders' => RecorderController::class,
+    'misc/structs' => StructController::class,
 ]);
 
 

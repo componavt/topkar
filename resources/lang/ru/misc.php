@@ -34,6 +34,8 @@ return [
     
     'short_name' => 'Сокращение',
     'struct' => 'Структура',
+    'struct_can_not_be_removed' => 'Структура ":name" не может быть удалена.',
+    'struct_removed' => 'Структура ":name" удалена.',
     'structhier' => 'Тип структуры',
 
     'type' => 'Тип',

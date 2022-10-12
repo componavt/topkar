@@ -27,6 +27,24 @@ class Structhier extends Model
         return $this->hasMany(self::class, 'id', 'parent_id');
     }
     
+    public function getShortNameAttribute()
+    {
+        $locale = app()->getLocale();
+        $short_names = self::SHORT_NAMES;
+        if (isset($short_names[$this->id][$locale])) {
+            return $short_names[$this->id][$locale];
+        }
+        return $this->name;
+    }
+    
+    public function nameToString() {
+        $out = $this->name;
+        if ($this->parent) {
+            $out = $this->parent->short_name. ' '. mb_strtolower($out);
+        }
+        return $out;
+    }    
+    
     /** Gets list of objects
      * 
      * @return Array [1=>'Object name',..]

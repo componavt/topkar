@@ -29,6 +29,7 @@
                   <li><a class="dropdown-item" href="{{ route('geotypes.index') }}">{{ trans('navigation.geotypes') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('informants.index') }}">{{ trans('navigation.informants') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('recorders.index') }}">{{ trans('navigation.recorders') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('structs.index') }}">{{ trans('navigation.structs') }}</a></li>
                 </ul>
               </li>
               <li class="nav-item">
