@@ -24,4 +24,3 @@
     @endforeach
     </div>
 </div>
-́
