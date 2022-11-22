@@ -10,9 +10,6 @@
                  'value' => $url_args['search_toponym'],
                  'attributes' => ['placeholder' => trans('toponym.toponym')],
                 ])                               
-    <!-- 'special_symbol' => true,
-                 //'help_func' => "callHelp('help-text-fields')",
-    -->
     </div>        
     <div class="col-md-3">
         @include('widgets.form.formitem._select2', 
