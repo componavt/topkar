@@ -160,8 +160,8 @@ button.close {
     display: none;
     position: absolute;
     right: 0;
-    bottom: 40px;
-    width: 239px;
+    bottom: 36px;
+    width: 272px;
     z-index: 999;
 }
 
