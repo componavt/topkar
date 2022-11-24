@@ -38,7 +38,7 @@ return [
     
     'is_map' => 'map',
     
-    'legend' => 'Legend',
+    'legend' => 'Popular interpretation, legends',
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
     

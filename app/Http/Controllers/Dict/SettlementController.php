@@ -24,7 +24,7 @@ class SettlementController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','list','show']]);
+                         ['except' => ['index','list','show', 'sList']]);
         $this->url_args = Settlement::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);

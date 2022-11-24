@@ -53,7 +53,7 @@ class Event extends Model
     {
         $out = [];
         foreach ($this->settlements as $settlement) {
-            $out[] = $settlement->settlementString();
+            $out[] = $settlement->settlementString('', false);
         }
         return join(', ', $out);
     }

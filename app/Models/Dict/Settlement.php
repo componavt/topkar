@@ -154,13 +154,15 @@ class Settlement extends Model
      * @return String
      */
     
-    public function settlementString($lang_id='')
+    public function settlementString($lang_id='', $with_krl=true)
     {
         $info = [];
         
         if ($this->name) {
-            $info[0] = $this->name
-                     . ($this->name_krl ? ", ".$this->name_krl : '');
+            $info[0] = $this->name;
+            if ($with_krl && $this->name_krl) {
+                     $info[0] .=  ", ".$this->name_krl;
+            }
         }
         
         if ($this->district) {

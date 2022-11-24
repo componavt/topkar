@@ -43,9 +43,6 @@
     <p><span class='field-name'>{{trans('toponym.main_info')}}</span>: 
     <span class='field-value'>{{ $toponym->main_info }}</span></p>
 
-    <p><span class='field-name'>{{trans('toponym.folk')}}</span>: 
-    <span class='field-value'>{{ $toponym->folk }}</span></p>
-
     <p><span class='field-name'>{{trans('toponym.legend')}}</span>: 
     <span class='field-value'>{{ $toponym->legend }}</span></p>
 
@@ -57,17 +54,27 @@
         @endforeach
     </p>
 
-    <p> <?php $count=1;?>
-        <span class='field-name'>{{trans('misc.events')}}</span>:
+    <?php $count=1;?>
+    <p><span class='field-name'>{{trans('misc.events')}}:</span></p>
+    <table class="table table-bordered">
+        <tr>
+            <td>No</td>
+            <td>{{trans('misc.record_place')}}</td>
+            <td>{{mb_ucfirst(trans('messages.year'))}}</td>
+            <td>{{trans('navigation.informants')}}</td>            
+            <td>{{trans('navigation.recorders')}}</td>     
+        </tr>
         @foreach ($toponym->events as $event)
-        <br>{{ $count++ }}. 
-            <span class='field-value'>
-                {{ $event->eventString() }}
-            </span> 
+        <tr>
+            <td class='field-value'>{{ $count++ }}</td>
+            <td class='field-value'>{{$event->settlementsToString()}}</td>
+            <td class='field-value'>{{$event->date}}</td>
+            <td class='field-value'>{{$event->informantsToString()}}</td>
+            <td class='field-value'>{{$event->recordersToString()}}</td>
         @endforeach
-    </p>
+        </table>
 
-    <hr>{{-- Structure of toponym word --}}
+    <!--hr-->{{-- Structure of toponym word --}}
     <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
     <ol>
     @foreach ($toponym->structs as $struct)

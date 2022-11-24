@@ -420,12 +420,13 @@ class Toponym extends Model
         if (!$search_toponym) {
             return $toponyms;
         }   
+        $search_toponym = to_search_form($search_toponym);
         
         return $toponyms->where(function ($q) use ($search_toponym){ 
-                            $q->where('name','LIKE',$search_toponym)
+                            $q->where('name_for_search','LIKE',$search_toponym)
                               ->orWhereIn('id', function ($q2) use ($search_toponym){
                                   $q2->select('toponym_id')->from('topnames')
-                                     ->where('name','LIKE',$search_toponym);
+                                     ->where('name_for_search','LIKE',$search_toponym);
                               });
                         });
     }

@@ -124,13 +124,7 @@
                  'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.main_info')])
-        <!-- Popular interpretation -->
-        @include('widgets.form.formitem._textarea', 
-                ['name' => 'folk', 
-                 'special_symbol' => true,
-                 'attributes' => ['rows' => 3],
-                 'title'=>trans('toponym.folk')])
-        <!-- Legend -->
+        <!-- Popular interpretation, Legend -->
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'legend', 
                  'special_symbol' => true,
