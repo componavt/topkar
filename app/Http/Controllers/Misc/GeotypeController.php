@@ -88,21 +88,26 @@ class GeotypeController extends Controller
     {
         $field = $request->locale == 'en' ? 'name_en' : 'name_ru';
         $this->validateRequest($request);
-        $geotype = Geotype::where('name_ru', 'like', $request->name_ru)->first();
-        if ($geotype) {
-            return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
-        }
-        $geotype = Geotype::where('short_ru', 'like', $request->short_ru)->first();
-        if ($geotype) {
-            return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
-        }
-        $geotype = Geotype::where('name_en', 'like', $request->name_en)->first();
-        if ($geotype) {
-            return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
-        }
-        $geotype = Geotype::where('short_en', 'like', $request->short_en)->first();
-        if ($geotype) {
-            return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+        if ($request->name_ru) {
+            $geotype = Geotype::where('name_ru', 'like', $request->name_ru)->first();
+            if ($geotype) {
+                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+            }
+        } elseif ($request->short_ru) {
+            $geotype = Geotype::where('short_ru', 'like', $request->short_ru)->first();
+            if ($geotype) {
+                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+            }
+        } elseif ($request->name_en) {
+            $geotype = Geotype::where('name_en', 'like', $request->name_en)->first();
+            if ($geotype) {
+                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+            }
+        } elseif ($request->short_en) {
+            $geotype = Geotype::where('short_en', 'like', $request->short_en)->first();
+            if ($geotype) {
+                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+            }
         }
         $geotype = Geotype::create($request->all());
         return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
