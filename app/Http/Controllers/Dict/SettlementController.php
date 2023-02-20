@@ -101,7 +101,9 @@ class SettlementController extends Controller
         $field = $request->locale == 'en' ? 'name_en' : 'name_ru';
         $this->validateRequest($request);
         $settlement = Settlement::create($request->all());
-        $settlement->districts()->attach($request->district_id);
+        $settlement->districts()->attach($request->district_id,
+                        ['include_from'=>$request->district_from, 
+                         'include_to'=>$request->district_to]);
         return Response::json(['id'=>$settlement->id, 'name'=>$settlement->{$field}, 
                 'district_id'=>$request->district_id, 'district_name'=> District::find($request->district_id)->{$field} ]);
     }

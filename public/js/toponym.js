@@ -105,22 +105,21 @@ function addSettlement() {
 }
 
 function saveSettlement() {
-    var name_ru = $( "#modalAddSettlement #name_ru" ).val();
-    var name_en = $( "#modalAddSettlement #name_en" ).val();
-    var name_krl = $( "#modalAddSettlement #name_krl" ).val();
-    var district_id = $( "#modalAddSettlement #district_id" ).val();
     var route = '/dict/settlements/store';
-    var test_url = '?name_ru='+name_ru+'&name_en='+name_en+'&name_krl='+name_krl;
-    var locale = $("#locale").val();
+    var data = {'name_ru': $( "#modalAddSettlement #name_ru" ).val(),
+                'name_en': $( "#modalAddSettlement #name_en" ).val(),
+                'name_krl': $( "#modalAddSettlement #name_krl" ).val(),
+                'district_id': $( "#modalAddSettlement #districts_0__id_" ).val(),
+                'district_from': $( "#modalAddSettlement #districts_0__from_").val(),
+                'district_to':   $( "#modalAddSettlement #districts_0__to_" ).val(),
+                'geotype_id': $("#modalAddSettlement #geotype_id").val(),
+                'locale': $("#locale").val()
+            };
+console.log(data);
 
     $.ajax({
         url: route, 
-        data: {name_ru: name_ru, 
-               name_en: name_en,
-               name_krl: name_krl,
-               district_id: district_id,
-               locale: locale
-              },
+        data: data,
         type: 'GET',
         success: function(settlement){       
             if (settlement) {
@@ -134,8 +133,8 @@ function saveSettlement() {
             $("#modalAddSettlement").modal('hide');
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            var text = 'Ajax Request Error: ' + 'XMLHTTPRequestObject status: ('+jqXHR.status + ', ' + jqXHR.statusText+'), ' + 
-               	       'text status: ('+textStatus+'), error thrown: ('+errorThrown+'), route: ' + route + test_url;
+            var text = 'ERROR';/*'Ajax Request Error: ' + 'XMLHTTPRequestObject status: ('+jqXHR.status + ', ' + jqXHR.statusText+'), ' + 
+               	       'text status: ('+textStatus+'), error thrown: ('+errorThrown+'), route: ' + route + test_url;*/
             alert(text);
         }
     }); 
