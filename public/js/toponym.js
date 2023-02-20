@@ -109,6 +109,7 @@ function saveSettlement() {
     var data = {'name_ru': $( "#modalAddSettlement #name_ru" ).val(),
                 'name_en': $( "#modalAddSettlement #name_en" ).val(),
                 'name_krl': $( "#modalAddSettlement #name_krl" ).val(),
+                'name_vep': $( "#modalAddSettlement #name_vep" ).val(),
                 'district_id': $( "#modalAddSettlement #districts_0__id_" ).val(),
                 'district_from': $( "#modalAddSettlement #districts_0__from_").val(),
                 'district_to':   $( "#modalAddSettlement #districts_0__to_" ).val(),
