@@ -22,6 +22,9 @@
     <p><span class='field-name'>{{trans('navigation.districts')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->districtsToString() }}</span></p>
 
+    <p><span class='field-name'>{{trans('misc.type')}}</span>: 
+    <span class='field-value'>{{ optional($settlement->geotype)->name }}</span></p>
+
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_russian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_ru }}</span></p>
 
@@ -30,6 +33,9 @@
 
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_karelian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_krl }}</span></p>
+
+    <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_vepsian')}}</span>: 
+    <span class='field-value'>{{ optional($settlement)->name_vep }}</span></p>
 
     
     <x-slot name="footScriptExtra">

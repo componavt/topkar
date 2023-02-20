@@ -58,6 +58,7 @@ class SettlementController extends Controller
             'name_en'  => 'max:150',
             'name_ru'  => 'required|max:150',
             'name_krl'  => 'max:150',
+            'name_vep'  => 'max:150',
         ]);
         return $request->all();
     }
@@ -159,7 +160,7 @@ class SettlementController extends Controller
         $settlement->fill($this->validateRequest($request))->save();
         $settlement->saveDistricts($request->districts);
        
-        return Redirect::to(route('settlements.index', $settlement).($this->args_by_get))
+        return Redirect::to(route('settlements.show', $settlement).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 

@@ -19,6 +19,11 @@
                  'title'=>trans('toponym.name').' '.trans('messages.in_karelian')])
                  
         @include('widgets.form.formitem._text', 
+                ['name' => 'name_vep', 
+                 'special_symbol' => true,
+                 'title'=>trans('toponym.name').' '.trans('messages.in_vepsian')])
+                 
+        @include('widgets.form.formitem._text', 
                 ['name' => 'name_en', 
                  'special_symbol' => true,
                  'title'=>trans('toponym.name').' '.trans('messages.in_english')])

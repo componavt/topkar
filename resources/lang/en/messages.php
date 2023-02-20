@@ -11,11 +11,13 @@ return [
     */
     
     'actions' => 'Actions',
+    
     'back_to_list' => 'Return to list',
     'back_to_show' => 'Return to review',
     'bin_answer_0' => 'no',
     'bin_answer_1' => 'yes',
     'bin_answers' => [1=>'yes', 0=>'no'],
+    
     'category' => 'category',
     'changed' => 'changed',
     'choose' => 'choose',
@@ -30,19 +32,25 @@ return [
     'create_new_g' => 'Create a new',
     'created' => 'created',
     'created_success' => 'Successfully created',
+    
     'delete' => 'delete',
     'delete_confirmation' => 'Delete confirmation',
+    
     'edit' => 'edit',
     'editing' => 'Editing',
     'examples' => 'Examples',
+    
     'frequency' => 'frequency',
     'from' => 'from',
+    
     'history' => 'history',
+    
     'in_desc' => 'in decreasing order',
     'in_english' => 'in English',
     'in_karelian' => 'in Karelian',
     'in_pl' => 'in plural',
     'in_russian' => 'in Russian',
+    'in_vepsian' => 'in Vepsian',
     'including' => 'including',
     'insert_new_field' => 'Insert a new field',
     'invalid_id' => 'Invalid identifier',

@@ -14,7 +14,7 @@ class Settlement extends Model
     use HasFactory;
     
     public $timestamps = false;
-    protected $fillable = ['name_ru', 'name_en', 'name_krl', 'wd', 'latitude', 'longitude', 'geotype_id'];
+    protected $fillable = ['name_ru', 'name_en', 'name_krl', 'name_vep', 'wd', 'latitude', 'longitude', 'geotype_id'];
     const Types=[
         93, // city
         21, // village
@@ -30,7 +30,7 @@ class Settlement extends Model
 
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
-    use \App\Traits\Methods\search\byNameKRL;
+//    use \App\Traits\Methods\search\byNameKRL;
 
     // Belongs To One Relations
     use \App\Traits\Relations\BelongsTo\Geotype;
@@ -160,8 +160,13 @@ class Settlement extends Model
         
         if ($this->name) {
             $info[0] = $this->name;
-            if ($with_krl && $this->name_krl) {
+            if ($with_krl) {
+                if ($this->name_krl) {
                      $info[0] .=  ", ".$this->name_krl;
+                }
+                if ($this->name_vep) {
+                     $info[0] .=  ", ".$this->name_vep;
+                }                     
             }
         }
         
@@ -204,6 +209,7 @@ class Settlement extends Model
         return $places->where(function($q) use ($place_name){
                             $q->where('name_ru','like', $place_name)
                               ->orWhere('name_krl','like', $place_name)            
+                              ->orWhere('name_vep','like', $place_name)            
                               ->orWhere('name_en','like', $place_name);           
                 });
     }
