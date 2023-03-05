@@ -275,7 +275,9 @@ class Toponym extends Model
      * @return string
      */
     public function wdURL()
-    {             
+    {  
+        if(!$this->wd) { return ""; }
+        
         return "<a href=\"https://www.wikidata.org/wiki/Q".
                 $this->wd.'">Q'.$this->wd."</a>";
     }
