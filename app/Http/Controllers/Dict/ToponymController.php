@@ -122,11 +122,16 @@ class ToponymController extends Controller
 
     public function validateRequest(Request $request) {
         $this->validate($request, [
-            'name'  => 'required|max:255'
+            'name'  => 'required|max:255',
+//            'wd'    => 'integer'
             ]);
+        
+        // todo: validate wd starts from 'Q', contains only numbers.
+        
         $data = $request->only('name', 'district_id', 'settlement1926_id', 
                     'geotype_id', 'etymology', 'etymology_nation_id', 'legend',
-                    'ethnos_territory_id', 'caseform', 'main_info', 'folk');
+                    'ethnos_territory_id', 'caseform', 'main_info', 'folk', 'wd');
+        
         $data['name'] = to_right_form($data['name']);
         return $data;
     }

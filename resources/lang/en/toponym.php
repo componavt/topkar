@@ -72,6 +72,9 @@ return [
     'topnames' => 'Other names',
     'toponym' => 'Toponym',
     
+    'toponym' => 'Топоним',
     
+    'wd' => 'Wikidata ID',
+    'wd_URL' => 'Wikidata',
     
 ];

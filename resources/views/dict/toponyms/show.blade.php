@@ -46,6 +46,9 @@
     <p><span class='field-name'>{{trans('toponym.legend')}}</span>: 
     <span class='field-value'>{{ $toponym->legend }}</span></p>
 
+    <p><span class='field-name'>{{trans('toponym.wd_URL')}}</span>: 
+    <span class='field-value'>{!! $toponym->wdURL() !!}</span></p>
+    
     <p>
         <span class='field-name'>{{trans('toponym.sources')}}</span>:
         @foreach ($toponym->sources as $source)

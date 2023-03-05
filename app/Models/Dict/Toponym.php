@@ -20,7 +20,7 @@ class Toponym extends Model
     protected $fillable = ['name', 'name_for_search', 'district_id',  
                            'settlement1926_id', 'geotype_id', 'etymology', 
                            'etymology_nation_id', 'ethnos_territory_id', 
-                           'caseform', 'main_info', 'folk', 'legend'];
+                           'caseform', 'main_info', 'folk', 'legend', 'wd'];
     const SortList=['name', 'id'
 //        2 => 'created_at'
     ];
@@ -268,6 +268,16 @@ class Toponym extends Model
     public function settlement1926Value()
     {
         return $this->settlement1926_id ? [$this->settlement1926_id] : '';
+    }
+    
+    /** Gets Wikidata URL from Wikidata ID.
+     * 55659275 -> <a href="https://www.wikidata.org/wiki/Q55659275">Q55659275</a>
+     * @return string
+     */
+    public function wdURL()
+    {             
+        return "<a href=\"https://www.wikidata.org/wiki/Q".
+                $this->wd.'">Q'.$this->wd."</a>";
     }
     
     public static function storeData(array $data, $request) {

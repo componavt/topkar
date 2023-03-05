@@ -55,6 +55,7 @@
                  'class'=>'select-settlement form-control'
         ]) 
                 
+        <!-- Locative form -->
         @include('widgets.form.formitem._text', 
                 ['name' => 'caseform', 
                  'title'=>trans('toponym.caseform')])
@@ -130,6 +131,12 @@
                  'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.legend')])
+                 
+        <!-- Wikidata ID without 'Q' -->
+        @include('widgets.form.formitem._text', 
+                ['name' => 'wd', 
+                 'title'=>trans('toponym.wd')])
+                 
         <!-- Sources -->                 
         <b>{{trans('toponym.sources')}}</b>
         <i onclick="addSource()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
@@ -145,6 +152,7 @@
         @endif
         <input type='hidden' id='next-source-num' value='{{1 + (isset($source) ? $source->sequence_number : 0) }}'>
         <div id='new-sources'></div>
+        
     </div>
     <div class="col-sm-6">
         <!-- Etymology nation -->
