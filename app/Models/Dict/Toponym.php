@@ -282,6 +282,36 @@ class Toponym extends Model
                 $this->wd.'">Q'.$this->wd."</a>";
     }
     
+    public function argsForAnotherOne($args_by_get='') {
+        $args = [];
+        foreach ($this->settlements as $settlement) {
+            $args[] = 'settlement_id[]='.$settlement->id;
+        }
+        if ($this->district_id) {
+            $args[] = 'district_id='.$this->district_id;
+            if ($this->district->region_id) {
+                $args[] = 'region_id='.$this->district->region_id;
+            }
+        }
+        if ($this->settlement1926_id) {
+            $args[] = 'settlement1926_id='.$this->settlement1926_id;
+            if ($this->settlement1926->selsovet1926_id) {
+                $args[] = 'selsovet1926_id='.$this->settlement1926->selsovet1926_id;
+            }
+            if ($this->settlement1926->selsovet1926->district1926_id) {
+                $args[] = 'district1926_id='.$this->settlement1926->selsovet1926->district1926_id;
+            }
+            if ($this->settlement1926->selsovet1926->district1926->region_id) {
+                $args[] = 'region1926_id='.$this->settlement1926->selsovet1926->district1926->region_id;
+            }
+        }
+        if (!sizeof($args)) {
+            return $args_by_get;
+        }
+        $args = join('&',$args);
+        return $args_by_get ? '&'.$args : '?'.$args;
+    }
+
     public static function storeData(array $data, $request) {
         $toponym = Toponym::create($data); 
         $toponym->name_for_search = to_search_form($toponym->name);

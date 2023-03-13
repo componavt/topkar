@@ -11,6 +11,7 @@
             | @include('widgets.form.button._edit', ['route' => route('toponyms.edit', $toponym)])
             | @include('widgets.form.button._delete', ['route' => 'toponyms.destroy', 'args'=>['toponym' => $toponym->id]])             
             | <a href="{{ route('toponyms.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_m')) }}</a>
+            | <a href="{{ route('toponyms.create') }}{{$toponym->argsForAnotherOne($args_by_get)}}">{{ mb_strtolower(trans('toponym.create_new_m_in_this_settlement')) }}</a>
         @else
             | {{ trans('messages.edit') }} | {{ trans('messages.delete') }} | {{ trans('messages.create_new_m') }}
         @endif 

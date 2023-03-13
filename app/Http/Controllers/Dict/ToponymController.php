@@ -85,11 +85,13 @@ class ToponymController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         
+        $region_values = [''=>NULL] + Region::getList();
+        $region_value = [(int)$request->input('region_id')];
         $district_values = [''=>NULL] + District::getList();
         $district1926_values = [''=>NULL] + District1926::getList();
         $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
@@ -97,7 +99,6 @@ class ToponymController extends Controller
         $geotype_values = [''=>NULL] + Geotype::getList();
         $informant_values = Informant::getList();
         $recorder_values = Recorder::getList();
-        $region_values = [''=>NULL] + Region::getList();
         $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
         $settlement_values = [''=>NULL] + Settlement::getList();
         $settlement1926_values = [''=>NULL] + Settlement1926::getList();
@@ -114,6 +115,7 @@ class ToponymController extends Controller
                 compact('district_values', 'district1926_values', 
                         'ethnos_territory_values', 'etymology_nation_values', 
                         'geotype_values',  'informant_values', 'recorder_values',
+                        'region_value',
                         'region_values', 'selsovet1926_values', 'settlement_values', 
                         'settlement1926_values', 'structs', 'structhiers', 
                         'struct_values', 'structhier_values', 'type_values', 

@@ -28,7 +28,7 @@
         @include('widgets.form.formitem._select2', 
                 ['name' => 'region_id', 
                  'values' => $region_values,
-                 'value' => optional($toponym)->regionValue(),
+                 'value' => $action=='create' && isset($region_value) ? $region_value : optional($toponym)->regionValue(),
                  'title' => trans('toponym.region'), 
                  'is_multiple' => false,
                  'class'=>'select-region form-control'

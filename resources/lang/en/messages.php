@@ -28,7 +28,7 @@ return [
     'create' => 'сreate',
     'creating' => 'Creating',
     'create_new_f' => 'Create a new',
-    'create_new_m' => 'Create a new',
+    'create_new_m' => 'Create another one',
     'create_new_g' => 'Create a new',
     'created' => 'created',
     'created_success' => 'Successfully created',

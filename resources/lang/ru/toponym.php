@@ -24,6 +24,8 @@ return [
     'by_name' => 'по названию',
     
     'caseform' => 'Форма местного падежа',
+    'create_new_m_in_this_settl' => 'Создать новый в том же поселении',
+    
     'desc' => 'Описание',
     'district' => 'Район',
     'district_removed' => 'Район ":name" удален.',
