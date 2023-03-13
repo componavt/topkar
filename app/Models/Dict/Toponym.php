@@ -295,8 +295,8 @@ class Toponym extends Model
         }
         if ($this->settlement1926_id) {
             $args[] = 'settlement1926_id='.$this->settlement1926_id;
-            if ($this->settlement1926->selsovet1926_id) {
-                $args[] = 'selsovet1926_id='.$this->settlement1926->selsovet1926_id;
+            if ($this->settlement1926->selsovet_id) {
+                $args[] = 'selsovet1926_id='.$this->settlement1926->selsovet_id;
             }
             if ($this->settlement1926->selsovet1926->district1926_id) {
                 $args[] = 'district1926_id='.$this->settlement1926->selsovet1926->district1926_id;
@@ -309,7 +309,7 @@ class Toponym extends Model
             return $args_by_get;
         }
         $args = join('&',$args);
-        return $args_by_get ? '&'.$args : '?'.$args;
+        return $args_by_get ? $args_by_get.'&'.$args : '?'.$args;
     }
 
     public static function storeData(array $data, $request) {

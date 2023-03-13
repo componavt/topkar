@@ -92,16 +92,27 @@ class ToponymController extends Controller
         
         $region_values = [''=>NULL] + Region::getList();
         $region_value = [(int)$request->input('region_id')];
+        $region1926_value = [(int)$request->input('region1926_id')];
+        
         $district_values = [''=>NULL] + District::getList();
+        $district_value = [(int)$request->input('district_id')];
         $district1926_values = [''=>NULL] + District1926::getList();
+        $district1926_value = [(int)$request->input('district1926_id')];
+         
+        $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
+        $selsovet1926_value = [(int)$request->input('selsovet1926_id')];
+        
+        $settlement_values = [''=>NULL] + Settlement::getList();
+        $settlement_value = (array)$request->input('settlement_id');
+        $settlement1926_values = [''=>NULL] + Settlement1926::getList();
+        $settlement1926_value = [(int)$request->input('settlement1926_id')];
+
         $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
         $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
         $geotype_values = [''=>NULL] + Geotype::getList();
         $informant_values = Informant::getList();
         $recorder_values = Recorder::getList();
-        $selsovet1926_values = [''=>NULL] + Selsovet1926::getList();
-        $settlement_values = [''=>NULL] + Settlement::getList();
-        $settlement1926_values = [''=>NULL] + Settlement1926::getList();
+        
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
         $type_values = [''=>NULL] + Settlement::getTypeList();
@@ -112,11 +123,13 @@ class ToponymController extends Controller
         }
 
         return view('dict.toponyms.create', 
-                compact('district_values', 'district1926_values', 
-                        'ethnos_territory_values', 'etymology_nation_values', 
-                        'geotype_values',  'informant_values', 'recorder_values',
-                        'region_value',
-                        'region_values', 'selsovet1926_values', 'settlement_values', 
+                compact('district_value', 'district_values', 'district1926_value', 
+                        'district1926_values', 'ethnos_territory_values', 
+                        'etymology_nation_values', 'geotype_values',  
+                        'informant_values', 'recorder_values', 'region_value',
+                        'region_values', 'region1926_value', 'selsovet1926_value', 
+                        'selsovet1926_values', 'settlement_value', 
+                        'settlement_values', 'settlement1926_value', 
                         'settlement1926_values', 'structs', 'structhiers', 
                         'struct_values', 'structhier_values', 'type_values', 
                         'args_by_get', 'url_args'));
