@@ -400,13 +400,13 @@ class Toponym extends Model
                     'search_selsovets1926' => (array)$request->input('search_selsovets1926'),
                     'search_settlements' => (array)$request->input('search_settlements'),
                     'search_settlements1926' => (array)$request->input('search_settlements1926'),
+                    'search_source'    => $request->input('search_source'),
                     'search_structs'    => (array)$request->input('search_structs'),
                     'search_structhiers'    => (array)$request->input('search_structhiers'),
                     'search_toponym'    => $request->input('search_toponym'),
                     'sort_by' => $request->input('sort_by'),
                 ];
         $sort_list = self::SortList;
-
 //dd($sort_list, $url_args['sort_by']);        
         if (!in_array($url_args['sort_by'], $sort_list)) {
             $url_args['sort_by']= $sort_list[0];
@@ -421,7 +421,6 @@ class Toponym extends Model
      * @return type
      */
     public static function search(Array $url_args) {
-        
         $toponyms = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
         //$toponyms = self::searchByPlace($toponyms, $url_args['search_place'], $url_args['search_district'], $url_args['search_region']);
         
@@ -432,6 +431,7 @@ class Toponym extends Model
         $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
         $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
         $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
+        $toponyms = self::searchBySource($toponyms, $url_args['search_source']);
         
 /*        if ($url_args['search_settlement']) {
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
@@ -451,9 +451,21 @@ class Toponym extends Model
         if ($url_args['search_etymology_nations']) {
             $toponyms = $toponyms->whereIn('etymology_nation_id',$url_args['search_etymology_nations']);
         }         
-//dd($toponyms->toSql());                                
 //dd(to_sql($toponyms));
         return $toponyms;
+    }
+    
+    /** Search toponym by names. 
+     */
+    public static function searchBySource($toponyms, $search_source) {
+        if (!$search_source) {
+            return $toponyms;
+        }   
+        
+        return $toponyms->whereIn('id', function ($q) use ($search_source){
+                            $q->select('toponym_id')->from('sources')
+                              ->where('source', 'LIKE', $search_source);
+                        });
     }
     
     /** Search toponym by names. 
