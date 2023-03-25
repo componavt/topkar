@@ -3,7 +3,12 @@
             {{trans('navigation.toponyms')}}
     </x-slot>
 
-    <h3>{{ $toponym->name }}</h3>
+    <h3>
+        {{ $toponym->name }} 
+        @if ($toponym->lang)
+        ({{$toponym->lang->name}})
+        @endif
+    </h3>
     
     <div class='top-links'>        
         <a href="{{ route('toponyms.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
@@ -18,7 +23,7 @@
     </div>
     
     <p><span class='field-name'>{{trans('toponym.topnames')}}</span>: 
-    <span class='field-value'>{{ join(', ', $toponym->topnames()->pluck('name')->toArray()) }}</span></p>
+    <span class='field-value'>{{ join(', ', $toponym->topnamesWithLangs()) }}</span></p>
 
     <p><span class='field-name'>{{trans('toponym.location')}}</span>: 
     <span class='field-value'>{{ $toponym->location }}</span></p>

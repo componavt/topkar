@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Models\Dict;
+namespace App\Models\Dict;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,9 +11,6 @@ class Lang extends Model
     
     public $timestamps = false;
     //protected $fillable = ['name_ru', 'code', 'sequence_number'];
-    
-    // Has Many Relations
-    use \App\Traits\Relations\HasMany\Dialects;
     
     public function identifiableName()
     {

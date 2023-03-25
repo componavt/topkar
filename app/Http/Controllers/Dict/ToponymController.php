@@ -8,6 +8,7 @@ use Redirect;
 
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;
+use App\Models\Dict\Lang;
 use App\Models\Dict\Region;
 use App\Models\Dict\Selsovet1926;
 use App\Models\Dict\Settlement;
@@ -117,6 +118,7 @@ class ToponymController extends Controller
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
         $type_values = [''=>NULL] + Settlement::getTypeList();
+        $lang_values = [''=>NULL] + Lang::getList();
         
         for ($i=0; $i<4; $i++) {
             $structs[]=[];
@@ -127,7 +129,7 @@ class ToponymController extends Controller
                 compact('district_value', 'district_values', 'district1926_value', 
                         'district1926_values', 'ethnos_territory_values', 
                         'etymology_nation_values', 'geotype_values',  
-                        'informant_values', 'recorder_values', 'region_value',
+                        'informant_values', 'lang_values', 'recorder_values', 'region_value',
                         'region_values', 'region1926_value', 'selsovet1926_value', 
                         'selsovet1926_values', 'settlement_value', 
                         'settlement_values', 'settlement1926_value', 
@@ -144,7 +146,7 @@ class ToponymController extends Controller
         
         // todo: validate wd starts from 'Q', contains only numbers.
         
-        $data = $request->only('name', 'district_id', 'settlement1926_id', 
+        $data = $request->only('name', 'district_id', 'settlement1926_id', 'lang_id',
                     'geotype_id', 'etymology', 'etymology_nation_id', 'legend',
                     'ethnos_territory_id', 'caseform', 'main_info', 'folk', 'wd');
         
@@ -207,6 +209,7 @@ class ToponymController extends Controller
         $struct_values = [''=>NULL] + Struct::getList();
         $structhier_values = Structhier::getGroupedList();
         $type_values = [''=>NULL] + Settlement::getTypeList();
+        $lang_values = [''=>NULL] + Lang::getList();
         
         $structs = $structhiers = [];
         foreach ($toponym->structs as $struct) {
@@ -220,7 +223,7 @@ class ToponymController extends Controller
         return view('dict.toponyms.edit', 
                 compact('district_values', 'district1926_values', 
                         'ethnos_territory_values', 'etymology_nation_values', 
-                        'geotype_values',  'informant_values', 'recorder_values', 
+                        'geotype_values',  'informant_values', 'lang_values', 'recorder_values', 
                         'region_values', 'selsovet1926_values', 'settlement_values', 
                         'settlement1926_values', 'structs', 'structhiers', 
                         'struct_values', 'structhier_values', 'toponym', 
@@ -236,7 +239,7 @@ class ToponymController extends Controller
      */
     public function update(Request $request, Toponym $toponym)
     {
-//dd($request->events);        
+//dd($this->validateRequest($request));        
         $toponym->updateData($this->validateRequest($request), $request);
         
         return Redirect::to(route('toponyms.show', $toponym).($this->args_by_get))

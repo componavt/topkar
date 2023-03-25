@@ -1,2 +1,14 @@
-<input id="{{$id_name}}" class="form-control" name="{{$var_name}}" type="text" value="{{$value ?? null}}">
-@include('widgets.special_symbols',['full_special_list' => true])
+        <div class="row">        
+            <div class="col-sm-6">
+                <input id="{{$id_name}}" class="form-control" name="{{$var_name}}[n]" type="text" value="{{$name ?? null}}">
+                @include('widgets.special_symbols',['full_special_list' => true])
+            </div>
+            <div class="col-sm-6">
+            @include('widgets.form.formitem._select', 
+                    ['name' => $var_name.'[l]', 
+                     'value' => $lang_id ?? null,
+                     'values' => $lang_values
+                     
+            ]) 
+            </div>
+        </div>

@@ -234,14 +234,14 @@ function saveGeotype() {
 }
 
 function addTopName() {
-    var num = $('#next-topname-num').val();
+    var num = parseInt($('#add-top-name').attr('data-count'));
     $.ajax({
         url: '/dict/topnames/create', 
         data: {num: num},
         type: 'GET',
         success: function(html){       
             $('#new-topnames').append(html);
-            $('#next-topname-num').val(1+num);
+            $('#add-top-name').attr('data-count',1+num);
         },
         error: function () {
            alert('ERROR');

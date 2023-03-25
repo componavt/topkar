@@ -17,7 +17,7 @@ use App\Models\Misc\Struct;
 class Toponym extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'name_for_search', 'district_id',  
+    protected $fillable = ['name', 'name_for_search', 'district_id', 'lang_id', 
                            'settlement1926_id', 'geotype_id', 'etymology', 
                            'etymology_nation_id', 'ethnos_territory_id', 
                            'caseform', 'main_info', 'folk', 'legend', 'wd'];
@@ -27,6 +27,7 @@ class Toponym extends Model
     //use \App\Traits\Methods\getNameAttribute;    
     
     // Belongs To One Relations
+    use \App\Traits\Relations\BelongsTo\Lang;
     use \App\Traits\Relations\BelongsTo\Geotype;
     
     // Belongs To Many Relations
@@ -101,6 +102,14 @@ class Toponym extends Model
         return $this->hasMany(Topname::class);
     }
     
+    public function topnamesWithLangs(){
+        $out = [];
+        foreach ($this->topnames as $topname) {
+            $out[] = $topname->name. ($topname->lang ? ' ('.$topname->lang->name.')' : '');
+        }
+        return $out;
+    }
+
     public function sources()
     {
         //                                       
@@ -327,13 +336,13 @@ class Toponym extends Model
         $this->name_for_search = to_search_form($this->name);
         $this->save();
         
-        foreach ((array)$request->topnames as $t_id => $t_name) {
+        foreach ((array)$request->topnames as $t_id => $t_info) {
 //dd($t_name);            
             $topname = Topname::find($t_id);
-            if (!$t_name) {
+            if (!$t_info['n']) {
                 $topname->delete();
-            } elseif ($t_name != $topname->name) {
-                $topname->updateData($t_name); 
+            } else {
+                $topname->updateData($t_info); 
             }
         }
         
@@ -351,9 +360,9 @@ class Toponym extends Model
     
     public function updateAddInfo(array $data, $request) {
         $this->settlements()->sync($request->settlement_id);
-        
-        foreach ((array)$request->new_topname as $t_name) {
-            Topname::storeData($this->id, $t_name);
+//dd($request->new_topname);        
+        foreach ((array)$request->new_topname as $t_info) {
+            Topname::storeData($this->id, $t_info);
         }
         
         foreach ((array)$request->new_sources as $i => $s_data) {

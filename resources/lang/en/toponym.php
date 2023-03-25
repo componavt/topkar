@@ -39,6 +39,7 @@ return [
     
     'is_map' => 'map',
     
+    'lang' => 'language',
     'legend' => 'Popular interpretation, legends',
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
@@ -47,7 +48,7 @@ return [
     'mention' => 'Mention',
     'name' => 'Name',
     
-    'official_name' => 'Oficial name',
+    'official_name' => 'Title name',
     
     'region' => 'Region',
     'regions' => 'regions',
@@ -79,3 +80,4 @@ return [
     'wd_URL' => 'Wikidata',
     
 ];
+//update langs set sequence_number=

@@ -2,23 +2,34 @@
 
 <div class="row"><!-- First row -->
     <div class="col-sm-6">
-        @include('widgets.form.formitem._text', 
-                ['name' => 'name', 
-                 'special_symbol' => true,
-                 'full_special_list' => true,
-                 'title'=>trans('toponym.official_name')])
+        <div class="row">        
+            <div class="col-sm-6">
+            @include('widgets.form.formitem._text', 
+                    ['name' => 'name', 
+                     'special_symbol' => true,
+                     'full_special_list' => true,
+                     'title'=>trans('toponym.official_name')])
 {{--                 'help_func' => "callHelp('help-text-fields')",--}}
-
+            </div>
+            <div class="col-sm-6">
+            @include('widgets.form.formitem._select', 
+                    ['name' => 'lang_id', 
+                     'values' => $lang_values,
+                     'title' => trans('toponym.lang')
+            ]) 
+            </div>
+        </div>
         <div class="form-group ">
             <label for="name">
                 {{trans('toponym.topnames')}}
-                <i onclick="addTopName()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
+                <i id='add-top-name' onclick="addTopName()" class="call-add fa fa-plus fa-lg" data-count=0 title="{{trans('messages.insert_new_field')}}"></i>
             </label>
             @foreach($topnames as $topname)
                 @include('dict.topnames._create_edit',
                     ['id_name'=>'topnames_'.$topname->id, 
                      'var_name'=>'topnames['.$topname->id.']',
-                     'value' => $topname->name
+                     'name' => $topname->name,
+                     'lang_id'=> $topname->lang_id
                     ])
             @endforeach
             <input type='hidden' name='next-name-num' value='0'>
