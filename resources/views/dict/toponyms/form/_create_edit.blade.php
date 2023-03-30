@@ -19,6 +19,8 @@
             ]) 
             </div>
         </div>
+        
+        <!-- Other names -->
         <div class="form-group ">
             <label for="name">
                 {{trans('toponym.topnames')}}
@@ -32,8 +34,24 @@
                      'lang_id'=> $topname->lang_id
                     ])
             @endforeach
-            <input type='hidden' name='next-name-num' value='0'>
             <div id='new-topnames'></div>
+        </div>  
+        
+        <!-- Wrong names -->
+        <div class="form-group ">
+            <label for="name">
+                {{trans('toponym.wrongnames')}}
+                <i id='add-wrong-name' onclick="addWrongName()" class="call-add fa fa-plus fa-lg" data-count=0 title="{{trans('messages.insert_new_field')}}"></i>
+            </label>
+            @foreach($wrongnames as $wrongname)
+                @include('dict.wrongnames._create_edit',
+                    ['id_name'=>'wrongnames_'.$wrongname->id, 
+                     'var_name'=>'wrongnames['.$wrongname->id.']',
+                     'name' => $wrongname->name,
+                     'lang_id'=> $wrongname->lang_id
+                    ])
+            @endforeach
+            <div id='new-wrongnames'></div>
         </div>        
         <!-- Region -->
         @include('widgets.form.formitem._select2', 

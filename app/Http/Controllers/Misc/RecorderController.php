@@ -193,7 +193,7 @@ class RecorderController extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function recorderList(Request $request)
     {
         $locale = app()->getLocale();
         $name = '%'.$request->input('q').'%';

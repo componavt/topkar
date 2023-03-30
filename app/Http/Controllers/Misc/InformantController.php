@@ -193,7 +193,7 @@ class InformantController extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function informantList(Request $request)
     {
         $locale = app()->getLocale();
         $name = '%'.$request->input('q').'%';

@@ -23,7 +23,8 @@
                 ['submit_title' => trans('messages.create'),
                  'action' => 'create',
                  'toponym' => NULL,
-                 'topnames' => [] ])
+                 'topnames' => [],
+                 'wrongnames' => []])
     {!! Form::close() !!}
     
     <x-slot name="footScriptExtra">

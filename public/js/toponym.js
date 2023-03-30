@@ -249,6 +249,22 @@ function addTopName() {
     }); 
 }
 
+function addWrongName() {
+    var num = parseInt($('#add-wrong-name').attr('data-count'));
+    $.ajax({
+        url: '/dict/wrongnames/create', 
+        data: {num: num},
+        type: 'GET',
+        success: function(html){       
+            $('#new-wrongnames').append(html);
+            $('#add-wrong-name').attr('data-count',1+num);
+        },
+        error: function () {
+           alert('ERROR');
+        }
+    }); 
+}
+
 function addSource() {
     var num = $('#next-source-num').val();
     $.ajax({

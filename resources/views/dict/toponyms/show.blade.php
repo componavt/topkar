@@ -25,6 +25,9 @@
     <p><span class='field-name'>{{trans('toponym.topnames')}}</span>: 
     <span class='field-value'>{{ join(', ', $toponym->topnamesWithLangs()) }}</span></p>
 
+    <p><span class='field-name'>{{trans('toponym.wrongnames')}}</span>: 
+    <span class='field-value'>{{ join(', ', $toponym->wrongnamesWithLangs()) }}</span></p>
+
     <p><span class='field-name'>{{trans('toponym.location')}}</span>: 
     <span class='field-value'>{{ $toponym->location }}</span></p>
 

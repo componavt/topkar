@@ -5,7 +5,7 @@ namespace App\Models\Dict;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Topname extends Model
+class Wrongname extends Model
 {
     use HasFactory;
     protected $fillable = ['toponym_id', 'name', 'name_for_search', 'lang_id'];
@@ -31,5 +31,4 @@ class Topname extends Model
                              'name_for_search' => to_search_form($name),
                              'lang_id' => $info['l'] ? (int)$info['l'] : null]);         
     }
-    
 }

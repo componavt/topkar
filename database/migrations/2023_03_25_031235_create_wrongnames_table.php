@@ -17,7 +17,7 @@ class CreateWrongnamesTable extends Migration
             $table->increments('id');
             $table->integer('toponym_id')->unsigned();
             
-            $table->smallInteger('lang_id')->unsigned()->nullable();
+            $table->tinyInteger('lang_id')->unsigned()->nullable();
             $table->     foreign('lang_id')->references('id')->on('langs');
             
             $table->string('name', 255)->collation('utf8_bin');

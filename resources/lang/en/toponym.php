@@ -78,6 +78,7 @@ return [
     
     'wd' => 'Wikidata ID',
     'wd_URL' => 'Wikidata',
+    'wrongnames' => 'Wrong names',
     
 ];
 //update langs set sequence_number=

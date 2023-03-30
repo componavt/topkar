@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Dict\Settlement1926;
 use App\Models\Dict\Source;
+use App\Models\Dict\Wrongname;
 
 use App\Models\Misc\Event;
-use App\Models\Misc\Geotype;
 use App\Models\Misc\EtymologyNation;
 use App\Models\Misc\EthnosTerritory;
 use App\Models\Misc\Struct;
@@ -102,10 +102,24 @@ class Toponym extends Model
         return $this->hasMany(Topname::class);
     }
     
+    public function wrongnames()
+    {
+        //                                       
+        return $this->hasMany(Wrongname::class);
+    }
+    
     public function topnamesWithLangs(){
         $out = [];
         foreach ($this->topnames as $topname) {
             $out[] = $topname->name. ($topname->lang ? ' ('.$topname->lang->name.')' : '');
+        }
+        return $out;
+    }
+
+    public function wrongnamesWithLangs(){
+        $out = [];
+        foreach ($this->wrongnames as $name) {
+            $out[] = $name->name. ($name->lang ? ' ('.$name->lang->name.')' : '');
         }
         return $out;
     }
@@ -346,6 +360,16 @@ class Toponym extends Model
             }
         }
         
+        foreach ((array)$request->wrongnames as $t_id => $t_info) {
+//dd($t_name);            
+            $wrongname = Wrongname::find($t_id);
+            if (!$t_info['n']) {
+                $wrongname->delete();
+            } else {
+                $wrongname->updateData($t_info); 
+            }
+        }
+        
         foreach ((array)$request->sources as $s_id => $s_data) {
             Source::find($s_id)->updateData($s_data);
         }
@@ -363,6 +387,10 @@ class Toponym extends Model
 //dd($request->new_topname);        
         foreach ((array)$request->new_topname as $t_info) {
             Topname::storeData($this->id, $t_info);
+        }
+        
+        foreach ((array)$request->new_wrongname as $t_info) {
+            Wrongname::storeData($this->id, $t_info);
         }
         
         foreach ((array)$request->new_sources as $i => $s_data) {

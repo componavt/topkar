@@ -192,7 +192,7 @@ class District1926Controller extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function district1926List(Request $request)
     {
         $locale = app()->getLocale();
         $district_name = '%'.$request->input('q').'%';

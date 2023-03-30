@@ -213,7 +213,7 @@ class Settlement1926Controller extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function slist(Request $request)
     {
         $locale = app()->getLocale();
         $settlement_name = '%'.$request->input('q').'%';

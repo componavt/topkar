@@ -204,7 +204,7 @@ class Selsovet1926Controller extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function selsovet1926List(Request $request)
     {
         $locale = app()->getLocale();
         $selsovet_name = '%'.$request->input('q').'%';

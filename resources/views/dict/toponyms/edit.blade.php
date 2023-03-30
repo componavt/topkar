@@ -27,7 +27,8 @@
     @include('dict.toponyms.form._create_edit', 
                 ['submit_title' => trans('messages.save'),
                  'action' => 'edit',
-                 'topnames' => $toponym->topnames()->count() ? $toponym->topnames : []])
+                 'topnames' => $toponym->topnames()->count() ? $toponym->topnames : [],
+                 'wrongnames' => $toponym->wrongnames()->count() ? $toponym->wrongnames : []])
         {!! Form::close() !!}
     
     <x-slot name="footScriptExtra">

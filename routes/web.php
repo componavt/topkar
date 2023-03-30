@@ -14,6 +14,7 @@ use App\Http\Controllers\Dict\Settlement1926Controller;
 use App\Http\Controllers\Dict\SourceController;
 use App\Http\Controllers\Dict\TopnameController;
 use App\Http\Controllers\Dict\ToponymController;
+use App\Http\Controllers\Dict\WrongnameController;
 
 use App\Http\Controllers\Misc\GeotypeController;
 use App\Http\Controllers\Misc\InformantController;
@@ -44,26 +45,27 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 //    Route::get('/service/tmp_fill_sources', [ServiceController::class, 'tmp_fill_sources']);
 //    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
 
-    Route::get('/misc/informants/list', [InformantController::class, 'list']);
-    Route::get('/misc/recorders/list', [RecorderController::class, 'list']);
-    Route::get('/misc/structs/list', [StructController::class, 'list']);
+    Route::get('/misc/informants/list', [InformantController::class, 'informantList']);
+    Route::get('/misc/recorders/list', [RecorderController::class, 'recorderList']);
+    Route::get('/misc/structs/list', [StructController::class, 'structList']);
     
-    Route::get('/dict/districts/list', [DistrictController::class, 'list']);
+    Route::get('/dict/districts/list', [DistrictController::class, 'districtList']);
     Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
-    Route::get('/dict/districts1926/list', [District1926Controller::class, 'list']);
+    Route::get('/dict/districts1926/list', [District1926Controller::class, 'district1926List']);
     Route::get('/dict/districts1926/store', [District1926Controller::class, 'simpleStore']);
     Route::get('/dict/geotypes/store', [GeotypeController::class, 'simpleStore']);
-    Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'list']);
+    Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'selsovet1926List']);
     Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
     Route::get('/dict/settlements/list', [SettlementController::class, 'sList']);    
     Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
-    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'list']);    
+    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     
     Route::get('/dict/sources/create', [SourceController::class, 'create']);
     Route::get('/dict/sources', [SourceController::class, 'index']);
     
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
+    Route::get('/dict/wrongnames/create', [WrongnameController::class, 'create']);
 
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

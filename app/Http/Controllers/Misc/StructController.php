@@ -199,7 +199,7 @@ class StructController extends Controller
      * 
      * @return JSON response
      */
-    public function list(Request $request)
+    public function structList(Request $request)
     {
         $locale = app()->getLocale();
         $struct_name = '%'.$request->input('q').'%';

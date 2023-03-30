@@ -14,7 +14,7 @@ class AddLangIdIntoponyms extends Migration
     public function up()
     {
         Schema::table('toponyms', function (Blueprint $table) {
-            $table->smallInteger('lang_id')->unsigned()->after('id')->nullable();
+            $table->tinyInteger('lang_id')->unsigned()->after('id')->nullable();
             $table->     foreign('lang_id')->references('id')->on('langs');
         });
     }
