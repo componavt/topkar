@@ -1,4 +1,4 @@
-        {!! Form::open(['url' => route('geotypes.index'), 
+        {!! Form::open(['url' => route('sources.index'), 
                              'method' => 'get']) 
         !!}
 <div class="row">    
