@@ -6,7 +6,7 @@
     <h3>
         {{ $toponym->name }} 
         @if ($toponym->lang)
-        ({{$toponym->lang->name}})
+        ({{$toponym->lang->short}})
         @endif
     </h3>
     
@@ -23,7 +23,7 @@
     </div>
     
     <p><span class='field-name'>{{trans('toponym.topnames')}}</span>: 
-    <span class='field-value'>{{ join(', ', $toponym->topnamesWithLangs()) }}</span></p>
+    <span class='field-value'>{!! join(', ', $toponym->topnamesWithLangs()) !!}</span></p>
 
     <p><span class='field-name'>{{trans('toponym.wrongnames')}}</span>: 
     <span class='field-value'>{{ join(', ', $toponym->wrongnamesWithLangs()) }}</span></p>
@@ -60,9 +60,14 @@
     
     <p>
         <span class='field-name'>{{trans('toponym.sources')}}</span>:
-        @foreach ($toponym->sources as $source)
-        <br>{{ $source->sequence_number }}. <span class='field-value'><i>{{ $source->mention }}</i> 
-            {!! preg_replace("/\n/", '<br>', $source->source) !!}</span> 
+        @foreach ($toponym->sourceToponyms as $st)
+        <br>{{ $st->sequence_number }}. 
+        <span class='field-value'>
+            @if ($st->sourceToString())
+            [{{$st->sourceToString()}}]:
+            @endif
+            <i>{{ $st->mention }}</i> 
+        </span> 
         @endforeach
     </p>
 
@@ -97,6 +102,18 @@
     @endforeach 
     </ol>
     
+    @if (sizeof($toponym->anothersInSettlement()))
+    <h3>Другие топонимы в этом же поселении</h3>
+    <ol>
+        @foreach ($toponym->anothersInSettlement($toponym->geotype_id) as $t) 
+        <li>{{$t->geotype_name}} <a href="{{route("toponyms.show", $t).$args_by_get}}">{{$t->name}}</a>
+            @if ($t->topnames()->count())
+            ({{join(', ', $t->topnames()->pluck('name')->toArray())}})
+            @endif
+        </li>
+        @endforeach
+    </ol>
+    @endif
     <x-slot name="footScriptExtra">
         {!!Html::script('js/rec-delete-link.js')!!}
     </x-slot>

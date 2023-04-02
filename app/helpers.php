@@ -35,11 +35,47 @@ if (! function_exists('array_to_string')) {
 if (! function_exists('search_values_by_URL')) {
     function search_values_by_URL(array $url_args=NULL)
     {
-        $out = http_build_query($url_args);
+        $out = http_build_query(remove_empty(remove_default($url_args)));
         return $out ? '?'.$out : '';
     }
 }
 
+if (! function_exists('remove_empty')) {
+    function remove_empty(array $url_args=NULL)
+    {
+        foreach ( $url_args as $k=>$v ) {
+            if (!$v || is_array($v) && (!sizeof($v) || sizeof($v)==1 && isset($v[1]) && !$v[1])) {
+                unset($url_args[$k]);
+            } 
+        }
+        return $url_args;
+    }
+}
+
+if (! function_exists('remove_empty_elems')) {
+    function remove_empty_elems(array $url_args=NULL)
+    {
+        foreach ( $url_args as $k=>$v ) {
+            if (is_array($v) && sizeof($v)==1 && array_key_exists(0,$v) && empty($v[0])) { // 
+                $url_args[$k] = [];
+            } 
+        }
+        return $url_args;
+    }
+}
+
+if (! function_exists('remove_default')) {
+    function remove_default(array $url_args=NULL)
+    {
+        if (array_key_exists('limit_num', $url_args) && $url_args['limit_num']==10) {
+            unset($url_args['limit_num']);
+        }
+        if (array_key_exists('page', $url_args) && $url_args['page']==1) {
+            unset($url_args['page']);
+        }
+        return $url_args;
+    }
+}
 
 // extracts some parameters from object Request into array $url_args
 if (! function_exists('url_args')) {

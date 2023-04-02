@@ -12,6 +12,7 @@ use App\Models\Dict\Wrongname;
 use App\Models\Misc\Event;
 use App\Models\Misc\EtymologyNation;
 use App\Models\Misc\EthnosTerritory;
+use App\Models\Misc\SourceToponym;
 use App\Models\Misc\Struct;
 
 class Toponym extends Model
@@ -32,6 +33,7 @@ class Toponym extends Model
     
     // Belongs To Many Relations
     use \App\Traits\Relations\BelongsToMany\Settlements;
+    use \App\Traits\Relations\BelongsToMany\Sources;
     
     public function events()
     {
@@ -110,8 +112,34 @@ class Toponym extends Model
     
     public function topnamesWithLangs(){
         $out = [];
+        $settlements = $this->settlements;
+        $url = '&search_geotypes[]='.$this->geotype_id.
+                     '&search_settlements1926_id[]='.$this->settlement1926_id;
+        foreach($settlements as $s) {
+            $url .= '&search_settlements[]='.$s->id;
+        }
         foreach ($this->topnames as $topname) {
-            $out[] = $topname->name. ($topname->lang ? ' ('.$topname->lang->name.')' : '');
+            $t = $topname->name;
+            $toponyms = self::where('name','like',$this->name)
+                            ->where('id','<>',$this->id)
+                            ->whereGeotypeId($this->geotype_id);
+            if ($this->settlement1926_id) {
+                $toponyms->whereSettlement1926Id($this->settlement1926_id);
+            }
+            if (sizeof($settlements)) {
+                $toponyms->whereIn('id', function ($q) use ($settlements) {
+                                $q->select('toponym_id')->from('settlement_toponym')
+                                ->whereIn('id', $settlements);
+                         });
+            }
+            if ($toponyms->count()) {
+                $t = '<a href="'.route('toponyms.index').'?search_toponym='.
+                     $topname->name.$url.'">'.$t.'</a>';
+            }
+            if ($topname->lang) {
+                $t .= ' ('.$topname->lang->short.')';
+            }
+            $out[] = $t;
         }
         return $out;
     }
@@ -119,15 +147,15 @@ class Toponym extends Model
     public function wrongnamesWithLangs(){
         $out = [];
         foreach ($this->wrongnames as $name) {
-            $out[] = $name->name. ($name->lang ? ' ('.$name->lang->name.')' : '');
+            $out[] = $name->name. ($name->lang ? ' ('.$name->lang->short.')' : '');
         }
         return $out;
     }
 
-    public function sources()
+    public function sourceToponyms()
     {
         //                                       
-        return $this->hasMany(Source::class)
+        return $this->hasMany(SourceToponym::class)
                 ->orderBy('sequence_number');
     }
         
@@ -335,6 +363,38 @@ class Toponym extends Model
         return $args_by_get ? $args_by_get.'&'.$args : '?'.$args;
     }
 
+    public function anothersInSettlement($geotype_id=null) {
+        $settlements = $this->settlements;
+        $settlement1926_id = $this->settlement1926_id;
+        if (!sizeof($settlements) && !$settlement1926_id) {
+            return [];
+        }
+        $toponyms = self::where('id', '<>', $this->id)->orderBy('name');
+        if (sizeof($settlements)) {
+            $toponyms->whereIn('id', function ($q) use ($settlements) {
+                $q->select('toponym_id')->from('settlement_toponym')
+                  ->whereIn('id', $settlements);
+            });
+        }
+        
+        if ($settlement1926_id) {
+            $toponyms->where('settlement1926_id', $settlement1926_id);
+        }
+        $toponyms_with = collect();
+        $toponyms_without = collect();
+        foreach ($toponyms->get() as $t) {
+            $t->geotype_name = $t->geotype ? ($t->geotype->short ? $t->geotype->short : $t->geotype->name) : '';
+            if ($t->geotype_id == $geotype_id) {
+                $toponyms_with->push($t);
+            } else {
+                $toponyms_without->push($t);
+            }
+        }
+        $toponyms_without=$toponyms_without->sortBy('geotype_name');
+//dd($toponyms_without);        
+        return $toponyms_with->merge($toponyms_without);
+    }
+
     public static function storeData(array $data, $request) {
         $toponym = Toponym::create($data); 
         $toponym->name_for_search = to_search_form($toponym->name);
@@ -370,8 +430,8 @@ class Toponym extends Model
             }
         }
         
-        foreach ((array)$request->sources as $s_id => $s_data) {
-            Source::find($s_id)->updateData($s_data);
+        foreach ((array)$request->source_toponym as $st_id => $st_data) {
+            SourceToponym::find($st_id)->updateData($st_data);
         }
         
         foreach ((array)$request->events as $e_id => $e_data) {
@@ -392,9 +452,9 @@ class Toponym extends Model
         foreach ((array)$request->new_wrongname as $t_info) {
             Wrongname::storeData($this->id, $t_info);
         }
-        
-        foreach ((array)$request->new_sources as $i => $s_data) {
-            Source::storeData($this->id, $s_data);
+
+        foreach ((array)$request->new_source_toponym as $i => $st_data) {
+            SourceToponym::storeData($this->id, $st_data);
         }
         
         Event::storeData($this->id, $request->new_event);
@@ -407,8 +467,8 @@ class Toponym extends Model
     public function remove() {
         $this->structs()->detach();
         $this->settlements()->detach();
-        foreach ($this->sources as $source) {
-            $source->delete();
+        foreach ($this->sourceToponyms as $st) {
+            $st->delete();
         } 
         foreach ($this->events as $event) {
             $event->remove();
@@ -437,18 +497,18 @@ class Toponym extends Model
                     'search_selsovets1926' => (array)$request->input('search_selsovets1926'),
                     'search_settlements' => (array)$request->input('search_settlements'),
                     'search_settlements1926' => (array)$request->input('search_settlements1926'),
-                    'search_source'    => $request->input('search_source'),
+                    'search_sources'    => (array)$request->input('search_sources'),
+                    'search_source_text'    => $request->input('search_source_text'),
                     'search_structs'    => (array)$request->input('search_structs'),
                     'search_structhiers'    => (array)$request->input('search_structhiers'),
                     'search_toponym'    => $request->input('search_toponym'),
                     'sort_by' => $request->input('sort_by'),
                 ];
         $sort_list = self::SortList;
-//dd($sort_list, $url_args['sort_by']);        
         if (!in_array($url_args['sort_by'], $sort_list)) {
             $url_args['sort_by']= $sort_list[0];
         }
-        return $url_args;
+        return remove_empty_elems($url_args);
     }
     
     
@@ -468,12 +528,13 @@ class Toponym extends Model
         $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
         $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
         $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
-        $toponyms = self::searchBySource($toponyms, $url_args['search_source']);
+        $toponyms = self::searchBySources($toponyms, $url_args['search_sources']);
+        $toponyms = self::searchBySourceText($toponyms, $url_args['search_source_text']);
         
 /*        if ($url_args['search_settlement']) {
             $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
         }   */     
-        if ($url_args['search_geotypes']) {
+        if (sizeof($url_args['search_geotypes'])) {
             $toponyms = $toponyms->whereIn('geotype_id',$url_args['search_geotypes']);
         }         
         if ($url_args['search_districts']) {
@@ -492,16 +553,25 @@ class Toponym extends Model
         return $toponyms;
     }
     
-    /** Search toponym by names. 
-     */
-    public static function searchBySource($toponyms, $search_source) {
-        if (!$search_source) {
+    public static function searchBySourceText($toponyms, $search_source_text) {
+        if (!$search_source_text) {
             return $toponyms;
         }   
         
-        return $toponyms->whereIn('id', function ($q) use ($search_source){
-                            $q->select('toponym_id')->from('sources')
-                              ->where('source', 'LIKE', $search_source);
+        return $toponyms->whereIn('id', function ($q) use ($search_source_text){
+                            $q->select('toponym_id')->from('source_toponym')
+                              ->where('source_text', 'LIKE', $search_source_text);
+                        });
+    }
+    
+    public static function searchBySources($toponyms, $search_sources) {
+        if(!sizeof($search_sources)) {
+            return $toponyms;
+        }   
+        
+        return $toponyms->whereIn('id', function ($q) use ($search_sources){
+                            $q->select('toponym_id')->from('source_toponym')
+                              ->whereIn('source_id', $search_sources);
                         });
     }
     

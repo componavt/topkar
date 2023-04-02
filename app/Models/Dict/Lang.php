@@ -23,7 +23,20 @@ class Lang extends Model
      */
     public function getNameAttribute() : String
     {
+        $locale = app()->getLocale();
+        if ($locale == 'en' && $this->name_en) {
+            return $this->name_en;
+        }
         return $this->name_ru;
+    }
+
+    public function getShortAttribute() : String
+    {
+        $locale = app()->getLocale();
+        if ($locale == 'en') {
+            return $this->code;
+        }
+        return mb_substr($this->name_ru,0,3).'.';
     }
 
     /** Gets ID of this lang by code, takes into account locale.

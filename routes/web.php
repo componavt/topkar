@@ -3,7 +3,7 @@
 //use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\WelcomeController;
 
-use App\Http\Controllers\Library\ServiceController;
+//use App\Http\Controllers\Library\ServiceController;
 
 use App\Http\Controllers\Dict\DistrictController;
 use App\Http\Controllers\Dict\District1926Controller;
@@ -11,7 +11,6 @@ use App\Http\Controllers\Dict\RegionController;
 use App\Http\Controllers\Dict\Selsovet1926Controller;
 use App\Http\Controllers\Dict\SettlementController;
 use App\Http\Controllers\Dict\Settlement1926Controller;
-use App\Http\Controllers\Dict\SourceController;
 use App\Http\Controllers\Dict\TopnameController;
 use App\Http\Controllers\Dict\ToponymController;
 use App\Http\Controllers\Dict\WrongnameController;
@@ -19,6 +18,8 @@ use App\Http\Controllers\Dict\WrongnameController;
 use App\Http\Controllers\Misc\GeotypeController;
 use App\Http\Controllers\Misc\InformantController;
 use App\Http\Controllers\Misc\RecorderController;
+use App\Http\Controllers\Misc\SourceController;
+use App\Http\Controllers\Misc\SourceToponymController;
 use App\Http\Controllers\Misc\StructController;
 
 /*
@@ -61,12 +62,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     
-    Route::get('/dict/sources/create', [SourceController::class, 'create']);
-    Route::get('/dict/sources', [SourceController::class, 'index']);
-    
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
     Route::get('/dict/wrongnames/create', [WrongnameController::class, 'create']);
 
+    Route::get('/misc/source_toponym/create', [SourceToponymController::class, 'create']);
+    Route::get('/misc/source_toponym/extract_sources', [SourceToponymController::class, 'extractSources']);
+    Route::get('/misc/source_toponym', [SourceToponymController::class, 'index']);
+    
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return view('welcome');
@@ -90,6 +92,7 @@ Route::resources([
     'misc/geotypes' => GeotypeController::class,
     'misc/informants' => InformantController::class,
     'misc/recorders' => RecorderController::class,
+    'misc/sources' => SourceController::class,
     'misc/structs' => StructController::class,
 ]);
 

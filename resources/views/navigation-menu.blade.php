@@ -30,6 +30,7 @@
                   <li><a class="dropdown-item" href="{{ route('informants.index') }}">{{ trans('navigation.informants') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('recorders.index') }}">{{ trans('navigation.recorders') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('structs.index') }}">{{ trans('navigation.structs') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('sources.index') }}">{{ trans('navigation.sources') }}</a></li>
                 </ul>
               </li>
               <li class="nav-item">

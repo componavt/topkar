@@ -24,7 +24,7 @@
         <div class="form-group ">
             <label for="name">
                 {{trans('toponym.topnames')}}
-                <i id='add-top-name' onclick="addTopName()" class="call-add fa fa-plus fa-lg" data-count=0 title="{{trans('messages.insert_new_field')}}"></i>
+                <i id='add-top-name' onclick="addTopName('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" data-count=0 title="{{trans('messages.insert_new_field')}}"></i>
             </label>
             @foreach($topnames as $topname)
                 @include('dict.topnames._create_edit',
@@ -41,7 +41,7 @@
         <div class="form-group ">
             <label for="name">
                 {{trans('toponym.wrongnames')}}
-                <i id='add-wrong-name' onclick="addWrongName()" class="call-add fa fa-plus fa-lg" data-count=0 title="{{trans('messages.insert_new_field')}}"></i>
+                <i id='add-wrong-name' onclick="addWrongName('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" data-count=0 title="{{trans('messages.insert_new_field')}}"></i>
             </label>
             @foreach($wrongnames as $wrongname)
                 @include('dict.wrongnames._create_edit',
@@ -166,21 +166,21 @@
                 ['name' => 'wd', 
                  'title'=>trans('toponym.wd')])
                  
-        <!-- Sources -->                 
+        <!-- SourceToponyms -->                 
         <b>{{trans('toponym.sources')}}</b>
-        <i onclick="addSource()" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
+        <i onclick="addSourceToponym('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
         <div class='row'>
             <div class="col-sm-1"></div>
             <div class="col-sm-5"><b>{{trans('toponym.mention')}}</b></div>
             <div class="col-sm-6"><b>{{trans('toponym.source')}}</b></div>            
         </div>
         @if ($action == 'edit') 
-            @foreach ($toponym->sources as $source)
-                @include('dict.sources._create_edit', ['num'=>$source->id, 'var_name'=>'sources'])
+            @foreach ($toponym->sourceToponyms as $st)
+                @include('misc.source_toponym._create_edit', ['num'=>$st->id, 'var_name'=>'source_toponym'])
             @endforeach
         @endif
-        <input type='hidden' id='next-source-num' value='{{1 + (isset($source) ? $source->sequence_number : 0) }}'>
-        <div id='new-sources'></div>
+        <input type='hidden' id='next-source_toponym-num' value='{{1 + (isset($st) ? $st->sequence_number : 0) }}'>
+        <div id='new-source_toponym'></div>
         
     </div>
     <div class="col-sm-6">

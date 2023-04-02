@@ -233,10 +233,10 @@ function saveGeotype() {
     }); 
 }
 
-function addTopName() {
+function addTopName(locale) {
     var num = parseInt($('#add-top-name').attr('data-count'));
     $.ajax({
-        url: '/dict/topnames/create', 
+        url: '/'+locale+'/dict/topnames/create', 
         data: {num: num},
         type: 'GET',
         success: function(html){       
@@ -249,10 +249,10 @@ function addTopName() {
     }); 
 }
 
-function addWrongName() {
+function addWrongName(locale) {
     var num = parseInt($('#add-wrong-name').attr('data-count'));
     $.ajax({
-        url: '/dict/wrongnames/create', 
+        url: '/'+locale+'/dict/wrongnames/create', 
         data: {num: num},
         type: 'GET',
         success: function(html){       
@@ -265,15 +265,15 @@ function addWrongName() {
     }); 
 }
 
-function addSource() {
-    var num = $('#next-source-num').val();
+function addSourceToponym(locale) {
+    var num = $('#next-source_toponym-num').val();
     $.ajax({
-        url: '/dict/sources/create', 
+        url: '/'+locale+'/misc/source_toponym/create', 
         data: {num: num},
         type: 'GET',
         success: function(html){       
-            $('#new-sources').append(html);
-            $('#next-source-num').val(1+num);
+            $('#new-source_toponym').append(html);
+            $('#next-source_toponym-num').val(1+num);
         },
         error: function () {
            alert('ERROR');

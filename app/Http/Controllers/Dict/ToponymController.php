@@ -20,6 +20,7 @@ use App\Models\Misc\EthnosTerritory;
 use App\Models\Misc\EtymologyNation;
 use App\Models\Misc\Informant;
 use App\Models\Misc\Recorder;
+use App\Models\Misc\Source;
 use App\Models\Misc\Struct;
 use App\Models\Misc\Structhier;
 
@@ -119,6 +120,7 @@ class ToponymController extends Controller
         $structhier_values = Structhier::getGroupedList();
         $type_values = [''=>NULL] + Settlement::getTypeList();
         $lang_values = [''=>NULL] + Lang::getList();
+        $source_values = [''=>NULL] + Source::getList(true);
         
         for ($i=0; $i<4; $i++) {
             $structs[]=[];
@@ -133,9 +135,9 @@ class ToponymController extends Controller
                         'region_values', 'region1926_value', 'selsovet1926_value', 
                         'selsovet1926_values', 'settlement_value', 
                         'settlement_values', 'settlement1926_value', 
-                        'settlement1926_values', 'structs', 'structhiers', 
-                        'struct_values', 'structhier_values', 'type_values', 
-                        'args_by_get', 'url_args'));
+                        'settlement1926_values', 'source_values', 'structs', 
+                        'structhiers', 'struct_values', 'structhier_values', 
+                        'type_values', 'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {
@@ -210,6 +212,7 @@ class ToponymController extends Controller
         $structhier_values = Structhier::getGroupedList();
         $type_values = [''=>NULL] + Settlement::getTypeList();
         $lang_values = [''=>NULL] + Lang::getList();
+        $source_values = [''=>NULL] + Source::getList(true);
         
         $structs = $structhiers = [];
         foreach ($toponym->structs as $struct) {
@@ -225,9 +228,9 @@ class ToponymController extends Controller
                         'ethnos_territory_values', 'etymology_nation_values', 
                         'geotype_values',  'informant_values', 'lang_values', 'recorder_values', 
                         'region_values', 'selsovet1926_values', 'settlement_values', 
-                        'settlement1926_values', 'structs', 'structhiers', 
-                        'struct_values', 'structhier_values', 'toponym', 
-                        'type_values', 'args_by_get', 'url_args'));
+                        'settlement1926_values', 'source_values', 'structs', 
+                        'structhiers', 'struct_values', 'structhier_values', 
+                        'toponym', 'type_values', 'args_by_get', 'url_args'));
     }
 
     /**
