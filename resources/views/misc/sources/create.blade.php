@@ -1,6 +1,6 @@
 <x-app-layout>   
     <x-slot name="header">
-        {{trans('navigation.sources')}} / {{__('messages.new_m')}} {{mb_strtolower(__('misc.source'))}}
+        {{trans('navigation.sources')}} / {{__('messages.new_m')}} {{mb_strtolower(__('toponym.source'))}}
     </x-slot>
     
     <div class='top-links'>        
