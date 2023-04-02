@@ -105,7 +105,7 @@
     <div class="col-md-3">        
         <!-- Settlement1926 -->
         @include('widgets.form.formitem._select2', 
-                ['name' => 'search_settlement1926', 
+                ['name' => 'search_settlements1926', 
                  'values' => $settlement1926_values,
                  'value' => $url_args['search_settlements1926'],
                  'class'=>'select-settlement1926 form-control'
