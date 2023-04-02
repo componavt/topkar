@@ -42,7 +42,18 @@ class SourceToponymController extends Controller
 //print " ----- ".  $st->mention ." ----- ".  $st->source_text ."</p>";           
             $st->save();
         }
- * 
+ 
+//select source_text from source_toponym where source_text like '[НАРК,%]';        
+        $sources = SourceToponym::where('source_text', 'like', '[НАРК,%]')
+                //->take(1)
+                ->get();
+        foreach ($sources as $st) {
+print "<p><a href=\"".route('toponyms.show',$st->toponym)."\">".$st->toponym->id.'</a>, '.  $st->source_text;           
+            $st->source_id=5;
+            $st->source_text = preg_replace("/^\[НАРК,\s*(.+)\]$/", "$1", $st->source_text);
+print " ----- ".  $st->source_text ."</p>";           
+            $st->save();
+        }
  */
         $sources = SourceToponym::where('source_text', 'like', '[SNA, Karhe, 1940]')
                     //->whereSourceId(2)

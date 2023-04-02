@@ -16,6 +16,6 @@ if (!isset($submit_value) || !$submit_value) {
                 {{ trans('messages.records') }}
         </span>
     </div>
-    <div class="col-sm-2" style="align: right">       
+    <div class="col-sm-2" style="text-align: right">       
         @include('widgets.form.formitem._submit', ['title' => trans('messages.'.$submit_value)])
     </div>

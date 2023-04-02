@@ -214,3 +214,4 @@ function selectRecorder(locale='ru', placeholder='', allow_clear=true, selector=
         }
     });   
 }
+

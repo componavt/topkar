@@ -148,6 +148,14 @@
     </div>
 </div>    
 <div class="row">    
+    <div class="col-md-3">        
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_sources', 
+                 'values' => $source_values,
+                 'value' => $url_args['search_sources'],
+                 'class'=>'select-source form-control'
+        ]) 
+    </div>
     <div class="col-md-3">
         @include('widgets.form.formitem._select', 
                 ['name' => 'sort_by', 

@@ -72,6 +72,7 @@ class ToponymController extends Controller
         $sort_values = Toponym::sortList();
         $struct_values = Struct::getList();
         $structhier_values = Structhier::getGroupedList();
+        $source_values = [''=>NULL] + Source::getList(true);
 
         return view('dict.toponyms.index', 
                 compact('district_values', 'district1926_values', 
@@ -79,8 +80,8 @@ class ToponymController extends Controller
                         'geotype_values', 'informant_values', 'recorder_values',
                         'region_values', 'selsovet1926_values', 
                         'settlement_values', 'settlement1926_values', 'sort_values', 
-                        'struct_values', 'structhier_values', 'toponyms', 
-                        'n_records', 'args_by_get', 'url_args' ));
+                        'source_values', 'struct_values', 'structhier_values', 
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
 
     /**

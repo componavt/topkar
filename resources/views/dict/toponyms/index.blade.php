@@ -77,6 +77,7 @@
         $('.select-recorder').select2({allowClear: false, placeholder: '{{trans('navigation.recorders')}}'});
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
         $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}'});
+        $('.select-source').select2({allowClear: false, placeholder: '{{trans('toponym.source')}}'});
         $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
         $('.select-ethnos_territory').select2({allowClear: false, placeholder: '{{trans('misc.ethnos_territory')}}'});
         $('.select-etymology_nation').select2({allowClear: false, placeholder: '{{trans('misc.etymology_nation')}}'});
