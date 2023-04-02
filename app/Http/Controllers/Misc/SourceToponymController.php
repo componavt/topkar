@@ -44,11 +44,12 @@ class SourceToponymController extends Controller
         }
  * 
  */
-        $sources = SourceToponym::where('source_text', 'like', 'Karhe, 1940')
-                    ->whereSourceId(2)->get();
+        $sources = SourceToponym::where('source_text', 'like', '[SNA, Karhe, 1940]')
+                    //->whereSourceId(2)
+                    ->get();
         foreach ($sources as $st) {
             $ev=$st->toponym->events()->first();
-print "<p>".$st->toponym->id.', '.$ev->date.', '.optional($ev->recorders()->first())->name;
+print "<p><a href=\"".route('toponyms.show',$st->toponym)."\">".$st->toponym->id.'</a>, '.$ev->date.', '.optional($ev->recorders()->first())->name;
 //.optional($ev->settlement)->name.', '.', '.optional($ev->informant)->name
 print "</p>";
         }

@@ -18,7 +18,7 @@ class SourceToponym extends Model
     use \App\Traits\Relations\BelongsTo\Toponym;
     
     public function sourceToString($short=false) {
-        if (!$this->source && $this->source_text) {
+        if (!$this->source && !$this->source_text) {
             return;
         }
         $out = [];

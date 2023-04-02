@@ -64,7 +64,7 @@
         <br>{{ $st->sequence_number }}. 
         <span class='field-value'>
             @if ($st->sourceToString())
-            [{{$st->sourceToString()}}]:
+            {{$st->sourceToString()}}:
             @endif
             <i>{{ $st->mention }}</i> 
         </span> 
