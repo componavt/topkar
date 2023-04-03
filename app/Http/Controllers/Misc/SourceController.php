@@ -49,9 +49,9 @@ class SourceController extends Controller
     public function validateRequest(Request $request) {
         return $this->validate($request, [
             'short_ru'  => 'max:32',
-            'name_ru'  => 'required|max:64',
+            'name_ru'  => 'required|max:100',
             'short_en'  => 'max:32',
-            'name_en'  => 'max:64',
+            'name_en'  => 'max:100',
         ]);
     }
     
