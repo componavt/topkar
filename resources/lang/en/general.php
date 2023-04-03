@@ -13,6 +13,8 @@ return [
     |
     */
 
+    'short_en' => 'short name (en)',
+    'short_ru' => 'short name (ru)',
     'in_english'  => 'in English',
     'in_russian'  => 'in Russian',
     'in_karelian' => 'in Karelian',
