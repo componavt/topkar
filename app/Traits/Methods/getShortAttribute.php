@@ -11,12 +11,15 @@ trait getShortAttribute
         $locale = app()->getLocale();
         $r = $this->{'short_'.$locale};
         
-        if( empty($r) and $locale == "en") 
+        if( empty($r)) {
+            $r = $this->{'name_'.$locale};
+        }
+        if( empty($r) and $locale == "en") {
             $r = $this->{'short_ru'};
-        
-        if( empty($r) and $locale == "ru") 
+        }
+        if( empty($r) and $locale == "ru") {
             $r = $this->{'short_en'};
-        
+        }
         return $r;
     }
 }
