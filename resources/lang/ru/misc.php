@@ -33,6 +33,7 @@ return [
     'recorder_removed' => 'Собиратель ":name" удален.',
     
     'short_name' => 'Сокращение',
+    'source_removed ' => 'Источник  ":name" удален.',
     'struct' => 'Структура',
     'struct_can_not_be_removed' => 'Структура ":name" не может быть удалена.',
     'struct_removed' => 'Структура ":name" удалена.',
