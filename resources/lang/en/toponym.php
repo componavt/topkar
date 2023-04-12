@@ -73,9 +73,8 @@ return [
     'sources' => 'Sources',
     
     'topnames' => 'Other names',
-    'toponym' => 'Toponym',
-    
-    'toponym' => 'Топоним',
+    'toponym' => 'Toponym',    
+    'toponym_removed' => 'Toponym ":name" is removed.',
     
     'wd' => 'Wikidata ID',
     'wd_URL' => 'Wikidata',
