@@ -229,7 +229,7 @@ class SettlementController extends Controller
         $locale = app()->getLocale();
         $settlement_name = '%'.$request->input('q').'%';
         $districts = array_remove_null($request->input('districts'));
-        $regions = array_remove_null($request->input('regions'));
+//        $regions = array_remove_null($request->input('regions'));
 //dd($regions, $districts);
 
         $list = [];
@@ -237,18 +237,18 @@ class SettlementController extends Controller
                             $q->where('name_en','like', $settlement_name)
                               ->orWhere('name_ru','like', $settlement_name);
                          });
-        if (sizeof($districts) || sizeof($regions)) {                 
-            $settlements -> whereIn('id', function ($q) use ($districts, $regions) {
+        if (sizeof($districts)/* || sizeof($regions)*/) {                 
+            $settlements -> whereIn('id', function ($q) use ($districts/*, $regions*/) {
                 $q->select('settlement_id')->from('district_settlement');
-                if (sizeof($districts)) {
+//                if (sizeof($districts)) {
                     $q->whereIn('district_id', $districts);
-                }
-                if (sizeof($regions)) {
+  //              }
+/*                if (sizeof($regions)) {
                     $q->whereIn('district_id', function ($q2) use ($regions) {
-                        $q2->select('id')->from('districts1926')
+                        $q2->select('id')->from('districts')
                            ->whereIn('region_id', $regions);
                     });
-                }
+                }*/
             });
         }
 //dd(to_sql($settlements));
