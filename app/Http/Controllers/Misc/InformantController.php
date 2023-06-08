@@ -50,7 +50,7 @@ class InformantController extends Controller
         return $this->validate($request, [
             'name_ru'  => 'required|max:150',
             'name_en'  => 'max:150',
-            'birth_date'  => 'numeric',
+            'birth_date'  => 'nullable|numeric',
         ]);
     }
     
