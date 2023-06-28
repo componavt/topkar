@@ -40,9 +40,11 @@ return [
     'is_map' => 'map',
     
     'lang' => 'language',
+    'latitude' => 'latitude',
     'legend' => 'Popular interpretation, legends',
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
+    'longitude' => 'longitude',
     
     'main_info' => 'Main information',
     'mention' => 'Mention',

@@ -161,10 +161,23 @@
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.legend')])
                  
-        <!-- Wikidata ID without 'Q' -->
-        @include('widgets.form.formitem._text', 
-                ['name' => 'wd', 
-                 'title'=>trans('toponym.wd')])
+        <div class="row"><!-- Row with coordinates and Wikidata ID-->
+            <div class="col-sm-4">
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'latitude', 
+                         'title'=>trans('toponym.latitude')])
+            </div>
+            <div class="col-sm-4">
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'longitude', 
+                         'title'=>trans('toponym.longitude')])
+            </div>
+            <div class="col-sm-4"><!-- Wikidata ID without 'Q' -->
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'wd', 
+                         'title'=>trans('toponym.wd')])
+            </div>
+        </div>
                  
         <!-- SourceToponyms -->                 
         <b>{{trans('toponym.sources')}}</b>

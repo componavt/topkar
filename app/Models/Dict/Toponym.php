@@ -21,7 +21,8 @@ class Toponym extends Model
     protected $fillable = ['name', 'name_for_search', 'district_id', 'lang_id', 
                            'settlement1926_id', 'geotype_id', 'etymology', 
                            'etymology_nation_id', 'ethnos_territory_id', 
-                           'caseform', 'main_info', 'folk', 'legend', 'wd'];
+                           'caseform', 'main_info', 'folk', 'legend', 'wd', 
+                           'latitude', 'longitude'];
     const SortList=['name', 'id'
 //        2 => 'created_at'
     ];
