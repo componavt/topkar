@@ -1,17 +1,16 @@
-<x-app-layout>
-    <x-slot name="headExtra">
+@extends('layouts.master')
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@stop
 
-    <x-slot name="header">
-            {{trans('navigation.districts')}}
-    </x-slot>
+@section('header', trans('navigation.districts'))
 
-    <x-slot name="search_form">
+@section('search_form')   
         @include("dict.districts._form_search", ['route'=> route('districts.index')])
         @include('widgets.found_records', ['n_records'=>$n_records])
-    </x-slot>
+@stop
     
+@section('main')   
     @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('districts.create')}}">{{__('messages.create_new_m')}}</a>
@@ -60,13 +59,12 @@
             @endforeach
         </table>
         {{ $districts->appends($url_args)->onEachSide(3)->links() }}
-    </x-slot>
-    <x-slot name="footScriptExtra">
+@stop
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@stop
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-    </x-slot>    
-</x-app-layout>
+@stop

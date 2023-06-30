@@ -1,8 +1,8 @@
-<x-app-layout>   
-    <x-slot name="header">
-        {{trans('navigation.structs')}} / {{__('messages.new_m')}} {{mb_strtolower(__('misc.struct'))}}
-    </x-slot>
-    
+@extends('layouts.master')
+
+@section('header', trans('navigation.structs'). ' / '. trans('messages.new_f'). ' '. mb_strtolower(__('misc.struct')))
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('structs.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -17,4 +17,4 @@
     @include('misc.structs._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
-</x-app-layout>
+@stop

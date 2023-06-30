@@ -1,8 +1,8 @@
-<x-app-layout>
-    <x-slot name="header">
-            {{trans('navigation.geotypes')}}
-    </x-slot>
+@extends('layouts.master')
 
+@section('header', trans('navigation.geotypes'))
+
+@section('main')   
     <h3>{{ $geotype->name }}</h3>
     
     <div class='top-links'>        
@@ -35,11 +35,11 @@
 
     <p><span class='field-name'>{{trans('misc.desc')}}</span>: 
     <span class='field-value'>{{ $geotype->desc_en }}</span></p>
+@endsection
     
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
-    </x-slot>                                                        
-</x-app-layout>
+@stop

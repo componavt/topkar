@@ -1,17 +1,16 @@
-<x-app-layout>
-    <x-slot name="headExtra">
+@extends('layouts.master')
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@stop
 
-    <x-slot name="header">
-            {{trans('toponym.Districts_in_1926_year')}}
-    </x-slot>
+@section('header', trans('toponym.Districts_in_1926_year'))
 
-    <x-slot name="search_form">
+@section('search_form')
         @include("dict.districts._form_search", ['route'=> route('districts1926.index')])
         @include('widgets.found_records', ['n_records'=>$n_records])
-    </x-slot>
-    
+@stop
+
+@section('main')   
     @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('districts1926.create')}}">{{__('messages.create_new_m')}}</a>
@@ -19,7 +18,7 @@
     @endif
     
     @if ($districts1926->count())
-    <x-slot name="table_block">
+        @section('table_block')
         <table class="table table-striped table-hover">
             <tr>
                 <th>&numero;</th>
@@ -62,15 +61,15 @@
             @endforeach
         </table>
         {{ $districts1926->appends($url_args)->onEachSide(3)->links() }}
-    </x-slot>
+        @endsection
     @endif
+@endsection
     
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@stop
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-    </x-slot>    
-</x-app-layout>
+@stop

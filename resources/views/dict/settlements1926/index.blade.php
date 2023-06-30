@@ -1,24 +1,24 @@
-<x-app-layout>
-    <x-slot name="headExtra">
+@extends('layouts.master')
+
+@section('header', trans('toponym.Settlements_in_1926_year'))
+
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@endsection
 
-    <x-slot name="header">
-            {{trans('toponym.Settlements_in_1926_year')}}
-    </x-slot>
-
-    <x-slot name="search_form">
+@section('search_form')   
         @include("dict.settlements1926._form_search")
         @include('widgets.found_records', ['n_records'=>$n_records])
-    </x-slot>
+@endsection
     
+@section('main')   
     @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('settlements1926.create')}}">{{__('messages.create_new_m')}}</a>
     </div>
     @endif
     
-    <x-slot name="table_block">
+    @section('table_block')   
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
@@ -65,16 +65,17 @@
             @endforeach
         </table>                
         {{ $settlements1926->appends($url_args)->onEachSide(3)->links() }}
-    </x-slot>
-    <x-slot name="footScriptExtra">
+    @endsection
+@endsection
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
         {!!Html::script('js/lists.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
         selectDistrict1926('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district1926')}}', false);
         selectSelsovet1926('search_regions', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
-    </x-slot>    
-</x-app-layout>
+@stop
+

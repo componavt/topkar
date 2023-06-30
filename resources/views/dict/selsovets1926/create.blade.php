@@ -1,8 +1,8 @@
-<x-app-layout>   
-    <x-slot name="header">
-        {{trans('navigation.selsovets_1926')}} / {{__('messages.new_m')}} {{mb_strtolower(__('toponym.selsovet1926'))}}
-    </x-slot>
-    
+@extends('layouts.master')
+
+@section('header', trans('navigation.selsovets_1926'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(__('toponym.selsovet1926')))
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('selsovets1926.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -17,4 +17,4 @@
     @include('dict.selsovets1926._form_create_edit', ['selsovet'=>null])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
-</x-app-layout>
+@stop

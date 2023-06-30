@@ -1,8 +1,8 @@
-<x-app-layout>
-    <x-slot name="header">
-            {{trans('navigation.settlements_1926')}}
-    </x-slot>
+@extends('layouts.master')
 
+@section('header', trans('navigation.settlements_1926'))
+
+@section('main')   
     <h3>{{ $settlement->name }}</h3>
     
     <div class='top-links'>        
@@ -33,12 +33,12 @@
 
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_karelian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_krl }}</span></p>
-
+@endsection
     
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
-    </x-slot>                                                        
-</x-app-layout>
+@stop
+

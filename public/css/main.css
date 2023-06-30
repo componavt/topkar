@@ -1,5 +1,12 @@
+body {
+    background-color: #f3f4f6;
+/*    color: #2c5c48;*/
+}
+/*a {
+    color: #bdcc62;
+}*/
 h2 {
-   color: #e12454; 
+   color: #d15454; 
 }
 
 th:first-letter{
@@ -14,11 +21,12 @@ th:first-letter{
 .page {
     background-color: #fff;
 /*    overflow: hidden;*/
-    padding: 20px;
+    padding: 30px 20px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .table-bordered th {
-    color: #e12454;
+    color: #d15454;
 }
 
 .table-bordered a {
@@ -64,7 +72,7 @@ label {
 }
 
 .call-add {
-  color: #3437dc;
+  color: #337ab7;
   cursor: pointer;
 }
 
@@ -128,7 +136,7 @@ button.close {
 }
 
 .important {
-    color: #3437dc;
+    color: #337ab7;
     font-weight: bold;
     font-size: 18px;
 }
@@ -142,7 +150,7 @@ button.close {
 }
 
 .special-symbols-link {
-    color: #e12454;
+    color: #d15454;
     cursor: pointer;
     display: block;
     font-size: 16px;
@@ -156,7 +164,7 @@ button.close {
  
 .special-symbols {
     background: #fff;
-    border: 1px solid #3437dc;
+    border: 1px solid #337ab7;
     display: none;
     position: absolute;
     right: 0;
@@ -184,7 +192,7 @@ button.close {
 }
 
 .special-symbols-header {
-    background: #3437dc;
+    background: #337ab7;
     height: 25px;
     position: relative;
 }
@@ -211,4 +219,32 @@ button.close {
 
 .flex-hor-group .form-group {
     margin-bottom: 5px;
+}
+
+.footer {
+    padding: 35px 0 20px;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #d15454;
+    border-color: #d15454;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    background-color: #d15454;
+    border-color: #d15454;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #d15454;
+  border-color: #d15454;
 }

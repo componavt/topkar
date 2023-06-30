@@ -1,8 +1,8 @@
-<x-app-layout>
-    <x-slot name="header">
-            {{trans('navigation.sources')}}
-    </x-slot>
+@extends('layouts.master')
 
+@section('header', trans('navigation.sources'))
+
+@section('main')   
     <h3>{{ $source->name }}</h3>
     
     <div class='top-links'>        
@@ -29,11 +29,11 @@
 
     <p><span class='field-name'>{{trans('misc.short_name')}}</span>: 
     <span class='field-value'>{{ $source->short_en }}</span></p>
+@stop
 
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@stop
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
-    </x-slot>                                                        
-</x-app-layout>
+@stop

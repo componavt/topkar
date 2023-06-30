@@ -1,8 +1,8 @@
-<x-app-layout>   
-    <x-slot name="header">
-        {{trans('navigation.sources')}} / {{__('messages.new_m')}} {{mb_strtolower(__('toponym.source'))}}
-    </x-slot>
-    
+@extends('layouts.master')
+
+@section('header', trans('navigation.sources'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(__('toponym.source')))
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('sources.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -16,4 +16,4 @@
     @include('misc.sources._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
-</x-app-layout>
+@stop

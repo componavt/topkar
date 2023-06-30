@@ -1,12 +1,12 @@
-<x-app-layout>   
-    <x-slot name="headExtra">
+@extends('layouts.master')
+
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@endsection
     
-    <x-slot name="header">
-        {{trans('navigation.toponyms')}} / {{trans('messages.new_m')}} {{trans('toponym.toponym')}}
-    </x-slot>
-    
+@section('header', trans('navigation.toponyms'). ' / '. trans('messages.new_m'). ' '. trans('toponym.toponym'))
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('toponyms.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -26,14 +26,14 @@
                  'topnames' => [],
                  'wrongnames' => []])
     {!! Form::close() !!}
+@endsection
     
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
         {!!Html::script('js/toponym.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         @include('dict.toponyms._jquery_func_for_create_edit', ['action' => 'create'])
-    </x-slot>
-</x-app-layout>
+@stop

@@ -1,20 +1,20 @@
-<x-app-layout>
-    <x-slot name="header">
-        {{trans('navigation.sources')}}
-    </x-slot>
+@extends('layouts.master')
 
-    <x-slot name="search_form">
+@section('header', trans('navigation.sources'))
+
+@section('search_form')   
         @include("misc.sources._form_search")
         @include('widgets.found_records', ['n_records'=>$n_records])
-    </x-slot>
+@endsection
     
+@section('main')   
     @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('sources.create')}}">{{__('messages.create_new_m')}}</a>
     </div>
     @endif
     
-    <x-slot name="table_block">
+    @section('table_block')   
         <table class="table table-striped table-hover">
             <tr>
                 <th>&numero;</th>
@@ -57,11 +57,11 @@
             @endforeach
         </table>
         {{ $sources->appends($url_args)->onEachSide(3)->links() }}
-    </x-slot>
-    <x-slot name="footScriptExtra">
+    @endsection
+@endsection
+@section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
-    </x-slot>    
-</x-app-layout>
+@stop

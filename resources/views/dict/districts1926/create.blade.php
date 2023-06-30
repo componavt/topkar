@@ -1,8 +1,8 @@
-<x-app-layout>   
-    <x-slot name="header">
-        {{trans('navigation.districts_1926')}} / {{__('messages.new_m')}} {{mb_strtolower(__('toponym.district1926'))}}
-    </x-slot>
-    
+@extends('layouts.master')
+
+@section('header', trans('navigation.districts_1926'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(trans('toponym.district1926')))
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('districts1926.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -16,4 +16,4 @@
     @include('dict.districts1926._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
-</x-app-layout>
+@stop

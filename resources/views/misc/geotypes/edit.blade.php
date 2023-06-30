@@ -1,8 +1,8 @@
-<x-app-layout>    
-    <x-slot name="header">
-        {{trans('navigation.geotypes')}} / {{trans('messages.editing')}} / {{$geotype->name}}
-    </x-slot>
-    
+@extends('layouts.master')
+
+@section('header', trans('navigation.geotypes'). ' / '. trans('messages.editing'). ' / '. $geotype->name)
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('geotypes.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -16,5 +16,4 @@
     @include('misc.geotypes._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
-    
-</x-app-layout>
+@stop

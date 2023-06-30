@@ -1,24 +1,24 @@
-<x-app-layout>
-    <x-slot name="headExtra">
+@extends('layouts.master')
+
+@section('header', trans('navigation.settlements'))
+
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@endsection
 
-    <x-slot name="header">
-            {{trans('navigation.settlements')}}
-    </x-slot>
-
-    <x-slot name="search_form">
+@section('search_form')   
         @include("dict.settlements._form_search")
         @include('widgets.found_records', ['n_records'=>$n_records])
-    </x-slot>
+@endsection
     
+@section('main')   
     @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('settlements.create')}}{{$args_by_get}}">{{__('messages.create_new_m')}}</a>
     </div>
     @endif
     
-    <x-slot name="table_block">
+    @section('table_block')   
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
@@ -83,15 +83,15 @@
             @endforeach
         </table>                
         {{ $settlements->appends($url_args)->onEachSide(3)->links() }}
-    </x-slot>
-    <x-slot name="footScriptExtra">
+    @endsection
+@endsection
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
         {!!Html::script('js/lists.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
         selectDistrict('search_regions', '{{$locale}}', '{{trans('toponym.district')}}', false);
-    </x-slot>    
-</x-app-layout>
+@endsection

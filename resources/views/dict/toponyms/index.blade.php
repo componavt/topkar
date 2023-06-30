@@ -1,25 +1,25 @@
-<x-app-layout>    
-    <x-slot name="headExtra">
+@extends('layouts.master')
+
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@endsection
     
-    <x-slot name="header">
-        {{trans('navigation.toponyms')}}
-    </x-slot>
-    
-    <x-slot name="search_form">
+@section('search_form')   
         @include("dict.toponyms.form._search")
         @include('widgets.found_records', ['n_records'=>$n_records])
-    </x-slot>
+@endsection
         
+@section('header', trans('navigation.toponyms'))
+
+@section('main')   
     @if (user_can_edit())
     <div class="page-buttons">
         <a class="btn btn-secondary btn-default" href="{{route('toponyms.create')}}{{$args_by_get}}">Создать новый</a>
     </div>
     @endif
     
-    <x-slot name="table_block">
-    @if ($toponyms->count())
+    @section('table_block')   
+        @if ($toponyms->count())
         <table class="table table-bordered table-hover wide-md">
             <tr><th>&numero;</th>    
                 <th>{{trans('toponym.toponym')}}</th>
@@ -62,15 +62,16 @@
         {{-- $toponyms->links() --}}
         {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
         @endif
-    </x-slot>
+    @endsection
+@endsection
                 
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});
         $('.select-informant').select2({allowClear: false, placeholder: '{{trans('navigation.informants')}}'});
@@ -89,6 +90,4 @@
         selectSelsovet1926('search_regions1926', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
         selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement1926')}}', false);
         selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
-
-    </x-slot>
-</x-app-layout>
+@stop

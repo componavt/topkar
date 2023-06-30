@@ -1,12 +1,12 @@
-<x-app-layout>    
-    <x-slot name="headExtra">
+@extends('layouts.master')
+
+@section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
-    </x-slot>
+@endsection
     
-    <x-slot name="header">
-        {{trans('navigation.settlements')}} / {{trans('messages.editing')}} / {{$settlement->name}}
-    </x-slot>
-    
+@section('header', trans('navigation.settlements'). ' / '. trans('messages.editing'). ' / '. $settlement->name)
+
+@section('main')   
     <div class='top-links'>        
         <a href="{{ route('settlements.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -22,16 +22,16 @@
             ['district_value'=>$settlement->districtValue(), 'action'=>'edition'])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
+@endsection
     
-    <x-slot name="footScriptExtra">
+@section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
         {!!Html::script('js/toponym.js')!!}
-    </x-slot>
-    <x-slot name="jqueryFunc">
+@endsection
+@section('jqueryFunc')
         @for ($i=0; $i<=sizeof($settlement->districtValue()); $i++)
             selectDistrict('region_id', '{{app()->getLocale()}}', '{{trans('toponym.select_district')}}', true, '.select-district-{{$i}}');
         @endfor
-    </x-slot>
-</x-app-layout>
+@stop

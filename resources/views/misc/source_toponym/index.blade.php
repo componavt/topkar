@@ -1,9 +1,8 @@
-<x-app-layout>
-    <x-slot name="header">
-            {{trans('toponym.sources')}}
-    </x-slot>
+@extends('layouts.master')
 
-    <x-slot name="table_block">
+@section('header', trans('toponym.sources'))
+
+@section('table_block')   
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.source')}}</th>
@@ -22,5 +21,4 @@
             </tr>
             @endforeach
         </table>
-    </x-slot>
-</x-app-layout>
+@stop

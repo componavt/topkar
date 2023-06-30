@@ -1,8 +1,8 @@
-<x-app-layout>
-    <x-slot name="header">
-            {{trans('toponym.regions')}}
-    </x-slot>
+@extends('layouts.master')
 
+@section('header', trans('toponym.regions'))
+
+@section('main')   
     <table class="table table-striped table-hover">
         <tr>
             <th>&numero;</th>
@@ -28,4 +28,4 @@
         </tr>
         @endforeach
  </table>
-</x-app-layout>
+@stop

@@ -25,6 +25,7 @@ return [
     'geotype' => 'Geotype',
     'geotype_removed' => 'Geotype ":name" is removed successfully.',
 
+    'informant' => 'informant',
     'informant_removed' => 'Informant ":name" is removed successfully.',
     
     'record_place' => 'Place of recording',

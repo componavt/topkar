@@ -25,6 +25,7 @@ return [
     'geotype' => 'Вид объекта',
     'geotype_removed' => 'Вид объекта ":name" удален.',
     
+    'informant' => 'информант',
     'informant_removed' => 'Информант ":name" удален.',
     
     'record_place' => 'Место записи',
