@@ -7,7 +7,8 @@
     {!!trans('page.welcome_text_content')!!}<br><br>
     {!!trans('page.welcome_reference_tables')!!}<br><br>
     {!!trans('page.welcome_text_sources')!!}<br><br>
-    {!!trans('page.welcome_text_software')!!}<br><br>
+    {!!trans('page.welcome_text_software')!!}
+    {!!trans('page.welcome_who_can_use')!!}<br><br>
     {!!trans('page.welcome_logo')!!}<br><br>
     
     

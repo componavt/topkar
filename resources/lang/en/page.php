@@ -45,9 +45,11 @@ return [
     . 'are the sources for the database.',
     
     'welcome_text_software'  => 'Website and software TopKar is an open source project '
-    . '(see <a href="https://github.com/componavt/topkar">topkar</a> on GitHub) developed at KarRC RAS. '
-    . 'The TopKar system is designed for toponymists '
-    . 'who study the toponymy of Karelia and the Northwestern Region of Russia. ',
+    . '(see <a href="https://github.com/componavt/topkar">topkar</a> on GitHub) developed at KarRC RAS.',
+    
+    'welcome_who_can_use'  => 'A wide range of users (specialists, local historians and people interested in the toponymy of Karelia) '
+    . 'can use the TopKar system. This system can be used in scientific research, education, culture and tourism.',
+    
     
     'welcome_logo'  => '<img src="images/logo_en.png">',
 
