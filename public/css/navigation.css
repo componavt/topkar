@@ -163,6 +163,21 @@ flex: 1 0 auto;
 .lang-sm {
     line-height: 24px;
 }
+
+.user-enter .form-group {
+    margin-bottom: 0;
+}
+
+.user-enter input[type=text],
+.user-enter input[type=password] {
+    height: 25px;
+    padding: 0 12px;
+}
+
+.user-enter-add {
+    font-size: 14px;
+}
+
 @media screen and (min-width: 350px) {
     .bottom-menu > div {
         padding-right: 20px;

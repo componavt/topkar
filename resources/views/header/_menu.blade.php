@@ -55,7 +55,12 @@
                 @if (user_is_admin())
                   <li><a class="dropdown-item" href="{{ route('teams.show', Auth::user()->currentTeam->id) }}}">{{ __('Team Settings') }}</a></li>
                 @endif
-                  <li><a class="dropdown-item" href="{{ route('logout') }}">{{ __('Log out') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('logout') }}" 
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
+                    <form method="POST" id="logout-form" action="{{ route('logout') }}">
+                        @csrf
+                    </form>
+                  </li>
                 </ul>
               </li>
                 @else
@@ -68,10 +73,10 @@
 
             <form method="POST" class="user-enter" action="{{ route('login') }}">
                 @csrf
-                <div>
+                <div style='padding: 5px 0 0 0'>
                     @include('widgets.form.formitem._text', ['name' => 'email', 
-                                                             'attributes' => ['placeholder' => trans('auth.your_email') ]])
-                    @include('widgets.form.formitem._password', ['name' => 'password', 'placeholder' => trans('auth.password') ])
+                                                             'attributes' => ['placeholder' => trans('Email') ]])
+                    @include('widgets.form.formitem._password', ['name' => 'password', 'placeholder' => trans('Password') ])
                 </div>
                 <div>
                     <div class="user-enter-add">

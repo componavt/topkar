@@ -11,7 +11,7 @@
 @include('errors._errmsg')
 
         <!-- Page Heading -->
-        <header style="margin:60px 0 50px; background-color: white; padding-bottom: 10px; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)">
+        <header style="margin:60px 0 50px; background-color: white; padding: 10px 0; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)">
             <div class="container">
             @hasSection('header')
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">

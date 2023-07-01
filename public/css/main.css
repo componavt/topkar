@@ -106,7 +106,7 @@ button.close {
 }
 
 .user-enter {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
     flex-direction: row;
     gap: 10px;

@@ -44,6 +44,8 @@ $attributes['id'] = $id_name;
     <i class='help-icon far fa-question-circle fa-lg' onClick='{{$help_func}}'></i>
     @endif
     
-    {{ $tail ?? '' }}                                    
+    {{ $tail ?? '' }}           
+    @if ($errors->first($name))
     <p class="help-block">{!! $errors->first($name) !!}</p>
+    @endif
 </div>

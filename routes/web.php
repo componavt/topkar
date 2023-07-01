@@ -39,9 +39,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/', function () {
         return view('welcome'); // return view('dashboard');
     });
-    Route::get('/map_example', function () {
+/*    Route::get('/map_example', function () {
         return view('map_example'); // return view('dashboard');
-    });
+    });*/
 
 //    Route::get('/service/tmp_fill_events', [ServiceController::class, 'tmp_fill_events']);
 //    Route::get('/service/tmp_fill_settlements', [ServiceController::class, 'tmp_fill_settlements']);
