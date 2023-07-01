@@ -9,6 +9,8 @@
     {!!trans('page.welcome_text_sources')!!}<br><br>
     {!!trans('page.welcome_text_software')!!}
     {!!trans('page.welcome_who_can_use')!!}<br><br>
-    {!!trans('page.welcome_logo')!!}<br><br>
+    <div style='text-align: center'>
+        <img src="/images/logo_{{app()->getLocale()}}.png">
+    </div>
 @stop
 

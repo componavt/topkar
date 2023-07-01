@@ -51,6 +51,5 @@ return [
     . 'can use the TopKar system. This system can be used in scientific research, education, culture and tourism.',
     
     
-    'welcome_logo'  => '<img src="images/logo_en.png">',
 
 ];
