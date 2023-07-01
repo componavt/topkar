@@ -20,7 +20,7 @@
     
     @section('table_block')   
         @if ($toponyms->count())
-        <table class="table table-bordered table-hover wide-md">
+        <table class="table table-striped table-hover wide-md">
             <tr><th>&numero;</th>    
                 <th>{{trans('toponym.toponym')}}</th>
                 <th>{{trans('misc.geotype')}}</th>
