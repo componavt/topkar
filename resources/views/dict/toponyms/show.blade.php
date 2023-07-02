@@ -80,7 +80,7 @@
         </div>
         <div class="col-sm-6">
             @if ($toponym->latitude && $toponym->longitude)
-            <div wire:ignore id="mapid" style="width: 100%; height: 500px;"></div>
+            <div id="mapid" style="width: 100%; height: 500px;"></div>
             @endif
         </div>
     </div>    
@@ -132,7 +132,7 @@
 
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-        @include('widgets.leaflet.map_one_toponym')
+        @include('dict.toponyms.toponym_on_map')
 @stop
 
 @section('jqueryFunc')

@@ -33,4 +33,8 @@
                       'submit_onClick' => 'saveSettlement1926()',
                       'submit_title' => trans('messages.save'),
                       'modal_view'=>'dict.settlements1926._form_create_edit'])
+
+@include('widgets.modal',['name'=>'modalMap',
+                      'title'=>trans('toponym.coords_from_map'),
+                      'modal_view'=>'dict.toponyms.karelia_on_map'])
                       

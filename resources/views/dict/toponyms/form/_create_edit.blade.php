@@ -1,6 +1,6 @@
 @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
 
-<div class="row"><!-- First row -->
+<div class="row">
     <div class="col-sm-6">
         <div class="row">        
             <div class="col-sm-6">
@@ -88,6 +88,56 @@
         @include('widgets.form.formitem._text', 
                 ['name' => 'caseform', 
                  'title'=>trans('toponym.caseform')])
+                 
+        <!-- Main information -->
+        @include('widgets.form.formitem._textarea', 
+                ['name' => 'main_info', 
+                 'special_symbol' => true,
+                 'attributes' => ['rows' => 3],
+                 'title'=>trans('toponym.main_info')])
+        <!-- Popular interpretation, Legend -->
+        @include('widgets.form.formitem._textarea', 
+                ['name' => 'legend', 
+                 'special_symbol' => true,
+                 'attributes' => ['rows' => 3],
+                 'title'=>trans('toponym.legend')])
+                 
+        <div class="row"><!-- Row with coordinates and Wikidata ID-->
+            <div class="col-sm-4">
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'latitude', 
+                         'title'=>trans('toponym.latitude')])
+            </div>
+            <div class="col-sm-4">
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'longitude', 
+                         'title'=>trans('toponym.longitude')])
+            </div>
+            <div class="col-sm-4"><!-- Wikidata ID without 'Q' -->
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'wd', 
+                         'title'=>trans('toponym.wd')])
+            </div>
+        </div>
+        
+        <p><a onClick="callMap()">Указать координаты на карте</a></p>
+                 
+        <!-- SourceToponyms -->                 
+        <b>{{trans('toponym.sources')}}</b>
+        <i onclick="addSourceToponym('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
+        <div class='row'>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5"><b>{{trans('toponym.mention')}}</b></div>
+            <div class="col-sm-6"><b>{{trans('toponym.source')}}</b></div>            
+        </div>
+        @if ($action == 'edit') 
+            @foreach ($toponym->sourceToponyms as $st)
+                @include('misc.source_toponym._create_edit', ['num'=>$st->id, 'var_name'=>'source_toponym'])
+            @endforeach
+        @endif
+        <input type='hidden' id='next-source_toponym-num' value='{{1 + (isset($st) ? $st->sequence_number : 0) }}'>
+        <div id='new-source_toponym'></div>
+        
     </div>
     <div class="col-sm-6"><!-- Second column -->
         <!-- Geotype -->
@@ -143,60 +193,7 @@
                  'call_add_onClick' => "addSettlement1926()",
                  'class'=>'select-settlement1926 form-control'
         ]) 
-    </div><!-- eo Second column -->    
-</div><!-- eo First row -->
-
-<div class="row"><!-- Second row-->
-    <div class="col-sm-6">
-        <!-- Main information -->
-        @include('widgets.form.formitem._textarea', 
-                ['name' => 'main_info', 
-                 'special_symbol' => true,
-                 'attributes' => ['rows' => 3],
-                 'title'=>trans('toponym.main_info')])
-        <!-- Popular interpretation, Legend -->
-        @include('widgets.form.formitem._textarea', 
-                ['name' => 'legend', 
-                 'special_symbol' => true,
-                 'attributes' => ['rows' => 3],
-                 'title'=>trans('toponym.legend')])
-                 
-        <div class="row"><!-- Row with coordinates and Wikidata ID-->
-            <div class="col-sm-4">
-                @include('widgets.form.formitem._text', 
-                        ['name' => 'latitude', 
-                         'title'=>trans('toponym.latitude')])
-            </div>
-            <div class="col-sm-4">
-                @include('widgets.form.formitem._text', 
-                        ['name' => 'longitude', 
-                         'title'=>trans('toponym.longitude')])
-            </div>
-            <div class="col-sm-4"><!-- Wikidata ID without 'Q' -->
-                @include('widgets.form.formitem._text', 
-                        ['name' => 'wd', 
-                         'title'=>trans('toponym.wd')])
-            </div>
-        </div>
-                 
-        <!-- SourceToponyms -->                 
-        <b>{{trans('toponym.sources')}}</b>
-        <i onclick="addSourceToponym('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
-        <div class='row'>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5"><b>{{trans('toponym.mention')}}</b></div>
-            <div class="col-sm-6"><b>{{trans('toponym.source')}}</b></div>            
-        </div>
-        @if ($action == 'edit') 
-            @foreach ($toponym->sourceToponyms as $st)
-                @include('misc.source_toponym._create_edit', ['num'=>$st->id, 'var_name'=>'source_toponym'])
-            @endforeach
-        @endif
-        <input type='hidden' id='next-source_toponym-num' value='{{1 + (isset($st) ? $st->sequence_number : 0) }}'>
-        <div id='new-source_toponym'></div>
         
-    </div>
-    <div class="col-sm-6">
         <!-- Etymology nation -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'etymology_nation_id', 
@@ -219,6 +216,7 @@
                  'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.etymology')])
+                 
         <p><b>{{trans('misc.struct')}}</b></p>
         @for ($i=0; $i < sizeof($structs); $i++)
         <div class='row'>
@@ -243,7 +241,7 @@
         </div>
         @endfor
     </div>
-</div><!-- eo Second row -->
+</div><!-- eo row -->
 
 <!-- Events -->                
 <?php $count=1;?>

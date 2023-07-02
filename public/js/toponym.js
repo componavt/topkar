@@ -280,3 +280,7 @@ function addSourceToponym(locale) {
         }
     }); 
 }
+
+function callMap() {
+    $("#modalMap").modal('show');    
+}

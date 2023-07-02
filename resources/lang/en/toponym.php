@@ -24,6 +24,7 @@ return [
     'by_name' => 'by name',
     
     'caseform' => 'Locative form',
+    'coords_from_map' => 'Specify coordinates on the map',
     'create_new_m_in_this_settl' => 'Create another toponym in this settlement',
     
     'desc' => 'Description',

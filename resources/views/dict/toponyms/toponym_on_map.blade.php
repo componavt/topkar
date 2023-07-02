@@ -5,7 +5,7 @@
 
     <script>
       // initialize Leaflet
-      var map = L.map('mapid').setView({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}, 14);
+      var map = L.map('mapid').setView({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}, 9);
 
       // add the OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -18,14 +18,5 @@
 
       // show a marker on the map
       L.marker({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}).bindPopup('Царевичи').addTo(map);
-      
-    map.on('click', 
-            function(e){
-                    var coord = e.latlng.toString().split(',');
-                    var lat = coord[0].split('(');
-                    var lng = coord[1].split(')');
-                    console.log("You clicked the map at latitude: " + lat[1] + " and longitude:" + lng[0]);
-            });
-
     </script>
 @endif    
