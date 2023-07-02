@@ -248,3 +248,22 @@ button.close {
   background-color: #d15454;
   border-color: #d15454;
 }
+
+.col-compact {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.row .col-compact:first-child {
+    padding-left: 15px;
+}
+
+.row .col-compact:last-child {
+    padding-right: 15px;
+}
+
+.col-compact .form-control {
+    padding-left: 0.4rem;
+    padding-right: 0.3rem;
+}
+

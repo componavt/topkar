@@ -126,9 +126,9 @@
         <b>{{trans('toponym.sources')}}</b>
         <i onclick="addSourceToponym('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
         <div class='row'>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5"><b>{{trans('toponym.mention')}}</b></div>
-            <div class="col-sm-6"><b>{{trans('toponym.source')}}</b></div>            
+            <div class="col-sm-1 col-compact"></div>
+            <div class="col-sm-5 col-compact"><b>{{trans('toponym.mention')}}</b></div>
+            <div class="col-sm-6 col-compact"><b>{{trans('toponym.source')}}</b></div>            
         </div>
         @if ($action == 'edit') 
             @foreach ($toponym->sourceToponyms as $st)
