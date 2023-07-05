@@ -155,6 +155,11 @@ class ToponymController extends Controller
                     'latitude', 'longitude');
         
         $data['name'] = to_right_form($data['name']);
+        
+        // Wikidata ID Qddd -> ddd or ddd -> ddd
+        if(preg_match("/^Q(\d+)$/", $data['wd'], $regs)){
+            $data['wd'] = $regs[1];
+        }
         return $data;
     }
     
