@@ -30,8 +30,10 @@
         @endif 
     </div>
 
+    @if ($toponym->latitude && $toponym->longitude)
     <div class="row">
         <div class="col-sm-6">
+    @endif
             <p><span class='field-name'>{{trans('toponym.topnames')}}</span>: 
             <span class='field-value'>{!! join(', ', $toponym->topnamesWithLangs()) !!}</span></p>
 
@@ -82,13 +84,13 @@
                 </span> 
                 @endforeach
             </p>
+    @if ($toponym->latitude && $toponym->longitude)
         </div>
         <div class="col-sm-6">
-            @if ($toponym->latitude && $toponym->longitude)
             <div id="mapid" style="width: 100%; height: 500px;"></div>
-            @endif
         </div>
     </div>    
+    @endif
 
     <?php $count=1;?>
     <p><span class='field-name'>{{trans('misc.events')}}:</span></p>
