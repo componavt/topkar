@@ -19,7 +19,7 @@
             ]) 
             </div>
         </div>
-        @if($toponym->accent)
+        @if(!empty($toponym) && $toponym->accent)
             Код ударения: {{$toponym->accent}} 
             (<a href="https://docs.google.com/spreadsheets/d/1jCoNpgLU0w-rUcnPogznJqacoU4EgAZE9bhuG14gGDU/edit?usp=sharing">документация к старым ударениям</a>)<br><br>
         @endif
