@@ -326,12 +326,12 @@ class Toponym extends Model
      * 55659275 -> <a href="https://www.wikidata.org/wiki/Q55659275">Q55659275</a>
      * @return string
      */
-    public function wdURL()
+    public function wdURL($text=NULL)
     {  
         if(!$this->wd) { return ""; }
         
         return "<a href=\"https://www.wikidata.org/wiki/Q".
-                $this->wd.'">Q'.$this->wd."</a>";
+                $this->wd.'">'. ($text ?? 'Q'.$this->wd)."</a>";
     }
     
     public function argsForAnotherOne($args_by_get='') {

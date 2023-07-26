@@ -23,6 +23,9 @@
         <table class="table table-striped table-hover wide-md">
             <tr><th>&numero;</th>    
                 <th>{{trans('toponym.toponym')}}</th>
+                @if (Auth::user()->id < 4)
+                <th></th>
+                @endif
                 <th>{{trans('misc.geotype')}}</th>
                 <th>{{trans('toponym.location')}} / <br>
                     {{trans('toponym.location_1926')}}</th>       
@@ -40,6 +43,19 @@
                     ({{join(', ', $r->topnames()->pluck('name')->toArray())}})
                     @endif
                 </td>
+                @if (Auth::user()->id < 4)
+                <td>
+                    @if ($r->wd)
+                    {!! $r->wdURL('Q') !!}
+                    @endif
+                    @if ($r->latitude)
+                    ш
+                    @endif
+                    @if ($r->longitude)
+                    д
+                    @endif
+                </td>
+                @endif
                 <td>{{ optional($r->geotype)->name }}</td>
                 <td>{{ $r->location }} / <br>
                     {{ $r->location1926 }}</td>
