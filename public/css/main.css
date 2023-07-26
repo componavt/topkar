@@ -49,6 +49,10 @@ label {
     font-weight: bold;
 }
 
+.field-name {
+    padding-right: 5px;
+}
+
 /*.field-name {
   font-size: calc(1.26rem + 0.12vw);
 }

@@ -34,46 +34,51 @@
     <div class="row">
         <div class="col-sm-6">
     @endif
-            <p><span class='field-name'>{{trans('toponym.topnames')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.topnames')}}:</span> 
             <span class='field-value'>{!! join(', ', $toponym->topnamesWithLangs()) !!}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.wrongnames')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.wrongnames')}}:</span> 
             <span class='field-value'>{{ join(', ', $toponym->wrongnamesWithLangs()) }}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.location')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.location')}}:</span> 
             <span class='field-value'>{{ $toponym->location }}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.location_1926')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.location_1926')}}:</span> 
             <span class='field-value'>{{ $toponym->location1926 }}</span></p>
 
-            <p><span class='field-name'>{{trans('misc.geotype')}}</span>: 
+            <p><span class='field-name'>{{trans('misc.geotype')}}:</span> 
             <span class='field-value'>{{ optional($toponym->geotype)->name }}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.caseform')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.caseform')}}:</span> 
             <span class='field-value'>{{ $toponym->caseform }}</span></p>
 
-            <p><span class='field-name'>{{trans('misc.ethnos_territory')}}</span>: 
+            <p><span class='field-name'>{{trans('misc.ethnos_territory')}}:</span> 
             <span class='field-value'>{{ optional($toponym->ethnosTerritory)->name }}</span></p>
 
-            <p><span class='field-name'>{{trans('misc.etymology_nation')}}</span>: 
+            <p><span class='field-name'>{{trans('misc.etymology_nation')}}:</span> 
             <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.etymology')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.etymology')}}:</span> 
             <span class='field-value'>{{ $toponym->etymology }}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.main_info')}}</span>: 
-            <span class='field-value'>{{ $toponym->main_info }}</span></p>
-
-            <p><span class='field-name'>{{trans('toponym.legend')}}</span>: 
+            @if (preg_match("/\n/", $toponym->main_info))
+            <div style="display: flex; margin-bottom: 10px"><span class='field-name'>{{trans('toponym.main_info')}}:</span> 
+                <span class='field-value'>{!! preg_replace("/\n/", "<br>\n",$toponym->main_info) !!}</span></div>
+            @else
+            <p><span class='field-name'>{{trans('toponym.main_info')}}:</span> 
+                <span class='field-value'>{{ $toponym->main_info }}</span></p>
+            @endif
+            
+            <p><span class='field-name'>{{trans('toponym.legend')}}:</span> 
             <span class='field-value'>{{ $toponym->legend }}</span></p>
 
-            <p><span class='field-name'>{{trans('toponym.wd_URL')}}</span>: 
+            <p><span class='field-name'>{{trans('toponym.wd_URL')}}:</span> 
             <span class='field-value'>{!! $toponym->wdURL() !!}</span>; 
             TopKar ID: {{ $toponym->id }}
             </p>
 
             <p>
-                <span class='field-name'>{{trans('toponym.sources')}}</span>:
+                <span class='field-name'>{{trans('toponym.sources')}}:</span>
                 @foreach ($toponym->sourceToponyms as $st)
                 <br>{{ $st->sequence_number }}. 
                 <span class='field-value'>
