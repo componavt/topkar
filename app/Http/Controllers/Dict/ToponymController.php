@@ -50,7 +50,6 @@ class ToponymController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->input('search_source'));        
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
@@ -84,6 +83,41 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
 
+    public function withWD(Request $request)
+    {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $toponyms = Toponym::search($url_args)->whereNotNull('wd');
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
+        return view('dict.toponyms.with_wd', 
+                compact('toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
+    public function withWrongnames(Request $request)
+    {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $toponyms = Toponym::search($url_args)->whereIn('id', function ($q) {
+            $q->select('toponym_id')->from('wrongnames');
+        });
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
+        $district_values = District::getList();
+        $geotype_values = Geotype::getList();
+        $region_values = Region::getList();
+        $settlement_values = Settlement::getList();
+        $sort_values = Toponym::sortList();
+
+        return view('dict.toponyms.with_wrongnames', 
+                compact('district_values', 'geotype_values', 'region_values', 
+                        'settlement_values', 'sort_values',
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
     /**
      * Show the form for creating a new resource.
      *

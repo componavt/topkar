@@ -15,10 +15,15 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar  -->
             <ul class="nav navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('toponyms.index') }}" role="button">
-                  {{ trans('navigation.toponyms') }}
+              <li class="nav-item dropdown" id='menu2'>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                  {{ trans('navigation.toponyms') }} <span class="caret"></span>
                 </a>
+                <ul class="dropdown-menu" role="menu" id='menu1-sub'>
+                  <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.full_list') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('toponyms.with_wrongnames') }}">{{ trans('navigation.with_wrongnames') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('toponyms.with_wd') }}">{{ trans('navigation.with_wd') }}</a></li>
+                </ul>
               </li>
               <li class="nav-item dropdown" id='menu1'>
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">

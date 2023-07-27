@@ -19,6 +19,8 @@ return [
     'districts' => 'Districts',
     'districts_1926' => 'Districts in 1926',
     
+    'full_list' => 'Full list',
+    
     'geotypes' => 'Geotypes',
     
     'informants' => 'Informants',
@@ -32,4 +34,6 @@ return [
     'structs' => 'Structures',
     'toponyms' => 'Toponyms',
 
+    'with_wd' => 'With wikidata',
+    'with_wrongnames' => 'With wrong names'
 ];
