@@ -43,7 +43,7 @@
                     ({{join(', ', $r->topnames()->pluck('name')->toArray())}})
                     @endif
                 </td>
-                @if (Auth::user()->id < 4)
+                @if (Auth::user() && Auth::user()->id < 4)
                 <td>
                     @if ($r->wd)
                     {!! $r->wdURL('Q') !!}
