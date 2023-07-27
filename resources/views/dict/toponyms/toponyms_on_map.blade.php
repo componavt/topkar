@@ -15,8 +15,8 @@
       // show the scale bar on the lower left corner
       L.control.scale().addTo(map);
 
-      @foreach ($toponyms as $toponym)
+      @foreach ($objs as $obj)
       // show a marker on the map
-      L.marker({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}).bindPopup('{!! to_show($toponym->name, 'toponym', $toponym) !!}').addTo(map);
+      L.marker({lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }).bindPopup('{!! $obj["popup"] !!}').addTo(map);
       @endforeach
     </script>

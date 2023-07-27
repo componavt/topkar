@@ -126,10 +126,22 @@ class ToponymController extends Controller
 
         $toponyms = Toponym::whereNotNull('latitude')->whereNotNull('longitude');
         $n_records = $toponyms->count();        
-        $toponyms = $toponyms->get();
+        $toponyms = $toponyms->orderBy('latitude', 'desc')->get()->groupBy(['latitude', 'longitude']);
         
+//dd($toponyms);        
+        $objs = [];
+        foreach ($toponyms as $lat => $long_list) {
+            foreach ($long_list as $lon => $toponym_list) {
+                $popup = [];
+                foreach ($toponym_list as $toponym) {
+                   $popup[] = to_show($toponym->name, 'toponym', $toponym).($toponym->geotype ? '<br>'.$toponym->geotype->name : ''); 
+                }
+            }
+            $objs[] = ['lat'=>$lat, 'lon'=>$lon, 'popup' => join('<br>', $popup)]; 
+        }
+//dd($objs);        
         return view('dict.toponyms.on_map', 
-                compact('toponyms', 'n_records', 'args_by_get', 'url_args' ));
+                compact('objs', 'n_records', 'args_by_get', 'url_args' ));
     }
     
     /**
