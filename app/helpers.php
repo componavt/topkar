@@ -13,6 +13,31 @@ if (! function_exists('to_link')) {
     }
 }
 
+if (! function_exists('to_route')) {
+    function to_route($str, $route, $obj=null, $args_by_get='', $class='')
+    {
+        $link = $obj ? route($route, $obj) : route($route);
+        return '<a href="'.$link.$args_by_get.'"'.
+               ($class ? ' class="'.$class.'"' : '').'>'.$str.'</a>';            
+    }
+}
+
+if (! function_exists('to_show')) {
+    function to_show($str, $model, $obj, $args_by_get='')
+    {
+        return to_route($str, plural_from_model($model).'.show', $obj, $args_by_get);            
+    }
+}
+
+if (! function_exists('plural_from_model')) {
+    function plural_from_model($model)
+    {
+        $plural = Str::plural(class_basename($model));
+        return Str::camel($plural);
+    }
+}
+
+
 /*
 if (! function_exists('array_to_string')) {
     function array_to_string($arr, $b_div='<b>', $e_div='</b>') {

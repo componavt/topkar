@@ -1,11 +1,10 @@
-@if ($toponym->latitude && $toponym->longitude)
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
        crossorigin=""></script>
 
     <script>
       // initialize Leaflet
-      var map = L.map('mapid').setView({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}, 9);
+      var map = L.map('mapid').setView({lon:33 , lat: 63.7}, 7);
 
       // add the OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -16,7 +15,8 @@
       // show the scale bar on the lower left corner
       L.control.scale().addTo(map);
 
+      @foreach ($toponyms as $toponym)
       // show a marker on the map
-      L.marker({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}).bindPopup('{{$toponym->name}}').addTo(map);
+      L.marker({lon:{{$toponym->longitude}} , lat: {{$toponym->latitude}}}).bindPopup('{!! to_show($toponym->name, 'toponym', $toponym) !!}').addTo(map);
+      @endforeach
     </script>
-@endif    

@@ -165,8 +165,11 @@ class Toponym extends Model
      */
     public function getLocationAttribute()
     {
-        return $this->getRegionNameAttribute().', '. 
-               $this->getDistrictNameAttribute().', '. 
+        if (!$this->region_name && !$this->district_name && !$this->settlementsToString()) {
+            return '-';
+        }
+        return $this->region_name.', '. 
+               $this->district_name.', '. 
                $this->settlementsToString();
     }
     
@@ -197,10 +200,14 @@ class Toponym extends Model
      */
     public function getLocation1926Attribute()
     {
-        return $this->getRegion1926NameAttribute().', '. 
-               $this->getDistrict1926NameAttribute().', '. 
-               $this->getSelsovet1926NameAttribute().', '.
-               $this->getSettlement1926NameAttribute();
+        if (!$this->region1926_name && !$this->district1926_name
+               && !$this->selsovet1926_name && !$this->settlement1926_name) {
+            return '-';
+        }
+        return $this->region1926_name.', '. 
+               $this->district1926_name.', '. 
+               $this->selsovet1926_name.', '.
+               $this->settlement1926_name;
     }
     
     public function getSelsovet1926IdAttribute()

@@ -271,3 +271,6 @@ button.close {
     padding-right: 0.3rem;
 }
 
+.page .leaflet-popup-content {
+    font-size: 1.5rem;
+}

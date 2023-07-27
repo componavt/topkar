@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('headTitle', trans('navigation.with_wrongnames'))
+
 @section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
 @endsection
@@ -50,27 +52,13 @@
                 
 @section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
-        {!!Html::script('js/rec-delete-link.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
 @endsection
 @section('jqueryFunc')
-        recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});
-        $('.select-informant').select2({allowClear: false, placeholder: '{{trans('navigation.informants')}}'});
-        $('.select-recorder').select2({allowClear: false, placeholder: '{{trans('navigation.recorders')}}'});
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-        $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}'});
-        $('.select-source').select2({allowClear: false, placeholder: '{{trans('toponym.source')}}'});
-        $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
-        $('.select-ethnos_territory').select2({allowClear: false, placeholder: '{{trans('misc.ethnos_territory')}}'});
-        $('.select-etymology_nation').select2({allowClear: false, placeholder: '{{trans('misc.etymology_nation')}}'});
         
         selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
         selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
-        selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('misc.record_place')}}', false, '.select-record-place');
-        selectDistrict1926('search_regions1926', '{{app()->getLocale()}}', '{{trans('toponym.district1926')}}', false);
-        selectSelsovet1926('search_regions1926', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
-        selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement1926')}}', false);
-        selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
 @stop

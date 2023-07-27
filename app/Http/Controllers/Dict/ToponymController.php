@@ -48,7 +48,7 @@ class ToponymController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
@@ -83,7 +83,7 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
 
-    public function withWD(Request $request)
+    public function withWD()
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
@@ -96,7 +96,7 @@ class ToponymController extends Controller
                 compact('toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function withWrongnames(Request $request)
+    public function withWrongnames()
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
@@ -118,6 +118,20 @@ class ToponymController extends Controller
                         'settlement_values', 'sort_values',
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
+    
+    public function onMap()
+    {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $toponyms = Toponym::whereNotNull('latitude')->whereNotNull('longitude');
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->get();
+        
+        return view('dict.toponyms.on_map', 
+                compact('toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

@@ -24,6 +24,8 @@ return [
     'geotypes' => 'Geotypes',
     
     'informants' => 'Informants',
+
+    'on_map' => 'On map',
     
     'recorders' => 'Recorders',
     'regions' => 'Regions',
