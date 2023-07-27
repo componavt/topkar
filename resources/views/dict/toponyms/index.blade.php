@@ -23,7 +23,7 @@
         <table class="table table-striped table-hover wide-md">
             <tr><th>&numero;</th>    
                 <th>{{trans('toponym.toponym')}}</th>
-                @if (Auth::user()->id < 4)
+                @if (Auth::user() && Auth::user()->id < 4)
                 <th></th>
                 @endif
                 <th>{{trans('misc.geotype')}}</th>
@@ -48,11 +48,8 @@
                     @if ($r->wd)
                     {!! $r->wdURL('Q') !!}
                     @endif
-                    @if ($r->latitude)
-                    ш
-                    @endif
-                    @if ($r->longitude)
-                    д
+                    @if ($r->latitude || $r->longitude)
+                    *
                     @endif
                 </td>
                 @endif
