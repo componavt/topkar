@@ -30,7 +30,7 @@
                 @endif
                 <th>{{trans('misc.geotype')}}</th>
                 <th>{{trans('toponym.location')}} / <br>
-                    {{trans('toponym.location_1926')}}</th>       
+                    <i>{{trans('toponym.location_1926')}}</i></th>       
                 @if (user_can_edit())
                 <th>{{ trans('messages.actions') }}</th>
                 @endif
@@ -57,7 +57,7 @@
                 @endif
                 <td>{{ optional($r->geotype)->name }}</td>
                 <td>{{ $r->location }} / <br>
-                    {{ $r->location1926 }}</td>
+                    <i>{{ $r->location1926 }}</i></td>
                 
                 @if (user_can_edit())
                 <td data-th="{{ trans('messages.actions') }}">
