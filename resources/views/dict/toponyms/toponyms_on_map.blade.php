@@ -4,7 +4,7 @@
 
     <script>
       // initialize Leaflet
-      var map = L.map('mapid').setView({lon:33 , lat: 63.7}, 7);
+      var map = L.map('mapid').setView({lon:33 , lat: 63.5}, 7);
 
       // add the OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
