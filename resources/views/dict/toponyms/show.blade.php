@@ -40,14 +40,14 @@
             <p><span class='field-name'>{{trans('toponym.wrongnames')}}:</span> 
             <span class='field-value'>{{ join(', ', $toponym->wrongnamesWithLangs()) }}</span></p>
 
+            <p><span class='field-name'>{{trans('misc.geotype')}}:</span> 
+            <span class='field-value'>{{ optional($toponym->geotype)->name }}</span></p>
+
             <p><span class='field-name'>{{trans('toponym.location')}}:</span> 
             <span class='field-value'>{{ $toponym->location }}</span></p>
 
             <p><span class='field-name'>{{trans('toponym.location_1926')}}:</span> 
             <span class='field-value'>{{ $toponym->location1926 }}</span></p>
-
-            <p><span class='field-name'>{{trans('misc.geotype')}}:</span> 
-            <span class='field-value'>{{ optional($toponym->geotype)->name }}</span></p>
 
             <p><span class='field-name'>{{trans('toponym.caseform')}}:</span> 
             <span class='field-value'>{{ $toponym->caseform }}</span></p>
