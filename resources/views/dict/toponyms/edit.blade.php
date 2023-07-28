@@ -7,6 +7,7 @@
          crossorigin=""/>
 @endsection
     
+@section('headTitle', $toponym->name. ' — '. trans('messages.editing'))
 @section('header', trans('navigation.toponyms'). ' / '. trans('messages.editing'). ' / '. $toponym->name)
 
 @section('main')   

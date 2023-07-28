@@ -23,7 +23,7 @@ return [
     'distance' => 'Distance',
     'found_count' => '{0} There are no records.|{1} :count record was found.|[2,*] :count records were found.',
     'for_text_fields' => 'For inexact search in the text fields use a <span class="warning">percent %</span> to replace any number of characters, a <span class="warning"> underscore _</span>  to replace one character.',
-    'found_entries' => '{0}|{1}, :count entry|[2,Inf], :count entries',
+    'found_toponyms' => '{0}|{1}, :count toponym|[2,Inf], :count toponyms',
     'in_distance' => 'in the distance from :from to :to',
     'or' => 'OR',
     'regex_title' => 'Templates (Regex and custom) are allowed in the field. You can use the following notation:',

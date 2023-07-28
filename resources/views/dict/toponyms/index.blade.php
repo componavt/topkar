@@ -4,9 +4,11 @@
         {!!Html::style('css/select2.min.css')!!}  
 @endsection
     
+@section('headTitle', trans('navigation.toponyms'))
+
 @section('search_form')   
         @include("dict.toponyms.form._search")
-        @include('widgets.found_records', ['n_records'=>$n_records])
+        @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
 @endsection
         
 @section('header', trans('navigation.toponyms'))

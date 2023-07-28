@@ -1,10 +1,10 @@
 @extends('layouts.master')
 
-@section('headTitle', trans('navigation.with_wd'))
+@section('headTitle', trans('navigation.toponyms'). ' '. mb_strtolower(trans('navigation.with_wd')))
 
 @section('search_form')   
         @include("dict.toponyms.form._search_wd")
-        @include('widgets.found_records', ['n_records'=>$n_records])
+        @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
 @endsection
         
 @section('header', trans('navigation.toponyms'). ' '. mb_strtolower(trans('navigation.with_wd')))
