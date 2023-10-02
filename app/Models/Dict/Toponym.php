@@ -374,6 +374,7 @@ class Toponym extends Model
     public function anothersInSettlement($geotype_id=null) {
         $settlements = $this->settlements;
         $settlement1926_id = $this->settlement1926_id;
+        
         if (!sizeof($settlements) && !$settlement1926_id) {
             return [];
         }
@@ -384,12 +385,22 @@ class Toponym extends Model
                   ->whereIn('id', $settlements);
             });
         }
+//dd($toponyms->get());        
+//dd($settlement1926_id);        
         
         if ($settlement1926_id) {
-            $toponyms->where('settlement1926_id', $settlement1926_id);
+//dd($settlement1926_id);        
+//            $toponyms->where('settlement1926_id', $settlement1926_id);
+            $toponyms->where('settlement1926_id', 2427);
+//            $toponyms = $toponyms->where('settlement1926_id', (int)$settlement1926_id);
+//            $toponyms = $toponyms->whereSettlement1926Id($settlement1926_id);
+//            $toponyms->whereIn('settlement1926_id', [$settlement1926_id]);
         }
+//dd($toponyms->get());        
+//dd(to_sql($toponyms));    
         $toponyms_with = collect();
         $toponyms_without = collect();
+        
         foreach ($toponyms->get() as $t) {
             $t->geotype_name = $t->geotype ? ($t->geotype->short ? $t->geotype->short : $t->geotype->name) : '';
             if ($t->geotype_id == $geotype_id) {
