@@ -164,14 +164,7 @@
                  ]) 
     </div>
     
-    <div class="col-md-2" style='display: flex; flex-direction: column; justify-content: center'>
-        @include('widgets.form.formitem._checkbox', 
-                ['name' => 'in_desc', 
-                'value' => 1,
-                'checked' => $url_args['in_desc']==1,
-                 'tail' => trans('messages.in_desc'),
-                 ]) 
-    </div>    
+    @include('widgets.form._search_in_desc')
     
     @include('widgets.form._search_div')
 </div>                 
