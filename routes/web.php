@@ -22,6 +22,8 @@ use App\Http\Controllers\Misc\SourceController;
 use App\Http\Controllers\Misc\SourceToponymController;
 use App\Http\Controllers\Misc\StructController;
 
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,9 +38,6 @@ use App\Http\Controllers\Misc\StructController;
 Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 {
     /** ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-    Route::get('/', function () {
-        return view('welcome'); // return view('dashboard');
-    });
 /*    Route::get('/map_example', function () {
         return view('map_example'); // return view('dashboard');
     });*/
@@ -77,9 +76,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/misc/source_toponym', [SourceToponymController::class, 'index']);
     
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
-    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-        return view('welcome');
-    })->name('dashboard');
+    Route::middleware(['auth:sanctum', 'verified'])
+        ->get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    Route::get('/', [HomeController::class, 'index']);
 
 
 /** OTHER PAGES THAT SHOULD NOT BE LOCALIZED **/
