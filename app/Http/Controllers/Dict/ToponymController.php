@@ -119,6 +119,26 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
+    public function withLegends() {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $toponyms = Toponym::search($url_args)->whereNotNull('legend');
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
+        $district_values = District::getList();
+        $geotype_values = Geotype::getList();
+        $region_values = Region::getList();
+        $settlement_values = Settlement::getList();
+        $sort_values = Toponym::sortList();
+
+        return view('dict.toponyms.with_legends', 
+                compact('district_values', 'geotype_values', 'region_values', 
+                        'settlement_values', 'sort_values',
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
     public function onMap()
     {
         $args_by_get = $this->args_by_get;

@@ -37,5 +37,6 @@ return [
     'toponyms' => 'Toponyms',
 
     'with_wd' => 'With wikidata',
+    'with_legends' => 'With legends',
     'with_wrongnames' => 'With wrong names'
 ];

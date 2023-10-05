@@ -22,6 +22,7 @@
                 <ul class="dropdown-menu" role="menu" id='menu1-sub'>
                   <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.full_list') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('toponyms.with_wrongnames') }}">{{ trans('navigation.with_wrongnames') }}</a></li>
+                  <li><a class="dropdown-item" href="{{ route('toponyms.with_legends') }}">{{ trans('navigation.with_legends') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('toponyms.with_wd') }}">{{ trans('navigation.with_wd') }}</a></li>
                   <li><a class="dropdown-item" href="{{ route('toponyms.on_map') }}">{{ trans('navigation.on_map') }}</a></li>
                 </ul>
