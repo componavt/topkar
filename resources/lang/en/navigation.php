@@ -33,7 +33,7 @@ return [
     'settlements' => 'Settlements',
     'settlements_1926' => 'Settlements in 1926',
     'sources' => 'Sources',
-    'structs' => 'Structures',
+    'structs' => 'Structure',
     'toponyms' => 'Toponyms',
 
     'with_wd' => 'With wikidata',

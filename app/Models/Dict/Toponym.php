@@ -382,10 +382,10 @@ class Toponym extends Model
         if (sizeof($settlements)) {
             $toponyms->whereIn('id', function ($q) use ($settlements) {
                 $q->select('toponym_id')->from('settlement_toponym')
-                  ->whereIn('id', $settlements);
+                  ->whereIn('settlement_id', $settlements);
             });
         }
-//dd($toponyms->get());        
+//dd($settlements, $settlement1926_id, to_sql($toponyms), $toponyms->get());        
 //dd($settlement1926_id);        
         
         if ($settlement1926_id) {
