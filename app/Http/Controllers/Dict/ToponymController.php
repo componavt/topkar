@@ -232,7 +232,7 @@ class ToponymController extends Controller
         $data = $request->only('name', 'district_id', 'settlement1926_id', 'lang_id',
                     'geotype_id', 'etymology', 'etymology_nation_id', 'legend',
                     'ethnos_territory_id', 'caseform', 'main_info', 'folk', 'wd', 
-                    'latitude', 'longitude');
+                    'latitude', 'longitude', 'text_ids');
         
         $data['name'] = to_right_form($data['name']);
         

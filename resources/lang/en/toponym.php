@@ -43,6 +43,7 @@ return [
     'lang' => 'language',
     'latitude' => 'latitude',
     'legend' => 'Popular interpretation, legends',
+    'legend_collect' => 'Texts from VepKar collection "Karelian legends"',
     'location_1926' => 'Region, district, selsovet, settlement 1926',
     'location'      => 'Region, district, settlement',
     'longitude' => 'longitude',
@@ -78,6 +79,8 @@ return [
     'topnames' => 'Other names',
     'toponym' => 'Toponym',    
     'toponym_removed' => 'Toponym ":name" is removed.',
+    
+    'vepkar_text_id' => 'VepKar Text IDs',
     
     'wd' => 'Wikidata ID',
     'wd_URL' => 'Wikidata',

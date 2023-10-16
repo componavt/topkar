@@ -72,6 +72,9 @@
             <p><span class='field-name'>{{trans('toponym.legend')}}:</span> 
             <span class='field-value'>{{ $toponym->legend }}</span></p>
 
+            <p><span class='field-name'>{{trans('toponym.legend_collect')}}:</span> 
+            <span class='field-value'>{!! $toponym->textURLs() !!}</span></p>
+
             <p><span class='field-name'>{{trans('toponym.wd_URL')}}:</span> 
             <span class='field-value'>{!! $toponym->wdURL() !!}</span>; 
             TopKar ID: {{ $toponym->id }}

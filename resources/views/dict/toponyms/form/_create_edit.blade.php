@@ -99,13 +99,22 @@
                  'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.main_info')])
-        <!-- Popular interpretation, Legend -->
-        @include('widgets.form.formitem._textarea', 
-                ['name' => 'legend', 
-                 'special_symbol' => true,
-                 'attributes' => ['rows' => 3],
-                 'title'=>trans('toponym.legend')])
-                 
+            <div class="row">
+                <div class="col-sm-8">
+                <!-- Popular interpretation, Legend -->
+                @include('widgets.form.formitem._textarea', 
+                        ['name' => 'legend', 
+                         'special_symbol' => true,
+                         'attributes' => ['rows' => 3],
+                         'title'=>trans('toponym.legend')])
+                </div>
+                <div class="col-sm-4">
+                    @include('widgets.form.formitem._text', 
+                            ['name' => 'text_ids', 
+                             'value' => optional($toponym)->textIds(),
+                             'title'=>trans('toponym.vepkar_text_id')])
+                </div>
+            </div>         
         <div class="row"><!-- Row with coordinates and Wikidata ID-->
             <div class="col-sm-4">
                 @include('widgets.form.formitem._text', 

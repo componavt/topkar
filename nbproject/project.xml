@@ -5,5 +5,12 @@
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
             <name>topkar</name>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>css</word>
+            <word>endif</word>
+            <word>ensection</word>
+            <word>wd</word>
+            <word>wrongnames</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

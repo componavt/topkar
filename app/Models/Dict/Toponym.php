@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Dict\Settlement1926;
-use App\Models\Dict\Source;
+//use App\Models\Dict\Source;
 use App\Models\Dict\Wrongname;
 
 use App\Models\Misc\Event;
@@ -35,6 +35,7 @@ class Toponym extends Model
     // Belongs To Many Relations
     use \App\Traits\Relations\BelongsToMany\Settlements;
     use \App\Traits\Relations\BelongsToMany\Sources;
+    use \App\Traits\Relations\BelongsToMany\Texts;
     
     public function events()
     {
@@ -479,8 +480,11 @@ class Toponym extends Model
         Event::storeData($this->id, $request->new_event);
 
         $structs = array_filter((array)$request->structs, 'strlen');        
-        $this->structs()->sync($structs);        
+        $this->structs()->sync($structs);   
         
+        if ($data['text_ids']) {
+            $this->texts()->sync(preg_split('/;\s*/', $data['text_ids']));
+        }        
     }
     
     public function remove() {
