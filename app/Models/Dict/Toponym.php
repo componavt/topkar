@@ -484,7 +484,9 @@ class Toponym extends Model
         
         if ($data['text_ids']) {
             $this->texts()->sync(preg_split('/;\s*/', $data['text_ids']));
-        }        
+        } else {
+            $this->texts()->detach();
+        }       
     }
     
     public function remove() {
