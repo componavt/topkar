@@ -131,16 +131,31 @@
     @endforeach 
     </ol>
     
-    @if (sizeof($toponym->anothersInSettlement()))
+    @php 
+        $others = $toponym->anothersInSettlement($toponym->geotype_id); 
+    @endphp
+    @if (sizeof($others))
     <h3>Другие топонимы в этом же поселении</h3>
     <ol>
-        @foreach ($toponym->anothersInSettlement($toponym->geotype_id) as $t) 
-        <li>{{$t->geotype_name}} <a href="{{route("toponyms.show", $t).$args_by_get}}">{{$t->name}}</a>
-            @if ($t->topnames()->count())
-            ({{join(', ', $t->topnames()->pluck('name')->toArray())}})
+        @if (sizeof($others)>10)
+        <div class='row'>
+            <div class="col-sm-6">
+        @endif
+        @for ($i=0; $i<sizeof($others); $i++) 
+        <li>{{$others[$i]->geotype_name}} <a href="{{route("toponyms.show", $others[$i]).$args_by_get}}">{{$others[$i]->name}}</a>
+            @if ($others[$i]->topnames()->count())
+            ({{join(', ', $others[$i]->topnames()->pluck('name')->toArray())}})
             @endif
         </li>
-        @endforeach
+            @if (sizeof($others)>10 && $i==round(sizeof($others)/2)-1)
+            </div>
+            <div class="col-sm-6">
+            @endif
+        @endfor
+        @if (sizeof($others)>10)
+            </div>
+        </div>
+        @endif
     </ol>
     @endif
 @stop
