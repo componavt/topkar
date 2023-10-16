@@ -36,6 +36,13 @@
                 </td>
                 <td>
                     {{ $r->legend }}
+                    @if ($r->legend && $r->textUrls())
+                    <br>
+                    @endif
+                    @if ($r->textUrls())
+                    {{ __('toponym.on_vepkar') }}
+                    {!! $r->textUrls() !!}
+                    @endif
                 </td>
                 <td>{{ optional($r->geotype)->name }}</td>
                 <td>{{ $r->location }} / <br>

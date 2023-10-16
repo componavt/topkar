@@ -54,6 +54,8 @@ return [
     
     'official_name' => 'Title name',
     
+    'on_vepkar' => 'On VepKar',
+    
     'region' => 'Region',
     'regions' => 'regions',
     'region1926' => 'Region 1926',

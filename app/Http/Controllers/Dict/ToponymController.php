@@ -123,7 +123,13 @@ class ToponymController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
-        $toponyms = Toponym::search($url_args)->whereNotNull('legend');
+        $toponyms = Toponym::search($url_args)
+                ->where(function($q) {
+                    $q->whereNotNull('legend')
+                      ->orWhereIn('id', function($q2) {
+                          $q2->select('toponym_id')->from('text_toponym');
+                      });
+                });
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
         
