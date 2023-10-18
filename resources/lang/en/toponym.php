@@ -76,7 +76,7 @@ return [
     'short_name' => 'Short name',
     'source' => 'Source',
     'source_text' => 'Reference',
-    'sources' => 'Sources',
+    'sources' => 'Mentions in sources',
     
     'topnames' => 'Other names',
     'toponym' => 'Toponym',    
