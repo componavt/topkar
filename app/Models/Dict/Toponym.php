@@ -463,7 +463,7 @@ class Toponym extends Model
     }
     
     public function updateAddInfo(array $data, $request) {
-        $this->settlements()->sync($request->settlement_id);
+        $this->settlements()->sync(!empty($request->settlement_id) ? remove_empty($request->settlement_id) : []);
 //dd($request->new_topname);        
         foreach ((array)$request->new_topname as $t_info) {
             Topname::storeData($this->id, $t_info);
