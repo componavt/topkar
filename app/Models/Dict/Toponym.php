@@ -427,6 +427,9 @@ class Toponym extends Model
     
     public function updateData(array $data, $request) {
         $this->fill($data);
+        if (!$this->district_id && $this->settlement && $this->settlement->district_id) {
+            $this->district_id = $this->settlement->district_id;
+        }
         $this->name_for_search = to_search_form($this->name);
         $this->save();
         

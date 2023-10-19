@@ -217,9 +217,9 @@ class Settlement1926Controller extends Controller
     {
         $locale = app()->getLocale();
         $settlement_name = '%'.$request->input('q').'%';
-        $selsovets = (array)$request->input('selsovets');
-        $districts = (array)$request->input('districts');
-        $regions = (array)$request->input('regions');
+        $selsovets = request_arr($request->selsovets);
+        $districts = request_arr($request->districts);
+        $regions = request_arr($request->regions);
 
         $list = [];
         $settlements = Settlement1926::where(function($q) use ($settlement_name){

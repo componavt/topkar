@@ -102,6 +102,13 @@ if (! function_exists('remove_default')) {
     }
 }
 
+if (! function_exists('request_arr')) {
+    function request_arr($arr)
+    {
+        return !empty($arr) ? remove_empty((array)$arr) : [];
+    }
+}
+
 // extracts some parameters from object Request into array $url_args
 if (! function_exists('url_args')) {
     function url_args($request, $limit_min=10) {
