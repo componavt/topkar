@@ -19,7 +19,7 @@
     @endif
     
     @section('table_block')  
-        @if ($settlements)
+        @if (sizeof($settlements))
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
