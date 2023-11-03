@@ -18,7 +18,8 @@
     </div>
     @endif
     
-    @section('table_block')   
+    @section('table_block')  
+        @if ($settlements)
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
@@ -90,6 +91,7 @@
         {{ $settlements->appends($url_args)->onEachSide(3)->links() }}
         
         <p>* - {{ __('toponym.with_coords') }}</p>
+        @endif
     @endsection
 @endsection
 @section('footScriptExtra')
