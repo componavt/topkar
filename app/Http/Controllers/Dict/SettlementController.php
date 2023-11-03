@@ -93,7 +93,7 @@ class SettlementController extends Controller
         $settlement = Settlement::create($this->validateRequest($request)); 
         $settlement->saveDistricts($request->districts);
         
-        return Redirect::to(route('settlements.index').($this->args_by_get))
+        return Redirect::to(route('settlements.show', $settlement).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
