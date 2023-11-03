@@ -60,6 +60,8 @@ class Settlement1926Controller extends Controller
             'name_ru'  => 'required|max:150',
             'name_krl'  => 'max:150',
             'selsovet_id' => 'required|numeric',
+            'latitude' => 'nullable',
+            'longitude' => 'nullable',
         ]);
     }
     

@@ -2,6 +2,12 @@
 
 @section('header', trans('navigation.settlements_1926'))
 
+@section('headExtra')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+@stop
+
 @section('main')   
     <h3>{{ $settlement->name }}</h3>
     
@@ -15,6 +21,11 @@
             | {{ trans('messages.edit') }} | {{ trans('messages.delete') }} | {{ trans('messages.create_new_m') }}
         @endif 
     </div>
+    
+    @if ($settlement->latitude && $settlement->longitude)
+    <div class="row">
+        <div class="col-sm-6">
+    @endif
     
     <p><span class='field-name'>{{trans('toponym.region')}}</span>: 
     <span class='field-value'>{{ optional($settlement->selsovet1926->district1926->region)->name }}</span></p>
@@ -33,11 +44,21 @@
 
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_karelian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_krl }}</span></p>
+
+    @if ($settlement->latitude && $settlement->longitude)
+        </div>
+        <div class="col-sm-6">
+            <div id="mapid" style="width: 100%; height: 500px;"></div>
+        </div>
+    </div>    
+    @endif
 @endsection
     
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
+        @include('widgets.leaflet.obj_on_map', ['obj'=>$settlement])
 @endsection
+
 @section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
 @stop
