@@ -30,6 +30,7 @@ class Settlement extends Model
 
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
+    use \App\Traits\Methods\wdURL;    
 //    use \App\Traits\Methods\search\byNameKRL;
 
     // Belongs To One Relations

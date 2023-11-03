@@ -17,11 +17,12 @@ class Settlement1926 extends Model
      */
     protected $table = 'settlements1926';
     public $timestamps = false;
-    protected $fillable = ['selsovet_id','name_en','name_ru', 'name_krl'];
+    protected $fillable = ['selsovet_id','name_en','name_ru', 'name_krl', 'wd', 'latitude', 'longitude'];
     
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;    
     use \App\Traits\Methods\search\byNameKRL;
+    use \App\Traits\Methods\wdURL;    
     
     use \App\Traits\Relations\HasMany\Toponyms;
     /**

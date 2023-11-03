@@ -162,7 +162,7 @@
 
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-        @include('dict.toponyms.toponym_on_map')
+        @include('widgets.leaflet.obj_on_map', ['obj'=>$toponym])
 @stop
 
 @section('jqueryFunc')

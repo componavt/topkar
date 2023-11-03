@@ -2,11 +2,18 @@
 
 @section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+         crossorigin=""/>
 @endsection
     
 @section('header', trans('navigation.settlements'). ' / '. trans('messages.editing'). ' / '. $settlement->name)
 
 @section('main')   
+    @include('widgets.modal',['name'=>'modalMap',
+                          'title'=>trans('toponym.coords_from_map'),
+                          'modal_view'=>'dict.toponyms.karelia_on_map'])
+                      
     <div class='top-links'>        
         <a href="{{ route('settlements.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
         @if (user_can_edit())
@@ -29,9 +36,14 @@
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
         {!!Html::script('js/toponym.js')!!}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+       crossorigin=""></script>
 @endsection
 @section('jqueryFunc')
         @for ($i=0; $i<=sizeof($settlement->districtValue()); $i++)
             selectDistrict('region_id', '{{app()->getLocale()}}', '{{trans('toponym.select_district')}}', true, '.select-district-{{$i}}');
         @endfor
+        
+        @include('widgets.leaflet.coords_from_click')
 @stop

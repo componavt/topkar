@@ -43,6 +43,26 @@
         @include('dict.settlements._form_district_group', 
             ['district'=> ['id'=>isset($action) && $action=='creation' && isset($url_args['search_districts'][0]) 
                                 ? $url_args['search_districts'][0] : null]])        
+                                
+        <div class="row"><!-- Row with coordinates and Wikidata ID-->
+            <div class="col-sm-4">
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'latitude', 
+                         'title'=>trans('toponym.latitude')])
+            </div>
+            <div class="col-sm-4">
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'longitude', 
+                         'title'=>trans('toponym.longitude')])
+            </div>
+            <div class="col-sm-4"><!-- Wikidata ID without 'Q' -->
+                @include('widgets.form.formitem._text', 
+                        ['name' => 'wd', 
+                         'title'=>trans('toponym.wd')])
+            </div>
+        </div>
+        <p><a onClick="callMap()">Указать координаты на карте</a></p>
+                                
     </div>
 </div> 
 
