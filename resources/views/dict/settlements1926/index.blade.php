@@ -18,6 +18,7 @@
     </div>
     @endif
     
+    @if (sizeof($settlements1926))
     @section('table_block')   
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
@@ -73,12 +74,15 @@
         
         <p>* - {{ __('toponym.with_coords') }}</p>        
     @endsection
+    @endif
 @endsection
+
 @section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
         {!!Html::script('js/lists.js')!!}
 @endsection
+
 @section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});

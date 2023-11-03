@@ -18,8 +18,8 @@
     </div>
     @endif
     
+    @if (sizeof($settlements))
     @section('table_block')  
-        @if (sizeof($settlements))
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
@@ -91,14 +91,16 @@
         {{ $settlements->appends($url_args)->onEachSide(3)->links() }}
         
         <p>* - {{ __('toponym.with_coords') }}</p>
-        @endif
     @endsection
+    @endif
 @endsection
+
 @section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
         {!!Html::script('js/lists.js')!!}
 @endsection
+
 @section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});

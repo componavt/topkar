@@ -92,7 +92,7 @@ class Settlement1926Controller extends Controller
     {
         $obj = Settlement1926::create($this->validateRequest($request)); 
         
-        return Redirect::to(route('settlements1926.index').($this->args_by_get))
+        return Redirect::to(route('settlements1926.show', $settlement).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
@@ -155,7 +155,7 @@ class Settlement1926Controller extends Controller
         $settlement= Settlement1926::findOrFail($id);
         $settlement->fill($this->validateRequest($request))->save();
        
-        return Redirect::to(route('settlements1926.index', $settlement).($this->args_by_get))
+        return Redirect::to(route('settlements1926.show', $settlement).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
