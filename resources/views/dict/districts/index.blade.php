@@ -17,7 +17,7 @@
     </div>
     @endif
     
-    <x-slot name="table_block">
+    @section('table_block')   
         <table class="table table-striped table-hover">
             <tr><th>&numero;</th>
                 <th>{{trans('toponym.region')}}</th>
@@ -59,6 +59,7 @@
             @endforeach
         </table>
         {{ $districts->appends($url_args)->onEachSide(3)->links() }}
+    @endsection
 @stop
 @section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
