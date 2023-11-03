@@ -119,13 +119,11 @@
             <div class="col-sm-4">
                 @include('widgets.form.formitem._text', 
                         ['name' => 'latitude', 
-                         'value' => optional($toponym)->latitude,
                          'title'=>trans('toponym.latitude')])
             </div>
             <div class="col-sm-4">
                 @include('widgets.form.formitem._text', 
                         ['name' => 'longitude', 
-                         'value' => optional($toponym)->longitude,
                          'title'=>trans('toponym.longitude')])
             </div>
             <div class="col-sm-4"><!-- Wikidata ID without 'Q' -->

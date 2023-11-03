@@ -41,7 +41,12 @@
                 <td data-th="{{trans('toponym.selsovets_1926')}}">{{ $r->selsovet1926->name }}</td>
 
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
-                <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('settlements1926.show', $r).$args_by_get)!!}</td>
+                <td data-th="{{trans('general.in_russian')}}">
+                    {!!to_link($r->name_ru, route('settlements1926.show', $r).$args_by_get)!!}
+                    @if ($r->longitude & $r->latitude)
+                    *
+                    @endif
+                </td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
@@ -65,6 +70,8 @@
             @endforeach
         </table>                
         {{ $settlements1926->appends($url_args)->onEachSide(3)->links() }}
+        
+        <p>* - {{ __('toponym.with_coords') }}</p>        
     @endsection
 @endsection
 @section('footScriptExtra')

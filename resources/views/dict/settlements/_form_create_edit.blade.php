@@ -43,7 +43,8 @@
         @include('dict.settlements._form_district_group', 
             ['district'=> ['id'=>isset($action) && $action=='creation' && isset($url_args['search_districts'][0]) 
                                 ? $url_args['search_districts'][0] : null]])        
-                                
+            
+        @if (!empty($with_coords))                        
         <div class="row"><!-- Row with coordinates and Wikidata ID-->
             <div class="col-sm-4">
                 @include('widgets.form.formitem._text', 
@@ -62,7 +63,7 @@
             </div>
         </div>
         <p><a onClick="callMap()">Указать координаты на карте</a></p>
-                                
+        @endif                        
     </div>
 </div> 
 

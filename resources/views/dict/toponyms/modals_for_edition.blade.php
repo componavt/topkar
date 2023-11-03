@@ -36,5 +36,5 @@
 
 @include('widgets.modal',['name'=>'modalMap',
                       'title'=>trans('toponym.coords_from_map'),
-                      'modal_view'=>'dict.toponyms.karelia_on_map'])
+                      'modal_view'=>'widgets.leaflet.karelia_on_map'])
                       
