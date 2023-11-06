@@ -50,7 +50,6 @@ return [
     'location'      => 'Регион, район, поселение',
     'longitude' => 'долгота',
 
-    
     'main_info' => 'Основная информация',
     'mention' => 'Упоминание',
     'name' => 'Название',
@@ -58,10 +57,16 @@ return [
     'official_name' => 'Заголовочное название',
     
     'on_vepkar' => 'На ВепКар',
+    'possibly_same_modern_settlement' => 'Возможно то же современное поселение',
+    'possibly_same_settlement1926' => 'Возможно то же поселение в 1926 г.',    
     
     'region' => 'Регион',
     'region1926' => 'Регион 1926',
     'regions' => 'Регионы сбора топонимии карельскими учёными',
+    
+    'same_modern_settlement' => 'То же современное поселение',
+    'same_settlement' => 'То же поселение',
+    'same_settlement1926' => 'То же поселение в 1926 г.',
     
     'selsovet1926' => 'Сельсовет 1926',
     'selsovet1926_removed' => 'Сельсовет 1926 ":name" удален.',

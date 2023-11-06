@@ -67,7 +67,28 @@
         </a>
     </p>  
     @endif
-            
+    
+    @if ($settlement->same_settlements)
+    <p><span class='field-name'>{{ __('toponym.same_settlement') }}</span>:
+        @foreach($settlement->same_settlements as $s)
+        <a href="{{ route('settlements.show', $s) }}">{{ $s->name }}</a>
+        @endforeach
+    @endif
+    
+    @if ($settlement->same_settlements1926)
+    <p><span class='field-name'>{{ __('toponym.same_settlement1926') }}</span>:
+        @foreach($settlement->same_settlements1926 as $s)
+        <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>
+        @endforeach
+    @endif
+    
+    @if ($settlement->possibly_same_settlements1926)
+    <p><span class='field-name'>{{ __('toponym.possibly_same_settlement1926') }}</span>:
+        @foreach($settlement->possibly_same_settlements1926 as $s)
+        <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>
+        @endforeach
+    @endif
+    
     @if ($settlement->latitude && $settlement->longitude)
         </div>
         <div class="col-sm-6">

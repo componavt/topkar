@@ -41,6 +41,34 @@ class Settlement1926 extends Model
         return $this->selsovet_id ? [$this->selsovet_id] : [];
     }
     
+    public function getSameSettlements1926Attribute() {
+        if (!$this->latitude || !$this->longitude) {
+            return null;
+        }
+        return self::where('id', '<>', $this->id)
+                ->whereLatitude($this->latitude)
+                ->whereLongitude($this->longitude)->get();
+    }
+
+    public function getSameSettlementsAttribute() {
+        if (!$this->latitude || !$this->longitude) {
+            return null;
+        }
+        return Settlement::whereLatitude($this->latitude)
+                ->whereLongitude($this->longitude)->get();
+    }
+
+    public function getPossiblySameSettlementsAttribute() {
+        $settl_id = $this->id;
+        return Settlement::whereIn('id', function ($q) use ($settl_id) {
+            $q->select('settlement_id')->from('settlement_toponym')
+              ->whereIn('toponym_id', function ($q2) use ($settl_id) {
+                  $q2->select('id')->from('toponyms')
+                     ->where('settlement1926_id', $settl_id);
+              });
+        })->get();
+//dd(to_sql($s));        
+    }
     /** Gets array of search parameters.
      * 
      * @param type $request

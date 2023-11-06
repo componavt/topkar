@@ -128,6 +128,35 @@ class Settlement extends Model
         }        
     }
     
+    public function getSameSettlementsAttribute() {
+        if (!$this->latitude || !$this->longitude) {
+            return null;
+        }
+        return self::where('id', '<>', $this->id)
+                ->whereLatitude($this->latitude)
+                ->whereLongitude($this->longitude)->get();
+    }
+
+    public function getSameSettlements1926Attribute() {
+        if (!$this->latitude || !$this->longitude) {
+            return null;
+        }
+        return Settlement1926::whereLatitude($this->latitude)
+                ->whereLongitude($this->longitude)->get();
+    }
+
+    public function getPossiblySameSettlements1926Attribute() {
+        $settl_id = $this->id;
+        return Settlement1926::whereIn('id', function ($q) use ($settl_id) {
+            $q->select('settlement1926_id')->from('toponyms')
+              ->whereIn('id', function ($q2) use ($settl_id) {
+                  $q2->select('toponym_id')->from('settlement_toponym')
+                     ->whereSettlementId($settl_id);
+              });
+        })->get();
+//dd(to_sql($s));        
+    }
+
     public static function getTypeList() {
         $locale = app()->getLocale();
         return Geotype::whereIn('id', self::Types)->orderBy('name_'.$locale)

@@ -56,10 +56,16 @@ return [
     'official_name' => 'Title name',
     
     'on_vepkar' => 'On VepKar',
+    'possibly_same_modern_settlement' => 'Possibly the same modern settlement',
+    'possibly_same_settlement1926' => 'Possibly the same settlement in 1926',    
     
     'region' => 'Region',
     'regions' => 'regions',
     'region1926' => 'Region 1926',
+    
+    'same_modern_settlement' => 'The same modern settlement',
+    'same_settlement' => 'The same settlement',
+    'same_settlement1926' => 'The same settlement in 1926',
         
     'selsovet1926' => 'Selsovet 1926',
     'selsovet1926_removed' => 'Selsovet 1926 ":name" is removed successfully.',
