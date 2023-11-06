@@ -71,21 +71,21 @@
     @if (sizeof($settlement->same_settlements))
     <p><span class='field-name'>{{ __('toponym.same_settlement') }}</span>:
         @foreach($settlement->same_settlements as $s)
-        <a href="{{ route('settlements.show', $s) }}">{{ $s->name }}</a>
+        <a href="{{ route('settlements.show', $s) }}">{{ $s->name }}</a>@if ($loop->iteration < sizeof($settlement->same_settlements));@endif
         @endforeach
     @endif
     
     @if (sizeof($settlement->same_settlements1926))
     <p><span class='field-name'>{{ __('toponym.same_settlement1926') }}</span>:
         @foreach($settlement->same_settlements1926 as $s)
-        <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>
+        <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>@if ($loop->iteration<sizeof($settlement->same_settlements1926));@endif
         @endforeach
     @endif
     
     @if (sizeof($settlement->possibly_same_settlements1926))
     <p><span class='field-name'>{{ __('toponym.possibly_same_settlement1926') }}</span>:
         @foreach($settlement->possibly_same_settlements1926 as $s)
-        <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>
+        <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>@if ($loop->iteration<sizeof($settlement->possibly_same_settlements1926));@endif
         @endforeach
     @endif
     
