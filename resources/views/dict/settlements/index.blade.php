@@ -49,10 +49,7 @@
 
                 <td data-th="{{trans('misc.type')}}">{{ $r->geotype ? $r->geotype->short_name : '' }}</td>
                 <td data-th="{{trans('general.in_russian')}}">
-                    {!!to_link($r->name_ru, route('settlements.show', $r).$args_by_get)!!}
-                    @if ($r->longitude & $r->latitude)
-                    *
-                    @endif
+                    {!!to_link($r->name_ru, route('settlements.show', $r).$args_by_get)!!}@if ($r->longitude & $r->latitude)*@endif
                 </td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
                 <td data-th="{{trans('messages.in_vepsian')}}">{{ $r->name_vep }}</td>

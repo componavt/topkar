@@ -43,10 +43,7 @@
 
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('general.in_russian')}}">
-                    {!!to_link($r->name_ru, route('settlements1926.show', $r).$args_by_get)!!}
-                    @if ($r->longitude & $r->latitude)
-                    *
-                    @endif
+                    {!!to_link($r->name_ru, route('settlements1926.show', $r).$args_by_get)!!}@if ($r->longitude & $r->latitude)*@endif
                 </td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
