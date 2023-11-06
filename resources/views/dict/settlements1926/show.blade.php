@@ -53,7 +53,7 @@
     </p>               
     @endif
     
-    @if ($settlement->same_settlements1926)
+    @if (sizeof($settlement->same_settlements1926))
     <p><span class='field-name'>{{ __('toponym.same_settlement1926') }}</span>:
         @foreach($settlement->same_settlements1926 as $s)
         <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>
@@ -74,7 +74,7 @@
         @endforeach
     @endif
     
-    @if (sizeof($settlement->latitude && $settlement->longitude))
+    @if ($settlement->latitude && $settlement->longitude)
         </div>
         <div class="col-sm-6">
             <div id="mapid" style="width: 100%; height: 500px;"></div>
