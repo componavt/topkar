@@ -228,3 +228,17 @@ if (! function_exists('mb_ucfirst')) {
         return $fc.mb_substr($str, 1);
     }
 }
+
+if (! function_exists('number_with_space')) {
+    function number_with_space($num) {
+        return number_format($num, 0, '', ' ');
+    }
+}
+
+if (! function_exists('trans_with_choice')) {
+    function trans_with_choice($var, $count) {
+        return trans_choice($var, 
+            $count%10==0 ? $count : ($count%100>20 ? $count%10  : $count%100), 
+            ['count'=>number_with_space($count, 0, ',', ' ')]);
+    }
+}

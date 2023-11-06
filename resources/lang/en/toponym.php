@@ -38,6 +38,7 @@ return [
     'etymology' => 'Etymology',
     'folk'=> 'Popular interpretation',
     
+    'in_count' => '{1}топониме|[2,*]топонимах',    
     'is_map' => 'map',
     
     'lang' => 'language',

@@ -51,6 +51,18 @@
     <span class='field-value'>{!! optional($settlement)->wdURL() !!}</span>; 
     TopKar ID: {{ optional($settlement)->id }}
     </p>
+    
+    <p><span class='field-name'>{{ __('toponym.settlement') }} </span>
+        <a href="{{route('toponyms.index')}}?search_settlements[]={{$settlement->id}}">
+            {{ trans_with_choice('toponym.in_count', $settlement->toponyms->count()) }}
+        </a>
+    </p>               
+    
+    <p><span class='field-name'>{{ __('misc.record_place') }} </span>
+        <a href="{{route('toponyms.index')}}?search_record_places[]={{$settlement->id}}">
+            {{ trans_with_choice('toponym.in_count', $settlement->recordPlaces()->count()) }}
+        </a>
+    </p>               
             
     @if ($settlement->latitude && $settlement->longitude)
         </div>
