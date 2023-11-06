@@ -25,6 +25,7 @@ class Settlement extends Model
         102, // pgt
         103, // siding
         40, // hamlet
+        47, // tract
     ];
 
 
