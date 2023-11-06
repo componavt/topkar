@@ -147,13 +147,19 @@ class Settlement extends Model
 
     public function getPossiblySameSettlements1926Attribute() {
         $settl_id = $this->id;
-        return Settlement1926::whereIn('id', function ($q) use ($settl_id) {
-            $q->select('settlement1926_id')->from('toponyms')
-              ->whereIn('id', function ($q2) use ($settl_id) {
-                  $q2->select('toponym_id')->from('settlement_toponym')
-                     ->whereSettlementId($settl_id);
-              });
-        })->get();
+        $lat = $this->latitude;
+        $long = $this->longitude;
+        return Settlement1926::where(function ($q) use ($lat, $long) {
+                    $q->whereNull('latitude')->orWhere('longitude')
+                      ->orWhere('latitude', '<>', $lat)
+                      ->orWhere('longitude', '<>', $long);
+                })->whereIn('id', function ($q) use ($settl_id) {
+                    $q->select('settlement1926_id')->from('toponyms')
+                      ->whereIn('id', function ($q2) use ($settl_id) {
+                          $q2->select('toponym_id')->from('settlement_toponym')
+                             ->whereSettlementId($settl_id);
+                      });
+                })->get();
 //dd(to_sql($s));        
     }
 
