@@ -45,11 +45,13 @@
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_karelian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_krl }}</span></p>
 
+    @if ($settlement->toponyms->count())
     <p><span class='field-name'>{{ __('toponym.settlement') }} </span>
         <a href="{{route('toponyms.index')}}?search_settlements1926[]={{$settlement->id}}">
             {{ trans_with_choice('toponym.in_count', $settlement->toponyms->count()) }}
         </a>
     </p>               
+    @endif
     
     @if ($settlement->latitude && $settlement->longitude)
         </div>
