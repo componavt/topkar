@@ -43,7 +43,7 @@ class Settlement1926 extends Model
     
     public function getSameSettlements1926Attribute() {
         if (!$this->latitude || !$this->longitude) {
-            return null;
+            return [];
         }
         return self::where('id', '<>', $this->id)
                 ->whereLatitude($this->latitude)
@@ -52,7 +52,7 @@ class Settlement1926 extends Model
 
     public function getSameSettlementsAttribute() {
         if (!$this->latitude || !$this->longitude) {
-            return null;
+            return [];
         }
         return Settlement::whereLatitude($this->latitude)
                 ->whereLongitude($this->longitude)->get();
