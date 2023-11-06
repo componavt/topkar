@@ -82,7 +82,7 @@
         @endforeach
     @endif
     
-    @if (sizeof($settlement->possibly_same_settlements1926)sizeof(
+    @if (sizeof($settlement->possibly_same_settlements1926))
     <p><span class='field-name'>{{ __('toponym.possibly_same_settlement1926') }}</span>:
         @foreach($settlement->possibly_same_settlements1926 as $s)
         <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>
