@@ -19,7 +19,7 @@ return [
     'desc' => 'Description',
     
     'ethnos_territory' => 'Ethnos territory',    
-    'etymology_nation' => 'Etymology nation',       
+    'etymology_nation' => 'Language of origin',       
     'events' => 'Events of recording',
     
     'geotype' => 'Geotype',

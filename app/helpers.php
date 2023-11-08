@@ -242,3 +242,9 @@ if (! function_exists('trans_with_choice')) {
             ['count'=>number_with_space($count, 0, ',', ' ')]);
     }
 }
+
+if (! function_exists('count_for_choice')) {
+    function count_for_choice($count) {
+        return $count%10==0 ? $count : ($count%100>20 ? $count%10  : $count%100);
+    }
+}

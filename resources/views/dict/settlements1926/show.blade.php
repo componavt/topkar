@@ -46,28 +46,29 @@
     <span class='field-value'>{{ optional($settlement)->name_krl }}</span></p>
 
     @if ($settlement->toponyms->count())
-    <p><span class='field-name'>{{ __('toponym.settlement') }} </span>
+    <p><span class='field-name'>{{ __('toponym.in_settlement') }} </span>
         <a href="{{route('toponyms.index')}}?search_settlements1926[]={{$settlement->id}}">
-            {{ trans_with_choice('toponym.in_count', $settlement->toponyms->count()) }}
+            {{ $settlement->toponyms->count() }}
+            {{ trans_with_choice('toponym._count', count_for_choice($settlement->toponyms->count())) }}
         </a>
     </p>               
     @endif
     
-    @if (sizeof($settlement->same_settlements1926))
+    @if (user_can_edit() && sizeof($settlement->same_settlements1926))
     <p><span class='field-name'>{{ __('toponym.same_settlement1926') }}</span>:
         @foreach($settlement->same_settlements1926 as $s)
         <a href="{{ route('settlements1926.show', $s) }}">{{ $s->name }}</a>@if ($loop->iteration<sizeof($settlement->same_settlements1926));@endif
         @endforeach
     @endif
     
-    @if (sizeof($settlement->same_settlements))
+    @if (user_can_edit() && sizeof($settlement->same_settlements))
     <p><span class='field-name'>{{ __('toponym.same_modern_settlement') }}</span>:
         @foreach($settlement->same_settlements as $s)
         <a href="{{ route('settlements.show', $s) }}">{{ $s->name }}</a>@if ($loop->iteration<sizeof($settlement->same_settlements));@endif
         @endforeach
     @endif
     
-    @if (sizeof($settlement->possibly_same_settlements))
+    @if (user_can_edit() && sizeof($settlement->possibly_same_settlements))
     <p><span class='field-name'>{{ __('toponym.possibly_same_modern_settlement') }}</span>:
         @foreach($settlement->possibly_same_settlements as $s)
         <a href="{{ route('settlements.show', $s) }}">{{ $s->name }}</a>@if ($loop->iteration<sizeof($settlement->possibly_same_settlements));@endif
