@@ -49,5 +49,5 @@
         selectDistrict('region_id', '{{app()->getLocale()}}', '{{trans('toponym.select_district')}}', true, '.select-district-{{$i}}');
     @endfor
 
-    @include('widgets.leaflet.coords_from_click')
+    @include('widgets.leaflet.coords_from_click')    
 @stop

@@ -43,12 +43,7 @@
 console.log("You clicked the map at latitude: " + lat + " and longitude:" + lng);
             $('#longitude').val(lng);
             $('#latitude').val(lat);
-            if (marker === undefined) {
-                marker=L.marker({lon:lng , lat: lat}).bindPopup($('#name').val()).addTo(map);
-                map.setView({lon:lng , lat: lat}, 12);
-            } else {
-                marker.setLatLng({lat,lng}).update();
-            }
+            moveMarker(map, marker, lng, lat);
             setTimeout(function() {
                 $("#modalMap").modal('hide');
             }, 1000);
@@ -63,11 +58,19 @@ console.log("You clicked the map at latitude: " + lat + " and longitude:" + lng)
             $('#latitude').val(lat);
             $('#latitude').focus();
 //console.log(marker);            
-            if (marker === undefined) {
-                marker=L.marker({lon:lng , lat: lat}).bindPopup($('#name').val()).addTo(map);
-                map.setView({lon:lng , lat: lat}, 12);
-            } else {
-                marker.setLatLng({lat,lng}).update();
-            }
+            moveMarker(map, marker, lng, lat);
         });
+        
+    $("#longitude").on('click', function (e) {
+        if ($(this).val()==='') {
+            var coord =$("#latitude").val().split(',');
+            var lat = coord[0].trim();
+            var lng = coord[1].trim();
+            if (lng !== undefined && lng !== null) {
+                $("#latitude").val(lat);
+                $("#longitude").val(lng);
+                moveMarker(map, marker, lng, lat);
+            }
+        }
+    });
         

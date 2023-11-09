@@ -285,3 +285,11 @@ function callMap() {
     $("#modalMap").modal('show'); 
 }
 
+function moveMarker(map, marker, lng, lat) {
+    if (marker === undefined) {
+        marker=L.marker({lon:lng , lat: lat}).bindPopup($('#name').val()).addTo(map);
+        map.setView({lon:lng , lat: lat}, 12);
+    } else {
+        marker.setLatLng({lat,lng}).update();
+    }
+}
