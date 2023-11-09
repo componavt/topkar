@@ -22,7 +22,7 @@
         @endif 
     </div>
     
-    @if ($settlement->latitude && $settlement->longitude)
+    @if ($settlement->hasCoords())
     <div class="row">
         <div class="col-sm-6">
     @endif
@@ -91,7 +91,7 @@
         @endforeach
     @endif
     
-    @if ($settlement->latitude && $settlement->longitude)
+    @if ($settlement->hasCoords())
         </div>
         <div class="col-sm-6">
             <div id="mapid" style="width: 100%; height: 500px;"></div>

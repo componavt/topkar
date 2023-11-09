@@ -48,6 +48,11 @@ class Settlement extends Model
         return $this->settlementString();//name;
     }    
     
+    public function hasCoords()
+    {
+        return ($this->latitude && $this->longitude) ? true : false;
+    }
+    
     public function recordPlaces() {
         $place_id = $this->id;
         return Toponym::whereIn('id', function($q1) use ($place_id) {
@@ -131,7 +136,7 @@ class Settlement extends Model
     }
     
     public function getSameSettlementsAttribute() {
-        if (!$this->latitude || !$this->longitude) {
+        if (!$this->hasCoords()) {
             return [];
         }
         return self::where('id', '<>', $this->id)
@@ -140,7 +145,7 @@ class Settlement extends Model
     }
 
     public function getSameSettlements1926Attribute() {
-        if (!$this->latitude || !$this->longitude) {
+        if (!$this->hasCoords()) {
             return [];
         }
         return Settlement1926::whereLatitude($this->latitude)

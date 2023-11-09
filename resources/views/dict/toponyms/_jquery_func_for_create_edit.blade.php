@@ -28,3 +28,4 @@ selectSettlement('region_id', 'district_id', '{{app()->getLocale()}}', '', false
 selectSettlement('region_id', 'district_id', '{{app()->getLocale()}}', '', false, '.select-event-place{{$i}}', '#toponymForm');
 selectInformant('{{app()->getLocale()}}', '', false, '.select-informant{{$i}}', '#toponymForm');
 selectRecorder('{{app()->getLocale()}}', '', false, '.select-recorder{{$i}}', '#toponymForm');
+

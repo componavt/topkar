@@ -331,6 +331,25 @@ class Toponym extends Model
         return $this->settlement1926_id ? [$this->settlement1926_id] : '';
     }
     
+    public function hasCoords()
+    {
+        return ($this->latitude && $this->longitude) ? true : false;
+    }
+    
+    public function objOnMap()
+    {
+        if ($this->hasCoords()) {
+            return $this;
+        }
+        if ($this->settlement1926 && $this->settlement1926->hasCoords()) {
+            return $this->settlement1926;
+        }
+        if (!empty($this->settlements[0]) && $this->settlements[0]->hasCoords()) {
+            return $this->settlements[0];
+        }
+        return null;
+    }
+    
     public function argsForAnotherOne($args_by_get='') {
         $args = [];
         foreach ($this->settlements as $settlement) {

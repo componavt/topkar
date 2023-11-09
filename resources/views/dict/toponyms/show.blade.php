@@ -30,7 +30,7 @@
         @endif 
     </div>
 
-    @if ($toponym->latitude && $toponym->longitude)
+    @if ($toponym->objOnMap())
     <div class="row">
         <div class="col-sm-6">
     @endif
@@ -92,7 +92,7 @@
                 </span> 
                 @endforeach
             </p>
-    @if ($toponym->latitude && $toponym->longitude)
+    @if ($toponym->objOnMap())
         </div>
         <div class="col-sm-6">
             <div id="mapid" style="width: 100%; height: 500px;"></div>
@@ -162,7 +162,7 @@
 
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
-        @include('widgets.leaflet.obj_on_map', ['obj'=>$toponym])
+        @include('widgets.leaflet.obj_on_map', ['obj'=>$toponym->objOnMap(), 'color' => $toponym->objOnMap() === $toponym ? 'blue' : 'grey'])
 @stop
 
 @section('jqueryFunc')

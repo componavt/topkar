@@ -1,17 +1,22 @@
+    var marker;
+    var settl_coords = $("#settlement-coords");
+    var zoom = 12;
     var long, longitude = $('#longitude').val();
     if (longitude) {
         long = longitude;
     } else {
         long = 33.4;
+        zoom = 6;
     }
     var lat, latitude = $('#latitude').val();
     if (latitude) {
         lat = latitude;
     } else {
         lat = 63.8;
+        zoom = 6;
     }
       
-    var map = L.map('mapid').setView({lon:long , lat: lat}, 6);
+    var map = L.map('mapid').setView({lon:long , lat: lat}, zoom);
     
     setInterval(function () {
        map.invalidateSize();
@@ -25,18 +30,44 @@
     L.control.scale().addTo(map);
 
     if (longitude && latitude) {
-        L.marker({lon:longitude , lat: latitude}).bindPopup($('#name').val()).addTo(map);
+        marker=L.marker({lon:longitude , lat: latitude}).bindPopup($('#name').val()).addTo(map);
     }
     
     map.on('click', 
         function(e){
             var coord = e.latlng.toString().split(',');
             var lat = coord[0].split('(');
+            lat = lat[1].trim();
             var lng = coord[1].split(')');
-console.log("You clicked the map at latitude: " + lat[1].trim() + " and longitude:" + lng[0].trim());
-            $('#longitude').val(lng[0].trim());
-            $('#latitude').val(lat[1].trim());
-console.log($('#longitude').val());            
-            $("#modalMap").modal('hide');
+            lng = lng[0].trim();
+console.log("You clicked the map at latitude: " + lat + " and longitude:" + lng);
+            $('#longitude').val(lng);
+            $('#latitude').val(lat);
+            if (marker === undefined) {
+                marker=L.marker({lon:lng , lat: lat}).bindPopup($('#name').val()).addTo(map);
+                map.setView({lon:lng , lat: lat}, 12);
+            } else {
+                marker.setLatLng({lat,lng}).update();
+            }
+            setTimeout(function() {
+                $("#modalMap").modal('hide');
+            }, 1000);
             $('#latitude').focus();
         });
+
+    settl_coords.on('click', 
+        function(e){
+            var lng = $(this).data('lon')
+            var lat = $(this).data('lat')
+            $('#longitude').val(lng);
+            $('#latitude').val(lat);
+            $('#latitude').focus();
+//console.log(marker);            
+            if (marker === undefined) {
+                marker=L.marker({lon:lng , lat: lat}).bindPopup($('#name').val()).addTo(map);
+                map.setView({lon:lng , lat: lat}, 12);
+            } else {
+                marker.setLatLng({lat,lng}).update();
+            }
+        });
+        

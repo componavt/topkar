@@ -41,8 +41,13 @@ class Settlement1926 extends Model
         return $this->selsovet_id ? [$this->selsovet_id] : [];
     }
     
+    public function hasCoords()
+    {
+        return ($this->latitude && $this->longitude) ? true : false;
+    }
+    
     public function getSameSettlements1926Attribute() {
-        if (!$this->latitude || !$this->longitude) {
+        if (!$this->hasCoords()) {
             return [];
         }
         return self::where('id', '<>', $this->id)
@@ -51,7 +56,7 @@ class Settlement1926 extends Model
     }
 
     public function getSameSettlementsAttribute() {
-        if (!$this->latitude || !$this->longitude) {
+        if (!$this->hasCoords()) {
             return [];
         }
         return Settlement::whereLatitude($this->latitude)

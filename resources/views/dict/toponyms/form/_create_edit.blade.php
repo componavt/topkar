@@ -133,7 +133,16 @@
             </div>
         </div>
         
-        <p><a onClick="callMap()">Указать координаты на карте</a></p>
+        <div class='row' style='margin-bottom: 10px;'>
+            <div class="col-sm-6">
+                <a class="clickable" onClick="callMap()">Указать координаты на карте</a>
+            </div>
+        @if ($toponym && !$toponym->hasCoords() && $toponym->objOnMap()) 
+            <div class="col-sm-6">
+                <a id="settlement-coords" class="clickable" data-lat="{{ $toponym->objOnMap()->latitude }}" data-lon="{{ $toponym->objOnMap()->longitude }}">скопировать координаты у поселения {{ $toponym->objOnMap()->name }}</a>
+            </div>
+        @endif
+        </div>
                  
         <!-- SourceToponyms -->                 
         <b>{{trans('toponym.sources')}}</b>
