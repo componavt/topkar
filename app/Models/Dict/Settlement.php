@@ -27,6 +27,7 @@ class Settlement extends Model
         40, // hamlet
         47, // tract
         69, // territory
+        115, // rural settlement
     ];
 
 
