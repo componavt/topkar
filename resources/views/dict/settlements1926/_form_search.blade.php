@@ -29,6 +29,8 @@
                  'class'=>'select-district1926 form-control'
         ]) 
     </div>       
+</div>
+<div class="row">    
     <div class="col-md-8">        
         <!-- Selsovet1926 -->
         @include('widgets.form.formitem._select2', 
