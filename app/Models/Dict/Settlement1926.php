@@ -23,6 +23,9 @@ class Settlement1926 extends Model
     use \App\Traits\Methods\getList;    
     use \App\Traits\Methods\search\byNameKRL;
     use \App\Traits\Methods\wdURL;    
+
+    //Scopes
+    use \App\Traits\Scopes\WithCoords;
     
     use \App\Traits\Relations\HasMany\Toponyms;
     /**

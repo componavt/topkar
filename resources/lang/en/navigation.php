@@ -29,14 +29,17 @@ return [
     
     'recorders' => 'Recorders',
     'regions' => 'Regions',
+    'search' => 'Search',
     'selsovets_1926' => 'Selsovets in 1926',
     'settlements' => 'Settlements',
     'settlements_1926' => 'Settlements in 1926',
     'sources' => 'Sources',
     'structs' => 'Structure',
     'toponyms' => 'Toponyms',
+    'toponyms_with_coords' => 'Toponyms with coordinates',
 
-    'with_wd' => 'With wikidata',
+    'with_coords' => 'With coordinates',
     'with_legends' => 'With legends',
+    'with_wd' => 'With wikidata',
     'with_wrongnames' => 'With wrong names'
 ];

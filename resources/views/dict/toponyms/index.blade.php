@@ -8,7 +8,16 @@
 
 @section('search_form')   
         @include("dict.toponyms.form._search")
-        @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+         <div class="row" style='line-height: 26px;'>  
+             <div class="col-sm-4">
+                @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+             </div>
+             <div class="col-sm-8">
+{{--                @if ($n_records)
+                <a href="{{ route('toponyms.on_map').$args_by_get }}">{!! trans_choice('toponym.output_on_map',$n_records) !!}</a>
+                @endif --}}
+             </div>
+        </div>
 @endsection
         
 @section('header', trans('navigation.toponyms'))

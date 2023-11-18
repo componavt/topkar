@@ -35,6 +35,9 @@ class Settlement extends Model
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\wdURL;    
 //    use \App\Traits\Methods\search\byNameKRL;
+    
+    //Scopes
+    use \App\Traits\Scopes\WithCoords;
 
     // Belongs To One Relations
     use \App\Traits\Relations\BelongsTo\Geotype;

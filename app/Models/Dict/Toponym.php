@@ -29,6 +29,9 @@ class Toponym extends Model
     //use \App\Traits\Methods\getNameAttribute;    
     use \App\Traits\Methods\wdURL;    
     
+    //Scopes
+    use \App\Traits\Scopes\WithCoords;
+    
     // Belongs To One Relations
     use \App\Traits\Relations\BelongsTo\Lang;
     use \App\Traits\Relations\BelongsTo\Geotype;

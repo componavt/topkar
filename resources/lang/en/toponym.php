@@ -19,6 +19,7 @@ return [
     'add_settlement' => 'Add a settlement',
     'add_settlement1926' => 'Add a settlement 1926',
     
+    'back_to_index' => 'Back to table results',
 //    'by_created_at' => 'by creation date',
     'by_id' => 'by creation date',
     'by_name' => 'by name',
@@ -37,6 +38,7 @@ return [
         
     'etymology' => 'Etymology',
     'folk'=> 'Popular interpretation',
+    'found_from' => 'The first 1000 toponyms from :total are showed',
     
     '_count' => '{1}toponym|[2,,*]toponyms',    
     '_gen' => '{1}toponym|[2,*]toponyms',    
