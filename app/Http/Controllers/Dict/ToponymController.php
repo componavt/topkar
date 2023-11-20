@@ -37,7 +37,7 @@ class ToponymController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','show']]);
+                         ['except' => ['index','show', 'onMap']]);
         $this->url_args = Toponym::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
@@ -89,57 +89,8 @@ class ToponymController extends Controller
         $url_args = $this->url_args;
         $limit = 1000;
 
-        $objs = $greys = [];
-        $toponyms = Toponym::search($url_args);
-        $total_rec = $toponyms->count(); 
-        $toponyms_with_coords 
-                = $toponyms->withCoords()->take($limit)
-                           ->orderBy('name')->get();
-        $show_count = sizeof($toponyms_with_coords);
+        list($total_rec, $show_count, $objs) = Toponym::forMap($limit, $url_args);                  
 
-        $objs = [];
-        foreach ($toponyms_with_coords as $toponym) {
-            $popup = to_show($toponym->name, 'toponym', $toponym).($toponym->geotype ? '<br>'.$toponym->geotype->name : ''); 
-            if (isset($objs[$toponym->latitude.'_'.$toponym->longitude])) {
-                $objs[$toponym->latitude.'_'.$toponym->longitude]['popup'] .= '<br>'.$popup;
-//print "<p>".$objs[$toponym->latitude.'_'.$toponym->longitude]['popup'];                
-            } else {
-                $objs[$toponym->latitude.'_'.$toponym->longitude] 
-                    = ['lat'=>$toponym->latitude, 'lon'=>$toponym->longitude, 
-                       'popup' => $popup, 'color' => 'blue']; 
-            }
-        }
-        
-        if ($show_count<$limit) {
-            $top_s26_with_coords = Toponym::search($url_args)
-                ->whereIn('settlement1926_id', function ($q2) {
-                    $q2->select('id')->from('settlements1926')
-                       ->whereNotNull('latitude')
-                       ->whereNotNull('longitude');
-                })->take($limit-$show_count)
-                ->orderBy('name')->get();
-            $show_count += sizeof($top_s26_with_coords);                      
-
-//        arsort($objs);
-dd($objs);        
-            
-            if ($show_count<$limit) {
-                $top_s_with_coords = Toponym::search($url_args)
-                    ->whereIn('id', function ($q2) {
-                        $q2->select('toponym_id')->from('settlement_toponym')
-                           ->whereIn('settlement_id', function ($q3) {
-                                $q3->select('id')->from('settlements')
-                                   ->whereNotNull('latitude')
-                                   ->whereNotNull('longitude');
-                           });
-                    })->take($limit-$show_count)
-                    ->orderBy('name')->get();
-                $show_count += sizeof($top_s_with_coords);                                          
-    dd($toponyms_with_coords, $top_s26_with_coords, $top_s_with_coords, $show_count);        
-            }                          
-        }
-                          
-        
         $district_values = District::getList();
         $district1926_values = District1926::getList();
         $ethnos_territory_values = EthnosTerritory::getList();
@@ -163,7 +114,7 @@ dd($objs);
                         'region_values', 'selsovet1926_values', 'show_count',
                         'settlement_values', 'settlement1926_values', 'sort_values', 
                         'source_values', 'struct_values', 'structhier_values', 
-                        'toponyms', 'total_rec', 'args_by_get', 'url_args' ));
+                        'total_rec', 'args_by_get', 'url_args' ));
     }
 
     public function withWD()

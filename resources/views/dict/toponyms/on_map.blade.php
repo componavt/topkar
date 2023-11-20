@@ -12,17 +12,17 @@
 @section('header', trans('navigation.toponyms_with_coords'))
 
 @section('search_form')   
-        @include("dict.toponyms.form._search")
+        @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map')])
          <div class="row" style='line-height: 26px;'>  
              <div class="col-sm-4">
-        @if ($n_records < 1000)
-            @include('widgets.found_records', ['n_records'=>$n_records])
+        @if ($total_rec < 1000)
+            @include('widgets.found_records', ['n_records'=>$total_rec])
         @else
-            <p>{!! __('toponym.found_from', ['total'=>number_format($n_records, 0, ',', ' ')]) !!}</p>
+            <p>{!! __('toponym.found_from', ['total'=>number_format($total_rec, 0, ',', ' ')]) !!}</p>
         @endif
              </div>
              <div class="col-sm-8">
-                <a href="{{ route('toponyms.index').$args_by_get }}">{{ trans('toponym.back_to_index') !!}</a>
+                <a href="{{ route('toponyms.index').$args_by_get }}">{!! trans('toponym.back_to_index') !!}</a>
              </div>
         </div>
 @endsection
@@ -32,6 +32,29 @@
 @stop
 
 @section('footScriptExtra')
-        @include('dict.toponyms.toponyms_on_map')
+        {!!Html::script('js/select2.min.js')!!}
+        {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/special_symbols.js')!!}
+        @include('widgets.leaflet.objs_on_map')
+@endsection
+
+@section('jqueryFunc')
+        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});
+        $('.select-informant').select2({allowClear: false, placeholder: '{{trans('navigation.informants')}}'});
+        $('.select-recorder').select2({allowClear: false, placeholder: '{{trans('navigation.recorders')}}'});
+        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
+        $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}'});
+        $('.select-source').select2({allowClear: false, placeholder: '{{trans('toponym.source')}}'});
+        $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
+        $('.select-ethnos_territory').select2({allowClear: false, placeholder: '{{trans('misc.ethnos_territory')}}'});
+        $('.select-etymology_nation').select2({allowClear: false, placeholder: '{{trans('misc.etymology_nation')}}'});
+        
+        selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
+        selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
+        selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('misc.record_place')}}', false, '.select-record-place');
+        selectDistrict1926('search_regions1926', '{{app()->getLocale()}}', '{{trans('toponym.district1926')}}', false);
+        selectSelsovet1926('search_regions1926', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
+        selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement1926')}}', false);
+        selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
 @stop
 

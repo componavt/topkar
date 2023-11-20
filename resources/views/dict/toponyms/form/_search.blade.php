@@ -1,4 +1,4 @@
-        {!! Form::open(['url' => route('toponyms.index'), 
+        {!! Form::open(['url' => $route, 
                              'method' => 'get']) 
         !!}
 <div class="row">    

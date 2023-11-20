@@ -1,3 +1,4 @@
+@if (!empty($objs))
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
        crossorigin=""></script>
@@ -5,6 +6,13 @@
     <script>
       // initialize Leaflet
       var map = L.map('mapid').setView({lon:33 , lat: 63.5}, 7);
+      
+      @foreach ($objs->groupBy('color') as $color => $tmp)
+      var {{ $color }}Icon = L.icon({
+        iconUrl: '/images/markers/marker-icon-{{ $color }}.png',
+        iconSize: [30, 41]
+      });
+      @endforeach
 
       // add the OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -17,6 +25,9 @@
 
       // show markers on the map
       @foreach ($objs as $obj)
-      L.marker({lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }).bindPopup('{!! $obj["popup"] !!}').addTo(map);
+      L.marker({ lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }, 
+               { icon: {{ $obj['color'] }}Icon })
+              .bindPopup('{!! $obj['popup'] !!}').addTo(map);
       @endforeach
     </script>
+@endif    
