@@ -37,7 +37,8 @@ class ToponymController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','show', 'onMap']]);
+                         ['except' => ['index','show', 'onMap',
+                                    'withWD', 'withWrongnames', 'withLegends', 'withCoords']]);
         $this->url_args = Toponym::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
