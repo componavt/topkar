@@ -24,7 +24,7 @@ class Selsovet1926Controller extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','list','show']]);
+                         ['except' => ['index','selsovet1926List','show']]);
         $this->url_args = Selsovet1926::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);

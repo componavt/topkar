@@ -23,7 +23,7 @@ class StructController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','list','show']]);
+                         ['except' => ['index','structList','show']]);
         $this->url_args = Struct::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);

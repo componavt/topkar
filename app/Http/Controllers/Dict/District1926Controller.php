@@ -23,7 +23,7 @@ class District1926Controller extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','list','show']]);
+                         ['except' => ['index','district1926List','show']]);
         $this->url_args = District1926::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
