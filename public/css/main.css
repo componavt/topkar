@@ -170,10 +170,12 @@ button.close {
     background: #fff;
     border: 1px solid #337ab7;
     display: none;
+    height: 120px;
     position: absolute;
     right: 0;
+    top: 32px;
     bottom: 36px;
-    width: 272px;
+    width: 280px;
     z-index: 999;
 }
 
