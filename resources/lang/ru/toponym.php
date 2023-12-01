@@ -39,7 +39,7 @@ return [
     'etymology' => 'Этимология',
     
     'folk'=> 'Народное толкование',
-    'found_from' => 'На карту выведены первые :show_count топонимов из :total',
+    'found_from' => 'На карту выведены <span class="important">:show_count</span> топонимов из <span class="important">:total</span>',
     
     '_count' => '{1}топоним|[2,4]топонима|[5,*]топонимов',    
     '_gen' => '{1}топонима|[2,*]топонимов',    
@@ -62,8 +62,9 @@ return [
     'official_name' => 'Заголовочное название',
     
     'on_vepkar' => 'На ВепКар',
-    'output_on_map' => '[1,1000]Вывести топонимы на карту|'
-                     . '[1001,*]Вывести первые <span class="important">1000</span> топонимов на карту',
+//    'output_on_map' => '[1,1000]Вывести топонимы на карту|'
+//                     . '[1001,*]Вывести первые <span class="important">1000</span> топонимов на карту',
+    'output_on_map' => 'Вывести топонимы на карту',
     
     'possibly_same_modern_settlement' => 'Возможно то же современное поселение',
     'possibly_same_settlement1926' => 'Возможно то же поселение в 1926 г.',    

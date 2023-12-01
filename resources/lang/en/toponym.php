@@ -38,7 +38,7 @@ return [
         
     'etymology' => 'Etymology',
     'folk'=> 'Popular interpretation',
-    'found_from' => 'The first 1000 toponyms from :total are showed',
+    'found_from' => '<span class="important">:show_count</span> toponyms from <span class="important">:total</span> are showed on the map',
     
     '_count' => '{1}toponym|[2,,*]toponyms',    
     '_gen' => '{1}toponym|[2,*]toponyms',    
@@ -61,6 +61,8 @@ return [
     'official_name' => 'Title name',
     
     'on_vepkar' => 'On VepKar',
+    'output_on_map' => 'Display toponyms on the map',
+    
     'possibly_same_modern_settlement' => 'Possibly the same modern settlement',
     'possibly_same_settlement1926' => 'Possibly the same settlement in 1926',    
     

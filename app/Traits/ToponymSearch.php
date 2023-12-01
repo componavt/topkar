@@ -326,7 +326,7 @@ trait ToponymSearch
                 if ($objs[$lat.'_'.$lon]['color'] == 'blue') {
                     $objs[$lat.'_'.$lon]['color'] = 'violet';
                 }
-                $objs[$lat.'_'.$lon]['popup'] .= '<br>'.$popup;
+                $objs[$lat.'_'.$lon]['popup'] .= '; '.$popup;
             } else {
                 $objs[$lat.'_'.$lon] 
                     = ['lat'=>$lat, 'lon'=>$lon, 'color' => 'grey', 
@@ -359,7 +359,7 @@ trait ToponymSearch
                 if ($objs[$lat.'_'.$lon]['color'] == 'blue') {
                     $objs[$lat.'_'.$lon]['color'] = 'violet';
                 }
-                $objs[$lat.'_'.$lon]['popup'] .= '<br>'.$popup;
+                $objs[$lat.'_'.$lon]['popup'] .= '; '.$popup;
             } else {
                 $objs[$lat.'_'.$lon] 
                     = ['lat'=>$lat, 'lon'=>$lon, 'color' => 'grey', 

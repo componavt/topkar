@@ -27,7 +27,10 @@
       @foreach ($objs as $obj)
       L.marker({ lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }, 
                { icon: {{ $obj['color'] }}Icon })
-              .bindPopup('{!! $obj['popup'] !!}').addTo(map);
+              .bindPopup('{!! $obj["popup"] !!}'
+            @if ($obj['color'] != 'blue' && mb_strlen($obj["popup"]) > 300) 
+                ,{maxWidth : {{ mb_strlen($obj["popup"]) < 2400 ? 300+round((mb_strlen($obj["popup"])-300)/3) : 1000 }}}
+            @endif).addTo(map);
       @endforeach
     </script>
 @endif    
