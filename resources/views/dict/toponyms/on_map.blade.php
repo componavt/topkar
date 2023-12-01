@@ -9,7 +9,7 @@
      crossorigin=""/>
 @stop
 
-@section('header', trans('navigation.toponyms_with_coords'))
+@section('header', trans('navigation.toponyms'))
 
 @section('search_form')   
         @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map')])
