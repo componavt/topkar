@@ -31,7 +31,15 @@
 @endsection
 
 @section('main')   
-            <div id="mapid" style="width: 100%; height: 1400px;"></div>
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-sm-4"><img src="/images/markers/marker-icon-blue.png" class="legend-icon"> 
+            топонимы с точными координатами</div>
+        <div class="col-sm-4"><img src="/images/markers/marker-icon-grey.png" class="legend-icon"> 
+            топонимы, привязанные к координатам поселения</div>
+        <div class="col-sm-4"><img src="/images/markers/marker-icon-violet.png" class="legend-icon"> 
+            топонимы и поселения с одинаковыми координатами</div>
+    </div>
+    <div id="mapid" style="width: 100%; height: 1400px;"></div>
 @stop
 
 @section('footScriptExtra')

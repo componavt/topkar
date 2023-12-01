@@ -291,7 +291,7 @@ trait ToponymSearch
         $show_count = sizeof($toponyms_with_coords);
 
         foreach ($toponyms_with_coords as $toponym) {
-            $popup = to_show($toponym->name, 'toponym', $toponym).($toponym->geotype ? '<br>'.$toponym->geotype->name : ''); 
+            $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important').($toponym->geotype ? ' ('.$toponym->geotype->name : '').')'; 
             $lat = $toponym->latitude;
             $lon = $toponym->longitude;
             if (isset($objs[$lat.'_'.$lon])) {
@@ -318,27 +318,20 @@ trait ToponymSearch
         $show_count += sizeof($toponyms);                      
 
         foreach ($toponyms as $toponym) {
-            $popup = to_show($toponym->name, 'toponym', $toponym)
-                        .($toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
-            $lat = $toponym->settlement1926->latitude;
-            $lon = $toponym->settlement1926->longitude;
-            if (isset($objs[$lat.'_'.$lon])) {
-                if ($objs[$lat.'_'.$lon]['color'] == 'blue') {
-                    $objs[$lat.'_'.$lon]['color'] = 'violet';
-                }
-                $objs[$lat.'_'.$lon]['popup'] .= '; '.$popup;
-            } else {
-                $objs[$lat.'_'.$lon] 
-                    = ['lat'=>$lat, 'lon'=>$lon, 'color' => 'grey', 
-                       'popup' => '<b>'.$toponym->settlement1926->name.'</b><br>'.$popup]; 
-            }
+            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlement1926);
         }
         return [$show_count, $objs];
     }
-    
+
     public static function toponymsWithSettlCoordsforMap($objs, $show_count, $limit, $url_args) {
         $toponyms = Toponym::search($url_args)
-            ->whereIn('id', function ($q2) {
+            ->whereNull('latitude')
+            ->whereNull('longitude')
+            ->whereNotIn('settlement1926_id', function ($q2) {
+                $q2->select('id')->from('settlements1926')
+                   ->whereNotNull('latitude')
+                   ->whereNotNull('longitude');
+            })->whereIn('id', function ($q2) {
                 $q2->select('toponym_id')->from('settlement_toponym')
                    ->whereIn('settlement_id', function ($q3) {
                         $q3->select('id')->from('settlements')
@@ -350,23 +343,29 @@ trait ToponymSearch
         $show_count += sizeof($toponyms);                                          
 
         foreach ($toponyms as $toponym) {
-            $popup = to_show($toponym->name, 'toponym', $toponym)
-                        .($toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
-            $settlement = $toponym->settlements()->withCoords()->first();
-            $lat = $settlement->latitude;
-            $lon = $settlement->longitude;
-            if (isset($objs[$lat.'_'.$lon])) {
-                if ($objs[$lat.'_'.$lon]['color'] == 'blue') {
-                    $objs[$lat.'_'.$lon]['color'] = 'violet';
-                }
-                $objs[$lat.'_'.$lon]['popup'] .= '; '.$popup;
-            } else {
-                $objs[$lat.'_'.$lon] 
-                    = ['lat'=>$lat, 'lon'=>$lon, 'color' => 'grey', 
-                       'popup' => '<b>'.$settlement->name.'</b><br>'.$popup]; 
-            }
+            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlements()->withCoords()->first());
         }
-//dd($objs);        
         return [$show_count, $objs];
+    }
+    
+    public static function setToponymToSettlement($objs, $toponym, $settlement) {
+        $popup = to_show($toponym->name, 'toponym', $toponym)
+                    .($toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
+        $lat = $settlement->latitude;
+        $lon = $settlement->longitude;
+        if (isset($objs[$lat.'_'.$lon])) {
+            if ($objs[$lat.'_'.$lon]['color'] == 'blue') {
+                $objs[$lat.'_'.$lon]['color'] = 'violet';
+                $objs[$lat.'_'.$lon]['popup'] .= '<br>';
+            } else {
+                $objs[$lat.'_'.$lon]['popup'] .= '; ';
+            }
+            $objs[$lat.'_'.$lon]['popup'] .= $popup;
+        } else {
+            $objs[$lat.'_'.$lon] 
+                = ['lat'=>$lat, 'lon'=>$lon, 'color' => 'grey', 
+                   'popup' => '<b>'.$settlement->name.'</b><br>'.$popup]; 
+        }   
+        return $objs;
     }
 }

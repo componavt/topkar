@@ -23,9 +23,9 @@ if (! function_exists('to_route')) {
 }
 
 if (! function_exists('to_show')) {
-    function to_show($str, $model, $obj, $args_by_get='')
+    function to_show($str, $model, $obj, $args_by_get='', $class='')
     {
-        return to_route($str, plural_from_model($model).'.show', $obj, $args_by_get);            
+        return to_route($str, plural_from_model($model).'.show', $obj, $args_by_get, $class);            
     }
 }
 

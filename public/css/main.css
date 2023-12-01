@@ -280,3 +280,8 @@ button.close {
 .clickable {
     cursor: pointer;
 }
+
+.legend-icon{
+    float: left;
+    padding-right: 10px;    
+}
