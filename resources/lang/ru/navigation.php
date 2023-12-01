@@ -31,7 +31,9 @@ return [
     'regions' => 'Регионы',
     
     'search' => 'Поиск',
+    'selsovets' => 'Сельсоветы',
     'selsovets_1926' => 'Сельсоветы на 1926 год',
+    'selsovets' => 'Сельсоветы',
     'settlements' => 'Поселения',
     'settlements_1926' => 'Поселения на 1926 год',
     'sources' => 'Источники',

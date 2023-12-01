@@ -17,6 +17,7 @@ class District extends Model
     use \App\Traits\Methods\search\byName;
     
     use \App\Traits\Relations\BelongsTo\Region;
+    use \App\Traits\Relations\BelongsToMany\Settlements;
     use \App\Traits\Relations\HasMany\Toponyms;
     
     /** Gets array of search parameters.

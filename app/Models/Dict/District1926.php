@@ -18,6 +18,7 @@ class District1926 extends Model
     use \App\Traits\Methods\search\byName;
     
     use \App\Traits\Relations\BelongsTo\Region;
+    use \App\Traits\Relations\HasMany\Selsovets1926;
     
     public function toponyms()
     {

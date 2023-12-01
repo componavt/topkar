@@ -30,6 +30,7 @@ return [
     'recorders' => 'Recorders',
     'regions' => 'Regions',
     'search' => 'Search',
+    'selsovets' => 'Selsovets',
     'selsovets_1926' => 'Selsovets in 1926',
     'settlements' => 'Settlements',
     'settlements_1926' => 'Settlements in 1926',

@@ -23,6 +23,7 @@
                 <th>{{trans('toponym.region')}}</th>
                 <th>{{trans('general.in_russian')}}</th>
                 <th>{{trans('general.in_english')}}</th>
+                <th style="text-align: right">{{trans('navigation.settlements')}}</th>
                 <th style="text-align: right">{{trans('navigation.toponyms')}}</th>
                 @if (user_can_edit())
                 <th style="text-align: center">{{ trans('messages.actions') }}</th>
@@ -35,6 +36,15 @@
                 <td data-th="{{trans('toponym.region')}}">{{ $r->region->name }}</td>
                 <td data-th="{{trans('general.in_russian')}}">{{ $r->name_ru }}</td>
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
+                <td data-th="{{trans('navigation.settlements')}}" style="text-align: right">
+                    @if ($r->settlements()->count() > 0)
+                    <a href="{{route('settlements.index')}}?search_districts[]={{$r->id}}">
+                        {{ number_format($r->settlements()->count(), 0, ',', ' ') }}
+                    </a>
+                    @else
+                    0
+                    @endif
+                </td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: right">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_districts[]={{$r->id}}">
