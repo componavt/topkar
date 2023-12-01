@@ -21,6 +21,7 @@ return [
     'category' => 'category',
     'changed' => 'changed',
     'choose' => 'choose',
+    'clear' => 'clear',
     'close' => 'close', 
     'code' => 'code',
     'confirm_delete' => 'Do you want to delete this item?',

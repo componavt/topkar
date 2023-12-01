@@ -57,6 +57,6 @@
     
     @include('widgets.form._search_in_desc')
     
-    @include('widgets.form._search_div')
+    @include('widgets.form._search_div', ['with_clear'=>true])
 </div>                 
         {!! Form::close() !!}

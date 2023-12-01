@@ -61,4 +61,11 @@
         
         selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
         selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
+        
+        $('input[type=reset]').on('click', function (e) {
+        @foreach (['geotypes', 'regions', 'districts', 'settlements'] as $f)
+            $('#search_{{ $f }}').val(null).trigger('change');
+        @endforeach
+            $('#search_toponym').attr('value','');
+        });
 @stop

@@ -92,6 +92,7 @@
 @section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/rec-delete-link.js')!!}
+        {!!Html::script('js/forms.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
 @endsection
@@ -114,4 +115,14 @@
         selectSelsovet1926('search_regions1926', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
         selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement1926')}}', false);
         selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
+        
+        $('input[type=reset]').on('click', function (e) {
+        @foreach (['geotypes', 'ethnos_territories', 'etymology_nations', 'regions',
+                   'districts', 'settlements', 'record_places', 'regions1926', 
+                   'districts1926', 'selsovets1926', 'settlements1926', 'sources', 
+                   'structhiers', 'structs', 'informants', 'recorders'] as $f)
+            $('#search_{{ $f }}').val(null).trigger('change');
+        @endforeach
+            $('#search_toponym').attr('value','');
+        });
 @stop

@@ -95,10 +95,9 @@ input[type="radio"]:checked+span:before{
     vertical-align: bottom;
 }
 .search-button-b {
-    align-items: cemter;
+    align-items: flex-start;
     display: flex;
     justify-content: space-between;
-    align-items: cemter;
 }
 
 .search-button-b span {
@@ -123,12 +122,47 @@ input[type="radio"]:checked+span:before{
     display: block;
 }
 
-.btn {
-    padding: 6px 10px;
-}
-
 .form-control {
   height: 32px !important;
+}
+
+.btn {
+    padding: 6px 10px;
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    background-color: #d15454;
+    border-color: #d15454;
+}
+
+.btn-primary:hover {
+    background-color: #dc4646;
+    border-color: #dc4646;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #d15454;
+  border-color: #d15454;
+}
+
+.btn-grey {
+    color: #000;
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+}
+
+.btn-grey:hover {
+    color: #000;
+    background-color: #eee;
+    border-color: #eee;
 }
 
 @media screen and (max-width: 320px) {    
@@ -141,4 +175,16 @@ input[type="radio"]:checked+span:before{
 /*    .search-button-b input[type=text]{
         width: 50px;
     }*/
+}
+
+@media screen and (min-width: 992px) {  
+    .search-button-b input {
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 1200px) {    
+    .search-button-b input {
+        font-size: 14px;
+    }
 }
