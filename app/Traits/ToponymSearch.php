@@ -264,6 +264,9 @@ trait ToponymSearch
     public static function forMap($limit, $url_args) {
         $toponyms = self::search($url_args);
         $total_rec = $toponyms->count(); 
+        if (user_can_edit()) {
+            $limit = $total_rec;
+        }
         
         list($show_count, $objs) = self::toponymsWithCoordsforMap($toponyms, $limit);
         
@@ -277,7 +280,7 @@ trait ToponymSearch
             }                          
         }
         arsort($objs);
-        return [$total_rec, $show_count, collect($objs)];
+        return [$total_rec, $show_count, collect($objs), $limit];
     }
     
     public static function toponymsWithCoordsforMap($toponyms, $limit) {

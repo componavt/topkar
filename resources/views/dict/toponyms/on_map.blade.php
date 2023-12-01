@@ -15,10 +15,10 @@
         @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map')])
          <div class="row" style='line-height: 26px;'>  
              <div class="col-sm-4">
-        @if ($total_rec < 1000)
-            @include('widgets.found_records', ['n_records'=>$total_rec])
+        @if ($show_count < $limit)
+            @include('widgets.found_records', ['n_records'=>$show_count])
         @else
-            <p>{!! __('toponym.found_from', ['total'=>number_format($total_rec, 0, ',', ' ')]) !!}</p>
+            <p>{!! __('toponym.found_from', ['show_count'=>$show_count, 'total'=>number_format($total_rec, 0, ',', ' ')]) !!}</p>
         @endif
              </div>
              <div class="col-sm-8">

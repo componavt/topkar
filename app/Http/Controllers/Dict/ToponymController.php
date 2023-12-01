@@ -90,7 +90,8 @@ class ToponymController extends Controller
         $url_args = $this->url_args;
         $limit = 1000;
 
-        list($total_rec, $show_count, $objs) = Toponym::forMap($limit, $url_args);                  
+        list($total_rec, $show_count, $objs, $limit) 
+                = Toponym::forMap($limit, $url_args);                  
 
         $district_values = District::getList();
         $district1926_values = District1926::getList();
@@ -109,7 +110,7 @@ class ToponymController extends Controller
         $source_values = [''=>NULL] + Source::getList(true);
 
         return view('dict.toponyms.on_map', 
-                compact('district_values', 'district1926_values', 'objs',
+                compact('district_values', 'district1926_values', 'objs', 'limit',
                         'ethnos_territory_values', 'etymology_nation_values', 
                         'geotype_values', 'informant_values', 'recorder_values',
                         'region_values', 'selsovet1926_values', 'show_count',
