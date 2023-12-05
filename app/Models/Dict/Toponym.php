@@ -423,7 +423,7 @@ class Toponym extends Model
                 $toponyms_without->push($t);
             }
         }
-        $toponyms_without=$toponyms_without->sortBy('geotype_name');
+        $toponyms_without=$toponyms_without->sortBy(['geotype_name','name']);
 //dd($toponyms_without);        
         return $toponyms_with->merge($toponyms_without);
     }
