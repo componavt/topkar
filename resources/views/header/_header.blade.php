@@ -1,2 +1,2 @@
-        <header id="header">
+        <header id="start-header">
         </header>

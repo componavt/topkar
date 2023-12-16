@@ -1,6 +1,7 @@
 body {
-    background-color: #f3f4f6;
-/*    color: #2c5c48;*/
+    background-color: #fff;
+    color: #194230;
+    font-family: Roboto;
 }
 /*a {
     color: #bdcc62;
@@ -9,6 +10,10 @@ h2 {
    color: #d15454; 
 }
 
+#start-header {
+    background: #d4def4 url(../images/bg_start.jpg);
+    height: 610px;
+}
 th:first-letter{
     text-transform: uppercase;
 }

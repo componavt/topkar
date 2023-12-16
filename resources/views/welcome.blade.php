@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.start')
 
 @section('headExtra')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"

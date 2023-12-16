@@ -6,6 +6,7 @@
 </head>
 <body>
     @include('header._google_tagmanager')
+@include('header._header')
 @include('header._menu')
 @include('errors._errmsg')
 
