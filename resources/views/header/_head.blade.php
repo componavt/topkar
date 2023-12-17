@@ -16,9 +16,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/languages.min.css">
-        <link rel="stylesheet" href="/css/navigation.css">
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/forms.css">
         
 @yield('headExtra')
     

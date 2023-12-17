@@ -3,11 +3,11 @@
 <head>
 @include('header._google_analytics')    
 @include('header._head')
+        <link rel="stylesheet" href="/css/start.css">
 </head>
 <body>
     @include('header._google_tagmanager')
 @include('header._header')
-@include('header._menu')
 @include('errors._errmsg')
 
         <!-- Page Heading -->

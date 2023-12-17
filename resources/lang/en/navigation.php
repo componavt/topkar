@@ -13,28 +13,47 @@ return [
     |
     */
     
+    'about_project' => 'About',
     'auxiliaries' => 'Auxiliaries',
 
     'dictionary' => 'Dictionary',
     'districts' => 'Districts',
     'districts_1926' => 'Districts in 1926',
     
+    'enter_for_editors' => 'Enter for editors',
+    
     'full_list' => 'Full list',
     
     'geotypes' => 'Geotypes',
     
+    'how_to_cite' => 'How to cite',
+    
     'informants' => 'Informants',
+    
+    'last_created' => 'Last created',
+    
+    'manual' => 'Manual',
+    'map' => 'Map',
 
     'on_map' => 'On map',
     
+    'participants' => 'Project participants',
+    'publications' => 'Publications',
+    
     'recorders' => 'Recorders',
     'regions' => 'Regions',
+    
     'search' => 'Search',
+    
     'selsovets' => 'Selsovets',
     'selsovets_1926' => 'Selsovets in 1926',
+    
     'settlements' => 'Settlements',
     'settlements_1926' => 'Settlements in 1926',
+    
     'sources' => 'Sources',
+    'start' => 'Start page',
+    'stats' => 'Statistics',
     'structs' => 'Structure',
     'toponyms' => 'Toponyms',
     'toponyms_with_coords' => 'Toponyms with coordinates',

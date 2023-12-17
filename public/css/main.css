@@ -1,8 +1,16 @@
+@import url(navigation.css);
+@import url(forms.css);
+
 body {
     background-color: #fff;
     color: #194230;
     font-family: Roboto;
 }
+
+.container {
+    position: relative;
+}
+
 /*a {
     color: #bdcc62;
 }*/
@@ -10,19 +18,10 @@ h2 {
    color: #d15454; 
 }
 
-#start-header {
-    background: #d4def4 url(../images/bg_start.jpg);
-    height: 610px;
-}
 th:first-letter{
     text-transform: uppercase;
 }
 
-.search-form {
-/*    background-color: #fff;*/
-/*    overflow: hidden; obrezaet vsplyvajuschie okna
-/*    padding: 20px; */
-}
 .page {
     background-color: #fff;
 /*    overflow: hidden;*/

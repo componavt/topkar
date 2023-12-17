@@ -1,61 +1,68 @@
-<!--nav class="navbar navbar-expand-lg navbar-light bg-light"-->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-    <!-- Collapsed Hamburger -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">TopKar</a>
-        </div>
+<nav id="left-menu" class="navbar navbar-default">
+    @include('header._collapsed_hamburger')
 
-        <div class="collapse navbar-collapse" id="app-navbar-collapse">
-            <!-- Left Side Of Navbar  -->
-            <ul class="nav navbar-nav">
-              <li class="nav-item dropdown" id='menu2'>
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                  {{ trans('navigation.toponyms') }} <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" role="menu" id='menu1-sub'>
-                  <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.search') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('toponyms.with_wrongnames') }}">{{ trans('navigation.with_wrongnames') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('toponyms.with_legends') }}">{{ trans('navigation.with_legends') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('toponyms.with_wd') }}">{{ trans('navigation.with_wd') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('toponyms.with_coords') }}">{{ trans('navigation.with_coords') }}</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown" id='menu1'>
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                  {{ trans('navigation.auxiliaries') }} <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" role="menu" id='menu1-sub'>
-                  <li><a class="dropdown-item" href="{{ route('regions.index') }}">{{ trans('navigation.regions') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('districts.index') }}">{{ trans('navigation.districts') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('settlements.index') }}">{{ trans('navigation.settlements') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('districts1926.index') }}">{{ trans('navigation.districts_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('selsovets1926.index') }}">{{ trans('navigation.selsovets_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('settlements1926.index') }}">{{ trans('navigation.settlements_1926') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('geotypes.index') }}">{{ trans('navigation.geotypes') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('informants.index') }}">{{ trans('navigation.informants') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('recorders.index') }}">{{ trans('navigation.recorders') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('structs.index') }}">{{ trans('navigation.structs') }}</a></li>
-                  <li><a class="dropdown-item" href="{{ route('sources.index') }}">{{ trans('navigation.sources') }}</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                @include('header.lang_switch')
-              </li>              
+    <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="nav-item dropdown" id='menu1'>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+              {{ trans('navigation.about_project') }} <!--span class="caret"></span-->
+            </a>
+            <ul class="dropdown-menu" role="menu" id='menu1-sub'>
+              <li><a class="dropdown-item" href="/">{{ trans('navigation.start') }}</a></li>
+              @foreach (['participants', 'publications', 'sources', 'stats', 'manual', 'how_to_cite'] as $v)
+              <li><a class="dropdown-item" href="#">{{ trans('navigation.'.$v) }}</a></li>
+              @endforeach
             </ul>
-                
-            <!-- Right Side Of Navbar -- User and Team-->
-            <div class="nav navbar-nav navbar-right">
-                @auth
-              <li class="nav-item dropdown" id='menu2'>
+          </li>
+
+          <li class="nav-item dropdown" id='menu2'>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+              {{ trans('navigation.toponyms') }} 
+            </a>
+            <ul class="dropdown-menu" role="menu" id='menu2-sub'>
+              <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.search') }}</a></li>
+              @foreach (['with_wrongnames', 'with_wd', 'with_legends'] as $v)
+              <li><a class="dropdown-item" href="{{ route('toponyms.'.$v) }}">{{ trans('navigation.'.$v) }}</a></li>
+              @endforeach
+              <li><a class="dropdown-item" href="#">{{ trans('navigation.last_created') }}</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" id='menu3'>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+              {{ trans('navigation.auxiliaries') }} 
+            </a>
+            <ul class="dropdown-menu" role="menu" id='menu3-sub'>
+              @foreach (['regions', 'districts', 'settlements', 'districts1926', 'selsovets1926', 'settlements1926', 
+                         'geotypes', 'informants', 'recorders', 'structs', 'sources'] as $v)
+              <li><a class="dropdown-item" href="{{ route($v.'.index') }}">{{ trans('navigation.'.$v) }}</a></li>
+              @endforeach
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('toponyms.with_coords') }}" aria-expanded="false">{{ trans('navigation.map') }}</a>
+          </li>
+        </ul>
+    </div>
+</nav>
+
+<nav id="right-menu" class="navbar navbar-default">
+    @include('header._collapsed_hamburger')
+
+    <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <ul class="nav navbar-nav">
+            
+            <li class="nav-item">
+        @if ('en' == LaravelLocalization::getCurrentLocale())
+                <a class="nav-link" href="{{ LaravelLocalization::getLocalizedURL('ru') }}" aria-expanded="false">TopKar in Russian</a>
+        @else
+                <a class="nav-link" href="{{ LaravelLocalization::getLocalizedURL('en') }}" aria-expanded="false">TopKar in English</a>
+        @endif
+            </li>
+            <li class="nav-item dropdown" id='menu4'>
+        @auth
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                  {{ Auth::user()->name }} <span class="caret"></span>
+                  {{ Auth::user()->name }}
                 </a>
                 <ul class="dropdown-menu" role="menu" id='menu2-sub'>
                   <li><a class="dropdown-item" href="{{ route('profile.show') }}">{{ __('Profile') }}</a></li>
@@ -69,41 +76,50 @@
                     </form>
                   </li>
                 </ul>
-              </li>
-                @else
-
+        @else
+                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                  {{ trans('navigation.enter_for_editors') }}
+                </a>
+                <ul class="dropdown-menu" role="menu" id='menu2-sub'>
             @if (session('status'))
                 <div class="alert alert-success mb-3 rounded-0" role="alert">
                     {{ session('status') }}
                 </div>
             @endif
 
-            <form method="POST" class="user-enter" action="{{ route('login') }}">
-                @csrf
-                <div style='padding: 5px 0 0 0'>
-                    @include('widgets.form.formitem._text', ['name' => 'email', 
-                                                             'attributes' => ['placeholder' => trans('Email') ]])
-                    @include('widgets.form.formitem._password', ['name' => 'password', 'placeholder' => trans('Password') ])
-                </div>
-                <div>
-                    <div class="user-enter-add">
-                        <div class="remember_me">
-                            <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-                            <label for="remember_me">{{ __('general.remember_me') }}</label>
-                        </div>
+                <form method="POST" class="user-enter" action="{{ route('login') }}">
+                    @csrf
+                    <div style='padding: 5px 0 0 0'>
+                        @include('widgets.form.formitem._text', 
+                            ['name' => 'email', 
+                             'attributes' => ['placeholder' => trans('Email') ]])
+                        @include('widgets.form.formitem._password', 
+                            ['name' => 'password', 
+                             'placeholder' => trans('Password') ])
+                    </div>
+                    <div>
+                        <div class="user-enter-add">
+                            <div class="remember_me">
+                                <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
+                                <label for="remember_me">{{ __('general.remember_me') }}</label>
+                            </div>
 
-                        @if (Route::has('password.request'))
-                        <a class="reset_password" href="{{ route('password.request') }}">
-                               {{ __('general.reset_password') }}
-                        </a>
-                        @endif                        
-                    </div>                      
-                </div>
-                <button type="submit" class="btn btn-primary text-uppercase">
-                    {{ __('general.log_in') }}
-                </button>
-            </form>                
-                @endauth
-            </div>
-        </div>
-    </nav>
+                            @if (Route::has('password.request'))
+                            <a class="reset_password" href="{{ route('password.request') }}">
+                                   {{ __('general.reset_password') }}
+                            </a>
+                            @endif                        
+                        </div>                      
+                    </div>
+                    <button type="submit" class="btn btn-primary text-uppercase">
+                        {{ __('general.log_in') }}
+                    </button>
+                </form>     
+                </ul>
+        @endauth
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    
