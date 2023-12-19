@@ -1,5 +1,5 @@
     <footer class="footer">
       <div class="container">
-        <p class="text-muted"><span class="copy-left">©</span> TopKar - Toponymy of Karelia.</p>
+        <span class="copy-left">©</span> TopKar - Toponymy of Karelia, {{ date('Y')}}
       </div>
     </footer>

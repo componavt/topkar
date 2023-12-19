@@ -4,6 +4,9 @@
 body {
     background-color: #fff;
     color: #194230;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 150%;
     font-family: Roboto;
 }
 
@@ -11,11 +14,43 @@ body {
     position: relative;
 }
 
-/*a {
-    color: #bdcc62;
-}*/
-h2 {
-   color: #d15454; 
+h1 {
+    color: #c8423f;
+    font-size: 34px;
+    font-weight: bold;
+    margin: 30px auto 20px;
+    max-width: 400px;
+    text-align: center;
+}
+
+a {
+    color: #a5ad77;
+}
+
+a:focus, 
+a:hover {
+    color: #00402b;
+}
+
+.imp {
+    background: #a5ad77;
+    color: #fff;
+}
+
+.imp a,
+.imp a:focus, 
+.imp a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+#header {
+    background: url(../images/bg2.png) center bottom no-repeat,
+                url(../images/bg1.png) top repeat-x;
+    height: 220px;
+    padding-top: 56px;
+    position: relative;
+    text-align: center;
 }
 
 th:first-letter{
@@ -113,36 +148,6 @@ button.close {
   border-color: #ced4da;
 }
 
-.user-enter {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: space-between;
-}
-
-.user-enter-add {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;    
-}
-
-.user-enter-add label {
-    font-weight: normal;
-}
-
-.reset_password {
-    color: rgba(0, 0, 0, 0.55);
-    line-height: 18px;
-    text-decoration: none;
-}
-
-.remember_me label {
-    color: rgba(0, 0, 0, 0.55);
-    cursor: pointer;
-}
-
 .important {
     color: #337ab7;
     font-weight: bold;
@@ -232,8 +237,23 @@ button.close {
 }
 
 .footer {
-    padding: 35px 0 20px;
+    background-color: #e7eef2;
+    font-weight: bold;
+    margin-top: 50px;
+    padding: 60px 0 80px;
     text-align: center;
+}
+
+.copy-left {
+    display: inline-block;
+    text-align: right;
+    margin: 0px;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: “FlipH”;
 }
 
 .col-compact {
@@ -265,4 +285,39 @@ button.close {
 .legend-icon{
     float: left;
     padding-right: 10px;    
+}
+
+.bar {
+    background-color: #bcc6bd;
+    height: 7px;
+    margin: 20px auto;
+    width: 175px;
+}
+
+@media screen and (min-width: 768px) {   
+}
+
+@media screen and (min-width: 992px) {    
+    body {
+        font-size: 16px;
+    }
+    h1 {
+        font-size: 40px;
+        margin: 35px auto 25px;
+        max-width: 500px;
+    }
+}
+
+@media screen and (min-width: 1200px) {    
+    body {
+        font-size: 18px;
+    }
+    h1 {
+        font-size: 55px;
+        margin: 40px auto 30px;
+        max-width: 600px;
+    }
+    .bar {
+        width: 200px;
+    }
 }

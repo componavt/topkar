@@ -1,11 +1,63 @@
 #start-header {
-    background: #d4def4 url(../images/bg_start.jpg) center bottom no-repeat;
+    background: url(../images/bg_start.jpg) center bottom no-repeat,
+                url(../images/bg_start.png) top repeat-x;
     height: 610px;
     padding-top: 35px;
     position: relative;
     text-align: center;
 }
 
-#start-logo {
+#left-menu,
+#right-menu {
+    top: 40px;
 }
 
+.toponym-title {
+    color: #194230;
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#welcome-text {
+    font-size: 18px;
+    line-height: 130%;
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {    
+    #start-text {
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 992px) {    
+    #left-menu .navbar-collapse {
+        width: 450px;
+    }
+    #right-menu .navbar-collapse {
+        width: 320px;
+    }
+    #right-menu .navbar-nav > li {
+        float: left;
+    }
+    #welcome-text {
+        font-size: 24px;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 1200px) {    
+    #left-menu .navbar-collapse {
+        width: 600px;
+    }
+    #right-menu .navbar-collapse {
+        width: 500px;
+    }
+    #welcome-text {
+        font-size: 30px;
+        text-align: center;
+    }
+}

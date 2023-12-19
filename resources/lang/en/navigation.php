@@ -20,6 +20,7 @@ return [
     'districts' => 'Districts',
     'districts_1926' => 'Districts in 1926',
     
+    'email' => 'Email',
     'enter_for_editors' => 'Enter for editors',
     
     'full_list' => 'Full list',
@@ -31,6 +32,7 @@ return [
     'informants' => 'Informants',
     
     'last_created' => 'Last created',
+    'log_out' => 'Log out',
     
     'manual' => 'Manual',
     'map' => 'Map',
@@ -38,6 +40,8 @@ return [
     'on_map' => 'On map',
     
     'participants' => 'Project participants',
+    'password' => 'Password',
+    'profile' => 'Profile',
     'publications' => 'Publications',
     
     'recorders' => 'Recorders',

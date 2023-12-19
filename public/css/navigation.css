@@ -1,27 +1,38 @@
 #left-menu {
     position: absolute;
-    top: 40px;
-    width: 200px;
+    top: 20px;
+    text-align: left;
 }
 
 #right-menu {
     position: absolute;
-    top: 40px;
-    right: 0;
-    width: 240px;
+    top: 20px;
+    right: 20px;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #194230;
 }
 
+.navbar-default .navbar-toggle,
 .navbar-default .navbar-toggle:focus, 
 .navbar-default .navbar-toggle:hover {
+    border: none;
     background: none;
 }
 
 #left-menu .navbar-collapse {
     margin-left: -20px;
+    width: 200px;
+}
+
+#right-menu .navbar-collapse {
+    width: 160px;
+    margin-right: -20px;
+}
+
+#right-menu .navbar-nav {
+    text-align: right;
 }
 
 .navbar-collapse {
@@ -39,9 +50,13 @@
     padding-right: 0;
 }
 
+#right-menu .navbar-nav > li {
+    float: right;
+}
+
 #right-menu .navbar-nav > li > a {
-    padding-left: 0;
-    padding-right: 20px;
+    padding-left: 20px;
+    padding-right: 0;
 }
 
 .navbar-default {
@@ -74,7 +89,9 @@
     font-weight: bold;
 }
 
-#right-menu.navbar-default .navbar-nav > li:last-child > .nav-link {
+#right-menu.navbar-default .navbar-nav > li:last-child > a,
+#right-menu.navbar-default .navbar-nav > li:last-child > a:focus, 
+#right-menu.navbar-default .navbar-nav > li:last-child > a:hover {
     color: #8295a0;
 }
 
@@ -100,9 +117,8 @@
 }
 
 #right-menu li:last-child .dropdown-menu {
-   left: auto; 
-   min-width: 240px;
-   right: 0;
+   left: auto;
+   right: -20px; 
    text-align: right;
 }
 
@@ -163,19 +179,60 @@
     padding-bottom: 20px;
 }
 
-.user-enter .form-group {
-    margin-bottom: 0;
+.user-enter {
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.user-submit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.user-submit .btn {
+    text-transform: none;
+    font-weight: bold;
+}
+
+.remember-me {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.user-enter-remember-text {
+    color: #b7bba2;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 12px;
+    margin-top: -11px;
+    max-width: 70px;
+    padding: 0 10px 0 0;
+}
+
+.remember_me label {
+    cursor: pointer;
 }
 
 .user-enter input[type=text],
 .user-enter input[type=password] {
     height: 25px;
+    margin-bottom: 10px;
     padding: 0 12px;
 }
 
-.user-enter-add {
-    font-size: 14px;
+.reset_password {
+    text-align: right;
+    font-style: italic;
 }
+
+.reset_password a {
+    color: #194230;
+}
+
+
 
 @media screen and (min-width: 350px) {
 }
@@ -188,38 +245,45 @@
         padding-left: 20px;
         padding-right: 0;
     }
-
     #right-menu .navbar-nav > li > a {
-        padding-left: 0;
-        padding-right: 20px;
+        padding-left: 20px;
     }
-
+    #right-menu .dropdown-menu {
+        min-width: 220px;
+    }
     .dropdown-menu > li > a {
         padding: 7px 20px;
     }
 }
 
 @media screen and (min-width: 992px) {    
-    .navbar-collapse {
+    #left-menu .navbar-collapse {
+        width: 450px;
+    }
+    #right-menu .navbar-collapse {
+        width: 320px;
+    }
+    #right-menu .navbar-collapse.collapse {
+        display: flex !important;
+        justify-content: flex-end;
+        margin-right: 0;
+    }
+    #left-menu .navbar-collapse {
         margin-left: -30px;
-
     }
     #left-menu .navbar-nav > li > a {
         padding-left: 30px;
     }
-
     #right-menu .navbar-nav > li > a {
-        padding-right: 30px;
+        padding-left: 30px;
     }
-
     .dropdown-menu {
         min-width: 175px;
     }
-
     .dropdown-menu > li > a {
         padding: 7px 30px;
-    }
-    
+    }    
+    .navbar-default .navbar-nav > li > .nav-link,
     .navbar-default .navbar-nav > li > .dropdown-toggle {
         font-size: 15px;
     }    
@@ -233,12 +297,27 @@
 }
 
 @media screen and (min-width: 1200px) {    
+    #left-menu .navbar-collapse {
+        width: 400px;
+    }
+    #right-menu .navbar-collapse {
+        width: 200px;
+    }
     .navbar-default .navbar-nav > li > .dropdown-toggle,
     .navbar-default .navbar-nav > li > .nav-link {    
-        font-size: 16px;
+        font-size: 18px;
     }    
     .dropdown-menu > li > a {
         font-size: 14px;
         line-height: 20x;
     }    
+    #right-menu li:last-child .dropdown-menu {
+        left: 0; 
+        right: auto;
+        min-width: 235px;
+    }    
+    .user-enter {
+        padding: 10px 30px;
+    }
 }
+

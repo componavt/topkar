@@ -20,6 +20,7 @@ return [
     'districts' => 'Районы',
     'districts1926' => 'Районы на 1926 год',
     
+    'email' => 'E-mail',
     'enter_for_editors' => 'Вход для редактора',
     
     'full_list' => 'Полный список',
@@ -31,6 +32,7 @@ return [
     'informants' => 'Информанты',
     
     'last_created' => 'Последние добавленные',
+    'log_out' => 'Выйти',
     
     'manual' => 'Руководство для пользователей',
     'map' => 'Карта',
@@ -38,6 +40,8 @@ return [
     'on_map' => 'На карте',
     
     'participants' => 'Участники проекта',
+    'password' => 'Пароль',
+    'profile' => 'Профиль',
     'publications' => 'Публикации в рамках проекта',
     
     'recorders' => 'Собиратели',

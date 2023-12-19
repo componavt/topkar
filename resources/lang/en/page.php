@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'site_title'  => 'TopKar - Toponymy of Karelia',
+    'site_title'  => 'Project "TopKar - Toponymy of Karelia"',
     
     'welcome_text_intro'  => 'Welcome to the geoinformation resource on the toponymy of Karelia (TopKar), '
     . 'developed by a group of researchers from the Karelian Scientific Center of the Russian Academy of Sciences. '
