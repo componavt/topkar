@@ -52,5 +52,5 @@
                          'title'=>trans('toponym.wd')])
             </div>
         </div>
-        <p><a onClick="callMap()">Указать координаты на карте</a></p>
+        <p><a onClick="callMap()" class="clickable">Указать координаты на карте</a></p>
         @endif                        

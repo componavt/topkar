@@ -1,0 +1,23 @@
+#header {
+    background: url(../images/bg2.png) center bottom no-repeat,
+                url(../images/bg1.png) top repeat-x;
+    height:180px;
+    padding-top: 36px;
+    position: relative;
+    text-align: center;
+}
+
+#logo {
+    max-width: 200px;
+}
+
+@media screen and (min-width: 768px) {   
+    #header {
+        height: 220px;
+        padding-top: 56px;
+    }
+    #logo {
+        max-width: 262px;
+    }
+}
+

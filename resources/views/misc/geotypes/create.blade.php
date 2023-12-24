@@ -1,17 +1,20 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
-@section('header', trans('navigation.geotypes'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(__('misc.geotype')))
+@section('headTitle', trans('messages.new_g'). ' '. mb_strtolower(__('toponym.geotypes')))
+@section('header', trans('navigation.geotypes'))
 
-@section('main')   
-    <div class='top-links'>        
-        <a href="{{ route('geotypes.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('geotypes.create') }}{{$args_by_get}}">{{ mb_strtolower(__('messages.create_new_m')) }}</a>
-        @else
-            | {{ __('messages.create_new_m') }}
-        @endif 
-    </div>
-        
+@section('page_top')   
+    <h2>{{ trans('messages.new_g'). ' '. mb_strtolower(trans('toponym.geotypes')) }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! to_list('geotypes', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('geotypes', $args_by_get, trans('messages.create_new_f')) !!}
+    @endif             
+@endsection    
+    
+@section('content')   
     {!! Form::open(['method'=>'POST', 'route' => ['geotypes.store'], 'id'=>'geotypeForm']) !!}
     @include('misc.geotypes._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])

@@ -48,10 +48,11 @@ class Settlement1926Controller extends Controller
         $region_values = [''=>NULL] + Region::getList();
         $district1926_values = District1926::getList();
         $selsovet1926_values = Selsovet1926::getList();
+        $sort_values = Settlement1926::sortList();
         
         return view('dict.settlements1926.index', 
                 compact('district1926_values', 'n_records', 'region_values', 'selsovet1926_values',
-                        'settlements1926', 'args_by_get', 'url_args'));
+                        'settlements1926', 'sort_values', 'args_by_get', 'url_args'));
      }
 
     public function validateRequest(Request $request) {

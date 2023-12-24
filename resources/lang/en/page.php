@@ -13,6 +13,9 @@ return [
     |
     */
 
+    'license' => 'You can freely use the materials of our site and share them, most importantly - indicate authorship and a link to our resource.
+                  <br><a href="https://creativecommons.org/licenses/by/4.0/">More about the CC BY 4.0 license</a>',
+    
     'site_title'  => 'Project "TopKar - Toponymy of Karelia"',
     
     'welcome_text_intro'  => 'Welcome to the geoinformation resource on the toponymy of Karelia (TopKar), '

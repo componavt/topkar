@@ -1,28 +1,30 @@
 @extends('layouts.master')
 
+@section('headTitle', trans('navigation.structs'))
+@section('header', trans('navigation.structs'))
+
 @section('search_form')   
         @include("misc.structs._form_search")
         @include('widgets.found_records', ['n_records'=>$n_records])
 @endsection
     
-@section('header', trans('navigation.structs'))
-
-@section('main')   
+@section('buttons')   
     @if (user_can_edit())
-    <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('structs.create')}}">{{__('messages.create_new_m')}}</a>
-    </div>
+        {!! create_button('m', 'structs', $args_by_get) !!}
     @endif
+@endsection
     
+@if ($structs)
     @section('table_block')   
+        <h2>{{ __('search.search_results') }}</h2>
         <table class="table table-striped table-hover">
             <tr>
-                <th>&numero;</th>
-                <th>{{trans('misc.structhier')}}</th>
+                <td>&numero;</td>
+                <td>{{trans('misc.structhier')}}</td>
                 <th>{{trans('toponym.name')}}</th>
-                <th>{{trans('navigation.toponyms')}}</th>
+                <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
-                <th>{{ trans('messages.actions') }}</th>
+                <td>{{ trans('messages.actions') }}</td>
                 @endif
              </tr>
 
@@ -30,7 +32,7 @@
             <tr>
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
                 <td data-th="{{trans('misc.structhier')}}">{{$r->structhier ? $r->structhier->nameToString() : ''}}</td>
-                <td data-th="{{trans('toponym.name')}}">{{$r->name_ru}}</td>
+                <td data-th="{{trans('toponym.name')}}"><b>{{$r->name_ru}}</b></td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_structs[]={{$r->id}}">{{ $r->toponyms->count() }}</a>
@@ -54,7 +56,8 @@
         </table>
         {{ $structs->appends($url_args)->onEachSide(3)->links() }}
     @endsection
-@endsection
+@endif
+
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
 @endsection

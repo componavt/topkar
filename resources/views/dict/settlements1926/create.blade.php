@@ -1,28 +1,34 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
 @section('headExtra')
     {!!Html::style('css/select2.min.css')!!}  
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
          crossorigin=""/>
+    <link rel="stylesheet" href="/css/map.css"/>
 @endsection
 
-@section('header', trans('navigation.settlements_1926'). ' / '. trans('messages.new_g'). ' '. mb_strtolower(trans('toponym.settlement1926')))
+@section('headTitle', trans('messages.new_g'). ' '. mb_strtolower(__('toponym.settlement1926')))
+@section('header', trans('navigation.settlements1926'))
 
-@section('main')   
+@section('modals')   
     @include('widgets.modal',['name'=>'modalMap',
                           'title'=>trans('toponym.coords_from_map'),
                           'modal_view'=>'widgets.leaflet.karelia_on_map'])
-                          
-    <div class='top-links'>        
-        <a href="{{ route('settlements1926.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('settlements1926.create') }}{{$args_by_get}}">{{ mb_strtolower(__('messages.create_new_m')) }}</a>
-        @else
-            | {{ __('messages.create_new_m') }}
-        @endif 
-    </div>
-        
+@endsection
+
+@section('page_top')   
+    <h2>{{ trans('messages.new_g'). ' '. mb_strtolower(trans('toponym.settlement1926')) }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! to_list('settlements1926', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('settlements1926', $args_by_get, trans('messages.create_new_f')) !!}
+    @endif             
+@endsection    
+    
+@section('content')   
     {!! Form::open(['method'=>'POST', 'route' => ['settlements1926.store'], 'id'=>'settlement1926Form']) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
     @include('dict.settlements1926._form_create_edit', 

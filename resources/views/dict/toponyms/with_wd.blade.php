@@ -1,14 +1,18 @@
 @extends('layouts.master')
 
 @section('headTitle', trans('navigation.toponyms'). ' '. mb_strtolower(trans('navigation.with_wd')))
+@section('header', trans('navigation.toponyms'))
 
+@section('headExtra')
+        {!!Html::style('css/select2.min.css')!!}  
+@endsection
+    
 @section('search_form')   
-        @include("dict.toponyms.form._search_wd")
-        @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+    <h2>{{ trans('navigation.search_by_toponyms'). ' '. mb_strtolower(trans('navigation.with_wd')) }}</h2>
+    @include("dict.toponyms.form._search_with", ['route' => 'with_wd'])
+    @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
 @endsection
         
-@section('header', trans('navigation.toponyms'). ' '. mb_strtolower(trans('navigation.with_wd')))
-
 @section('main')   
     @section('table_block')   
         @if ($toponyms->count())
@@ -48,4 +52,24 @@
         @endif
     @endsection
 @endsection
+                
+@section('footScriptExtra')
+        {!!Html::script('js/select2.min.js')!!}
+        {!!Html::script('js/lists.js')!!}
+        {!!Html::script('js/special_symbols.js')!!}
+@endsection
+@section('jqueryFunc')
+        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});
+        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
+        
+        selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
+        selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
+        
+        $('input[type=reset]').on('click', function (e) {
+        @foreach (['geotypes', 'regions', 'districts', 'settlements'] as $f)
+            $('#search_{{ $f }}').val(null).trigger('change');
+        @endforeach
+            $('#search_toponym').attr('value','');
+        });
+@stop
                 

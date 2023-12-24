@@ -9,7 +9,7 @@
     @include('header._google_tagmanager')
     <header id="start-header">
         <div class="container">
-            <a href="/"><img id="start-logo" src="/images/logo_start_ru.png"></a>
+            <a href="/"><img id="start-logo" src="/images/logo_start_{{ app()->getLocale() }}.png"></a>
             @include('header._left_menu')
             @include('header._right_menu')
         </div>

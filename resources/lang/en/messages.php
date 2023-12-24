@@ -26,7 +26,7 @@ return [
     'code' => 'code',
     'confirm_delete' => 'Do you want to delete this item?',
     'copy' => 'copy',
-    'create' => 'сreate',
+    'create' => 'Create',
     'creating' => 'Creating',
     'create_new_f' => 'Create a new',
     'create_new_m' => 'Create another one',
@@ -34,11 +34,12 @@ return [
     'created' => 'created',
     'created_success' => 'Successfully created',
     
-    'delete' => 'delete',
+    'delete' => 'Delete',
     'delete_confirmation' => 'Delete confirmation',
     
-    'edit' => 'edit',
+    'edit' => 'Edit',
     'editing' => 'Editing',
+    'entries_per_page' => 'Number<br>of entries<br>per page',
     'examples' => 'Examples',
     
     'frequency' => 'frequency',
@@ -46,7 +47,7 @@ return [
     
     'history' => 'history',
     
-    'in_desc' => 'in decreasing order',
+    'in_desc' => 'In decreasing<br>order',
     'in_english' => 'in English',
     'in_karelian' => 'in Karelian',
     'in_pl' => 'in plural',
@@ -69,8 +70,8 @@ return [
     'search' => 'search',
     'seq_num' => 's/n',
     'sequence_number' => 'sequence number',
-    'sort' => 'sort',
-    'sort_by' => 'sort by',
+    'sort' => 'Sort',
+    'sort_by' => 'Sort by',
     'special_symbols' => 'special symbols',
     'supper_text' => 'to superscript',
     'text_exists' => 'There is a text associated with this entry',

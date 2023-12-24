@@ -45,10 +45,11 @@ class StructController extends Controller
         $structs = $structs->paginate($this->url_args['portion']);
          
         $structhier_values = Structhier::getGroupedList();
+        $sort_values = Struct::sortList();
         
         return view('misc.structs.index', 
                 compact('locale', 'n_records', 'structs', 'structhier_values', 
-                        'args_by_get', 'url_args'));
+                        'sort_values', 'args_by_get', 'url_args'));
      }
 
     public function validateRequest(Request $request) {

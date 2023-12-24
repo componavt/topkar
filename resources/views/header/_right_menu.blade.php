@@ -6,7 +6,7 @@
             
             <li class="nav-item">
         @if ('en' == LaravelLocalization::getCurrentLocale())
-                <a class="nav-link" href="{{ LaravelLocalization::getLocalizedURL('ru') }}" aria-expanded="false">TopKar in Russian</a>
+                <a class="nav-link" href="{{ LaravelLocalization::getLocalizedURL('ru') }}" aria-expanded="false">TopKar на русском</a>
         @else
                 <a class="nav-link" href="{{ LaravelLocalization::getLocalizedURL('en') }}" aria-expanded="false">TopKar in English</a>
         @endif

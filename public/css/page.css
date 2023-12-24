@@ -1,0 +1,94 @@
+.page-top h2 {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.page-top h2::first-letter {
+    text-transform: uppercase;
+}
+.page-top a {
+    color: #194230;
+}
+
+.top-links {
+    margin: 30px 0 20px;
+    padding-top: 20px;
+}
+
+.top-links a {
+    color: #8f9b96;
+    font-size: 10px;
+    line-height: 90%;
+    position: relative;
+    text-decoration: none;
+}
+
+.top-links a:hover {
+  text-decoration: underline;
+}
+
+.top-icon {
+    margin-right: 12px;
+}
+
+.top-icon::before {
+    height: 24px;
+    position: absolute;
+    bottom: 20px;
+    left: calc(50% - 12px);
+    width: 24px;    
+}
+
+.to-list::before {
+    content: url('../images/icons/list.png');
+}
+
+.to-edit::before {
+    content: url('../images/icons/edit.png');
+}
+
+.to-delete::before {
+    content: url('../images/icons/delete.png');
+}
+
+.to-create::before {
+    content: url('../images/icons/create.png');
+}
+
+.to-show::before {
+    content: url('../images/icons/show.png');
+}
+
+.field-name {
+    color: #8f9b96;
+    padding-right: 5px;
+}
+
+.other-toponyms {
+    color: #8f9b96;
+}
+
+.field-value {
+/*    font-weight: bold;*/
+}
+
+
+@media screen and (min-width: 768px) {   
+}
+
+@media screen and (min-width: 992px) {    
+    .page-top-links {
+        display: flex; 
+        justify-content: space-between;
+    }
+    .top-links {
+        padding-top: 0;
+        text-align: right;
+    }
+    .top-icon {
+        margin-left: 12px;
+        margin-right: 0;
+    }
+    .top-icon::before {
+    }
+}

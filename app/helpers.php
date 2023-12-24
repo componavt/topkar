@@ -4,12 +4,44 @@
 
 use App\Models\Team;
 
+/**
+ * Creates a revision record.
+ *
+ * @param object $obj
+ * @param string $key
+ * @param mixed $old
+ * @param mixed $new
+ *
+ * @return bool
+ */
+function createRevisionRecord($obj, $key, $old = null, $new = null)
+{
+    if (gettype($obj) != 'object') {
+        return false;
+    }
+    $revisions = [
+        [
+            'revisionable_type' => get_class($obj),
+            'revisionable_id' => $obj->getKey(),
+            'key' => $key,
+            'old_value' => $old,
+            'new_value' => $new,
+            'user_id' => vms_user('id'),
+            'created_at' => new \DateTime(),
+            'updated_at' => new \DateTime(),
+        ]
+    ];
+    $revision = new \Venturecraft\Revisionable\Revision;
+    \DB::table($revision->getTable())->insert($revisions);
+    return true;
+}
+
 // to_link("Hello, World!", "/dict/") -> <a href="/ru/dict/">Hello, World!</a>
 if (! function_exists('to_link')) {
-    function to_link($str, $link)
+    function to_link($str, $link, $args_by_get='', $class='')
     {
-        return '<a href="'.LaravelLocalization::localizeURL($link).'">'.$str.'</a>';            
-
+        return '<a href="'.LaravelLocalization::localizeURL($link).$args_by_get.'"'.
+               ($class ? ' class="'.$class.'"' : '').'>'.$str.'</a>';            
     }
 }
 
@@ -32,11 +64,59 @@ if (! function_exists('to_show')) {
 if (! function_exists('plural_from_model')) {
     function plural_from_model($model)
     {
+        if (preg_match("/^(.+)1926$/",$model, $regs)) {
+            $plural = Str::plural(class_basename($regs[1]));
+            return Str::camel($plural).'1926';            
+        }
         $plural = Str::plural(class_basename($model));
         return Str::camel($plural);
     }
 }
 
+if (! function_exists('create_button')) {
+    function create_button($r, $model, $args_by_get='')
+    {
+        return to_link('+ '.trans('messages.create_new_'.$r), route(plural_from_model($model).'.create'), $args_by_get, 'link-button');            
+    }
+}
+
+if (! function_exists('to_list')) {
+    function to_list($model, $args_by_get='')
+    {
+        return to_link(trans('messages.back_to_list'), route(plural_from_model($model).'.index'), $args_by_get, 'top-icon to-list');            
+    }
+}
+
+if (! function_exists('to_create')) {
+    function to_create($model, $args_by_get='', $title=null)
+    {
+        return to_link($title ?? trans('messages.create'), route(plural_from_model($model).'.create'), $args_by_get, 'top-icon to-create');            
+    }
+}
+
+if (! function_exists('to_edit')) {
+    function to_edit($model, $obj, $args_by_get='')
+    {
+        return to_link(trans('messages.edit'), route(plural_from_model($model).'.edit', $obj), $args_by_get, 'top-icon to-edit');            
+    }
+}
+
+if (! function_exists('to_delete')) {
+    function to_delete($model, $obj, $args_by_get='')
+    {
+        return '<a href="'.route(plural_from_model($model).'.destroy', $obj)
+              .'" data-toggle="tooltip" data-delete="'.csrf_token()
+              .'" title="'.trans('messages.delete').'" class="top-icon to-delete">'
+              .trans('messages.delete').'</a>';
+    }
+}
+
+if (! function_exists('back_to_show')) {
+    function back_to_show($model, $obj, $args_by_get='')
+    {
+        return to_link(trans('messages.back_to_show'), route(plural_from_model($model).'.show', $obj), $args_by_get, 'top-icon to-show');            
+    }
+}
 
 /*
 if (! function_exists('array_to_string')) {
@@ -68,6 +148,8 @@ if (! function_exists('search_values_by_URL')) {
 if (! function_exists('remove_empty')) {
     function remove_empty(array $url_args=NULL)
     {
+        $url_args = remove_default($url_args);
+
         foreach ( $url_args as $k=>$v ) {
             if (!$v || is_array($v) && (!sizeof($v) || sizeof($v)==1 && isset($v[1]) && !$v[1])) {
                 unset($url_args[$k]);
@@ -76,6 +158,24 @@ if (! function_exists('remove_empty')) {
         return $url_args;
     }
 }
+
+if (! function_exists('remove_default')) {
+    function remove_default(array $url_args=NULL)
+    {
+        if (array_key_exists('portion', $url_args) && $url_args['portion']==10) {
+            unset($url_args['portion']);
+        }
+        if (array_key_exists('page', $url_args) && $url_args['page']==1) {
+            unset($url_args['page']);
+        }
+        if (array_key_exists('list_name', $url_args)) {
+            unset($url_args['list_name']);
+        }
+        
+        return $url_args;
+    }
+}
+
 
 if (! function_exists('remove_empty_elems')) {
     function remove_empty_elems(array $url_args=NULL)
@@ -126,6 +226,54 @@ if (! function_exists('url_args')) {
             $url_args['portion'] = 1000;
         }   
         return $url_args;
+    }
+}
+
+if (!function_exists('prev_args')) {
+    function prev_args($url_args) {
+        $url_args['page'] = $url_args['page'] > 1 ? $url_args['page']-1 : 1;
+        return search_values_by_URL($url_args);
+    }
+}
+
+if (!function_exists('next_args')) {
+    function next_args($url_args) {
+        $url_args['page'] = $url_args['page']+1;
+        return search_values_by_URL($url_args);
+    }
+}
+
+if (!function_exists('args_replace')) {
+    function args_replace($url_args, $values) {
+        foreach($values as $key => $value) {
+            $url_args[$key] = $value;
+        }
+        return search_values_by_URL($url_args);
+    }
+}
+
+if (!function_exists('count_not_empty_elems')) {
+    function count_not_empty_elems($list) {
+        $count = 0;
+        foreach ($list as $key => $value) {
+            if (is_array($value) && sizeof($value)>0 && !empty($value[0])) {
+                $count++;
+//print "<p>$key=$value[0]</p>";                
+            } elseif(!empty($value)) {
+                $count++;
+//print "<p>$key=$value</p>";                
+            }
+        }
+        return $count;
+    }
+}
+
+if (!function_exists('found_rem')) {
+/**
+ * Высчитывается остаток от деления для последующего вычисления окончания фразы
+ */
+    function found_rem($total) {
+        return $total>20 ? ($total%10==0 ? $total : $total%10)  : $total;
     }
 }
 

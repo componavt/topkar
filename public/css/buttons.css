@@ -1,0 +1,77 @@
+.btn {
+    border-radius: 0;
+    font-size: 18px;
+    padding: 6px 10px;
+    text-transform: uppercase;
+}
+
+.btn-default.focus, 
+.btn-default:focus {
+    border: none;
+}
+
+.btn-primary {
+    background-color: #c8423f;
+    border-color: #c8423f;
+}
+
+.btn-primary:hover {
+    background-color: #dc4646;
+    border-color: #dc4646;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #d15454;
+  border-color: #d15454;
+}
+
+.btn-grey.active, 
+.btn-grey:hover,
+.btn-grey:active,
+.btn-grey {
+    color: #888b8a;
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+}
+
+.btn-primary.active, 
+.btn-primary:active, 
+.btn-primary.focus, 
+.btn-primary:focus,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #194230;
+    border: none;
+}
+
+.link-button {
+    background-color: #c8d0df;
+    color: #194230;
+    line-height: 2rem;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.link-button:hover,
+.link-button:active {
+    text-decoration: none;
+}
+
+.call-add {
+  color: #337ab7;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 320px) {    
+    .btn-primary {
+        font-size: 14px;   
+    }
+}
+

@@ -2,17 +2,18 @@
 
 @section('headTitle', trans('navigation.toponyms'). ' '. mb_strtolower(trans('navigation.with_wrongnames')))
 
+@section('header', trans('navigation.toponyms'))
+
 @section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
 @endsection
     
 @section('search_form')   
-        @include("dict.toponyms.form._search_with_wrongnames")
-        @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+    <h2>{{ trans('navigation.search_by_toponyms'). ' '. mb_strtolower(trans('navigation.with_wrongnames')) }}</h2>
+    @include("dict.toponyms.form._search_with", ['route' => 'with_wrongnames'])
+    @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
 @endsection
         
-@section('header', trans('navigation.toponyms'). ' '. mb_strtolower(trans('navigation.with_wrongnames')))
-
 @section('main')   
     @section('table_block')   
         @if ($toponyms->count())

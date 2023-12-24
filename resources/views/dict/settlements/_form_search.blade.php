@@ -29,7 +29,6 @@
                  'class'=>'select-district form-control'
         ]) 
     </div>       
-     
-    @include('widgets.form._search_div')
 </div>                 
+@include('widgets.form._output_fields')
         {!! Form::close() !!}

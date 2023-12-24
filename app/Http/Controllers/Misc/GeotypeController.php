@@ -41,9 +41,10 @@ class GeotypeController extends Controller
         $geotypes = Geotype::search($url_args);
         $n_records = $geotypes->count();        
         $geotypes = $geotypes->paginate($this->url_args['portion']);
+        $sort_values = Geotype::sortList();
                 
         return view('misc.geotypes.index', 
-                compact('geotypes', 'n_records', 'args_by_get', 'url_args'));
+                compact('geotypes', 'n_records', 'sort_values', 'args_by_get', 'url_args'));
    }
 
     public function validateRequest(Request $request) {

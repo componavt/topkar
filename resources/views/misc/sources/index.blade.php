@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+@section('headTitle', trans('navigation.sources'))
 @section('header', trans('navigation.sources'))
 
 @section('search_form')   
@@ -7,24 +8,25 @@
         @include('widgets.found_records', ['n_records'=>$n_records])
 @endsection
     
-@section('main')   
+@section('buttons')   
     @if (user_can_edit())
-    <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('sources.create')}}">{{__('messages.create_new_m')}}</a>
-    </div>
+        {!! create_button('m', 'sources', $args_by_get) !!}
     @endif
+@endsection
     
+@if (sizeof($sources))    
     @section('table_block')   
+        <h2>{{ __('search.search_results') }}</h2>
         <table class="table table-striped table-hover">
             <tr>
-                <th>&numero;</th>
+                <td>&numero;</td>
                 <th>{{trans('general.in_russian')}}</th>
-                <th>{{trans('general.short_ru')}}</th>
-                <th>{{trans('general.in_english')}}</th>
-                <th>{{trans('general.short_en')}}</th>
-                <th>{{trans('navigation.toponyms')}}</th>
+                <td class='up-first'>{{trans('general.short_ru')}}</td>
+                <td class='up-first'>{{trans('general.in_english')}}</td>
+                <td class='up-first'>{{trans('general.short_en')}}</td>
+                <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
-                <th>{{ trans('messages.actions') }}</th>
+                <td>{{ trans('messages.actions') }}</td>
                 @endif
              </tr>
 
@@ -58,7 +60,8 @@
         </table>
         {{ $sources->appends($url_args)->onEachSide(3)->links() }}
     @endsection
-@endsection
+@endif
+
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
 @endsection

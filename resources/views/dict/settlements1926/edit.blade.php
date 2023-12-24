@@ -1,29 +1,35 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
 @section('headExtra')
     {!!Html::style('css/select2.min.css')!!}  
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
          crossorigin=""/>
+    <link rel="stylesheet" href="/css/map.css"/>
 @endsection
     
-@section('header', trans('navigation.settlements_1926'). ' / '. trans('messages.editing'). ' / '. $settlement->name)
+@section('headTitle', $settlement->name. ' — '. trans('messages.editing'))
+@section('header', trans('navigation.settlements1926'))
 
-@section('main')   
+@section('modals')   
     @include('widgets.modal',['name'=>'modalMap',
                           'title'=>trans('toponym.coords_from_map'),
                           'modal_view'=>'widgets.leaflet.karelia_on_map'])
-                          
-    <div class='top-links'>        
-        <a href="{{ route('settlements1926.show', $settlement) }}{{$args_by_get}}">{{ trans('messages.back_to_show') }}</a>
-        | <a href="{{ route('settlements1926.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('settlements1926.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_m')) }}</a>
-        @else
-            | {{ trans('messages.create_new_m') }}
-        @endif 
-    </div>
-        
+@endsection
+
+@section('page_top')   
+    <h2>{{ $settlement->name. ': '. trans('messages.editing') }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! back_to_show('settlements1926', $settlement, $args_by_get) !!}
+    {!! to_list('settlements1926', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('settlements1926', $args_by_get, trans('messages.create_new_g')) !!}
+    @endif             
+@endsection    
+    
+@section('content')       
     {!! Form::model($settlement, array('method'=>'PUT', 'route' => ['settlements1926.update', $settlement->id], 'id'=>'settlement1926Form')) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
     @include('dict.settlements1926._form_create_edit', ['with_coords' => true])

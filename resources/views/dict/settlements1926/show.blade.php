@@ -1,49 +1,73 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
-@section('header', trans('navigation.settlements_1926'))
+@section('headTitle', $settlement->name)
+@section('header', trans('navigation.settlements1926'))
 
 @section('headExtra')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
      crossorigin=""/>
+    <link rel="stylesheet" href="/css/map.css"/>
 @stop
 
-@section('main')   
-    <h3>{{ $settlement->name }}</h3>
-    
-    <div class='top-links'>        
-        <a href="{{ route('settlements1926.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | @include('widgets.form.button._edit', ['route' => route('settlements1926.edit', $settlement)])
-            | @include('widgets.form.button._delete', ['route' => 'settlements1926.destroy', 'args'=>['settlements1926' => $settlement->id]])             
-            | <a href="{{ route('settlements1926.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_g')) }}</a>
-        @else
-            | {{ trans('messages.edit') }} | {{ trans('messages.delete') }} | {{ trans('messages.create_new_m') }}
-        @endif 
-    </div>
-    
+@section('page_top')   
+    <h2>{{ $settlement->name }}</h2>
+    <p>
+    @if ($settlement->wdURL() || user_can_edit())
+    <b>{{trans('toponym.wd_URL')}}: <span class='field-value'>{!! $settlement->wdURL() !!}</span></b>
+    <span style="padding: 0 10px">|</span> 
+    @endif
+        <span class="important">TopKar ID: {{ $settlement->id }}</span>
+    </p>
+@endsection            
+
+@section('top_links')   
+    {!! to_list('settlements1926', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_edit('settlements1926', $settlement, $args_by_get) !!}
+        {!! to_delete('settlements1926', $settlement, $args_by_get) !!}
+        {!! to_create('settlements1926', $args_by_get, trans('messages.create_new_m')) !!}
+    @endif             
+@endsection            
+
+@section('content')   
     @if ($settlement->hasCoords())
     <div class="row">
         <div class="col-sm-6">
+            <div id="mapid" style="width: 100%; height: 500px;"></div>
+        </div>
+        <div class="col-sm-6">
     @endif
     
+    @if (optional($settlement->selsovet1926->district1926->region)->name || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.region')}}</span>: 
     <span class='field-value'>{{ optional($settlement->selsovet1926->district1926->region)->name }}</span></p>
+    @endif
 
+    @if (optional($settlement->selsovet1926->district1926)->name || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.district1926')}}</span>: 
     <span class='field-value'>{{ optional($settlement->selsovet1926->district1926)->name }}</span></p>
+    @endif
 
+    @if (optional($settlement->selsovet1926)->name || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.selsovet1926')}}</span>: 
     <span class='field-value'>{{ optional($settlement->selsovet1926)->name }}</span></p>
+    @endif
 
+    @if (optional($settlement)->name_ru || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_russian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_ru }}</span></p>
+    @endif
 
+    @if (optional($settlement)->name_en || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_english')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_en }}</span></p>
+    @endif
 
+    @if (optional($settlement)->name_krl || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_karelian')}}</span>: 
     <span class='field-value'>{{ optional($settlement)->name_krl }}</span></p>
+    @endif
 
     @if ($settlement->toponyms->count())
     <p><span class='field-name'>{{ __('toponym.in_settlement') }} </span>
@@ -76,9 +100,6 @@
     @endif
     
     @if ($settlement->hasCoords())
-        </div>
-        <div class="col-sm-6">
-            <div id="mapid" style="width: 100%; height: 500px;"></div>
         </div>
     </div>    
     @endif

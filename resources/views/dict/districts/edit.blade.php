@@ -1,17 +1,20 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
-@section('header', trans('navigation.districts'). ' / '. trans('messages.editing'). ' / '. $district->name)
+@section('headTitle', $district->name. ' — '. trans('messages.editing'))
+@section('header', trans('navigation.districts'))
 
-@section('main')   
-    <div class='top-links'>        
-        <a href="{{ route('districts.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('districts.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_m')) }}</a>
-        @else
-            | {{ trans('messages.create_new_m') }}
-        @endif 
-    </div>
-        
+@section('page_top')   
+    <h2>{{ trans('messages.editing'). ' / '. $district->name }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! to_list('district', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('district', $args_by_get, trans('messages.create_new_m')) !!}
+    @endif             
+@endsection    
+    
+@section('content')       
     {!! Form::model($district, array('method'=>'PUT', 'route' => ['districts.update', $district->id], 'id'=>'districtForm')) !!}
     @include('dict.districts._form_create_edit')
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])

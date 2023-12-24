@@ -42,9 +42,10 @@ class RecorderController extends Controller
         $recorders = Recorder::search($url_args);
         $n_records = $recorders->count();        
         $recorders = $recorders->paginate($this->url_args['portion']);
+        $sort_values = Recorder::sortList();
                 
         return view('misc.recorders.index', 
-                compact('recorders', 'n_records', 'args_by_get', 'url_args'));
+                compact('recorders', 'n_records', 'sort_values', 'args_by_get', 'url_args'));
    }
 
     public function validateRequest(Request $request) {

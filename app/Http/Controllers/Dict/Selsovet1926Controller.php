@@ -46,10 +46,11 @@ class Selsovet1926Controller extends Controller
          
         $region_values = [''=>NULL] + Region::getList();
         $district1926_values = District1926::getList();
+        $sort_values = Selsovet1926::sortList();
         
         return view('dict.selsovets1926.index', 
                 compact('district1926_values', 'n_records', 'region_values', 
-                        'selsovets1926', 'args_by_get', 'url_args'));
+                        'selsovets1926', 'sort_values', 'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {

@@ -1,17 +1,20 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
+@section('headTitle', trans('messages.new_f'). ' '. mb_strtolower(__('misc.struct')))
 @section('header', trans('navigation.structs'). ' / '. trans('messages.new_f'). ' '. mb_strtolower(__('misc.struct')))
 
-@section('main')   
-    <div class='top-links'>        
-        <a href="{{ route('structs.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('structs.create') }}{{$args_by_get}}">{{ mb_strtolower(__('messages.create_new_m')) }}</a>
-        @else
-            | {{ __('messages.create_new_m') }}
-        @endif 
-    </div>
-        
+@section('page_top')   
+    <h2>{{ trans('messages.new_m'). ' '. mb_strtolower(trans('misc.struct')) }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! to_list('struct', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('struct', $args_by_get, trans('messages.create_new_f')) !!}
+    @endif             
+@endsection    
+    
+@section('content')   
     {!! Form::open(['method'=>'POST', 'route' => ['structs.store'], 'id'=>'structForm']) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
     @include('misc.structs._form_create_edit')

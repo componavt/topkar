@@ -41,9 +41,10 @@ class SourceController extends Controller
         $sources = Source::search($url_args);
         $n_records = $sources->count();        
         $sources = $sources->paginate($this->url_args['portion']);
+        $sort_values = Source::sortList();
                 
         return view('misc.sources.index', 
-                compact('sources', 'n_records', 'args_by_get', 'url_args'));
+                compact('sources', 'n_records', 'sort_values', 'args_by_get', 'url_args'));
    }
 
     public function validateRequest(Request $request) {

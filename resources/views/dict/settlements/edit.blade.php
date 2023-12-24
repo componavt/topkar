@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
 @section('headExtra')
     {!!Html::style('css/select2.min.css')!!}  
@@ -7,24 +7,29 @@
          crossorigin=""/>
 @endsection
     
-@section('header', trans('navigation.settlements'). ' / '. trans('messages.editing'). ' / '. $settlement->name)
+@section('headTitle', $settlement->name. ' — '. trans('messages.editing'))
+@section('header', trans('navigation.settlements'))
 
-@section('main')   
+@section('modals')   
     @include('widgets.modal',['name'=>'modalMap',
                           'title'=>trans('toponym.coords_from_map'),
                           'modal_view'=>'widgets.leaflet.karelia_on_map'])
-                      
-    <div class='top-links'>        
-        <a href="{{ route('settlements.show', $settlement) }}{{$args_by_get}}">{{ trans('messages.back_to_show') }}</a>
-        | <a href="{{ route('settlements.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('settlements.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_m')) }}</a>
-        @else
-            | {{ trans('messages.create_new_m') }}
-        @endif 
-    </div>
-        
-    {!! Form::model($settlement, array('method'=>'PUT', 'route' => ['settlements.update', $settlement->id], 'id'=>'settlement1926Form')) !!}
+@endsection
+
+@section('page_top')   
+    <h2>{{ $settlement->name. ': '. trans('messages.editing') }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! back_to_show('settlement', $settlement, $args_by_get) !!}
+    {!! to_list('settlement', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('settlement', $args_by_get, trans('messages.create_new_g')) !!}
+    @endif             
+@endsection    
+    
+@section('content')       
+    {!! Form::model($settlement, array('method'=>'PUT', 'route' => ['settlements.update', $settlement->id], 'id'=>'settlementForm')) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
     @include('dict.settlements._form_create_edit', 
             ['district_value'=>$settlement->districtValue(), 

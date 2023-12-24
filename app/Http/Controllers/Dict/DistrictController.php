@@ -45,9 +45,10 @@ class DistrictController extends Controller
         $districts = $districts->paginate($this->url_args['portion']);
          
         $region_values = [''=>NULL] + Region::getList();
+        $sort_values = District::sortList();
         
         return view('dict.districts.index', 
-                compact('districts', 'n_records', 'region_values', 
+                compact('districts', 'n_records', 'region_values', 'sort_values',
                         'args_by_get', 'url_args'));
     }
 

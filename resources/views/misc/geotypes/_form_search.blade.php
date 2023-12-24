@@ -1,8 +1,6 @@
         {!! Form::open(['url' => route('geotypes.index'), 
                              'method' => 'get']) 
         !!}
-<div class="row">    
-    <div class="col-md-8">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_name',                  
                  'value' => $url_args['search_name'],
@@ -11,8 +9,5 @@
     <!-- 'special_symbol' => true,
                  //'help_func' => "callHelp('help-text-fields')",
     -->
-    </div>        
-    
-    @include('widgets.form._search_div')
-</div>                 
+@include('widgets.form._output_fields')
         {!! Form::close() !!}

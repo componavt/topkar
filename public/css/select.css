@@ -1,0 +1,56 @@
+.form-group .select2-container .select2-selection--single {
+    height: 50px;
+    border-color: #ced4da;
+    box-shadow: 0 0 10px rgba(0,0,0,.075);
+}
+
+.form-group .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding: 0.25rem 0.9rem;
+}
+
+.form-control,
+.form-group selection select2-selection__rendered,
+.form-group .select2-container--default .select2-selection--multiple {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.form-group .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 1px solid #c8d0df;
+    background-color: #eff2f8;
+}
+
+
+.form-group .select2-container--default .select2-selection--multiple {
+    border: 1px solid #c8d0df;
+    min-height: 50px;
+}
+
+.form-group .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: none;
+    border: none;    
+}
+
+.form-group .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    border: none;    
+}
+
+.form-group .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover, 
+.form-group .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:focus {
+    background: none;    
+}
+
+.form-group .select2-container--default .select2-search--inline .select2-search__field {    
+    color: #9ba9c2;
+    min-height: 30px;
+    padding: 8px 20px;
+}
+
+.form-group .select2-search__field::-webkit-input-placeholder,
+.form-group .select2-search__field::placeholder {
+    color: #5f749b/*#9ba9c2*/;
+}
+
+.form-group .select2-container--default .select2-selection--single {
+    border-radius: 0;
+}

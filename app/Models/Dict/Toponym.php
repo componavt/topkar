@@ -19,17 +19,35 @@ class Toponym extends Model
 {
 //    use HasFactory;
     use \App\Traits\ToponymSearch;
+    use \Venturecraft\Revisionable\RevisionableTrait;
+
+    protected $revisionEnabled = true;
+    protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
+    protected $historyLimit = 500; //Stop tracking revisions after 500 changes have been made.
+    protected $revisionCreationsEnabled = true; // By default the creation of a new model is not stored as a revision. Only subsequent changes to a model is stored.
+    protected $revisionFormattedFields = array(
+//        'title'  => 'string:<strong>%s</strong>',
+//        'public' => 'boolean:No|Yes',
+//        'modified_at' => 'datetime:d/m/Y g:i A',
+//        'deleted_at' => 'isEmpty:Active|Deleted'
+        'updated_at' => 'datetime:m/d/Y g:i A'
+    );
+    protected $revisionFormattedFieldNames = array(
+//        'title' => 'Title',
+//        'small_name' => 'Nickname',
+//        'deleted_at' => 'Deleted At'
+    );
     
     protected $fillable = ['name', 'name_for_search', 'district_id', 'lang_id', 
                            'settlement1926_id', 'geotype_id', 'etymology', 
                            'etymology_nation_id', 'ethnos_territory_id', 
                            'caseform', 'main_info', 'folk', 'legend', 'wd', 
                            'latitude', 'longitude'];
-    const SortList=['name', 'id'
-//        2 => 'created_at'
-    ];
+    const SortList=['name', 'id'];
+    
     //use \App\Traits\Methods\getNameAttribute;    
     use \App\Traits\Methods\wdURL;    
+    use \App\Traits\Methods\sortList;
     
     //Scopes
     use \App\Traits\Scopes\WithCoords;
@@ -42,6 +60,11 @@ class Toponym extends Model
     use \App\Traits\Relations\BelongsToMany\Settlements;
     use \App\Traits\Relations\BelongsToMany\Sources;
     use \App\Traits\Relations\BelongsToMany\Texts;
+    
+    public static function boot()
+    {
+        parent::boot();
+    }
     
     public function events()
     {
@@ -515,13 +538,5 @@ class Toponym extends Model
             $event->remove();
         } 
         $this->delete();
-    }
-        
-    public static function sortList() {
-        $list = [];
-        foreach (self::SortList as $field) {
-            $list[$field] = \Lang::get('messages.sort'). ' '. \Lang::get('toponym.by_'.$field);
-        }
-        return $list;
     }
 }

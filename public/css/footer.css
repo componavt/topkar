@@ -1,0 +1,35 @@
+.footer {
+    background-color: #e7eef2;
+    font-weight: bold;
+    margin-top: 50px;
+    padding: 60px 0 80px;
+    text-align: center;
+}
+
+.copy-left {
+    display: inline-block;
+    text-align: right;
+    margin: 0px;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: “FlipH”;
+}
+
+.license {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    color: #8f9b96;
+    padding: 10px 40px 0;
+}
+
+.license a {
+    font-weight: normal;
+    font-size: 14px;
+    color: #8f9b96;
+    text-decoration: underline;
+}
+

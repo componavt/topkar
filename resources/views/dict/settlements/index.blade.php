@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+@section('headTitle', trans('navigation.settlements'))
 @section('header', trans('navigation.settlements'))
 
 @section('headExtra')
@@ -11,28 +12,28 @@
         @include('widgets.found_records', ['n_records'=>$n_records])
 @endsection
     
-@section('main')   
+@section('buttons')   
     @if (user_can_edit())
-    <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('settlements.create')}}{{$args_by_get}}">{{__('messages.create_new_m')}}</a>
-    </div>
+        {!! create_button('m', 'structs', $args_by_get) !!}
     @endif
+@endsection
     
-    @if (sizeof($settlements))
+@if (sizeof($settlements))
     @section('table_block')  
+        <h2>{{ __('search.search_results') }}</h2>
         <table class="table table-striped table-hover">
-            <tr><th>&numero;</th>
-                <th>{{trans('toponym.region')}}</th>
-                <th>{{trans('navigation.districts')}}</th>
-                <th>{{trans('misc.type')}}</th>
+            <tr><td>&numero;</td>
+                <td>{{trans('toponym.region')}}</td>
+                <td>{{trans('navigation.districts')}}</td>
+                <td>{{trans('misc.type')}}</td>
                 <th>{{trans('general.in_russian')}}</th>
-                <th>{{trans('general.in_karelian')}}</th>
-                <th>{{trans('messages.in_vepsian')}}</th>
-                <th>{{trans('general.in_english')}}</th>
-                <th>{{trans('misc.record_place')}}</th>
-                <th>{{trans('navigation.toponyms')}}</th>
+                <td class='up-first'>{{trans('general.in_karelian')}}</td>
+                <td class='up-first'>{{trans('messages.in_vepsian')}}</td>
+                <td class='up-first'>{{trans('general.in_english')}}</td>
+                <td>{{trans('misc.record_place')}}</td>
+                <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
-                <th>{{ trans('messages.actions') }}</th>
+                <td>{{ trans('messages.actions') }}</td>
                 @endif
             </tr>
 
@@ -89,8 +90,7 @@
         
         <p>* - {{ __('toponym.with_coords') }}</p>
     @endsection
-    @endif
-@endsection
+@endif
 
 @section('footScriptExtra')
         {!!Html::script('js/select2.min.js')!!}

@@ -47,10 +47,11 @@ class SettlementController extends Controller
          
         $region_values = [''=>NULL] + Region::getList();
         $district_values = District::getList();
+        $sort_values = Settlement::sortList();
         
         return view('dict.settlements.index', 
                 compact('district_values', 'locale', 'n_records', 'region_values', 
-                        'settlements', 'args_by_get', 'url_args'));
+                        'settlements', 'sort_values', 'args_by_get', 'url_args'));
      }
 
     public function validateRequest(Request $request) {

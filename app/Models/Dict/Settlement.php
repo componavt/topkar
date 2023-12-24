@@ -2,7 +2,7 @@
 
 namespace App\Models\Dict;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Dict\Region;
@@ -11,7 +11,17 @@ use App\Models\Misc\Geotype;
 
 class Settlement extends Model
 {
-    use HasFactory;
+//    use HasFactory;
+    use \Venturecraft\Revisionable\RevisionableTrait;
+
+    protected $revisionEnabled = true;
+    protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
+    protected $historyLimit = 500; //Stop tracking revisions after 500 changes have been made.
+    protected $revisionCreationsEnabled = true; // By default the creation of a new model is not stored as a revision. Only subsequent changes to a model is stored.
+    protected $revisionFormattedFields = array(
+        'updated_at' => 'datetime:m/d/Y g:i A'
+    );
+    
     
     public $timestamps = false;
     protected $fillable = ['name_ru', 'name_en', 'name_krl', 'name_vep', 'wd', 'latitude', 'longitude', 'geotype_id'];
@@ -29,12 +39,14 @@ class Settlement extends Model
         69, // territory
         115, // rural settlement
     ];
+    const SortList=['name_ru', 'id'];
 
 
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\wdURL;    
 //    use \App\Traits\Methods\search\byNameKRL;
+    use \App\Traits\Methods\sortList;
     
     //Scopes
     use \App\Traits\Scopes\WithCoords;
@@ -46,6 +58,11 @@ class Settlement extends Model
     use \App\Traits\Relations\BelongsToMany\Districts;
     use \App\Traits\Relations\BelongsToMany\Events;
     use \App\Traits\Relations\BelongsToMany\Toponyms;
+    
+    public static function boot()
+    {
+        parent::boot();
+    }
     
     public function identifiableName()
     {
@@ -230,17 +247,23 @@ class Settlement extends Model
     
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
+                    'in_desc'     => (int)$request->input('in_desc'),
                     'search_districts'   => (array)$request->input('search_districts'),
                     'search_id'       => (int)$request->input('search_id') ? (int)$request->input('search_id') : null,
                     'search_name'     => $request->input('search_name'),
                     'search_regions'     => (array)$request->input('search_regions'),
+                    'sort_by' => $request->input('sort_by'),
                 ];
         
-        return $url_args;
+        $sort_list = self::SortList;
+        if (!in_array($url_args['sort_by'], $sort_list)) {
+            $url_args['sort_by']= $sort_list[0];
+        }
+        return remove_empty_elems($url_args);
     }
     
     public static function search(Array $url_args) {
-        $settlements = self::orderBy('name_ru'); 
+        $settlements = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
 
         $settlements = self::searchByLocation($settlements, $url_args['search_regions'], $url_args['search_districts']);
         $settlements = self::searchByID($settlements, $url_args['search_id']);

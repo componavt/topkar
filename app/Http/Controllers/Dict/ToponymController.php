@@ -128,8 +128,16 @@ class ToponymController extends Controller
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
         
+        $district_values = District::getList();
+        $geotype_values = Geotype::getList();
+        $region_values = Region::getList();
+        $settlement_values = Settlement::getList();
+        $sort_values = Toponym::sortList();
+
         return view('dict.toponyms.with_wd', 
-                compact('toponyms', 'n_records', 'args_by_get', 'url_args' ));
+                compact('district_values', 'geotype_values', 'region_values', 
+                        'settlement_values', 'sort_values',
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
     public function withWrongnames()
@@ -249,9 +257,11 @@ class ToponymController extends Controller
             $structs[]=[];
             $structhiers[]=[];            
         }
+        
+        $action='create';
 
-        return view('dict.toponyms.create', 
-                compact('district_value', 'district_values', 'district1926_value', 
+        return view('dict.toponyms.modify', 
+                compact('action', 'district_value', 'district_values', 'district1926_value', 
                         'district1926_values', 'ethnos_territory_values', 
                         'etymology_nation_values', 'geotype_values',  
                         'informant_values', 'lang_values', 'recorder_values', 'region_value',
@@ -352,8 +362,11 @@ class ToponymController extends Controller
             $structs[]=[];
             $structhiers[]=[];            
         }
-        return view('dict.toponyms.edit', 
-                compact('district_values', 'district1926_values', 
+        
+        $action='edit';
+
+        return view('dict.toponyms.modify', 
+                compact('action', 'district_values', 'district1926_values', 
                         'ethnos_territory_values', 'etymology_nation_values', 
                         'geotype_values',  'informant_values', 'lang_values', 'recorder_values', 
                         'region_values', 'selsovet1926_values', 'settlement_values', 

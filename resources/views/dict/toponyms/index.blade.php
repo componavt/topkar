@@ -5,88 +5,86 @@
 @endsection
     
 @section('headTitle', trans('navigation.toponyms'))
-
-@section('search_form')   
-        @include("dict.toponyms.form._search", ['route' => route('toponyms.index')])
-         <div class="row" style='line-height: 26px;'>  
-             <div class="col-sm-4">
-                @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
-             </div>
-             <div class="col-sm-8">
-                @if ($n_records)
-                <a href="{{ route('toponyms.on_map').$args_by_get }}">{!! trans_choice('toponym.output_on_map',$n_records) !!}</a>
-                @endif 
-             </div>
-        </div>
-@endsection
-        
 @section('header', trans('navigation.toponyms'))
 
-@section('main')   
-    @if (user_can_edit())
-    <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('toponyms.create')}}{{$args_by_get}}">Создать новый</a>
+@section('search_form')   
+    <h2>{{ trans('navigation.search_by_toponyms') }}</h2>
+    @include("dict.toponyms.form._search", ['route' => route('toponyms.index')])
+     <div class="row" style='line-height: 26px;'>  
+         <div class="col-sm-4">
+            @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+         </div>
+         <div class="col-sm-8 output_in">
+            @if ($n_records)
+            <a class="big" href="{{ route('toponyms.on_map').$args_by_get }}">{!! trans_choice('toponym.output_on_map',$n_records) !!}</a>
+            @endif 
+         </div>
     </div>
+@endsection
+        
+@section('buttons')   
+    @if (user_can_edit())
+        {!! create_button('m', 'toponym', $args_by_get) !!}
     @endif
+@endsection
     
-    @section('table_block')   
-        @if ($toponyms->count())
-        <table class="table table-striped table-hover wide-md">
-            <tr><th>&numero;</th>    
-                <th>{{trans('toponym.toponym')}}</th>
-                @if (Auth::user() && Auth::user()->id < 4)
-                <th></th>
-                @endif
-                <th>{{trans('misc.geotype')}}</th>
-                <th>{{trans('toponym.location')}} / <br>
-                    <i>{{trans('toponym.location_1926')}}</i></th>       
-                @if (user_can_edit())
-                <th>{{ trans('messages.actions') }}</th>
-                @endif
-            </tr>
+@section('table_block')   
+    @if ($toponyms->count())
+    <h2>{{ __('search.search_results') }}</h2>
+    <table class="table table-striped table-hover wide-md">
+        <tr><td>&numero;</td>    
+            <th>{{trans('toponym.toponym')}}</th>
+            @if (Auth::user() && Auth::user()->id < 4)
+            <td></td>
+            @endif
+            <td>{{trans('misc.geotype')}}</td>
+            <td>{{trans('toponym.location')}} / <br>
+                <i>{{trans('toponym.location_1926')}}</i></td>       
+            @if (user_can_edit())
+            <td>{{ trans('messages.actions') }}</td>
+            @endif
+        </tr>
 
-            @foreach( $toponyms as $r ) <?php //dd($r) ?>
-            <tr>
-                <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
-                <td>
-                    <a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a>
-                    @if ($r->topnames()->count())
-                    ({{join(', ', $r->topnames()->pluck('name')->toArray())}})
-                    @endif
-                </td>
-                @if (Auth::user() && Auth::user()->id < 4)
-                <td>
-                    @if ($r->wd)
-                    {!! $r->wdURL('Q') !!}
-                    @endif
-                    @if ($r->latitude || $r->longitude)
-                    *
-                    @endif
-                </td>
+        @foreach( $toponyms as $r ) <?php //dd($r) ?>
+        <tr>
+            <td>{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}{{-- Starts with 1 --}}</td>
+            <td style="font-weight: bold">
+                <a href="{{route("toponyms.show", $r).$args_by_get}}">{{ $r->name }}</a>
+                @if ($r->topnames()->count())
+                ({{join(', ', $r->topnames()->pluck('name')->toArray())}})
                 @endif
-                <td>{{ optional($r->geotype)->name }}</td>
-                <td>{{ $r->location }} / <br>
-                    <i>{{ $r->location1926 }}</i></td>
-                
-                @if (user_can_edit())
-                <td data-th="{{ trans('messages.actions') }}">
-                    @include('widgets.form.button._edit', 
-                            ['without_text' => 1,
-                             'route' => route('toponyms.edit', $r)])
-                    @include('widgets.form.button._delete', 
-                            ['without_text' => 1,
-                             'route' => 'toponyms.destroy', 
-                             'args'=>['toponym' => $r->id]])             
-                </td>
+            </td>
+            @if (Auth::user() && Auth::user()->id < 4)
+            <td>
+                @if ($r->wd)
+                {!! $r->wdURL('Q') !!}
                 @endif
-            </tr>
-            @endforeach
-        </table>
+                @if ($r->latitude || $r->longitude)
+                *
+                @endif
+            </td>
+            @endif
+            <td>{{ optional($r->geotype)->name }}</td>
+            <td>{{ $r->location }} / <br>
+                <i>{{ $r->location1926 }}</i></td>
 
-        {{-- $toponyms->links() --}}
-        {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
-        @endif
-    @endsection
+            @if (user_can_edit())
+            <td data-th="{{ trans('messages.actions') }}" style='text-align: center'>
+                @include('widgets.form.button._edit', 
+                        ['without_text' => 1,
+                         'route' => route('toponyms.edit', $r)])
+                @include('widgets.form.button._delete', 
+                        ['without_text' => 1,
+                         'route' => 'toponyms.destroy', 
+                         'args'=>['toponym' => $r->id]])             
+            </td>
+            @endif
+        </tr>
+        @endforeach
+    </table>
+
+    {{ $toponyms->appends($url_args)->onEachSide(3)->links() }}
+    @endif
 @endsection
                 
 @section('footScriptExtra')

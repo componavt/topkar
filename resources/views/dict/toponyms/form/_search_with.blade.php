@@ -1,8 +1,8 @@
-        {!! Form::open(['url' => route('toponyms.with_wrongnames'), 
+        {!! Form::open(['url' => route('toponyms.'.$route), 
                              'method' => 'get']) 
         !!}
 <div class="row">    
-    <div class="col-md-3">
+    <div class="col-md-8">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_toponym',                  
                  'special_symbol' => true,
@@ -11,7 +11,17 @@
                  'attributes' => ['placeholder' => trans('toponym.toponym')],
                 ])                               
     </div>        
-    <div class="col-md-3">
+    <div class="col-md-4">
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_geotypes', 
+                 'values' => $geotype_values,
+                 'value' => $url_args['search_geotypes'],
+                 'class'=>'select-geotype form-control'
+        ]) 
+    </div>
+</div>    
+<div class="row">
+    <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_regions', 
                  'values' => $region_values,
@@ -19,7 +29,7 @@
                  'class'=>'select-region form-control'
                  ]) 
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_districts', 
                  'values' => $district_values,
@@ -28,7 +38,7 @@
         ]) 
     </div>
         
-    <div class="col-md-3">
+    <div class="col-md-4">
         <!-- Settlement -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_settlements', 
@@ -37,26 +47,6 @@
                  'class'=>'select-settlement form-control'
         ]) 
     </div>    
-</div>    
-<div class="row">
-    <div class="col-md-3">
-        @include('widgets.form.formitem._select2', 
-                ['name' => 'search_geotypes', 
-                 'values' => $geotype_values,
-                 'value' => $url_args['search_geotypes'],
-                 'class'=>'select-geotype form-control'
-        ]) 
-    </div>
-    <div class="col-md-3">
-        @include('widgets.form.formitem._select', 
-                ['name' => 'sort_by', 
-                 'values' => $sort_values,
-                 'value' => $url_args['sort_by'],
-                 ]) 
-    </div>
-    
-    @include('widgets.form._search_in_desc')
-    
-    @include('widgets.form._search_div', ['with_clear'=>true])
 </div>                 
+@include('widgets.form._output_fields')
         {!! Form::close() !!}

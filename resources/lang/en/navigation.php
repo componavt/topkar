@@ -48,6 +48,7 @@ return [
     'regions' => 'Regions',
     
     'search' => 'Search',
+    'search_by_toponyms' => 'Search by toponyms',
     
     'selsovets' => 'Selsovets',
     'selsovets_1926' => 'Selsovets in 1926',

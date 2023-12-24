@@ -2,7 +2,7 @@
                              'method' => 'get']) 
         !!}
 <div class="row">    
-    <div class="col-md-2">
+    <div class="col-md-4">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_name',                  
                  'value' => $url_args['search_name'],
@@ -12,7 +12,7 @@
                  //'help_func' => "callHelp('help-text-fields')",
     -->
     </div>        
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_regions', 
                  'values' => $region_values,
@@ -20,7 +20,7 @@
                  'class'=>'select-region form-control'
                  ]) 
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <!-- District1926 -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_districts1926', 
@@ -29,7 +29,6 @@
                  'class'=>'select-district1926 form-control'
         ]) 
     </div>       
-     
-    @include('widgets.form._search_div')
 </div>                 
+@include('widgets.form._output_fields')
         {!! Form::close() !!}

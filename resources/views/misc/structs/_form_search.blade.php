@@ -2,7 +2,7 @@
                              'method' => 'get']) 
         !!}
 <div class="row">    
-    <div class="col-md-4">
+    <div class="col-md-6">
             @include('widgets.form.formitem._select', 
                     ['name' => 'search_structhiers', 
                      'values' => $structhier_values,
@@ -11,7 +11,7 @@
                      'attributes'=>['placeholder'=>trans('misc.structhier')]
             ]) 
     </div>            
-    <div class="col-md-4">
+    <div class="col-md-6">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_name',                  
                  'value' => $url_args['search_name'],
@@ -21,6 +21,6 @@
                  //'help_func' => "callHelp('help-text-fields')",
     -->
     </div>        
-    @include('widgets.form._search_div')
 </div>                 
+@include('widgets.form._output_fields')
         {!! Form::close() !!}

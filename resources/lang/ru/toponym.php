@@ -23,6 +23,8 @@ return [
 //    'by_created_at' => 'по дате создания',
     'by_id' => 'по дате создания',
     'by_name' => 'по названию',
+    'by_name_ru' => 'по названию',
+    'by_region_id' => 'по региону',
     
     'caseform' => 'Форма местного падежа',
     'coords_from_map' => 'Указать координаты на карте',
@@ -39,12 +41,13 @@ return [
     'etymology' => 'Этимология',
     
     'folk'=> 'Народное толкование',
-    'found_from' => 'На карту выведены <span class="important">:show_count</span> топонимов из <span class="important">:total</span>',
+    'found_from' => 'На карту выведены <span class="important big">:show_count</span> топонимов из <span class="important big">:total</span>',
     
     '_count' => '{1}топоним|[2,4]топонима|[5,*]топонимов',    
     '_gen' => '{1}топонима|[2,*]топонимов',    
     'in_count' => '{0}ни в одном топониме|{1}в :count топониме|[2,*]в :count топонимах', 
     'in_settlement' => 'В поселении',
+    'in_this_settl' => 'В том же поселении',
     'is_map' => 'карта',
     
     'lang' => 'язык',
@@ -77,6 +80,7 @@ return [
     'same_settlement' => 'То же поселение',
     'same_settlement1926' => 'То же поселение в 1926 г.',
     
+    'selsovet' => 'Сельсовет',
     'selsovet1926' => 'Сельсовет 1926',
     'selsovet1926_removed' => 'Сельсовет 1926 ":name" удален.',
     'selsovets_1926' => 'Сельсоветы 1926',

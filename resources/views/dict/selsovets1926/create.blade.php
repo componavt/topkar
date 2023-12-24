@@ -1,17 +1,20 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
-@section('header', trans('navigation.selsovets_1926'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(__('toponym.selsovet1926')))
+@section('headTitle', trans('messages.new_m'). ' '. mb_strtolower(trans('toponym.selsovet')))
+@section('header', trans('navigation.selsovets1926'))
 
-@section('main')   
-    <div class='top-links'>        
-        <a href="{{ route('selsovets1926.index') }}{{$args_by_get}}">{{ __('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | <a href="{{ route('selsovets1926.create') }}{{$args_by_get}}">{{ mb_strtolower(__('messages.create_new_m')) }}</a>
-        @else
-            | {{ __('messages.create_new_m') }}
-        @endif 
-    </div>
-        
+@section('page_top')   
+    <h2>{{ trans('messages.new_m'). ' '. mb_strtolower(trans('toponym.selsovet')) }}</h2>
+@endsection
+
+@section('top_links')   
+    {!! to_list('selsovets1926', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_create('selsovets1926', $args_by_get, trans('messages.create_new_m')) !!}
+    @endif             
+@endsection    
+    
+@section('content')   
     {!! Form::open(['method'=>'POST', 'route' => ['selsovets1926.store'], 'id'=>'selsovet1926Form']) !!}
     @include('widgets.form._url_args_by_post',['url_args'=>$url_args])
     @include('dict.selsovets1926._form_create_edit', ['selsovet'=>null])

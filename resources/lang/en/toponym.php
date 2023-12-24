@@ -23,6 +23,7 @@ return [
 //    'by_created_at' => 'by creation date',
     'by_id' => 'by creation date',
     'by_name' => 'by name',
+    'by_region_id' => 'by region',
     
     'caseform' => 'Locative form',
     'coords_from_map' => 'Specify coordinates on the map',
@@ -38,12 +39,13 @@ return [
         
     'etymology' => 'Etymology',
     'folk'=> 'Popular interpretation',
-    'found_from' => '<span class="important">:show_count</span> toponyms from <span class="important">:total</span> are showed on the map',
+    'found_from' => '<span class="important big">:show_count</span> toponyms from <span class="important big">:total</span> are showed on the map',
     
     '_count' => '{1}toponym|[2,,*]toponyms',    
     '_gen' => '{1}toponym|[2,*]toponyms',    
     'in_count' => '{1}toponym|[2,*]toponyms',    
     'in_settlement' => 'In the settlement',
+    'in_this_settl' => 'In this settlement',
     'is_map' => 'map',
     
     'lang' => 'language',
@@ -74,6 +76,7 @@ return [
     'same_settlement' => 'The same settlement',
     'same_settlement1926' => 'The same settlement in 1926',
         
+    'selsovet' => 'Selsovet',
     'selsovet1926' => 'Selsovet 1926',
     'selsovet1926_removed' => 'Selsovet 1926 ":name" is removed successfully.',
     'selsovets_1926' => 'Selsovets 1926',

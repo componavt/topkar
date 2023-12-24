@@ -26,21 +26,21 @@ $id_name = preg_replace("/[\.\]\[]/","_",$name);
 $attributes['id'] = $id_name;
 
 ?>
-<div class="form-group {!! $errors->has($name) ? 'has-error' : null !!}">
-    @if(isset($title) && $title)
+<div class="form-group{!! $errors->has($name) ? ' has-error' : null !!}{{ !empty($special_symbol) ? ' with-special' : null }}">
+    @if(!empty($title))
 	<label for="{{$name}}">{{ $title }}&nbsp;</label>
     @endif
     {!! Form::text($name, $value ?? null, $attributes) !!}
 
-    @if (isset($field_comments))
+    @if (!empty($field_comments))
     <span class='field_comments'>{{$field_comments}}</span>
     @endif
     
-    @if (isset($special_symbol) && $special_symbol) 
+    @if (!empty($special_symbol)) 
         @include('widgets.special_symbols',['id_name'=>$id_name])
     @endif
     
-    @if (isset($help_func) && $help_func) 
+    @if (!empty($help_func)) 
     <i class='help-icon far fa-question-circle fa-lg' onClick='{{$help_func}}'></i>
     @endif
     

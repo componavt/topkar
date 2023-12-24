@@ -9,12 +9,10 @@
 @stop
 
 @section('header', trans('navigation.toponyms_with_coords'))
-@section('search_form')   
-        @include('widgets.found_records', ['n_records'=>$n_records])
-@endsection
 
 @section('main')   
-            <div id="mapid" style="width: 100%; height: 1400px;"></div>
+    @include('widgets.found_records', ['n_records'=>$n_records])
+    <div id="mapid" style="width: 100%; height: 1400px;"></div>
 @stop
 
 @section('footScriptExtra')

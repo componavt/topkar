@@ -7,27 +7,29 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
      crossorigin=""/>
+<link rel="stylesheet" href="/css/map.css"/>
 @stop
 
 @section('header', trans('navigation.toponyms'))
 
 @section('search_form')   
-        @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map')])
-         <div class="row" style='line-height: 26px;'>  
-             <div class="col-sm-4">
-        @if ($show_count == $total_rec)
-            @include('widgets.found_records', ['n_records'=>$show_count])
-        @else
-            <p>{!! __('toponym.found_from', 
-                ['show_count'=>number_format($show_count, 0, ',', ' '), 
-                 'total'=>number_format($total_rec, 0, ',', ' ')]) !!}
-            </p>
-        @endif
-             </div>
-             <div class="col-sm-8">
-                <a href="{{ route('toponyms.index').$args_by_get }}">{!! trans('toponym.back_to_index') !!}</a>
-             </div>
-        </div>
+    <h2>{{ trans('navigation.search_by_toponyms'). ' '. mb_strtolower(trans('navigation.on_map')) }}</h2>
+    @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map')])
+     <div class="row" style='line-height: 26px;'>  
+         <div class="col-sm-6">
+    @if ($show_count == $total_rec)
+        @include('widgets.found_records', ['n_records'=>$show_count])
+    @else
+        <p>{!! __('toponym.found_from', 
+            ['show_count'=>number_format($show_count, 0, ',', ' '), 
+             'total'=>number_format($total_rec, 0, ',', ' ')]) !!}
+        </p>
+    @endif
+         </div>
+         <div class="col-sm-6 output_in">
+            <a class="big" href="{{ route('toponyms.index').$args_by_get }}">{!! trans('toponym.back_to_index') !!}</a>
+         </div>
+    </div>
 @endsection
 
 @section('main')   

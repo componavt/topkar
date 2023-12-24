@@ -133,7 +133,7 @@
             </div>
         </div>
         
-        <div class='row' style='margin-bottom: 10px;'>
+        <div class='row' style='margin-bottom: 10px; font-size: 16px'>
             <div class="col-sm-6">
                 <a class="clickable" onClick="callMap()">Указать координаты на карте</a>
             </div>
@@ -142,24 +142,7 @@
                 <a id="settlement-coords" class="clickable" data-lat="{{ $toponym->objOnMap()->latitude }}" data-lon="{{ $toponym->objOnMap()->longitude }}">скопировать координаты у поселения {{ $toponym->objOnMap()->name }}</a>
             </div>
         @endif
-        </div>
-                 
-        <!-- SourceToponyms -->                 
-        <b>{{trans('toponym.sources')}}</b>
-        <i onclick="addSourceToponym('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
-        <div class='row'>
-            <div class="col-sm-1 col-compact"></div>
-            <div class="col-sm-5 col-compact"><b>{{trans('toponym.mention')}}</b></div>
-            <div class="col-sm-6 col-compact"><b>{{trans('toponym.source')}}</b></div>            
-        </div>
-        @if ($action == 'edit') 
-            @foreach ($toponym->sourceToponyms as $st)
-                @include('misc.source_toponym._create_edit', ['num'=>$st->id, 'var_name'=>'source_toponym'])
-            @endforeach
-        @endif
-        <input type='hidden' id='next-source_toponym-num' value='{{1 + (isset($st) ? $st->sequence_number : 0) }}'>
-        <div id='new-source_toponym'></div>
-        
+        </div>                 
     </div>
     <div class="col-sm-6"><!-- Second column -->
         <!-- Geotype -->
@@ -265,8 +248,27 @@
     </div>
 </div><!-- eo row -->
 
+<!-- SourceToponyms -->    
+<div style="background-color: #eceeed; margin-bottom: 20px">
+    <b>{{trans('toponym.sources')}}</b>
+    <i onclick="addSourceToponym('{{app()->getLocale()}}')" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i>
+    <div class='row'>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3"><b>{{trans('toponym.mention')}}</b></div>
+        <div class="col-sm-4"><b>{{trans('toponym.source')}}</b></div>            
+    </div>
+    @if ($action == 'edit') 
+        @foreach ($toponym->sourceToponyms as $st)
+            @include('misc.source_toponym._create_edit', ['num'=>$st->id, 'var_name'=>'source_toponym'])
+        @endforeach
+    @endif
+    <input type='hidden' id='next-source_toponym-num' value='{{1 + (isset($st) ? $st->sequence_number : 0) }}'>
+    <div id='new-source_toponym'></div>
+</div>  
+
 <!-- Events -->                
 <?php $count=1;?>
+<div style="background-color: #eceeed">
 <div class='row'>
     <div class="col-sm-4"><b>{{trans('misc.record_place')}}</b></div>
     <div class="col-sm-2"><b>{{mb_ucfirst(trans('messages.year'))}}</b></div>
@@ -293,5 +295,5 @@
             'recorders_value' => [],
             'event' => null,
 ])
-
+</div>
 @include('widgets.form.formitem._submit', ['title' => $submit_title])

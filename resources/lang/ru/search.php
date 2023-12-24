@@ -24,8 +24,8 @@ return [
     'for_text_fields' => '<p>В текстовых полях, если Вам нужен неточный поиск, используйте <span class="warning">процент %</span> для замены любого количества символов, '
                       . '<span class="warning">подчеркивание _</span> &nbsp; для замены одного символа.</p>'
                       . '<p>Например, шаблон %ta найдет все строки, оканчивающиеся на ta.</p>',
-    'found_count' => '{0} <span class="important">Не найдено записей.</span>|{1} Найдена <span class="important">:count</span> запись.|[2,4] Найдено <span class="important">:count</span> записи.|[2,*] Найдено <span class="important">:count</span> записей.',
-    'found_toponyms' => '{0} <span class="important">Не найдено топонимов.</span>|{1} Найден <span class="important">:count</span> топоним.|[2,4] Найдено <span class="important">:count</span> топонима.|[2,*] Найдено <span class="important">:count</span> топонимов.',
+    'found_count' => '{0} Не найдено записей.|{1} Найдена <span class="important big">:count</span> запись.|[2,4] Найдено <span class="important big">:count</span> записи.|[2,*] Найдено <span class="important big">:count</span> записей.',
+    'found_toponyms' => '{0} Не найдено топонимов.|{1} Найден <span class="important big">:count</span> топоним.|[2,4] Найдено <span class="important big">:count</span> топонима.|[2,*] Найдено <span class="important big">:count</span> топонимов.',
     'in_distance' => 'на расстоянии от :from до :to',
     'or' => 'ИЛИ',
     'regex_title' => 'В поле допустимы шаблоны (Regex и собственные). Вы можете использовать следующие обозначения:',

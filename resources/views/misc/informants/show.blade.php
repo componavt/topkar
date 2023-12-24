@@ -1,29 +1,34 @@
-@extends('layouts.master')
+@extends('layouts.page')
 
+@section('headTitle', $informant->name)
 @section('header', trans('navigation.informants'))
 
-@section('main')   
-    <h3>{{ $informant->name }}</h3>
-    
-    <div class='top-links'>        
-        <a href="{{ route('informants.index') }}{{$args_by_get}}">{{ trans('messages.back_to_list') }}</a>
-        @if (user_can_edit())
-            | @include('widgets.form.button._edit', ['route' => route('informants.edit', $informant)])
-            | @include('widgets.form.button._delete', ['route' => 'informants.destroy', 'args'=>['informant' => $informant->id]])             
-            | <a href="{{ route('informants.create') }}{{$args_by_get}}">{{ mb_strtolower(trans('messages.create_new_m')) }}</a>
-        @else
-            | {{ trans('messages.edit') }} | {{ trans('messages.delete') }} | {{ trans('messages.create_new_m') }}
-        @endif 
-    </div>
-    
+@section('page_top')   
+    <h2>{{ $informant->name }}</h2>
+@endsection            
+
+@section('top_links')   
+    {!! to_list('informants', $args_by_get) !!}
+    @if (user_can_edit())
+        {!! to_edit('informants', $informant, $args_by_get) !!}
+        {!! to_delete('informants', $informant, $args_by_get) !!}
+        {!! to_create('informants', $args_by_get, trans('messages.create_new_m')) !!}
+    @endif             
+@endsection            
+
+@section('content')   
     <p><span class='field-name'>{{trans('messages.name')}} {{trans('messages.in_russian')}}</span>: 
     <span class='field-value'>{{ $informant->name_ru }}</span></p>
 
+    @if (user_can_edit() || $informant->name_en)
     <p><span class='field-name'>{{trans('messages.name')}} {{trans('messages.in_english')}}</span>: 
     <span class='field-value'>{{ $informant->name_en }}</span></p>
-
+    @endif
+    
+    @if (user_can_edit() || $informant->birth_date)
     <p><span class='field-name'>{{trans('misc.birth_date')}}</span>: 
     <span class='field-value'>{{ $informant->birth_date }}</span></p>
+    @endif
 @endsection
 
 @section('footScriptExtra')

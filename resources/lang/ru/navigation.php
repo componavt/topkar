@@ -48,6 +48,7 @@ return [
     'regions' => 'Регионы',
     
     'search' => 'Поиск',
+    'search_by_toponyms' => 'Поиск по топонимам',
     'selsovets' => 'Сельсоветы',
     'selsovets1926' => 'Сельсоветы на 1926 год',
     'selsovets' => 'Сельсоветы',

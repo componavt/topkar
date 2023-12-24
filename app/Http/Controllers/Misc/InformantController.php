@@ -41,9 +41,10 @@ class InformantController extends Controller
         $informants = Informant::search($url_args);
         $n_records = $informants->count();        
         $informants = $informants->paginate($this->url_args['portion']);
+        $sort_values = Informant::sortList();
                 
         return view('misc.informants.index', 
-                compact('informants', 'n_records', 'args_by_get', 'url_args'));
+                compact('informants', 'n_records', 'sort_values', 'args_by_get', 'url_args'));
    }
 
     public function validateRequest(Request $request) {

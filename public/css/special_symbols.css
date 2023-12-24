@@ -1,0 +1,77 @@
+.special-symbols-link {
+    background-color: #194230;
+    color: #eff2f8;
+    cursor: pointer;
+    display: block;
+    font-size: 24px;
+    height: 50px;
+    padding: 12px;
+    position: absolute;
+    right: 0;
+    text-align:center;
+    bottom: 0;
+    width: 45px;
+}
+
+.with-special input[type=text],
+.with-special textarea {
+    padding-right: 50px;
+}
+.special-symbols-link:hover {
+    color: #eff2f8;    
+} 
+
+.special-symbols {
+    background: #fff;
+    border: 1px solid #194230;
+    display: none;
+    height: 80px;
+    position: absolute;
+    right: 0;
+    top: -80px;
+    width: 280px;
+    z-index: 999;
+}
+
+.ss-full {
+    height: 140px;    
+    top: -140px;
+}
+.special-symbol-b {
+    overflow: hidden;
+    height: 20px;
+    width: 30px;
+    margin: 0;
+    border: 1px solid rgba(128,128,128,.13);
+    padding: 2px 0;
+    border-radius: 0;
+    background: none;
+    line-height: 19px;
+} 
+
+.special-symbol-sup {
+    font-size: 8px;
+    margin-right: 20px;
+    padding: 0 5px 7px 10px;
+}
+
+.special-symbols-header {
+    background: #194230;
+    height: 25px;
+    position: relative;
+}
+
+.special-symbols-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1px 10px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+}
+
+.special-symbols-body {
+    padding: 2px;
+}
+

@@ -45,9 +45,11 @@ class District1926Controller extends Controller
         $districts1926 = $districts1926->paginate($this->url_args['portion']);
         
         $region_values = [''=>NULL] + Region::getList();
+        $sort_values = District1926::sortList();
         
-        return view('dict.districts1926.index', compact('districts1926', 'n_records', 'region_values', 
-                        'args_by_get', 'url_args'));
+        return view('dict.districts1926.index', 
+                compact('districts1926', 'n_records', 'region_values', 
+                        'sort_values', 'args_by_get', 'url_args'));
     }
 
     public function validateRequest(Request $request) {

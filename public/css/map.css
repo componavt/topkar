@@ -1,0 +1,9 @@
+.legend-icon{
+    float: left;
+    padding-right: 10px;    
+}
+
+.blank .leaflet-popup-content {
+    font-size: 1.5rem;
+}
+

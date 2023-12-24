@@ -1,28 +1,30 @@
 @extends('layouts.master')
 
+@section('headTitle', trans('navigation.geotypes'))
+@section('header', trans('navigation.geotypes'))
+
 @section('search_form')   
         @include("misc.geotypes._form_search")
         @include('widgets.found_records', ['n_records'=>$n_records])
 @endsection
     
-@section('header', trans('navigation.geotypes'))
-
-@section('main')   
+@section('buttons')   
     @if (user_can_edit())
-    <div class="page-buttons">
-        <a class="btn btn-secondary btn-default" href="{{route('geotypes.create')}}">{{__('messages.create_new_m')}}</a>
-    </div>
+        {!! create_button('m', 'geotypes', $args_by_get) !!}
     @endif
+@endsection
     
+@if (sizeof($geotypes))    
     @section('table_block')   
+        <h2>{{ __('search.search_results') }}</h2>
         <table class="table table-striped table-hover">
             <tr>
-                <th>&numero;</th>
+                <td>&numero;</td>
                 <th>{{trans('general.in_russian')}}</th>
-                <th>{{trans('general.in_english')}}</th>
-                <th>{{trans('navigation.toponyms')}}</th>
+                <td class='up-first'>{{trans('general.in_english')}}</td>
+                <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
-                <th>{{ trans('messages.actions') }}</th>
+                <td>{{ trans('messages.actions') }}</td>
                 @endif
              </tr>
 
@@ -54,7 +56,8 @@
         </table>
         {{ $geotypes->appends($url_args)->onEachSide(3)->links() }}
     @endsection
-@endsection
+@endif
+
 @section('footScriptExtra')
         {!!Html::script('js/rec-delete-link.js')!!}
 @endsection

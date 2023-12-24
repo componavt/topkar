@@ -19,20 +19,12 @@
                  'class'=>'select-geotype form-control'
         ]) 
     </div>
-    <div class="col-md-3">        
+    <div class="col-md-6">        
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_ethnos_territories', 
                  'values' => $ethnos_territory_values,
                  'value' => $url_args['search_ethnos_territories'],
                  'class'=>'select-ethnos_territory form-control'
-        ]) 
-    </div>
-    <div class="col-md-3">        
-        @include('widgets.form.formitem._select2', 
-                ['name' => 'search_etymology_nations', 
-                 'values' => $etymology_nation_values,
-                 'value' => $url_args['search_etymology_nations'],
-                 'class'=>'select-etymology_nation form-control'
         ]) 
     </div>
 </div>
@@ -113,7 +105,7 @@
     </div>
 </div>    
 <div class="row">
-    <div class="col-md-3">        
+    <div class="col-md-4">        
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_structhiers', 
                  'values' => $structhier_values,
@@ -122,7 +114,7 @@
                  'class'=>'select-structhier form-control'
         ]) 
     </div>
-    <div class="col-md-3">        
+    <div class="col-md-4">        
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_structs', 
                  'values' => $struct_values,
@@ -130,7 +122,17 @@
                  'class'=>'select-struct form-control'
         ]) 
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">        
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_etymology_nations', 
+                 'values' => $etymology_nation_values,
+                 'value' => $url_args['search_etymology_nations'],
+                 'class'=>'select-etymology_nation form-control'
+        ]) 
+    </div>
+</div>    
+<div class="row">    
+    <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_informants', 
                  'values' => $informant_values,
@@ -138,7 +140,7 @@
                  'class'=>'select-informant form-control'
         ]) 
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_recorders', 
                  'values' => $recorder_values,
@@ -146,9 +148,7 @@
                  'class'=>'select-recorder form-control'
         ]) 
     </div>
-</div>    
-<div class="row">    
-    <div class="col-md-3">        
+    <div class="col-md-4">        
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_sources', 
                  'values' => $source_values,
@@ -156,16 +156,6 @@
                  'class'=>'select-source form-control'
         ]) 
     </div>
-    <div class="col-md-3">
-        @include('widgets.form.formitem._select', 
-                ['name' => 'sort_by', 
-                 'values' => $sort_values,
-                 'value' => $url_args['sort_by'],
-                 ]) 
-    </div>
-    
-    @include('widgets.form._search_in_desc')
-    
-    @include('widgets.form._search_div', ['with_clear'=>true])
-</div>                 
+</div>    
+@include('widgets.form._output_fields')
         {!! Form::close() !!}

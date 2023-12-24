@@ -19,6 +19,7 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    text-decoration: none;
 }
 
 #welcome-text {
@@ -35,10 +36,10 @@
 
 @media screen and (min-width: 992px) {    
     #left-menu .navbar-collapse {
-        width: 450px;
+        width: 490px;
     }
     #right-menu .navbar-collapse {
-        width: 320px;
+        width: 340px;
     }
     #right-menu .navbar-nav > li {
         float: left;
@@ -50,6 +51,9 @@
 }
 
 @media screen and (min-width: 1200px) {    
+    h1 {
+        max-width: 600px;
+    }
     #left-menu .navbar-collapse {
         width: 600px;
     }
