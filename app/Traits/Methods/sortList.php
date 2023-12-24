@@ -1,6 +1,6 @@
 <?php namespace App\Traits\Methods;
 
-trait SortList
+trait sortList
 {
     public static function sortList() {
         $list = [];
