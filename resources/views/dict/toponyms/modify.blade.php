@@ -25,5 +25,5 @@
        crossorigin=""></script>
 @endsection
 @section('jqueryFunc')
-        @include('dict.toponyms._jquery_func_for_create_edit', ['action' => 'create'])
+        @include('dict.toponyms._jquery_func_for_create_edit')
 @stop
