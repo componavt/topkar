@@ -19,7 +19,7 @@ return [
     'site_title'  => 'Project "TopKar - Toponymy of Karelia"',
     
     'welcome_text_intro'  => 'Welcome to the geoinformation resource on the toponymy of Karelia (TopKar), '
-    . 'developed by a group of researchers from the Karelian Scientific Center of the Russian Academy of Sciences. '
+    . 'developed by a group of researchers from the Karelian Research Center of the Russian Academy of Sciences. '
     . 'This work was supported by the Russian Science Foundation '
     . '<a href="https://rscf.ru/project/22-28-00362/">grant no. 22-28-00362</a>.',
     
