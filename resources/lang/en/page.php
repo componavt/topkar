@@ -40,7 +40,7 @@ return [
     . '<a href="http://topkar.krc.karelia.ru/en/misc/informants">the lists of informants</a> and '
     . '<a href="http://topkar.krc.karelia.ru/en/misc/recorders">recorders</a>.',
     
-    'welcome_text_sources'  => 'Researchers of the Karelian Scientific Center collect toponymic and folklore materials during expeditions, '
+    'welcome_text_sources'  => 'Researchers of the Karelian Research Center collect toponymic and folklore materials during expeditions, '
     . 'decipher them and upload them to the TopKar database. '
     . 'The Scientific Card Index of Toponyms of Karelia and Adjacent Regions '
     . 'The Institute of Language, Literature and History of Karelian Research Center RAS (ILLH KarRC RAS), '
