@@ -12,11 +12,17 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'how_to_cite'  => '',
 
     'license' => 'You can freely use the materials of our site and share them, most importantly - indicate authorship and a link to our resource.
                   <br><a href="https://creativecommons.org/licenses/by/4.0/">More about the CC BY 4.0 license</a>',
+
+    'list_of_publications' => '',
     
     'site_title'  => 'Project "TopKar - Toponymy of Karelia"',
+    
+    'sources'  => '',
+
     
     'welcome_text_intro'  => 'Welcome to the geoinformation resource on the toponymy of Karelia (TopKar), '
     . 'developed by a group of researchers from the Karelian Research Center of the Russian Academy of Sciences. '

@@ -65,6 +65,6 @@ return [
 
     'with_coords' => 'With coordinates',
     'with_legends' => 'With legends',
-    'with_wd' => 'With wikidata',
+    'with_wd' => 'With Wikidata',
     'with_wrongnames' => 'With wrong names'
 ];

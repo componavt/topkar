@@ -76,6 +76,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/misc/source_toponym/create', [SourceToponymController::class, 'create']);
     Route::get('/misc/source_toponym/extract_sources', [SourceToponymController::class, 'extractSources']);
     Route::get('/misc/source_toponym', [SourceToponymController::class, 'index']);
+
+    Route::get('/pages/{page}', [HomeController::class, 'page'])->name('pages');        
     
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])
