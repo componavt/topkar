@@ -4,7 +4,7 @@
 @section('header', trans('navigation.sources'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(__('toponym.source')))
 
 @section('page_top')   
-    <h2>{{ trans('messages.new_m'). ' '. mb_strtolower(trans('misc.recorder')) }}</h2>
+    <h2>{{ trans('messages.new_m'). ' '. mb_strtolower(trans('misc.source')) }}</h2>
 @endsection
 
 @section('top_links')   

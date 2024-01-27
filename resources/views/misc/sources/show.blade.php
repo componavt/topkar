@@ -8,11 +8,11 @@
 @endsection            
 
 @section('top_links')   
-    {!! to_list('recorders', $args_by_get) !!}
+    {!! to_list('sources', $args_by_get) !!}
     @if (user_can_edit())
-        {!! to_edit('recorders', $source, $args_by_get) !!}
-        {!! to_delete('recorders', $source, $args_by_get) !!}
-        {!! to_create('recorders', $args_by_get, trans('messages.create_new_m')) !!}
+        {!! to_edit('sources', $source, $args_by_get) !!}
+        {!! to_delete('sources', $source, $args_by_get) !!}
+        {!! to_create('sources', $args_by_get, trans('messages.create_new_m')) !!}
     @endif             
 @endsection            
 

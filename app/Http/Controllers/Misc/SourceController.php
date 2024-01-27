@@ -153,7 +153,7 @@ class SourceController extends Controller
     {
         $source->fill($this->validateRequest($request))->save();
        
-        return Redirect::to(route('sources.index', $source).($this->args_by_get))
+        return Redirect::to(route('sources.show', $source).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
