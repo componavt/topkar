@@ -32,6 +32,7 @@ return [
     'informants' => 'Informants',
     
     'last_created' => 'Last created',
+    'link_to_settl' => 'Link toponyms to a modern settlement',
     'log_out' => 'Log out',
     
     'manual' => 'Manual',

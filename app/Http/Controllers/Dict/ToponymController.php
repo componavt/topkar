@@ -434,4 +434,66 @@ class ToponymController extends Controller
                   ->withSuccess($result['message']);
         }
     }
+    
+    public function linkToSettlement() {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $toponyms = Toponym::search($url_args);
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
+        $district_values = District::getList();
+        $district1926_values = District1926::getList();
+        $ethnos_territory_values = EthnosTerritory::getList();
+        $etymology_nation_values = EtymologyNation::getList();
+        $geotype_values = Geotype::getList();
+        $informant_values = Informant::getList();
+        $recorder_values = Recorder::getList();
+        $region_values = Region::getList();
+        $selsovet1926_values = Selsovet1926::getList();
+        $settlement_values = Settlement::getList();
+        $settlement1926_values = Settlement1926::getList();
+        $sort_values = Toponym::sortList();
+        $struct_values = Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
+        $source_values = [''=>NULL] + Source::getList(true);
+
+        return view('dict.toponyms.link_to_settl', 
+                compact('district_values', 'district1926_values', 
+                        'ethnos_territory_values', 'etymology_nation_values', 
+                        'geotype_values', 'informant_values', 'recorder_values',
+                        'region_values', 'selsovet1926_values', 
+                        'settlement_values', 'settlement1926_values', 'sort_values', 
+                        'source_values', 'struct_values', 'structhier_values', 
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
+    public function linkToSettlementSave(Request $request) {
+        $url_args = $this->url_args;
+        $top_ids = $request->toponyms;
+        if (empty($top_ids)) {
+            return;
+        }
+        $toponyms = Toponym::whereIn('id', $top_ids)->get();
+
+        foreach ($toponyms as $toponym) {
+            if ($url_args['settlement_link']) {
+                $toponym->settlements()->syncWithoutDetaching([$url_args['settlement_link']]);
+                if (!$url_args['district_link']) {
+                    $settlement = Settlement::find($url_args['settlement_link']);
+                    if ($settlement && $settlement->districts()->first()) {
+                        $toponym->district_id = $settlement->districts()->first()->id;
+                    }
+                 }
+            }
+            if ($url_args['district_link']) {
+                $toponym->district_id = $url_args['district_link'];
+            }
+            $toponym->save();
+        }
+        return Redirect::to(route('toponyms.link_to_settl').($this->args_by_get))
+                       ->withSuccess(\Lang::get('messages.updated_success'));        
+    }
+    
 }

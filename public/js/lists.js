@@ -28,7 +28,6 @@ function selectAjax(route, data, placeholder, allow_clear, selector){
 }
 */
 function selectDistrict(region_var, locale='ru', placeholder='', allow_clear=true, selector='.select-district', form='', route='/dict/districts/list'){
-//console.log(selectedValuesToURL(form + "#"+region_var));   
     $(selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,
@@ -87,7 +86,7 @@ console.log(selectedValuesToURL(form + "#"+region_var));   */
     });   
 }
 
-function selectSettlement(region_var, district_var, locale='ru', placeholder='', allow_clear=true, selector='.select-settlement', form=''){
+function selectSettlement(region_var, district_var, locale='ru', placeholder='', allow_clear=true, selector='.select-settlement', form=''){    
     var route='/dict/settlements/list'
     $(selector).select2({
         allowClear: allow_clear,

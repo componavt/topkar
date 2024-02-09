@@ -7,3 +7,13 @@ console.log(index, elem);
   //      this.val(null).trigger('change');
     });
 }
+
+function toggleChecked(el, select_fields) {
+    if ($(el).prop('checked')) {
+    //console.log($(select_fields));            
+        $(select_fields).prop('checked', true);
+    } else {
+        //console.log($(select_fields));            
+        $(select_fields).prop('checked', false);
+    }    
+}

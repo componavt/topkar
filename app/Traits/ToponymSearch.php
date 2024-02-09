@@ -14,6 +14,8 @@ trait ToponymSearch
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
                     'in_desc'     => (int)$request->input('in_desc'),
+                    'district_link'     => (int)$request->input('district_link'),
+                    'region_link'     => (int)$request->input('region_link'),
                     'search_districts'   => (array)$request->input('search_districts'),
                     'search_districts1926'   => (array)$request->input('search_districts1926'),
                     'search_ethnos_territories'   => (array)$request->input('search_ethnos_territories'),
@@ -32,6 +34,7 @@ trait ToponymSearch
                     'search_structs'    => (array)$request->input('search_structs'),
                     'search_structhiers'    => (array)$request->input('search_structhiers'),
                     'search_toponym'    => $request->input('search_toponym'),
+                    'settlement_link'     => (int)$request->input('settlement_link'),
                     'sort_by' => $request->input('sort_by'),
                 ];
         $sort_list = self::SortList;

@@ -56,6 +56,9 @@ return [
     'including' => 'including',
     'insert_new_field' => 'Insert a new field',
     'invalid_id' => 'Invalid identifier',
+    
+    'link' => 'link',
+    
     'name' => 'Name',
     'new_g' => 'New',
     'new_f' => 'New',
