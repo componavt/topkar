@@ -472,6 +472,7 @@ class ToponymController extends Controller
     public function linkToSettlementSave(Request $request) {
         $url_args = $this->url_args;
         $top_ids = $request->toponyms;
+        $copy_coords = $request->copy_coords;
         if (empty($top_ids)) {
             return;
         }
@@ -479,13 +480,17 @@ class ToponymController extends Controller
 
         foreach ($toponyms as $toponym) {
             if ($url_args['settlement_link']) {
-                $toponym->settlements()->syncWithoutDetaching([$url_args['settlement_link']]);
+                $toponym->settlements()->sync([$url_args['settlement_link']]);
+                $settlement = Settlement::find($url_args['settlement_link']);
                 if (!$url_args['district_link']) {
-                    $settlement = Settlement::find($url_args['settlement_link']);
                     if ($settlement && $settlement->districts()->first()) {
                         $toponym->district_id = $settlement->districts()->first()->id;
                     }
-                 }
+                }
+                if (!empty($copy_coords) && $settlement) {
+                    $toponym->latitude = $settlement->latitude;
+                    $toponym->longitude = $settlement->longitude;
+                }
             }
             if ($url_args['district_link']) {
                 $toponym->district_id = $url_args['district_link'];

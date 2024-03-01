@@ -77,7 +77,7 @@
     </table>
     
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <!-- Region -->
             @include('widgets.form.formitem._select2', 
                     ['name' => 'region_link', 
@@ -87,7 +87,7 @@
                      'class'=>'select-region-link form-control'
                     ])
         </div>
-        <div class="col-sm-4">        
+        <div class="col-sm-3">        
             <!-- District -->
             @include('widgets.form.formitem._select2', 
                     ['name' => 'district_link', 
@@ -108,6 +108,12 @@
             ]) 
         </div>
         <div class="col-sm-2">                
+            <div class='output-fields-e'>
+                <label><input name="copy_coords" type="checkbox" hidden value="1"><span></span></label>
+                <span>скопировать координаты у поселения</span>
+            </div>
+        </div>
+        <div class="col-sm-2">                            
             @include('widgets.form.formitem._submit', ['title' => trans('messages.link')])
         </div>
     </div>    
