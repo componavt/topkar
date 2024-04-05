@@ -23,6 +23,7 @@ use App\Http\Controllers\Misc\SourceToponymController;
 use App\Http\Controllers\Misc\StructController;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DumpDownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
     Route::get('/', [HomeController::class, 'index']);
 
+    Route::get('/dumps', [DumpDownloadController::class, 'index']);
 
 /** OTHER PAGES THAT SHOULD NOT BE LOCALIZED **/
 //Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
