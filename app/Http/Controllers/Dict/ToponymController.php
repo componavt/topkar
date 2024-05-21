@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Dict;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Redirect;
+use Response;
+
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;
@@ -42,6 +47,7 @@ class ToponymController extends Controller
         $this->url_args = Toponym::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
+        
     }
     
     /**
@@ -499,6 +505,223 @@ class ToponymController extends Controller
         }
         return Redirect::to(route('toponyms.link_to_settl').($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        
+    }
+    
+    public function listForExport() {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+
+        $toponyms = Toponym::search($url_args);
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
+        $district_values = District::getList();
+        $district1926_values = District1926::getList();
+        $ethnos_territory_values = EthnosTerritory::getList();
+        $etymology_nation_values = EtymologyNation::getList();
+        $geotype_values = Geotype::getList();
+        $informant_values = Informant::getList();
+        $recorder_values = Recorder::getList();
+        $region_values = Region::getList();
+        $selsovet1926_values = Selsovet1926::getList();
+        $settlement_values = Settlement::getList();
+        $settlement1926_values = Settlement1926::getList();
+        $sort_values = Toponym::sortList();
+        $struct_values = Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
+        $source_values = [''=>NULL] + Source::getList(true);
+
+        return view('dict.toponyms.list_for_export', 
+                compact('district_values', 'district1926_values', 
+                        'ethnos_territory_values', 'etymology_nation_values', 
+                        'geotype_values', 'informant_values', 'recorder_values',
+                        'region_values', 'selsovet1926_values', 
+                        'settlement_values', 'settlement1926_values', 'sort_values', 
+                        'source_values', 'struct_values', 'structhier_values', 
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
+    public function export(Request $request) {
+        $url_args = $this->url_args;
+        $top_ids = $request->toponyms;
+        if (empty($top_ids)) {
+            return;
+        }
+        $with_district = $request->with_district;
+        $with_settlement = $request->with_settlement;
+        $sort_by = $request->sort_by;
+        $toponyms = Toponym::whereIn('id', $top_ids)->orderBy($url_args['sort_by'])->get();
+                
+        $dir = env('TMP_DIR');
+        Settings::setTempDir(env('TMP_DIR'));
+        $filename = $dir."/toponyms".date('Y-m-d-H-i').".docx";
+        $phpWord = new PhpWord();
+
+        $phpWord->setDefaultFontName('Arial');
+        $phpWord->setDefaultFontSize(12);
+        $secStyle = ['orientation'=>'landscape',
+                     'pageNumberingStart' => 1,
+		     'borderBottomSize'=>100,
+		     'borderBottomColor'=>'C0C0C0'];
+        $tableStyle = [
+            'borderColor' => '000000',
+            'borderSize'  => 6,
+            'cellMargin'  => 100,
+            'unit' => TblWidth::TWIP
+        ];
+        $headStyle = ['align' => 'center', 'spaceAfter' => '18'];
+        $fParStyle = ['align' => 'center', 'valign' => 'center'];
+        $parStyle = ['valign' => 'top'];
+        $fRowFontStyle = ['bold' => true];
+/*        $fRowFontStyle = ['bold' => true, 'size' => 12];
+        $rowFontStyle = ['size' => 12];*/
+//dd($url_args['search_district']);        
+        $section = $phpWord->addSection($secStyle);
+        if (!empty($url_args['search_districts'])) {
+            $textrun = $section->addTextRun($headStyle);
+            $textrun->addText(join(',', District::whereIn('id', $url_args['search_districts'])->pluck('name_ru')->toArray()), ['bold' => true, 'size' => 18]);
+        }
+        if (!empty($url_args['search_districts1926'])) {
+            $textrun = $section->addTextRun($headStyle);
+            $textrun->addText('/'.join(',', District1926::whereIn('id', $url_args['search_districts1926'])->pluck('name_ru')->toArray()), ['bold' => true, 'size' => 18], $headStyle);
+        }
+        if (!empty($url_args['search_settlements'])) {
+            $textrun = $section->addTextRun($headStyle);
+            $textrun->addText(join(',', Settlement::whereIn('id', $url_args['search_settlements'])->pluck('name_ru')->toArray()), ['bold' => true, 'size' => 14], $headStyle);
+        }
+        if (!empty($url_args['search_settlements1926'])) {
+            $textrun = $section->addTextRun($headStyle);
+            $textrun->addText(join(',', Settlement1926::whereIn('id', $url_args['search_settlements1926'])->pluck('name_ru')->toArray()), ['bold' => true, 'size' => 14], $headStyle);
+        }
+        if ($with_district && $with_settlement) {
+            $c1 = 1900;
+            $c2 = 1900;
+            $c3 = 3000;
+            $c4 = 1000;
+            $c5 = 4000;
+            $c6 = 2200;
+        } elseif ($with_district || $with_settlement) {
+            $c1 = 1900;
+            $c2 = 1900;
+            $c3 = 3000;
+            $c4 = 1000;
+            $c5 = 5900;
+            $c6 = 2200;
+        } else {
+            $c3 = 3000;
+            $c4 = 1000;
+            $c5 = 7800;
+            $c6 = 2200;
+        }        
+        $table = $section->addTable($tableStyle);
+        $table->addRow();
+        if ($with_district) {
+            $cell = $table->addCell($c1);
+            $textrun = $cell->addTextRun($fParStyle);
+            $textrun->addText(trans('toponym.district'). ' /', $fRowFontStyle);
+            $textrun->addTextBreak();
+            $textrun->addText(trans('toponym.district1926'), $fRowFontStyle);
+        }
+        if ($with_settlement) {
+            $cell = $table->addCell($c2);
+            $textrun = $cell->addTextRun($fParStyle);
+            $textrun->addText(trans('toponym.settlement'). ' /', $fRowFontStyle);
+            $textrun->addTextBreak();
+            $textrun->addText(trans('toponym.settlement1926'), $fRowFontStyle);
+        }
+        $table->addCell($c3)->addText('Заголовочное слово', $fRowFontStyle);
+        $table->addCell($c4)->addText(trans('misc.geotype'), $fRowFontStyle);
+        $table->addCell($c5)->addText(trans('toponym.main_info'), $fRowFontStyle);
+        $table->addCell($c6)->addText(trans('toponym.legend'), $fRowFontStyle);
+        
+        foreach ($toponyms as $r) {
+            $table->addRow();
+            
+            if ($with_district) {
+                $cell = $table->addCell($c1);
+                $textrun = $cell->addTextRun($parStyle);
+                $textrun->addText($r->district_name . ($r->district1926_name ? ' / '. $r->district1926_name : ''));
+            }
+            if ($with_settlement) {
+                $cell = $table->addCell($c2);
+                $textrun = $cell->addTextRun($parStyle);
+                $textrun->addText($r->settlement_name . ($r->settlement1926_name ? ' / '. $r->settlement1926_name : ''));
+            }            
+            $table->addCell($c3)->addText($r->name. ($r->topnames()->count() ? ' ('. join(', ', $r->topnames()->pluck('name')->toArray()).')' : ''), $fRowFontStyle);
+            $table->addCell($c4)->addText($r->geotype ? $r->geotype->name : '');
+            $table->addCell($c5)->addText(preg_replace("/\n/", " ",$r->main_info));
+            $table->addCell($c6)->addText(preg_replace("/\n/", " ",$r->legend));
+        }
+        
+        $phpWord ->save($filename); 
+
+        return response()->download($filename)
+                         ->deleteFileAfterSend(true);
+        
+/*        return response()->download($objWriter)
+                ->deleteFileAfterSend(true);*/
+
+/*        $headers = [
+                'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+                'Content-type'        => 'text/csv',
+                'Content-Disposition' => 'attachment; filename='.$filename,
+                'Expires'             => '0',
+                'Pragma'              => 'public'
+        ];
+
+        $callback = function() use ($toponyms) {
+            $FH = fopen('php://output', 'w');
+            
+            fputcsv($FH, [trans('toponym.district'). ' / '. trans('toponym.district1926'),
+                              trans('toponym.settlement'). ' / '. trans('toponym.settlement1926'),
+                              'Заголовочное слово',
+                              trans('misc.geotype'),
+                              trans('toponym.main_info'),
+                              trans('toponym.legend')]);
+            
+            foreach ($toponyms as $r) {
+                fputcsv($FH, [
+                    $r->district_name . ($r->district1926_name ? ' / '. $r->district1926_name : ''),
+                    $r->settlement_name . ($r->settlement1926_name ? ' / '. $r->settlement1926_name : ''),
+                    $r->name. ($r->topnames()->count() ? join(', ', $r->topnames()->pluck('name')->toArray()) : ''),
+                    $r->geotype ? $r->geotype->name : '',
+                ]);
+            }
+        
+            fclose($FH);
+        };
+
+        return response()->stream($callback, 200, $headers);
+        
+/*
+    // the csv file with the first row
+    $output = implode(",", [trans('toponym.district'). ' / '. trans('toponym.district1926'),
+                              trans('toponym.settlement'). ' / '. trans('toponym.settlement1926'),
+                              'Заголовочное слово',
+                              trans('misc.geotype'),
+                              trans('toponym.main_info'),
+                              trans('toponym.legend')])."\n";
+
+    foreach ($toponyms as $r) {
+        // iterate over each tweet and add it to the csv
+        $output .=  implode(",",[
+                    $r->district_name . ($r->district1926_name ? ' / '. $r->district1926_name : ''),
+                    $r->settlement_name . ($r->settlement1926_name ? ' / '. $r->settlement1926_name : ''),
+                    $r->name. ($r->topnames()->count() ? join(', ', $r->topnames()->pluck('name')->toArray()) : ''),
+                    $r->geotype ? $r->geotype->name : '',
+                ])."\n"; // append each row
+    }
+
+    // headers used to make the file "downloadable", we set them manually
+    // since we can't use Laravel's Response::download() function
+    $headers = array(
+        'Content-Type' => 'text/csv; charset=windows-1251',
+        'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        );
+
+    // our response, this will be equivalent to your download() but
+    // without using a local file
+    return Response::make(mb_convert_encoding(rtrim($output, "\n"), "utf-8", "windows-1251"), 200, $headers);*/
     }
     
 }

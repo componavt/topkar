@@ -22,6 +22,7 @@ return [
     
     'email' => 'Email',
     'enter_for_editors' => 'Enter for editors',
+    'export_toponyms' => 'Export toponyms',
     
     'full_list' => 'Full list',
     

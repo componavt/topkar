@@ -220,9 +220,7 @@ class Toponym extends Model
     
     public function getSettlementNameAttribute()
     {
-        // TODO: to change string to settlement_id,
-        // to create tables (pink colors): settlements
-        return $this->SETTLEMENT;
+        return $this->settlementsToString();
     }
     
     /**

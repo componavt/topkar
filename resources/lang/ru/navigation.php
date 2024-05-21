@@ -22,6 +22,7 @@ return [
     
     'email' => 'E-mail',
     'enter_for_editors' => 'Вход для редактора',
+    'export_toponyms' => 'Выгрузить топонимы',
     
     'full_list' => 'Полный список',
     

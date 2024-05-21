@@ -41,6 +41,7 @@ return [
     'editing' => 'Editing',
     'entries_per_page' => 'Number<br>of entries<br>per page',
     'examples' => 'Examples',
+    'export_to_file' => 'Export to file',
     
     'frequency' => 'frequency',
     'from' => 'from',

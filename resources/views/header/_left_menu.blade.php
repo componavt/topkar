@@ -27,6 +27,7 @@
               <li><a class="dropdown-item" href="#">{{ trans('navigation.last_created') }}</a></li>
             @if (user_can_edit()) 
               <li><a class="dropdown-item" href="{{ route('toponyms.link_to_settl') }}">{{ trans('navigation.link_to_settl') }}</a></li>
+              <li><a class="dropdown-item" href="{{ route('toponyms.list_for_export') }}">{{ trans('navigation.export_toponyms') }}</a></li>
             @endif
             </ul>
           </li>

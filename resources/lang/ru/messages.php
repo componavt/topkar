@@ -41,6 +41,7 @@ return [
     'editing' => 'Pедактирование',
     'entries_per_page' => 'Количество<br>записей<br>на странице',
     'examples' => 'Примеры',
+    'export_to_file' => 'Экспорт в файл',
     
     'frequency' => 'частота',
     'from' => 'с',
