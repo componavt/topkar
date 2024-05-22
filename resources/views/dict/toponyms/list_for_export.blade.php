@@ -8,7 +8,7 @@
 @section('header', trans('navigation.toponyms'))
 
 @section('search_form')   
-    <h2>{{ trans('navigation.list_for_export') }}</h2>
+    <h2>{{ __('navigation.export_toponyms') }}</h2>
     @include("dict.toponyms.form._search", ['route' => route('toponyms.list_for_export')])
     @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
 @endsection
