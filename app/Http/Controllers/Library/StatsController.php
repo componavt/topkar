@@ -10,24 +10,50 @@ use App\Http\Controllers\Controller;
 //use App\Charts\DistributionChart;
 //use App\Charts\LemmaNumByLang;
 
-use App\Models\User;
-use App\Models\Corpus\Corpus;
-use App\Models\Corpus\Genre;
-use App\Models\Corpus\Informant;
-use App\Models\Corpus\Place;
-use App\Models\Corpus\Recorder;
-use App\Models\Corpus\Text;
-use App\Models\Corpus\Word;
 use App\Models\Dict\Lang;
-use App\Models\Dict\Lemma;
-use App\Models\Dict\Meaning;
-use App\Models\Dict\LemmaWordform;
+use App\Models\Dict\Settlement;
+use App\Models\Dict\Toponym;
 
 class StatsController extends Controller
 {
     public function index()
     {
-        return view('stats.index');
+        $total_toponyms = Toponym::count();
+        $total_toponyms_with_coords = Toponym::whereNotNull('latitude')
+                                             ->whereNotNull('longitude')->count();
+        $total_langs=[];
+        foreach (trans('stats.langs') as $code=>$name) {
+            $lang = Lang::whereCode($code)->first();
+            $total_langs[$name] = ['id'=>$lang->id,
+                'count'=>Toponym::whereLangId($lang->id)->count()];
+        }
+        
+        $total_toponyms_with_etymology = Toponym::whereNotNull('etymology')->count();
+        
+        $total_settlements_with_toponyms 
+                = Settlement::whereIn('id', function($q) {
+                    $q -> select('settlement_id')->from('settlement_toponym');
+                  })->count();
+        
+        $total_toponyms_with_sources 
+                = Toponym::whereIn('id', function($q) {
+                    $q -> select('toponym_id')->from('source_toponym');
+                  })->count();
+        
+        $total_wd = Toponym::whereNotNull('wd')->count();    
+        
+        $total_toponyms_with_legends = Toponym::where(function($q) {
+                    $q->whereNotNull('legend')
+                      ->orWhereIn('id', function($q2) {
+                          $q2->select('toponym_id')->from('text_toponym');
+                      });
+                })->count();        
+
+        return view('stats.index',
+                compact('total_langs', 'total_settlements_with_toponyms', 
+                        'total_toponyms', 'total_toponyms_with_legends', 
+                        'total_toponyms_with_coords', 'total_toponyms_with_sources', 
+                        'total_toponyms_with_etymology', 'total_wd'));
     }
     
     public function byUser()

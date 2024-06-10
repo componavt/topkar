@@ -9,7 +9,8 @@
             </a>
             <ul class="dropdown-menu" role="menu" id='menu1-sub'>
               <li><a class="dropdown-item" href="/">{{ trans('navigation.start') }}</a></li>
-            @foreach (['participants', 'publications', 'sources', 'stats', 'manual', 'how_to_cite'] as $v)
+              <li><a class="dropdown-item" href="/stats/">{{ trans('navigation.stats') }}</a></li>
+            @foreach (['participants', 'publications', 'sources', 'manual', 'how_to_cite'] as $v)
               <li><a class="dropdown-item" href="{{ route('pages', $v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
             </ul>

@@ -1,4 +1,4 @@
-<?php $locale = LaravelLocalization::getCurrentLocale(); 
+<?php 
     $participants = [
         [
         'zakharova' => [820, 'illhportal'],
@@ -32,7 +32,7 @@
                 <img class="img-fluid img-responsive img-rounded" src="/photos/{{$n}}.jpg" alt=""><br>
             </a>
             @if (isset($i[0]))
-            <a href="http://{{$i[1]}}.krc.karelia.ru/member.php?id={{$i[0]}}&plang={{$locale=='en' ? 'e' : 'r'}}">
+            <a href="http://{{$i[1]}}.krc.karelia.ru/member.php?id={{$i[0]}}&plang={{app()->getLocale()=='en' ? 'e' : 'r'}}">
             @endif
             <b>{{trans('participant.'.$n.'_name')}}</b>
             @if (isset($i[0]))

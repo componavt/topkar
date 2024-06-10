@@ -15,6 +15,8 @@ use App\Http\Controllers\Dict\TopnameController;
 use App\Http\Controllers\Dict\ToponymController;
 use App\Http\Controllers\Dict\WrongnameController;
 
+use App\Http\Controllers\Library\StatsController;
+
 use App\Http\Controllers\Misc\GeotypeController;
 use App\Http\Controllers\Misc\InformantController;
 use App\Http\Controllers\Misc\RecorderController;
@@ -83,6 +85,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/misc/source_toponym', [SourceToponymController::class, 'index']);
 
     Route::get('/pages/{page}', [HomeController::class, 'page'])->name('pages');        
+
+    Route::get('/stats', [StatsController::class, 'index'])->name('stats');        
     
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])

@@ -22,6 +22,7 @@ trait ToponymSearch
                     'search_etymology_nations'   => (array)$request->input('search_etymology_nations'),
                     'search_geotypes'    => (array)$request->input('search_geotypes'),
                     'search_informants'    => (array)$request->input('search_informants'),
+                    'search_lang'    => (int)$request->input('search_lang'),
                     'search_record_places' => (array)$request->input('search_record_places'),
                     'search_recorders'    => (array)$request->input('search_recorders'),
                     'search_regions'     => (array)$request->input('search_regions'),
@@ -64,9 +65,9 @@ trait ToponymSearch
         $toponyms = self::searchBySources($toponyms, $url_args['search_sources']);
         $toponyms = self::searchBySourceText($toponyms, $url_args['search_source_text']);
         
-/*        if ($url_args['search_settlement']) {
-            $toponyms = $toponyms->where('SETTLEMENT','LIKE',$url_args['search_settlement']);
-        }   */     
+        if ($url_args['search_lang']) {
+            $toponyms = $toponyms->whereLangId($url_args['search_lang']);
+        }        
         if (sizeof($url_args['search_geotypes'])) {
             $toponyms = $toponyms->whereIn('geotype_id',$url_args['search_geotypes']);
         }         
