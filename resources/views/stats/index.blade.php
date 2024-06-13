@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('headTitle', trans('navigation.stats'))
-@section('header', trans('navigation.participants'))
+@section('header', trans('navigation.stats'))
 
 @section('headExtra')
         {!! css('stats') !!}  
