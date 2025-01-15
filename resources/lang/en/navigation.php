@@ -39,6 +39,8 @@ return [
     'manual' => 'Manual',
     'map' => 'Map',
 
+    'nladoga' => 'Northern Ladoga',
+    
     'on_map' => 'On map',
     
     'participants' => 'Project participants',
@@ -51,6 +53,7 @@ return [
     
     'search' => 'Search',
     'search_by_toponyms' => 'Search by toponyms',
+    'search_by_nladoga' => 'Search by Northern Ladoga Settlements',
     
     'selsovets' => 'Selsovets',
     'selsovets_1926' => 'Selsovets in 1926',

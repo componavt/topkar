@@ -22,7 +22,7 @@
             </a>
             <ul class="dropdown-menu" role="menu" id='menu2-sub'>
               <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.search') }}</a></li>
-            @foreach (['with_wrongnames', 'with_wd', 'with_legends'] as $v)
+            @foreach (['with_wrongnames', 'with_wd', 'with_legends', 'nladoga'] as $v)
               <li><a class="dropdown-item" href="{{ route('toponyms.'.$v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
               <li><a class="dropdown-item" href="#">{{ trans('navigation.last_created') }}</a></li>

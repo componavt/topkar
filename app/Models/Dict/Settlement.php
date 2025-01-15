@@ -26,17 +26,19 @@ class Settlement extends Model
     public $timestamps = false;
     protected $fillable = ['name_ru', 'name_en', 'name_krl', 'name_vep', 'wd', 'latitude', 'longitude', 'geotype_id'];
     const Types=[
-        93, // city
-        21, // village
         3,  // selo
+        21, // village
+        40, // hamlet
+        47, // tract
+        63, // settlement
+        69, // territory
         91, // poselok
+        93, // city
         100, // station
         101, // mestechko
         102, // pgt
         103, // siding
-        40, // hamlet
-        47, // tract
-        69, // territory
+        107, // vyselok
         115, // rural settlement
     ];
     const SortList=['name_ru', 'id'];
