@@ -98,18 +98,18 @@
             <span class='field-value'>{!! $toponym->textURLs() !!}</span></p>
     @endif
     @if (sizeof($toponym->sourceToponyms) || user_can_edit())
-            <p>
-                <span class='field-name'>{{trans('toponym.sources')}}:</span>
-                @foreach ($toponym->sourceToponyms as $st)
-                <br>{{ $st->sequence_number }}. 
-                <span class='field-value'>
-                    @if ($st->sourceToString())
-                    {{$st->sourceToString()}}@if ($st->mention): @endif
-                    @endif
-                    <i>{{ $st->mention }}</i> 
-                </span> 
-                @endforeach
-            </p>
+        <p style="margin-bottom: 0"><span class='field-name'>{{trans('toponym.sources')}}:</span></p>
+        <ol style="padding-left: 20px">
+        @foreach ($toponym->sourceToponyms as $st)
+            <li class='field-value'>
+                @if ($st->sourceToString())
+                <i>{{ $st->mention }}</i> 
+                @if ($st->mention) // @endif
+                {{$st->sourceToString()}}
+                @endif
+            </li> 
+        @endforeach
+        </ol>
     @endif
     @if (sizeof($toponym->structs) || user_can_edit())
         {{-- Structure of toponym word --}}
