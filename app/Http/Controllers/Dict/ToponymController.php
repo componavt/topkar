@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dict;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Redirect;
-use Response;
+//use Response;
 
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
@@ -42,7 +42,7 @@ class ToponymController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','show', 'nLadoga', 'onMap',
+                         ['except' => ['index','show', 'nLadoga', 'onMap', 'shaidomozero',
                                     'withWD', 'withWrongnames', 'withLegends', 'withCoords']]);
         $this->url_args = Toponym::urlArgs($request);  
         
@@ -217,6 +217,39 @@ class ToponymController extends Controller
         }
 //dd($objs);        
         return view('dict.toponyms.with_coords', 
+                compact('objs', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
+    public function shaidomozero()
+    {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        $lat1 = 62.68;
+        $lat2 = 62.73;
+        $lon1 = 34.11;
+        $lon2 = 34.25;
+
+        $toponyms = Toponym::whereNotNull('latitude')->whereNotNull('longitude')
+                ->where('latitude', '<', $lat2)
+                ->where('latitude', '>', $lat1)
+                ->where('longitude', '<', $lon2)
+                ->where('longitude', '>', $lon1);
+        $n_records = $toponyms->count();        
+        $toponyms = $toponyms->orderBy('latitude', 'desc')->get()->groupBy(['latitude', 'longitude']);
+        
+//dd($toponyms);        
+        $objs = [];
+        foreach ($toponyms as $lat => $long_list) {
+            foreach ($long_list as $lon => $toponym_list) {
+                $popup = [];
+                foreach ($toponym_list as $toponym) {
+                   $popup[] = to_show($toponym->name, 'toponym', $toponym).($toponym->geotype ? '<br>'.$toponym->geotype->name : ''); 
+                }
+            }
+            $objs[] = ['lat'=>$lat, 'lon'=>$lon, 'popup' => join('<br>', $popup)]; 
+        }
+//dd($objs);        
+        return view('dict.toponyms.shaidomozero', 
                 compact('objs', 'n_records', 'args_by_get', 'url_args' ));
     }
     

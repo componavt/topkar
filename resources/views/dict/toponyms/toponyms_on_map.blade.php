@@ -20,3 +20,4 @@
       L.marker({lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }).bindPopup('{!! $obj["popup"] !!}').addTo(map);
       @endforeach
     </script>
+ 

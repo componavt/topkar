@@ -67,13 +67,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     
+    Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
     Route::get('/dict/toponyms/nladoga', [ToponymController::class, 'nLadoga'])->name('toponyms.nladoga');
     Route::get('/dict/toponyms/link_to_settl', [ToponymController::class, 'linkToSettlement'])->name('toponyms.link_to_settl');
     Route::post('/dict/toponyms/link_to_settl', [ToponymController::class, 'linkToSettlementSave'])->name('toponyms.link_to_settl.save');
     Route::get('/dict/toponyms/list_for_export', [ToponymController::class, 'listForExport'])->name('toponyms.list_for_export');
-    Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
     Route::get('/dict/toponyms/on_map', [ToponymController::class, 'onMap'])->name('toponyms.on_map');
+    Route::get('/dict/toponyms/shaidomozero', [ToponymController::class, 'shaidomozero'])->name('toponyms.shaidomozero');
     Route::get('/dict/toponyms/with_coords', [ToponymController::class, 'withCoords'])->name('toponyms.with_coords');
     Route::get('/dict/toponyms/with_wd', [ToponymController::class, 'withWD'])->name('toponyms.with_wd');
     Route::get('/dict/toponyms/with_wrongnames', [ToponymController::class, 'withWrongnames'])->name('toponyms.with_wrongnames');
