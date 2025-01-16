@@ -225,9 +225,9 @@ class ToponymController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         $lat1 = 62.68;
-        $lat2 = 62.73;
-        $lon1 = 34.11;
-        $lon2 = 34.25;
+        $lat2 = 62.74;
+        $lon1 = 34.13;
+        $lon2 = 34.23;
 
         $toponyms = Toponym::whereNotNull('latitude')->whereNotNull('longitude')
                 ->where('latitude', '<', $lat2)
@@ -243,7 +243,7 @@ class ToponymController extends Controller
             foreach ($long_list as $lon => $toponym_list) {
                 $popup = [];
                 foreach ($toponym_list as $toponym) {
-                   $popup[] = to_show($toponym->name, 'toponym', $toponym).($toponym->geotype ? '<br>'.$toponym->geotype->name : ''); 
+                   $popup[] = to_show($toponym->name, 'toponym', $toponym); 
                 }
             }
             $objs[] = ['lat'=>$lat, 'lon'=>$lon, 'popup' => join('<br>', $popup)]; 

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('headTitle', trans('navigation.on_map'))
+@section('headTitle', 'Шайдомозеро')
 
 @section('headExtra')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -9,11 +9,11 @@
         {!!Html::style('css/leaflet.css')!!}  
 @stop
 
-@section('header', trans('navigation.toponyms_with_coords'))
+@section('header', 'Шайдомозеро')
 
 @section('main')   
     @include('widgets.found_records', ['n_records'=>$n_records])
-    <div id="mapid" style="width: 100%; height: 800px;"></div>
+    <div id="mapid" style="width: 1350px; height: 1500px;"></div>
 @stop
 
 @section('footScriptExtra')
@@ -23,7 +23,7 @@
 
     <script>
       // initialize Leaflet
-      var map = L.map('mapid').setView({lon:34.18 , lat: 62.71}, 13);
+      var map = L.map('mapid').setView({lon:34.18 , lat: 62.715}, 14);
 
       // add the OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
