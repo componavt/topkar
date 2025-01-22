@@ -15,11 +15,13 @@ return [
 
     'short_en' => 'short name (en)',
     'short_ru' => 'short name (ru)',
+    
     'in_english'  => 'in English',
     'in_russian'  => 'in Russian',
     'in_karelian' => 'in Karelian',
 
     'log_in' => 'Log in',
+    
     'password' => 'Password',
     'remember_me' => 'Remember me',
     'reset_password' => 'Forgot your password?',

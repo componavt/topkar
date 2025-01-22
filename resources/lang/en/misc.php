@@ -34,6 +34,7 @@ return [
     'recorder_removed' => 'Recorder ":name" is removed successfully.',
     
     'short_name' => 'Short name',
+    'source' => 'source',
     'source_removed' => 'Source  ":name"  is removed successfully.',
     'struct' => 'Structure',
     'struct_can_not_be_removed' => 'Structure ":name" can not be removed.',

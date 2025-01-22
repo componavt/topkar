@@ -257,7 +257,7 @@ class ToponymController extends Controller
     {
         $url_args = $this->url_args;
         $url_args['search_districts'] = [6, 14, 9];
-        $url_args['search_geotypes'] = Settlement::Types;
+//        $url_args['search_geotypes'] = Settlement::Types;
         $args_by_get = search_values_by_URL($url_args);
 //dd($url_args);
         $toponyms = Toponym::search($url_args);

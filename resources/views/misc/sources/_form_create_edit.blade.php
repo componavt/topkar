@@ -5,10 +5,10 @@
     <div class="col-sm-6">
 @include('widgets.form.formitem._text', 
         ['name' => 'name_ru', 
-         'title'=>trans('toponym.name').' '.trans('messages.in_russian')])
+         'title'=>trans('toponym.name').' на оригинальном языке'])
 @include('widgets.form.formitem._text', 
         ['name' => 'short_ru', 
-         'title'=>trans('toponym.short_name').' '.trans('messages.in_russian')])
+         'title'=>trans('toponym.short_name').' на оригинальном языке'])
     </div>
     <div class="col-sm-6">
 @include('widgets.form.formitem._text', 

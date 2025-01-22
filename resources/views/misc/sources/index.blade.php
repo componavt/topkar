@@ -21,8 +21,8 @@
             <tr>
                 <td>&numero;</td>
                 <th>{{trans('general.in_russian')}}</th>
-                <td class='up-first'>{{trans('general.short_ru')}}</td>
-                <td class='up-first'>{{trans('general.in_english')}}</td>
+                <td class='up-first'>{{trans('toponym.name')}}</td>
+                <td class='up-first'>{{trans('toponym.short_name')}}</td>
                 <td class='up-first'>{{trans('general.short_en')}}</td>
                 <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
@@ -33,8 +33,8 @@
             @foreach( $sources as $r )
             <tr>
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
-                <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('sources.show', $r).$args_by_get)!!}</td>
-                <td data-th="{{trans('general.short_ru')}}">{{$r->short_ru}}</td>
+                <td data-th="{{trans('toponym.name')}}">{!!to_link($r->name_ru, route('sources.show', $r).$args_by_get)!!}</td>
+                <td data-th="{{trans('toponym.short_name')}}">{{$r->short_ru}}</td>
                 <td data-th="{{trans('general.in_english')}}">{{$r->name_en}}</td>
                 <td data-th="{{trans('general.short_en')}}">{{$r->short_en}}</td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
