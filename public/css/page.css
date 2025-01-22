@@ -13,12 +13,13 @@
 .top-links {
     margin: 30px 0 20px;
     padding-top: 20px;
+    display: flex;
 }
 
 .top-links a {
     color: #8f9b96;
-    font-size: 10px;
-    line-height: 90%;
+    font-size: 11px;
+    line-height: 100%;
     position: relative;
     text-decoration: none;
 }
@@ -29,12 +30,13 @@
 
 .top-icon {
     margin-right: 12px;
+    text-align: center;
 }
 
 .top-icon::before {
     height: 24px;
     position: absolute;
-    bottom: 20px;
+    top: -26px;
     left: calc(50% - 12px);
     width: 24px;    
 }
@@ -84,6 +86,7 @@
     .top-links {
         padding-top: 0;
         text-align: right;
+/*        white-space: nowrap;*/
     }
     .top-icon {
         margin-left: 12px;

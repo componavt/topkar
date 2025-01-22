@@ -8,7 +8,7 @@
          'title'=>trans('toponym.name').' на оригинальном языке'])
 @include('widgets.form.formitem._text', 
         ['name' => 'short_ru', 
-         'title'=>trans('toponym.short_name').' на оригинальном языке'])
+         'title'=>trans('toponym.short_name')])
     </div>
     <div class="col-sm-6">
 @include('widgets.form.formitem._text', 

@@ -1,7 +1,7 @@
 @extends('layouts.page')
 
 @section('headTitle', trans('messages.new_m'). ' '. mb_strtolower(__('misc.source')))
-@section('header', trans('navigation.sources'). ' / '. trans('messages.new_m'). ' '. mb_strtolower(__('toponym.source')))
+@section('header', trans('navigation.sources'))
 
 @section('page_top')   
     <h2>{{ trans('messages.new_m'). ' '. mb_strtolower(trans('misc.source')) }}</h2>

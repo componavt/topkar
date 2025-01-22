@@ -1,10 +1,10 @@
 @extends('layouts.page')
 
 @section('headTitle', $source->name. ' — '. trans('messages.editing'))
-@section('header', trans('navigation.sources'). ' / '. trans('messages.editing'). ' / '. $source->name)
+@section('header', trans('navigation.sources'))
 
 @section('page_top')   
-    <h2>{{ $source->name. ': '. trans('messages.editing') }}</h2>
+    <h2>{{ trans('messages.editing'). ' / '. $source->name  }}</h2>
 @endsection
 
 @section('top_links')   
