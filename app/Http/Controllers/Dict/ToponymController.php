@@ -228,12 +228,17 @@ class ToponymController extends Controller
         $lat2 = 62.74;
         $lon1 = 34.13;
         $lon2 = 34.23;
+        $objs = [55998, 56007, 55996, 55990, 56024, 56020, 56019, 56207];
 
-        $toponyms = Toponym::whereNotNull('latitude')->whereNotNull('longitude')
-                ->where('latitude', '<', $lat2)
+        $toponyms = Toponym::whereNotNull('latitude')->whereNotNull('longitude');
+        if ($objs) {
+            $toponyms->whereIn('id', $objs);
+        } else {
+            $toponyms->where('latitude', '<', $lat2)
                 ->where('latitude', '>', $lat1)
                 ->where('longitude', '<', $lon2)
                 ->where('longitude', '>', $lon1);
+        }
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->orderBy('latitude', 'desc')->get()->groupBy(['latitude', 'longitude']);
         
