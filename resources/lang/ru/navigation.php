@@ -18,7 +18,7 @@ return [
     
     'dictionary' => 'Словарь',
     'districts' => 'Районы',
-    'districts1926' => 'Районы на 1926 год',
+    'districts1926' => 'Районы (I пол. ХХ в.)',
     
     'email' => 'E-mail',
     'enter_for_editors' => 'Вход для редактора',
@@ -56,10 +56,10 @@ return [
     'search_by_nladoga' => 'Поиск топонимов Северного Приладожья',
     
     'selsovets' => 'Сельсоветы',
-    'selsovets1926' => 'Сельсоветы на 1926 год',
+    'selsovets1926' => 'Сельсоветы (I пол. ХХ в.)',
     'selsovets' => 'Сельсоветы',
     'settlements' => 'Поселения',
-    'settlements1926' => 'Поселения на 1926 год',
+    'settlements1926' => 'Поселения (I пол. ХХ в.)',
     'sources' => 'Источники',
     'start' => 'Главная',
     'stats' => 'Статистика',

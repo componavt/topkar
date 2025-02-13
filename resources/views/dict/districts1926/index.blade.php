@@ -3,7 +3,7 @@
         {!!Html::style('css/select2.min.css')!!}  
 @stop
 
-@section('header', trans('toponym.Districts_in_1926_year'))
+@section('header', trans('toponym.districts_1926'))
 
 @section('search_form')
         @include("dict.districts._form_search", ['route'=> route('districts1926.index')])
@@ -23,7 +23,7 @@
         <tr>
             <td>&numero;</td>
             <td>{{trans('toponym.region')}}</td>
-            <th>{{trans('general.in_russian')}}</th>
+            <td>{{trans('toponym.name')}}</td>
             <td class='up-first'>{{trans('general.in_english')}}</td>
             <td style="text-align: right">{{trans('navigation.selsovets')}}</td>
             <td style="text-align: right">{{trans('navigation.toponyms')}}</td>

@@ -6,7 +6,7 @@
     <table class="table table-striped table-hover">
         <tr>
             <th>&numero;</th>
-            <th>{{trans('general.in_russian')}}</th>
+            <th>{{trans('toponym.name')}}</th>
             <th>{{trans('general.in_english')}}</th>
             <th style="text-align: right">{{trans('navigation.toponyms')}}</th>
         </tr>

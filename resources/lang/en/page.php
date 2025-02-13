@@ -41,7 +41,7 @@ return [
     . '<a href="http://topkar.krc.karelia.ru/en/dict/districts">districts</a>, '
     . '<a href="http://topkar.krc.karelia.ru/en/dict/settlements">settlements</a>, '
     . 'both modern and '
-    . '<a href="http://topkar.krc.karelia.ru/en/dict/settlements1926">according to the data for 1926</a>. '
+    . '<a href="http://topkar.krc.karelia.ru/en/dict/settlements1926">according to data from the first half of the 20th century</a>. '
     . 'It is also possible to search for toponyms using '
     . '<a href="http://topkar.krc.karelia.ru/en/misc/informants">the lists of informants</a> and '
     . '<a href="http://topkar.krc.karelia.ru/en/misc/recorders">recorders</a>.',

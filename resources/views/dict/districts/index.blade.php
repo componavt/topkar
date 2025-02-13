@@ -22,7 +22,7 @@
     <table class="table table-striped table-hover">
         <tr><td>&numero;</td>
             <td>{{trans('toponym.region')}}</td>
-            <th>{{trans('general.in_russian')}}</th>
+            <td>{{trans('toponym.name')}}</td>
             <td class='up-first'>{{trans('general.in_english')}}</td>
             <td style="text-align: right">{{trans('navigation.settlements')}}</td>
             <td style="text-align: right">{{trans('navigation.toponyms')}}</td>

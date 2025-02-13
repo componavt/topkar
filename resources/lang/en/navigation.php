@@ -18,7 +18,7 @@ return [
 
     'dictionary' => 'Dictionary',
     'districts' => 'Districts',
-    'districts_1926' => 'Districts in 1926',
+    'districts_1926' => 'Districts (early 20th century)',
     
     'email' => 'Email',
     'enter_for_editors' => 'Enter for editors',
@@ -56,10 +56,10 @@ return [
     'search_by_nladoga' => 'Search by Northern Ladoga Settlements',
     
     'selsovets' => 'Selsovets',
-    'selsovets_1926' => 'Selsovets in 1926',
+    'selsovets_1926' => 'Selsovets (early 20th century)',
     
     'settlements' => 'Settlements',
-    'settlements_1926' => 'Settlements in 1926',
+    'settlements_1926' => 'Settlements (early 20th century)',
     
     'sources' => 'Sources',
     'start' => 'Start page',

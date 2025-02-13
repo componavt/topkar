@@ -4,7 +4,7 @@
         {!!Html::style('css/select2.min.css')!!}  
 @stop
 
-@section('header', trans('toponym.Selsovets_in_1926_year'))
+@section('header', trans('toponym.selsovets_1926'))
 
 @section('search_form')
         @include("dict.selsovets1926._form_search")
@@ -23,8 +23,8 @@
         <table class="table table-striped table-hover">
             <tr><td>&numero;</td>
                 <td>{{trans('toponym.region')}}</td>
-                <td>{{trans('toponym.district1926')}}</td>
-                <th>{{trans('general.in_russian')}}</th>
+                <td>{{trans('toponym.district')}}</td>
+                <td>{{trans('toponym.name')}}</td>
                 <td class='up-first'>{{ trans('general.in_karelian') }}</td>
                 <td class='up-first'>{{ trans('general.in_english') }}</td>
                 <td>{{trans('navigation.settlements')}}</td>

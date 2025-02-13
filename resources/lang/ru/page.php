@@ -84,7 +84,7 @@ http://topkar.krc.karelia.ru/ru/dict/toponyms/19388</i></li> '
     . '<a href="http://topkar.krc.karelia.ru/ru/dict/districts">районы</a>, '
     . '<a href="http://topkar.krc.karelia.ru/ru/dict/settlements">поселения</a>, '
     . 'как современные, так и '
-    . '<a href="http://topkar.krc.karelia.ru/ru/dict/settlements1926">по данным на 1926 год</a>. '
+    . '<a href="http://topkar.krc.karelia.ru/ru/dict/settlements1926">по данным на I половину ХХ в.</a>. '
     . 'Также данные можно искать по '
     . '<a href="http://topkar.krc.karelia.ru/ru/misc/informants">информантам</a> и '
     . '<a href="http://topkar.krc.karelia.ru/ru/misc/recorders">собирателям</a>.',

@@ -26,10 +26,10 @@
                 <td>{{trans('toponym.region')}}</td>
                 <td>{{trans('navigation.districts')}}</td>
                 <td>{{trans('misc.type')}}</td>
-                <th>{{trans('general.in_russian')}}</th>
+                <td>{{trans('toponym.name')}}</td>
                 <td class='up-first'>{{trans('general.in_karelian')}}</td>
                 <td class='up-first'>{{trans('messages.in_vepsian')}}</td>
-                <td class='up-first'>{{trans('general.in_english')}}</td>
+{{--                <td class='up-first'>{{trans('general.in_english')}}</td> --}}
                 <td>{{trans('misc.record_place')}}</td>
                 <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
@@ -54,7 +54,7 @@
                 </td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
                 <td data-th="{{trans('messages.in_vepsian')}}">{{ $r->name_vep }}</td>
-                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
+{{--                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td> --}}
                 
                 <td data-th="{{trans('misc.record_place')}}" style="text-align: left">
                     @if ($r->recordPlaces()->count() > 0)

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('headTitle', trans('navigation.settlements1926'))
-@section('header', trans('toponym.Settlements_in_1926_year'))
+@section('header', trans('navigation.settlements1926'))
 
 @section('headExtra')
         {!!Html::style('css/select2.min.css')!!}  
@@ -24,11 +24,11 @@
         <table class="table table-striped table-hover">
             <tr><td>&numero;</td>
                 <td>{{trans('toponym.region')}}</td>
-                <td>{{trans('toponym.districts_1926')}}</td>
-                <td>{{trans('toponym.selsovets_1926')}}</td>
-                <th>{{trans('general.in_russian')}}</th>
-                <td class='up-first'>{{trans('general.in_karelian')}}</td>
-                <td class='up-first'>{{trans('general.in_english')}}</td>
+                <td>{{trans('toponym.district')}}</td>
+                <td>{{trans('toponym.selsovet')}}</td>
+                <td>{{trans('toponym.name')}}</td>
+{{--                <td class='up-first'>{{trans('general.in_karelian')}}</td>
+                <td class='up-first'>{{trans('general.in_english')}}</td> --}}
                 <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
                 <td>{{ trans('messages.actions') }}</td>
@@ -42,12 +42,12 @@
                 <td data-th="{{trans('toponym.districts_1926')}}">{{ $r->selsovet1926->district1926->name }}</td>
                 <td data-th="{{trans('toponym.selsovets_1926')}}">{{ $r->selsovet1926->name }}</td>
 
-                <td data-th="{{trans('general.in_russian')}}">
+                <td data-th="{{trans('toponym.name')}}">
                     {!!to_link($r->name_ru, route('settlements1926.show', $r).$args_by_get)!!}@if ($r->longitude & $r->latitude)
                                                                                                 *@endif
                 </td>
-                <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
-                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
+{{--                <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
+                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td> --}}
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_settlements1926[]={{$r->id}}">{{ $r->toponyms->count() }}</a>
