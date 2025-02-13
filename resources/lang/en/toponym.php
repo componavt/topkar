@@ -53,6 +53,7 @@ return [
     'legend_collect' => 'Texts from VepKar collection "Karelian legends"',
     'location_1926' => 'Region, district, selsovet, settlement (early 20th century)',
     'location'      => 'Region, district, settlement',
+    'location_nladoga' => 'Province, county, volost, settlement (early 20th century)',
     'longitude' => 'longitude',
     
     'main_info' => 'Main information',

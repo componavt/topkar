@@ -21,7 +21,7 @@
                 <th>{{trans('toponym.toponym')}}</th>
                 <th>{{trans('misc.geotype')}}</th>
                 <th>{{trans('toponym.location')}} / <br>
-                    {{trans('toponym.location_1926')}}</th>       
+                    {{trans('toponym.location_nladoga')}}</th>       
             </tr>
 
             @foreach( $toponyms as $r ) <?php //dd($r) ?>
