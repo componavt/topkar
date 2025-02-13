@@ -48,8 +48,8 @@
 @endsection
 
 @section('jqueryFunc')
-    selectDistrict1926('region1926_id', '', true, '.select-district1926');
-    selectSelsovet1926('region1926_id', 'district1926_id', '', true, '.select-selsovet1926');
-    
+    selectDistrict1926('region1926_id', '{{app()->getLocale()}}', '', true, '.select-district1926');
+    selectSelsovet1926('region1926_id', 'district1926_id', '{{app()->getLocale()}}', '', true, '.select-selsovet1926');
+
     @include('widgets.leaflet.coords_from_click')
 @stop
