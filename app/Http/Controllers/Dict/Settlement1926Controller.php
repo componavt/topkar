@@ -93,7 +93,7 @@ class Settlement1926Controller extends Controller
      */
     public function store(Request $request)
     {
-        $obj = Settlement1926::create($this->validateRequest($request)); 
+        $settlement = Settlement1926::create($this->validateRequest($request)); 
         
         return Redirect::to(route('settlements1926.show', $settlement).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        
