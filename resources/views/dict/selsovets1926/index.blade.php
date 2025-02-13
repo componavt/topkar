@@ -43,7 +43,7 @@
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
                 <td data-th="{{trans('navigation.settlements')}}" style="text-align: left">
-                    @if ($r->toponyms->count() > 0)
+                    @if ($r->settlements1926->count() > 0)
                     <a href="{{route('settlements1926.index')}}?search_selsovets1926[]={{$r->id}}">{{ $r->settlements1926->count() }}</a>
                     @else
                     0
