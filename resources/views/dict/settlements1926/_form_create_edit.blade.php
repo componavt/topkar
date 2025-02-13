@@ -24,7 +24,7 @@
          
 @include('widgets.form.formitem._text', 
         ['name' => 'name_ru', 
-         'title'=>trans('toponym.name').' '.trans('messages.in_russian')])
+         'title'=>trans('toponym.name')])
 
 @include('widgets.form.formitem._text', 
         ['name' => 'name_en', 

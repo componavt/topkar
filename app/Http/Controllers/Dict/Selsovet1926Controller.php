@@ -147,7 +147,7 @@ class Selsovet1926Controller extends Controller
         $selsovet = Selsovet1926::find($id);
         $selsovet->fill($this->validateRequest($request))->save();
        
-        return Redirect::to(route('selsovets1926.index', $selsovet).($this->args_by_get))
+        return Redirect::to(route('selsovets1926.index').($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 
