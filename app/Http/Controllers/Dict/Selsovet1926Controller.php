@@ -159,9 +159,7 @@ class Selsovet1926Controller extends Controller
      */
     public function destroy($id)
     {
-        $error = false;
-        $status_code = 200;
-        $result =[];
+        $result['message'] = '';
         if($id != "" && $id > 0) {
             try{
                 $obj = Selsovet1926::find($id);
@@ -175,22 +173,17 @@ class Selsovet1926Controller extends Controller
                     }
                 }
                 else{
-                    $error = true;
                     $result['error_message'] = \Lang::get('messages.record_not_exists');
                 }
           }catch(\Exception $ex){
-                    $error = true;
-                    $status_code = $ex->getCode();
                     $result['error_code'] = $ex->getCode();
                     $result['error_message'] = $ex->getMessage();
                 }
         }else{
-            $error =true;
-            $status_code = 400;
             $result['message']='Request data is empty';
         }
         
-        if ($error) {
+        if (!empty($result['error_message'])) {
                 return Redirect::to(route('selsovets1926.index').$this->args_by_get)
                                ->withErrors($result['error_message']);
         } else {
