@@ -73,7 +73,7 @@ return [
     'possibly_same_settlement1926' => 'Возможно то же поселение в I половине ХХ в.',    
     
     'region' => 'Регион',
-    'region1926' => 'Регион I половины ХХ в.',
+    'region1926' => 'Регион I пол. ХХ в.',
     'regions' => 'Регионы сбора топонимии карельскими учёными',
     
     'same_modern_settlement' => 'То же современное поселение',
@@ -90,7 +90,7 @@ return [
     'settlement' => 'Поселение',
     'settlement_can_not_be_removed' => 'Поселение ":name" не может быть удалено.',
     'settlement_removed' => 'Поселение ":name" удален.',
-    'settlement1926' => 'Поселение I половины ХХ в.',
+    'settlement1926' => 'Поселение I пол. ХХ в.',
     'settlement_can_not_be_removed' => 'Поселение I пол. ХХ в. ":name" не может быть удалено.',
     'settlement1926_removed' => 'Поселение I пол. ХХ в. ":name" удален.',
     'short_name' => 'сокращенное название',
