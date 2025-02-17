@@ -48,7 +48,7 @@
         {!!Html::script('js/select2.min.js')!!}
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
-        @include('widgets.leaflet.objs_on_map', ['lon'=>31.46, 'lat'=>60.84, 'zoom'=>8])
+        @include('widgets.leaflet.objs_on_map', ['lon'=>30.98, 'lat'=>61.7, 'zoom'=>9])
 @endsection
 
 @section('jqueryFunc')
