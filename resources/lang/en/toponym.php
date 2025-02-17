@@ -20,6 +20,7 @@ return [
     'add_settlement1926' => 'Add a settlement (early 20th century)',
     
     'back_to_index' => 'Back to table results',
+    'back_to_nladoga' => 'Back to North Ladoga',
 //    'by_created_at' => 'by creation date',
     'by_id' => 'by creation date',
     'by_name' => 'by name',

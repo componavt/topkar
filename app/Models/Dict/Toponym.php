@@ -44,6 +44,7 @@ class Toponym extends Model
                            'caseform', 'main_info', 'folk', 'legend', 'wd', 
                            'latitude', 'longitude'];
     const SortList=['name', 'id'];
+    const nLadogaDistricts=[6, 14, 9];
     
     //use \App\Traits\Methods\getNameAttribute;    
     use \App\Traits\Methods\wdURL;    
@@ -536,5 +537,12 @@ class Toponym extends Model
             $event->remove();
         } 
         $this->delete();
+    }
+    
+    public function fromNLadoga() {
+        if (in_array($this->district_id, self::nLadogaDistricts)) {
+            return true;
+        }
+        return false;
     }
 }

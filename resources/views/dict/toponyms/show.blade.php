@@ -27,6 +27,9 @@
 @endsection            
 
 @section('top_links')   
+    @if ($toponym->fromNLadoga())
+        {!! to_link(trans('navigation.nladoga'), route('toponyms.nladoga'), $args_by_get, 'top-icon to-list') !!}
+    @endif
     {!! to_list('toponym', $args_by_get) !!}
     @if (user_can_edit())
         {!! to_edit('toponym', $toponym, $args_by_get) !!}

@@ -5,7 +5,7 @@
 
     <script>
       // initialize Leaflet
-      var map = L.map('mapid').setView({lon:33 , lat: 63.5}, 7);
+      var map = L.map('mapid').setView({lon:{{empty($lon) ? '33' : $lon}} , lat: {{empty($lat) ? '63.5' : $lat}}}, {{empty($zoom) ? '7' : $zoom}});
       
       @foreach ($objs->groupBy('color') as $color => $tmp)
       var {{ $color }}Icon = L.icon({

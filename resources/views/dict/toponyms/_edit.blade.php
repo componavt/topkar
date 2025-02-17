@@ -7,6 +7,9 @@
 
 @section('top_links')   
     {!! back_to_show('toponym', $toponym, $args_by_get) !!}
+    @if ($toponym->fromNLadoga())
+    {!! to_link(trans('navigation.nladoga'), route('toponyms.nladoga'), $args_by_get, 'top-icon to-list') !!}
+    @endif
     {!! to_list('toponym', $args_by_get) !!}
     @if (user_can_edit())
         {!! to_create('toponym', $args_by_get, trans('messages.create_new_m')) !!}

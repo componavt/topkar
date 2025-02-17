@@ -42,7 +42,7 @@ class ToponymController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','show', 'nLadoga', 'onMap', 'shaidomozero',
+                         ['except' => ['index','show', 'nLadoga', 'onMap', 'shaidomozero', 'nladogaOnMap',
                                     'withWD', 'withWrongnames', 'withLegends', 'withCoords']]);
         $this->url_args = Toponym::urlArgs($request);  
         
@@ -261,10 +261,9 @@ class ToponymController extends Controller
     public function nLadoga()
     {
         $url_args = $this->url_args;
-        $url_args['search_districts'] = [6, 14, 9];
-//        $url_args['search_geotypes'] = Settlement::Types;
+        $url_args['search_districts'] = Toponym::nLadogaDistricts;
         $args_by_get = search_values_by_URL($url_args);
-//dd($url_args);
+
         $toponyms = Toponym::search($url_args);
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
@@ -279,6 +278,28 @@ class ToponymController extends Controller
                 compact('district_values', 'geotype_values', 'region_values', 
                         'settlement_values', 'sort_values',
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
+    public function nladogaOnMap()
+    {
+        $url_args = $this->url_args;
+        $url_args['search_districts'] = [6, 14, 9];
+        $args_by_get = search_values_by_URL($url_args);
+        $limit = 3000;
+
+        list($total_rec, $show_count, $objs, $limit) 
+                = Toponym::forMap($limit, $url_args);                  
+
+        $district_values = District::getList();
+        $geotype_values = Geotype::getList();
+        $settlement_values = Settlement::getList();
+        $sort_values = Toponym::sortList();
+
+        return view('dict.toponyms.nladoga_on_map', 
+                compact('district_values', 'objs', 'limit',
+                        'geotype_values', 'show_count',
+                        'settlement_values', 'sort_values', 
+                        'total_rec', 'args_by_get', 'url_args' ));
     }
     
     /**

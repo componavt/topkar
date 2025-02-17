@@ -10,7 +10,16 @@
 @section('search_form')   
     <h2>{{ trans('navigation.search_by_nladoga') }}</h2>
     @include("dict.toponyms.form._search_nladoga", ['route' => 'nladoga'])
-    @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+     <div class="row" style='line-height: 26px;'>  
+         <div class="col-sm-4">
+            @include('widgets.found_records', ['n_records'=>$n_records, 'template'=>'toponyms'])
+         </div>
+         <div class="col-sm-8 output_in">
+            @if ($n_records)
+            <a class="big" href="{{ route('toponyms.nladoga.on_map').$args_by_get }}">{!! trans_choice('toponym.output_on_map',$n_records) !!}</a>
+            @endif 
+         </div>
+    </div>
 @endsection
         
 @section('main')   
@@ -22,6 +31,9 @@
                 <th>{{trans('misc.geotype')}}</th>
                 <th>{{trans('toponym.location')}} / <br>
                     {{trans('toponym.location_nladoga')}}</th>       
+            @if (user_can_edit())
+                <td>{{ trans('messages.actions') }}</td>
+            @endif
             </tr>
 
             @foreach( $toponyms as $r ) <?php //dd($r) ?>
@@ -36,6 +48,13 @@
                 <td>{{ optional($r->geotype)->name }}</td>
                 <td>{{ $r->location }} / <br>
                     {{ $r->location1926 }}</td>                
+            @if (user_can_edit())
+            <td data-th="{{ trans('messages.actions') }}" style='text-align: center'>
+                @include('widgets.form.button._edit', 
+                        ['without_text' => 1,
+                         'route' => route('toponyms.edit', $r)])
+            </td>
+            @endif
             </tr>
             @endforeach
         </table>
@@ -51,10 +70,9 @@
         {!!Html::script('js/lists.js')!!}
         {!!Html::script('js/special_symbols.js')!!}
 @endsection
+
 @section('jqueryFunc')
-        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});
-        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-        
+        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});       
         selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
         selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
         
