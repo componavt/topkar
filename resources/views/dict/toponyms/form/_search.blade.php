@@ -28,6 +28,7 @@
         ]) 
     </div>
 </div>
+<div>{{ trans('toponym.cur_adm_div') }}</div>        
 <div class="row">    
     <div class="col-md-3">
         @include('widgets.form.formitem._select2', 
@@ -66,6 +67,7 @@
         ]) 
     </div>    
 </div>    
+<div>{{ trans('toponym.early_adm_div') }}</div>        
 <div class="row">
     <div class="col-md-3">
         <!-- Region 1926 -->

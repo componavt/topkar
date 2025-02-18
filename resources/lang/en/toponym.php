@@ -29,14 +29,17 @@ return [
     'caseform' => 'Locative form',
     'coords_from_map' => 'Specify coordinates on the map',
     'create_new_m_in_this_settl' => 'Create another toponym in this settlement',
+    'cur_adm_div' => 'Current administrative-territorial division',
     
     'desc' => 'Description',
     'district' => 'District',
+    'district_county' => 'District (county)',
     'district_removed' => 'District ":name" is removed successfully.',
     'district1926' => 'District (early 20th century)',    
     'district1926_removed' => 'District (early 20th century) ":name" is removed successfully.',
     'districts_1926' => 'Districts (early 20th century)',
         
+    'early_adm_div' => 'Administrative-territorial division I half. XX century',
     'etymology' => 'Etymology',
     'folk'=> 'Popular interpretation',
     'found_from' => '<span class="important big">:show_count</span> toponyms from <span class="important big">:total</span> are showed on the map',
@@ -78,6 +81,7 @@ return [
     'same_settlement1926' => 'The same settlement in the first half of the 20th century',
         
     'selsovet' => 'Selsovet',
+    'selsovet_volost' => 'Selsovet (volost)',
     'selsovet1926' => 'Selsovet (early 20th century)',
     'selsovet1926_removed' => 'Selsovet (early 20th century) ":name" is removed successfully.',
     'selsovets_1926' => 'Selsovets (early 20th century)',
