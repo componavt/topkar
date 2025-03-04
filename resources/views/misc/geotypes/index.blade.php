@@ -20,8 +20,8 @@
         <table class="table table-striped table-hover">
             <tr>
                 <td>&numero;</td>
-                <th>{{trans('general.in_russian')}}</th>
-                <td class='up-first'>{{trans('general.in_english')}}</td>
+                <th colspan="2">{{trans('general.in_russian')}}</th>
+                <td colspan="2" class='up-first'>{{trans('general.in_english')}}</td>
                 <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
                 <td>{{ trans('messages.actions') }}</td>
@@ -31,8 +31,10 @@
             @foreach( $geotypes as $r )
             <tr>
                 <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
-                <td data-th="{{trans('general.in_russian')}}">{!!to_link($r->name_ru, route('geotypes.show', $r).$args_by_get)!!}</td>
-                <td data-th="{{trans('general.in_english')}}">{{$r->name_en}}</td>
+                <td data-th="{{trans('general.in_russian')}}">{!! to_link($r->name_ru, route('geotypes.show', $r).$args_by_get) !!}</td>
+                <td data-th="{{trans('general.in_russian')}}">{{ $r->short_ru }}</td>
+                <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td>
+                <td data-th="{{trans('general.in_english')}}">{{ $r->short_en }}</td>
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_geotypes[]={{$r->id}}">{{ $r->toponyms->count() }}</a>
