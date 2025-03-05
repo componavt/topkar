@@ -24,6 +24,7 @@ return [
 //    'by_created_at' => 'by creation date',
     'by_id' => 'by creation date',
     'by_name' => 'by name',
+    'by_name_ru' => 'by name',
     'by_region_id' => 'by region',
     
     'caseform' => 'Locative form',
