@@ -44,7 +44,7 @@ class Toponym extends Model
                            'caseform', 'main_info', 'folk', 'legend', 'wd', 
                            'latitude', 'longitude'];
     const SortList=['name', 'id'];
-    const nLadogaDistricts=[6, 14, 9];
+    const nLadogaDistricts=[6, 14, 9, 22];
     
     //use \App\Traits\Methods\getNameAttribute;    
     use \App\Traits\Methods\wdURL;    
