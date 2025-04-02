@@ -22,6 +22,14 @@
 
       // show the scale bar on the lower left corner
       L.control.scale().addTo(map);
+      
+      @if (!empty($bounds))
+      var bounds = [
+            [{{ $bounds[0] }}, {{ $bounds[1] }}], // Юго-западный угол (SW)
+            [{{ $bounds[2] }}, {{ $bounds[3] }}]  // Северо-восточный угол (NE)
+      ];   
+      map.fitBounds(bounds);
+      @endif
 
       // show markers on the map
       @foreach ($objs as $obj)

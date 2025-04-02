@@ -96,7 +96,7 @@ class ToponymController extends Controller
         $url_args = $this->url_args;
         $limit = 1000;
 
-        list($total_rec, $show_count, $objs, $limit) 
+        list($total_rec, $show_count, $objs, $limit, $bounds) 
                 = Toponym::forMap($limit, $url_args);                  
 
         $district_values = District::getList();
@@ -116,7 +116,7 @@ class ToponymController extends Controller
         $source_values = [''=>NULL] + Source::getList(true);
 
         return view('dict.toponyms.on_map', 
-                compact('district_values', 'district1926_values', 'objs', 'limit',
+                compact('bounds', 'district_values', 'district1926_values', 'objs', 'limit',
                         'ethnos_territory_values', 'etymology_nation_values', 
                         'geotype_values', 'informant_values', 'recorder_values',
                         'region_values', 'selsovet1926_values', 'show_count',
@@ -283,20 +283,20 @@ class ToponymController extends Controller
     public function nladogaOnMap()
     {
         $url_args = $this->url_args;
-        $url_args['search_districts'] = [6, 14, 9];
+        $url_args['search_districts'] = Toponym::nLadogaDistricts;
         $args_by_get = search_values_by_URL($url_args);
         $limit = 3000;
 
-        list($total_rec, $show_count, $objs, $limit) 
+        list($total_rec, $show_count, $objs, $limit, $bounds) 
                 = Toponym::forMap($limit, $url_args);                  
-
+//dd($total_rec);
         $district_values = District::getList();
         $geotype_values = Geotype::getList();
         $settlement_values = Settlement::getList();
         $sort_values = Toponym::sortList();
 
         return view('dict.toponyms.nladoga_on_map', 
-                compact('district_values', 'objs', 'limit',
+                compact('bounds', 'district_values', 'objs', 'limit',
                         'geotype_values', 'show_count',
                         'settlement_values', 'sort_values', 
                         'total_rec', 'args_by_get', 'url_args' ));
