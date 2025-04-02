@@ -206,6 +206,7 @@ class ToponymController extends Controller
         
 //dd($toponyms);        
         $objs = [];
+        $bounds = ['min_lat'=>null, 'min_lon'=>null, 'max_lat'=>null, 'max_lon'=>null];
         foreach ($toponyms as $lat => $long_list) {
             foreach ($long_list as $lon => $toponym_list) {
                 $popup = [];
@@ -214,10 +215,15 @@ class ToponymController extends Controller
                 }
             }
             $objs[] = ['lat'=>$lat, 'lon'=>$lon, 'popup' => join('<br>', $popup)]; 
+            if ($bounds['min_lat'] === null || $lat < $bounds['min_lat']) $bounds['min_lat'] = $lat;
+            if ($bounds['max_lat'] === null || $lat > $bounds['max_lat']) $bounds['max_lat'] = $lat;
+            if ($bounds['min_lon'] === null || $lon < $bounds['min_lon']) $bounds['min_lon'] = $lon;
+            if ($bounds['max_lon'] === null || $lon > $bounds['max_lon']) $bounds['max_lon'] = $lon;
         }
+        
 //dd($objs);        
         return view('dict.toponyms.with_coords', 
-                compact('objs', 'n_records', 'args_by_get', 'url_args' ));
+                compact('bounds', 'objs', 'n_records', 'args_by_get', 'url_args' ));
     }
     
     public function shaidomozero()
@@ -379,6 +385,12 @@ class ToponymController extends Controller
         // Wikidata ID Qddd -> ddd or ddd -> ddd
         if(preg_match("/^Q(\d+)$/", $data['wd'], $regs)){
             $data['wd'] = $regs[1];
+        }
+        if ($data['latitude']==0) {
+            $data['latitude'] = null;
+        }
+        if ($data['longitude']==0) {
+            $data['longitude'] = null;
         }
         return $data;
     }

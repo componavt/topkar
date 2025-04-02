@@ -4,7 +4,7 @@
 
     <script>
       // initialize Leaflet
-      var map = L.map('mapid').setView({lon:33 , lat: 63.5}, 7);
+      var map = L.map('mapid').setView({lon:{{empty($lon) ? '33' : $lon}} , lat: {{empty($lat) ? '63.5' : $lat}}}, {{empty($zoom) ? '7' : $zoom}});
 
       // add the OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -14,6 +14,14 @@
 
       // show the scale bar on the lower left corner
       L.control.scale().addTo(map);
+
+      @if (!empty($bounds))
+      var bounds = [
+            [{{ $bounds['min_lat'] }}, {{ $bounds['min_lon'] }}], // Юго-западный угол (SW)
+            [{{ $bounds['max_lat'] }}, {{ $bounds['max_lon'] }}]  // Северо-восточный угол (NE)
+      ];   
+      map.fitBounds(bounds);
+      @endif
 
       // show markers on the map
       @foreach ($objs as $obj)

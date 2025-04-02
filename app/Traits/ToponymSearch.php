@@ -284,19 +284,19 @@ trait ToponymSearch
         }
         arsort($objs);
         
-        $min_lat = $max_lat = $min_lon = $max_lon = null;
+        $bounds = ['min_lat'=>null, 'min_lon'=>null, 'max_lat'=>null, 'max_lon'=>null];
         foreach (array_keys($objs) as $coord) {
             list($lat, $lon) = explode("_", $coord);
             $lat = (float) $lat;
             $lon = (float) $lon;
 
-            if ($min_lat === null || $lat < $min_lat) $min_lat = $lat;
-            if ($max_lat === null || $lat > $max_lat) $max_lat = $lat;
-            if ($min_lon === null || $lon < $min_lon) $min_lon = $lon;
-            if ($max_lon === null || $lon > $max_lon) $max_lon = $lon;
+            if ($bounds['min_lat'] === null || $lat < $bounds['min_lat']) $bounds['min_lat'] = $lat;
+            if ($bounds['max_lat'] === null || $lat > $bounds['max_lat']) $bounds['max_lat'] = $lat;
+            if ($bounds['min_lon'] === null || $lon < $bounds['min_lon']) $bounds['min_lon'] = $lon;
+            if ($bounds['max_lon'] === null || $lon > $bounds['max_lon']) $bounds['max_lon'] = $lon;
         }
         
-        return [$total_rec, $show_count, collect($objs), $limit, [$min_lat, $min_lon, $max_lat, $max_lon]];
+        return [$total_rec, $show_count, collect($objs), $limit, $bounds];
     }
     
     public static function toponymsWithCoordsforMap($toponyms, $limit) {

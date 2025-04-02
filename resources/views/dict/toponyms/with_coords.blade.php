@@ -13,10 +13,10 @@
 
 @section('main')   
     @include('widgets.found_records', ['n_records'=>$n_records])
-    <div id="mapid" style="width: 100%; height: 1400px;"></div>
+    <div id="mapid" style="width: 100%; height: 1700px;"></div>
 @stop
 
 @section('footScriptExtra')
-        @include('dict.toponyms.toponyms_on_map')
+        @include('dict.toponyms.toponyms_on_map', ['lon'=>0, 'lat'=>0, 'zoom'=>2])
 @stop
 
