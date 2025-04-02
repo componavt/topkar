@@ -41,7 +41,7 @@
         <div class="col-sm-4"><img src="/images/markers/marker-icon-violet.png" class="legend-icon"> 
             топонимы и поселения с одинаковыми координатами</div>
     </div>
-    <div id="mapid" style="width: 100%; height: 1400px;"></div>
+    <div id="mapid" style="width: 100%; height: 1700px;"></div>
 @stop
 
 @section('footScriptExtra')

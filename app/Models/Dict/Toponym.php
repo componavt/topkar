@@ -360,7 +360,7 @@ class Toponym extends Model
     
     public function hasCoords()
     {
-        return ($this->latitude && $this->longitude) ? true : false;
+        return ($this->latitude>0 && $this->longitude>0) ? true : false;
     }
     
     public function objOnMap()
