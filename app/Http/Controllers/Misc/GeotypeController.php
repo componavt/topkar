@@ -81,7 +81,7 @@ class GeotypeController extends Controller
     {
         $obj = Geotype::create($this->validateRequest($request)); 
         
-        return Redirect::to(route('geotypes.index').($this->args_by_get))
+        return Redirect::to(route('geotypes.show',$obj).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.created_success'));        
     }
 
@@ -155,7 +155,7 @@ class GeotypeController extends Controller
     {
         $geotype->fill($this->validateRequest($request))->save();
        
-        return Redirect::to(route('geotypes.index', $geotype).($this->args_by_get))
+        return Redirect::to(route('geotypes.show', $geotype).($this->args_by_get))
                        ->withSuccess(\Lang::get('messages.updated_success'));        
     }
 

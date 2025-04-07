@@ -1,10 +1,10 @@
 @extends('layouts.page')
 
-@section('headTitle', trans('messages.new_g'). ' '. mb_strtolower(__('toponym.geotypes')))
+@section('headTitle', trans('messages.new_m'). ' '. mb_strtolower(__('misc.geotype')))
 @section('header', trans('navigation.geotypes'))
 
 @section('page_top')   
-    <h2>{{ trans('messages.new_g'). ' '. mb_strtolower(trans('toponym.geotypes')) }}</h2>
+    <h2>{{ trans('messages.new_m'). ' '. mb_strtolower(trans('misc.geotype')) }}</h2>
 @endsection
 
 @section('top_links')   

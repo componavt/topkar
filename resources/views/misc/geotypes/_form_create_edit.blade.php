@@ -1,3 +1,4 @@
+@include('widgets.form._url_args_by_post',['url_args'=>$url_args])
 <input id='locale' type='hidden' name='locale' value='{{app()->getLocale()}}'>
 <div class='row'>
     <div class="col-sm-6">
