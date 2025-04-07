@@ -14,7 +14,7 @@
     
 @section('buttons')   
     @if (user_can_edit())
-        {!! create_button('m', 'settlements1926', $args_by_get) !!}
+        {!! create_button('n', 'settlements1926', $args_by_get) !!}
     @endif
 @endsection
     
