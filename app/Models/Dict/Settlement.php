@@ -40,6 +40,7 @@ class Settlement extends Model
         103, // siding
         107, // vyselok
         115, // rural settlement
+        126, // settlement
     ];
     const SortList=['name_ru', 'id'];
 
