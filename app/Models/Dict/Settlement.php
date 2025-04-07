@@ -30,7 +30,7 @@ class Settlement extends Model
         21, // village
         40, // hamlet
         47, // tract
-        63, // settlement
+        63, // inhabited place - поселение
         69, // territory
         91, // poselok
         93, // city
@@ -40,7 +40,7 @@ class Settlement extends Model
         103, // siding
         107, // vyselok
         115, // rural settlement
-        126, // settlement
+        126, // settlement - н.п.
     ];
     const SortList=['name_ru', 'id'];
 
