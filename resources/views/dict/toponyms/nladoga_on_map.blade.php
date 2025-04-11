@@ -69,9 +69,11 @@
         @foreach (['min_lat', 'min_lon', 'max_lat', 'max_lon', 'map_height'] as $f)
             $('#{{ $f }}').attr('value','');
         @endforeach
+        setTimeout(function () {
         @foreach (['outside_bounds', 'popup_all', 'only_exact_coords'] as $f)
             $('input[name="{{ $f }}"]').prop('checked', false);
         @endforeach
+        });
             $('#search_toponym').attr('value','');
         });        
 @stop
