@@ -158,9 +158,10 @@
                  'class'=>'select-source form-control'
         ]) 
     </div>
-@if (!empty($for_map))
-     @include("dict.toponyms.form._search_for_map")
-@endif
 </div>    
-@include('widgets.form._output_fields')
+@if (!empty($for_map))
+    @include("dict.toponyms.form._output_for_map")
+@else    
+    @include('widgets.form._output_fields')
+@endif
         {!! Form::close() !!}

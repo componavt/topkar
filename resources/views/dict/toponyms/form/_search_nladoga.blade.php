@@ -28,7 +28,6 @@
                  'class'=>'select-settlement form-control'
         ]) 
     </div>    
-     @include("dict.toponyms.form._search_for_map")
 </div>                 
-@include('widgets.form._output_fields')
+@include("dict.toponyms.form._output_for_map")
         {!! Form::close() !!}

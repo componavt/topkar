@@ -34,6 +34,7 @@
 @endsection
 
 @section('wide-block')   
+    @if (empty($url_args['only_exact_coords']))
     <div class="row" style="margin-bottom: 20px;">
         <div class="col-sm-4"><img src="/images/markers/marker-icon-blue.png" class="legend-icon"> 
             топонимы с точными координатами</div>
@@ -42,6 +43,7 @@
         <div class="col-sm-4"><img src="/images/markers/marker-icon-violet.png" class="legend-icon"> 
             топонимы и поселения с одинаковыми координатами</div>
     </div>
+    @endif
     <div id="mapid" style="width: 100%; height: {{ $url_args['map_height'] }}px;"></div>
 @stop
 
@@ -63,6 +65,12 @@
                    'districts1926', 'selsovets1926', 'settlements1926', 'sources', 
                    'structhiers', 'structs', 'informants', 'recorders'] as $f)
             $('#search_{{ $f }}').val(null).trigger('change');
+        @endforeach
+        @foreach (['min_lat', 'min_lon', 'max_lat', 'max_lon', 'map_height'] as $f)
+            $('#{{ $f }}').attr('value','');
+        @endforeach
+        @foreach (['outside_bounds', 'popup_all', 'only_exact_coords'] as $f)
+            $('input[name="{{ $f }}"]').prop('checked', false);
         @endforeach
             $('#search_toponym').attr('value','');
         });        

@@ -73,11 +73,12 @@ return [
     'official_name' => 'Title name',
     
     'on_vepkar' => 'On VepKar',
+    'only_exact_coords' => 'with exact coordinates only',
     'output_on_map' => 'Display toponyms on the map',
-    'outside_bounds' => 'Display objects outside the boundaries',
+    'outside_bounds' => 'display objects outside the boundaries',
     
     'point' => 'to point',
-    'popup_all' => 'Display object titles',
+    'popup_all' => 'display object titles',
     'possibly_same_modern_settlement' => 'Possibly the same modern settlement',
     'possibly_same_settlement1926' => 'Possibly the same settlement in the first half of the 20th century',    
     

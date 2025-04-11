@@ -20,6 +20,7 @@ trait ToponymSearch
                     'max_lon'    => (float)$request->input('max_lon'),
                     'min_lat'    => (float)$request->input('min_lat'),
                     'min_lon'    => (float)$request->input('min_lon'),
+                    'only_exact_coords' => (int)$request->input('only_exact_coords'),
                     'outside_bounds' => (int)$request->input('outside_bounds'),
                     'popup_all' => (int)$request->input('popup_all'),
                     'region_link'     => (int)$request->input('region_link'),
@@ -71,7 +72,7 @@ trait ToponymSearch
         $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
         $toponyms = self::searchBySources($toponyms, $url_args['search_sources']);
         $toponyms = self::searchBySourceText($toponyms, $url_args['search_source_text']);
-        $toponyms = self::searchByBounds($toponyms, $url_args);
+    //    $toponyms = self::searchByBounds($toponyms, $url_args); не выбираются топонимы без точных координат
         
         if ($url_args['search_lang']) {
             $toponyms = $toponyms->whereLangId($url_args['search_lang']);
@@ -301,9 +302,9 @@ trait ToponymSearch
         if (user_can_edit()) {
             $limit = $total_rec;
         }        
-        list($show_count, $objs, $checked_ids) = self::toponymsWithCoordsforMap($toponyms, $limit, $url_args['popup_all']);
+        list($show_count, $objs, $checked_ids) = self::toponymsWithCoordsforMap($toponyms, $limit, $url_args);
         
-        if ($show_count<$limit) {
+        if (empty($url_args['only_exact_coords']) && $show_count<$limit) {
             list($show_count, $objs, $checked_ids) 
                     = self::toponymsWithSettl26CoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids);
             
@@ -362,18 +363,37 @@ trait ToponymSearch
         return [$bounds, $url_args];
     }
 
-    public static function toponymsWithCoordsforMap($toponyms, $limit, $only_title=false) {
+    public static function toponymsWithCoordsforMap($toponyms, $limit, $url_args) {
         $objs = [];
         $checked_ids = [];
-        $toponyms_with_coords 
-                = $toponyms->withCoords()->take($limit)
+        $toponyms_with_coords = $toponyms->withCoords();
+        if (!empty($url_args['min_lat'])) {
+            $toponyms->where('latitude', '>=', $url_args['min_lat']);
+        }
+        if (!empty($url_args['min_lon'])) {
+            $toponyms->where('longitude', '>=', $url_args['min_lon']);
+        }
+        if (!empty($url_args['max_lat'])) {
+            $toponyms->where('latitude', '<', $url_args['max_lat']);
+        }
+        if (!empty($url_args['max_lon'])) {
+            $toponyms->where('longitude', '<', $url_args['max_lon']);
+        }
+                    
+        $toponyms_with_coords = $toponyms->take($limit)
                            ->orderBy('name')->get();
         $show_count = sizeof($toponyms_with_coords);
 
         foreach ($toponyms_with_coords as $toponym) {
-            $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important').(!$only_title && $toponym->geotype ? ' ('.$toponym->geotype->name : '').')'; 
             $lat = $toponym->latitude;
             $lon = $toponym->longitude;
+            if (!empty($url_args['min_lat']) && $lat<$url_args['min_lat'] ||
+                !empty($url_args['min_lon']) && $lon<$url_args['min_lon'] ||
+                !empty($url_args['max_lat']) && $lat>$url_args['max_lat'] ||
+                !empty($url_args['max_lon']) && $lon>$url_args['max_lon']) {
+                    continue;
+            }
+            $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important').(!$url_args['popup_all'] && $toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
             if (isset($objs[$lat.'_'.$lon])) {
                 $objs[$lat.'_'.$lon]['popup'] .= '<br>'.$popup;
             } else {
@@ -397,13 +417,25 @@ trait ToponymSearch
                 if (!empty($url_args['search_settlements1926'])) {
                     $q2->whereIn('id', $url_args['search_settlements1926']);
                 }
+                if (!empty($url_args['min_lat'])) {
+                    $q2->where('latitude', '>=', $url_args['min_lat']);
+                }
+                if (!empty($url_args['min_lon'])) {
+                    $q2->where('longitude', '>=', $url_args['min_lon']);
+                }
+                if (!empty($url_args['max_lat'])) {
+                    $q2->where('latitude', '<', $url_args['max_lat']);
+                }
+                if (!empty($url_args['max_lon'])) {
+                    $q2->where('longitude', '<', $url_args['max_lon']);
+                }                
             })->take($limit-$show_count)
             ->orderBy('name')->get();
         $show_count += sizeof($toponyms);                      
 //dump($show_count.',');        
 
         foreach ($toponyms as $toponym) {
-            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlement1926);
+            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlement1926, $url_args);
             $checked_ids[] = $toponym->id;
         }
         return [$show_count, $objs, $checked_ids];
@@ -421,6 +453,21 @@ trait ToponymSearch
                         if (!empty($url_args['search_settlements'])) {
                             $q3->whereIn('id', $url_args['search_settlements']);
                         }
+                        if (!empty($url_args['search_settlements1926'])) {
+                            $q3->whereIn('id', $url_args['search_settlements1926']);
+                        }
+                        if (!empty($url_args['min_lat'])) {
+                            $q3->where('latitude', '>=', $url_args['min_lat']);
+                        }
+                        if (!empty($url_args['min_lon'])) {
+                            $q3->where('longitude', '>=', $url_args['min_lon']);
+                        }
+                        if (!empty($url_args['max_lat'])) {
+                            $q3->where('latitude', '<', $url_args['max_lat']);
+                        }
+                        if (!empty($url_args['max_lon'])) {
+                            $q3->where('longitude', '<', $url_args['max_lon']);
+                        }                
                    });
             })->take($limit-$show_count)
             ->orderBy('name')->get();
@@ -430,14 +477,14 @@ trait ToponymSearch
 //dump($show_count.',');        
 
         foreach ($toponyms as $toponym) {
-            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlements()->withCoords()->first());
+            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlements()->withCoords()->first(), $url_args);
         }
         return [$show_count, $objs];
     }
     
-    public static function setToponymToSettlement($objs, $toponym, $settlement) {
+    public static function setToponymToSettlement($objs, $toponym, $settlement, $url_args) {
         $popup = to_show($toponym->name, 'toponym', $toponym)
-                    .($toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
+                    .(!$url_args['popup_all'] && $toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
         $lat = $settlement->latitude;
         $lon = $settlement->longitude;
         if (isset($objs[$lat.'_'.$lon])) {
