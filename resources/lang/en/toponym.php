@@ -29,6 +29,8 @@ return [
     
     'caseform' => 'Locative form',
     'coords_from_map' => 'Specify coordinates on the map',
+    'coords_max' => 'Coordinates of the upper right corner',
+    'coords_min' => 'Coordinates of the lower left corner',
     'create_new_m_in_this_settl' => 'Create another toponym in this settlement',
     'cur_adm_div' => 'Current administrative-territorial division',
     
@@ -62,6 +64,7 @@ return [
     'longitude' => 'longitude',
     
     'main_info' => 'Main information',
+    'map_height' => 'Map height',
     'mention' => 'Mention',
     'name' => 'Name',
     

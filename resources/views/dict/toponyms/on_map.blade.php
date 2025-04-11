@@ -14,7 +14,7 @@
 
 @section('search_form')   
     <h2>{{ trans('navigation.search_by_toponyms'). ' '. mb_strtolower(trans('navigation.on_map')) }}</h2>
-    @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map')])
+    @include("dict.toponyms.form._search", ['route' => route('toponyms.on_map'), 'for_map'=>1])
      <div class="row" style='line-height: 26px;'>  
          <div class="col-sm-6">
     @if ($show_count == $total_rec)
@@ -32,7 +32,7 @@
     </div>
 @endsection
 
-@section('main')   
+@section('wide-block')   
     <div class="row" style="margin-bottom: 20px;">
         <div class="col-sm-4"><img src="/images/markers/marker-icon-blue.png" class="legend-icon"> 
             топонимы с точными координатами</div>
@@ -41,7 +41,7 @@
         <div class="col-sm-4"><img src="/images/markers/marker-icon-violet.png" class="legend-icon"> 
             топонимы и поселения с одинаковыми координатами</div>
     </div>
-    <div id="mapid" style="width: 100%; height: 1700px;"></div>
+    <div id="mapid" style="width: 100%; height: {{ $url_args['map_height'] }}px;"></div>
 @stop
 
 @section('footScriptExtra')

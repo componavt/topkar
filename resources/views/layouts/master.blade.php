@@ -50,7 +50,13 @@
         </div>                
     @endif
     </div>
-           
+
+    @hasSection('wide-block')
+        <div class="wide-b">
+            @yield('wide-block')
+        </div>                
+    @endif
+    
 @include('footer._footer')
 @include('footer._foot_script')
 </body>

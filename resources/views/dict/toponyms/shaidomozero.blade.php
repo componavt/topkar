@@ -11,7 +11,7 @@
 
 @section('header', 'Шайдомозеро')
 
-@section('main')   
+@section('wide-block')   
     @include('widgets.found_records', ['n_records'=>$n_records])
     <div id="mapid" style="width: 1350px; height: 1500px;"></div>
 @stop

@@ -2,6 +2,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
        crossorigin=""></script>
+        {!!Html::style('css/leaflet.css')!!}  
 
     <script>
       // initialize Leaflet
@@ -36,9 +37,22 @@
       L.marker({ lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }, 
                { icon: {{ $obj['color'] }}Icon })
               .bindPopup('{!! $obj["popup"] !!}'
-            @if ($obj['color'] != 'blue' && mb_strlen($obj["popup"]) > 300) 
-                ,{maxWidth : {{ mb_strlen($obj["popup"]) < 2400 ? 300+round((mb_strlen($obj["popup"])-300)/3) : 1000 }}}
-            @endif).addTo(map);
+            @if ($obj['color'] != 'blue' && mb_strlen($obj["popup"]) > 300 || !empty($url_args['popup_all'])) 
+                ,{
+                @if ($obj['color'] != 'blue' && mb_strlen($obj["popup"]) > 300)
+                    maxWidth : {{ mb_strlen($obj["popup"]) < 2400 ? 300+round((mb_strlen($obj["popup"])-300)/3) : 1000 }}
+                    @if (!empty($url_args['popup_all']))
+                    ,
+                    @endif
+                @endif
+                @if (!empty($url_args['popup_all']))
+                    autoClose:false
+                @endif
+                }
+            @endif).addTo(map)
+            @if (!empty($url_args['popup_all']))
+                .openPopup();
+            @endif
       @endforeach
     </script>
 @endif    

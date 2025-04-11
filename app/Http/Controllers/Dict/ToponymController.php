@@ -95,8 +95,11 @@ class ToponymController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         $limit = 1000;
+        if (empty($url_args['map_height'])) {
+            $url_args['map_height'] = 1700;
+        }
 
-        list($total_rec, $show_count, $objs, $limit, $bounds) 
+        list($total_rec, $show_count, $objs, $limit, $bounds, $url_args) 
                 = Toponym::forMap($limit, $url_args);                  
 
         $district_values = District::getList();
@@ -290,10 +293,14 @@ class ToponymController extends Controller
     {
         $url_args = $this->url_args;
         $url_args['search_districts'] = Toponym::nLadogaDistricts;
+        if (empty($url_args['map_height'])) {
+            $url_args['map_height'] = 1000;
+        }
         $args_by_get = search_values_by_URL($url_args);
         $limit = 3000;
+        
 
-        list($total_rec, $show_count, $objs, $limit, $bounds) 
+        list($total_rec, $show_count, $objs, $limit, $bounds, $url_args) 
                 = Toponym::forMap($limit, $url_args);                  
 //dd($total_rec);
         $district_values = District::getList();

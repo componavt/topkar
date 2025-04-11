@@ -15,6 +15,13 @@ trait ToponymSearch
         $url_args = url_args($request) + [
                     'in_desc'     => (int)$request->input('in_desc'),
                     'district_link'     => (int)$request->input('district_link'),
+                    'map_height' => (int)$request->input('map_height'),
+                    'max_lat'    => (float)$request->input('max_lat'),
+                    'max_lon'    => (float)$request->input('max_lon'),
+                    'min_lat'    => (float)$request->input('min_lat'),
+                    'min_lon'    => (float)$request->input('min_lon'),
+                    'outside_bounds' => (int)$request->input('outside_bounds'),
+                    'popup_all' => (int)$request->input('popup_all'),
                     'region_link'     => (int)$request->input('region_link'),
                     'search_districts'   => (array)$request->input('search_districts'),
                     'search_districts1926'   => (array)$request->input('search_districts1926'),
@@ -64,6 +71,7 @@ trait ToponymSearch
         $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
         $toponyms = self::searchBySources($toponyms, $url_args['search_sources']);
         $toponyms = self::searchBySourceText($toponyms, $url_args['search_source_text']);
+        $toponyms = self::searchByBounds($toponyms, $url_args);
         
         if ($url_args['search_lang']) {
             $toponyms = $toponyms->whereLangId($url_args['search_lang']);
@@ -82,8 +90,30 @@ trait ToponymSearch
         }         
         if ($url_args['search_etymology_nations']) {
             $toponyms = $toponyms->whereIn('etymology_nation_id',$url_args['search_etymology_nations']);
-        }         
+        }                
+        
 //dd(to_sql($toponyms));
+        return $toponyms;
+    }
+    
+    public static function searchByBounds($toponyms, $url_args) {
+        if (!empty($url_args['outside_bounds'])) {
+            return $toponyms;
+        }
+        
+        if ($url_args['min_lat']) {
+            $toponyms = $toponyms->where('latitude', '>=',$url_args['min_lat']);
+        }        
+        if ($url_args['max_lat']) {
+            $toponyms = $toponyms->where('latitude', '<=',$url_args['max_lat']);
+        }        
+        if ($url_args['min_lon']) {
+            $toponyms = $toponyms->where('longitude', '>=',$url_args['min_lon']);
+        }        
+        if ($url_args['max_lon']) {
+            $toponyms = $toponyms->where('longitude', '<=',$url_args['max_lon']);
+        }        
+        
         return $toponyms;
     }
     
@@ -271,7 +301,7 @@ trait ToponymSearch
         if (user_can_edit()) {
             $limit = $total_rec;
         }        
-        list($show_count, $objs, $checked_ids) = self::toponymsWithCoordsforMap($toponyms, $limit);
+        list($show_count, $objs, $checked_ids) = self::toponymsWithCoordsforMap($toponyms, $limit, $url_args['popup_all']);
         
         if ($show_count<$limit) {
             list($show_count, $objs, $checked_ids) 
@@ -284,22 +314,55 @@ trait ToponymSearch
         }
         arsort($objs);
         
+        list ($bounds, $url_args) = self::getBounds($objs, $url_args);
+        
+        return [$total_rec, $show_count, collect($objs), $limit, $bounds, $url_args];
+    }
+    
+    public static function getBounds($objs, $url_args) {
         $bounds = ['min_lat'=>null, 'min_lon'=>null, 'max_lat'=>null, 'max_lon'=>null];
         foreach (array_keys($objs) as $coord) {
             list($lat, $lon) = explode("_", $coord);
             $lat = (float) $lat;
             $lon = (float) $lon;
 
-            if ($bounds['min_lat'] === null || $lat < $bounds['min_lat']) $bounds['min_lat'] = $lat;
-            if ($bounds['max_lat'] === null || $lat > $bounds['max_lat']) $bounds['max_lat'] = $lat;
-            if ($bounds['min_lon'] === null || $lon < $bounds['min_lon']) $bounds['min_lon'] = $lon;
-            if ($bounds['max_lon'] === null || $lon > $bounds['max_lon']) $bounds['max_lon'] = $lon;
+            if ($bounds['min_lat'] === null || $lat < $bounds['min_lat']) {
+                $bounds['min_lat'] = $lat;
+            }
+            if ($bounds['max_lat'] === null || $lat > $bounds['max_lat']) {
+                $bounds['max_lat'] = $lat;
+            }
+            if ($bounds['min_lon'] === null || $lon < $bounds['min_lon']) {
+                $bounds['min_lon'] = $lon;
+            }
+            if ($bounds['max_lon'] === null || $lon > $bounds['max_lon']) {
+                $bounds['max_lon'] = $lon;
+            }
         }
-        
-        return [$total_rec, $show_count, collect($objs), $limit, $bounds];
+        if (empty($url_args['min_lat'])) {
+            $url_args['min_lat'] = $bounds['min_lat'];
+        } else {
+            $bounds['min_lat'] = $url_args['min_lat'];
+        }
+        if (empty($url_args['min_lon'])) {
+            $url_args['min_lon'] = $bounds['min_lon'];
+        } else {
+            $bounds['min_lon'] = $url_args['min_lon'];
+        }
+        if (empty($url_args['max_lat'])) {
+            $url_args['max_lat'] = $bounds['max_lat'];
+        } else {
+            $bounds['max_lat'] = $url_args['max_lat'];
+        }
+        if (empty($url_args['max_lon'])) {
+            $url_args['max_lon'] = $bounds['max_lon'];
+        } else {
+            $bounds['max_lon'] = $url_args['max_lon'];
+        }
+        return [$bounds, $url_args];
     }
-    
-    public static function toponymsWithCoordsforMap($toponyms, $limit) {
+
+    public static function toponymsWithCoordsforMap($toponyms, $limit, $only_title=false) {
         $objs = [];
         $checked_ids = [];
         $toponyms_with_coords 
@@ -308,7 +371,7 @@ trait ToponymSearch
         $show_count = sizeof($toponyms_with_coords);
 
         foreach ($toponyms_with_coords as $toponym) {
-            $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important').($toponym->geotype ? ' ('.$toponym->geotype->name : '').')'; 
+            $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important').(!$only_title && $toponym->geotype ? ' ('.$toponym->geotype->name : '').')'; 
             $lat = $toponym->latitude;
             $lon = $toponym->longitude;
             if (isset($objs[$lat.'_'.$lon])) {
