@@ -367,16 +367,16 @@ trait ToponymSearch
         $objs = [];
         $checked_ids = [];
         $toponyms_with_coords = $toponyms->withCoords();
-        if (!empty($url_args['min_lat'])) {
+        if (empty($url_args['outside_bounds']) && !empty($url_args['min_lat'])) {
             $toponyms->where('latitude', '>=', $url_args['min_lat']);
         }
-        if (!empty($url_args['min_lon'])) {
+        if (empty($url_args['outside_bounds']) && !empty($url_args['min_lon'])) {
             $toponyms->where('longitude', '>=', $url_args['min_lon']);
         }
-        if (!empty($url_args['max_lat'])) {
+        if (empty($url_args['outside_bounds']) && !empty($url_args['max_lat'])) {
             $toponyms->where('latitude', '<', $url_args['max_lat']);
         }
-        if (!empty($url_args['max_lon'])) {
+        if (empty($url_args['outside_bounds']) && !empty($url_args['max_lon'])) {
             $toponyms->where('longitude', '<', $url_args['max_lon']);
         }
                     
@@ -387,12 +387,6 @@ trait ToponymSearch
         foreach ($toponyms_with_coords as $toponym) {
             $lat = $toponym->latitude;
             $lon = $toponym->longitude;
-            if (!empty($url_args['min_lat']) && $lat<$url_args['min_lat'] ||
-                !empty($url_args['min_lon']) && $lon<$url_args['min_lon'] ||
-                !empty($url_args['max_lat']) && $lat>$url_args['max_lat'] ||
-                !empty($url_args['max_lon']) && $lon>$url_args['max_lon']) {
-                    continue;
-            }
             $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important').(!$url_args['popup_all'] && $toponym->geotype ? ' ('.$toponym->geotype->name.')' : ''); 
             if (isset($objs[$lat.'_'.$lon])) {
                 $objs[$lat.'_'.$lon]['popup'] .= '<br>'.$popup;
@@ -417,16 +411,16 @@ trait ToponymSearch
                 if (!empty($url_args['search_settlements1926'])) {
                     $q2->whereIn('id', $url_args['search_settlements1926']);
                 }
-                if (!empty($url_args['min_lat'])) {
+                if (empty($url_args['outside_bounds']) && !empty($url_args['min_lat'])) {
                     $q2->where('latitude', '>=', $url_args['min_lat']);
                 }
-                if (!empty($url_args['min_lon'])) {
+                if (empty($url_args['outside_bounds']) && !empty($url_args['min_lon'])) {
                     $q2->where('longitude', '>=', $url_args['min_lon']);
                 }
-                if (!empty($url_args['max_lat'])) {
+                if (empty($url_args['outside_bounds']) && !empty($url_args['max_lat'])) {
                     $q2->where('latitude', '<', $url_args['max_lat']);
                 }
-                if (!empty($url_args['max_lon'])) {
+                if (empty($url_args['outside_bounds']) && !empty($url_args['max_lon'])) {
                     $q2->where('longitude', '<', $url_args['max_lon']);
                 }                
             })->take($limit-$show_count)
@@ -456,16 +450,16 @@ trait ToponymSearch
                         if (!empty($url_args['search_settlements1926'])) {
                             $q3->whereIn('id', $url_args['search_settlements1926']);
                         }
-                        if (!empty($url_args['min_lat'])) {
+                        if (empty($url_args['outside_bounds']) && !empty($url_args['min_lat'])) {
                             $q3->where('latitude', '>=', $url_args['min_lat']);
                         }
-                        if (!empty($url_args['min_lon'])) {
+                        if (empty($url_args['outside_bounds']) && !empty($url_args['min_lon'])) {
                             $q3->where('longitude', '>=', $url_args['min_lon']);
                         }
-                        if (!empty($url_args['max_lat'])) {
+                        if (empty($url_args['outside_bounds']) && !empty($url_args['max_lat'])) {
                             $q3->where('latitude', '<', $url_args['max_lat']);
                         }
-                        if (!empty($url_args['max_lon'])) {
+                        if (empty($url_args['outside_bounds']) && !empty($url_args['max_lon'])) {
                             $q3->where('longitude', '<', $url_args['max_lon']);
                         }                
                    });
