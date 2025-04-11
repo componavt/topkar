@@ -54,5 +54,99 @@
                 .openPopup();
             @endif
       @endforeach
+      
+    var selectingMinCoords = false;
+    var selectingMaxCoords = false;
+    var $minLat = $('input[name="min_lat"]');
+    var $minLon = $('input[name="min_lon"]');
+    var $maxLat = $('input[name="max_lat"]');
+    var $maxLon = $('input[name="max_lon"]');
+
+    // Меняем курсор и активируем режим выбора
+    $('#select-min-coords').on('click', function(e) {
+        e.preventDefault();
+        selectingMinCoords = true;
+        $(map.getContainer()).css('cursor', 'help');
+        
+    // Скроллим страницу к низу карты
+        $('html, body').animate({
+            scrollTop: $(map.getContainer()).offset().top + $(map.getContainer()).outerHeight() - $(window).height()
+        }, 500);
+
+        // Показываем мягкое уведомление на экране
+        if ($('#coord-hint').length === 0) {
+            $('<div id="coord-hint">{{ __('toponym.click_to_select_min_coords') }}</div>')
+                .css({
+                    position: 'fixed',
+                    bottom: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: '#333',
+                    color: '#fff',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    zIndex: 10000,
+                    fontSize: '14px'
+                })
+                .appendTo('body')
+                .delay(3000)
+                .fadeOut(400, function() { $(this).remove(); });
+        }
+    });
+    $('#select-max-coords').on('click', function(e) {
+        e.preventDefault();
+        selectingMaxCoords = true;
+        $(map.getContainer()).css('cursor', 'help');
+        
+    // Скроллим страницу к верху карты
+        $('html, body').animate({
+            scrollTop: $(map.getContainer()).offset().top
+        }, 500);
+
+        // Показываем мягкое уведомление на экране
+        if ($('#coord-hint').length === 0) {
+            $('<div id="coord-hint">{{ __('toponym.click_to_select_max_coords') }}</div>')
+                .css({
+                    position: 'fixed',
+                    bottom: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: '#333',
+                    color: '#fff',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    zIndex: 10000,
+                    fontSize: '14px'
+                })
+                .appendTo('body')
+                .delay(3000)
+                .fadeOut(400, function() { $(this).remove(); });
+        }
+    });
+
+    // Обработка клика по карте
+    map.on('click', function(e) {
+        var lat = e.latlng.lat.toFixed(6);
+        var lon = e.latlng.lng.toFixed(6);
+
+        if (selectingMinCoords) {
+            $minLat.val(lat);
+            $minLon.val(lon);
+            $minLat.focus();
+            selectingMinCoords = false;
+        }
+
+        if (selectingMaxCoords) {
+            $maxLat.val(lat);
+            $maxLon.val(lon);
+            $maxLat.focus();
+            selectingMaxCoords = false;
+        }
+
+        // Возвращаем обычный курсор и сбрасываем режим
+        $(map.getContainer()).css('cursor', '');
+
+//        alert(`Установлены координаты: широта ${lat}, долгота ${lon}`);
+    });      
     </script>
 @endif    

@@ -28,6 +28,8 @@ return [
     'by_region_id' => 'by region',
     
     'caseform' => 'Locative form',
+    'click_to_select_max_coords' => 'Click on the map to select the coordinates of the upper right corner.',
+    'click_to_select_min_coords' => 'Click on the map to select the coordinates of the lower left corner.',
     'coords_from_map' => 'Specify coordinates on the map',
     'coords_max' => 'Coordinates of the upper right corner',
     'coords_min' => 'Coordinates of the lower left corner',
@@ -72,7 +74,10 @@ return [
     
     'on_vepkar' => 'On VepKar',
     'output_on_map' => 'Display toponyms on the map',
+    'outside_bounds' => 'Display objects outside the boundaries',
     
+    'point' => 'to point',
+    'popup_all' => 'Display object titles',
     'possibly_same_modern_settlement' => 'Possibly the same modern settlement',
     'possibly_same_settlement1926' => 'Possibly the same settlement in the first half of the 20th century',    
     

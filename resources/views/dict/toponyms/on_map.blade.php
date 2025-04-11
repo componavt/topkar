@@ -78,6 +78,7 @@
             $('#search_{{ $f }}').val(null).trigger('change');
         @endforeach
             $('#search_toponym').attr('value','');
-        });        
+        });    
+        
 @stop
 
