@@ -112,7 +112,7 @@
         selectDistrict1926('search_regions1926', '{{app()->getLocale()}}', '{{trans('toponym.district_county')}}', false);
         selectSelsovet1926('search_regions1926', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet_volost')}}', false);
         selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
-        selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('misc.record_place')}}', false, '.select-record-place1926');
+        selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('misc.record_place_brief')}}', false, '.select-record-place1926');
         selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
         
         $('input[type=reset]').on('click', function (e) {
