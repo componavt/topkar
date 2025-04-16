@@ -253,4 +253,39 @@ class Settlement1926Controller extends Controller
         }  
         return Response::json($list);
     }
+    
+    public function listWithDistricts(Request $request)
+    {
+        $locale = app()->getLocale();
+        $settlement_name = '%'.$request->input('q').'%';
+        $regions = array_remove_null($request->input('regions'));
+//dd($regions, $districts);
+
+        $list = [];
+        $settlements = Settlement1926::where(function($q) use ($settlement_name){
+                            $q->where('name_en','like', $settlement_name)
+                              ->orWhere('name_ru','like', $settlement_name);
+                         });
+        if (sizeof($regions)) {                 
+            $settlements -> whereIn('selsovet_id', function ($q) use ($regions) {
+                $q->select('id')->from('selsovets')
+                  ->whereIn('district_id', function ($q2) use ($regions) {
+                        $q2->select('id')->from('districts')
+                           ->whereIn('region_id', $regions);
+                    });
+            });
+        }
+//dd(to_sql($settlements));
+        $settlements = $settlements->orderBy('name_'.$locale)->get();
+                         
+        foreach ($settlements as $settlement) {
+            $name = $settlement->name;
+            if ($settlement->selsovet1926) {
+                $name .= ' ('. $settlement->selsovet1926->name. ')';
+            }
+            $list[]=['id'  => $settlement->id, 
+                     'text'=> $name];
+        }  
+        return Response::json($list);
+    }
 }

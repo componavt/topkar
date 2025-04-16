@@ -66,6 +66,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/settlements/list_with_districts', [SettlementController::class, 'listWithDistricts']);    
     Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
+    Route::get('/dict/settlements1926/list_with_districts', [Settlement1926Controller::class, 'listWithDistricts']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     
     Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');

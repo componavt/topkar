@@ -262,12 +262,6 @@ class SettlementController extends Controller
         return Response::json($list);
     }
     
-    /**
-     * Gets list of settlements for drop down list in JSON format
-     * Test url: /dict/settlements/list?selsovets[]=1&districts[]=1&regions[]=1
-     * 
-     * @return JSON response
-     */
     public function listWithDistricts(Request $request)
     {
         $locale = app()->getLocale();

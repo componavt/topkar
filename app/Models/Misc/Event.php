@@ -25,6 +25,7 @@ class Event extends Model
     use \App\Traits\Relations\BelongsToMany\Informants;
     use \App\Traits\Relations\BelongsToMany\Recorders;
     use \App\Traits\Relations\BelongsToMany\Settlements;
+    use \App\Traits\Relations\BelongsToMany\Settlements1926;
     
     public static function boot()
     {
@@ -34,6 +35,11 @@ class Event extends Model
     public function settlementsValue()
     {
         return $this->settlements ? $this->settlements()->pluck('id')->toArray() : '';
+    }
+    
+    public function settlements1926Value()
+    {
+        return $this->settlements1926 ? $this->settlements1926()->pluck('id')->toArray() : '';
     }
     
     public function informantsValue()
@@ -49,8 +55,11 @@ class Event extends Model
     public function eventString()
     {
         $out = [];
-        if ($this->settlements && $this->settlements()->count()) {
+        if (!empty($this->settlements)) {
             $out[] = $this->settlementsToString();
+        }
+        if (!empty($this->settlements1926)) {
+            $out[] = $this->settlements1926ToString();
         }
         if ($this->date) {
             $out[] = $this->date;
@@ -73,6 +82,15 @@ class Event extends Model
         return join(', ', $out);
     }
 
+    public function settlements1926ToString()
+    {
+        $out = [];
+        foreach ($this->settlements1926 as $settlement) {
+            $out[] = $settlement->name;
+        }
+        return join(', ', $out);
+    }
+
     public function informantsToString()
     {
         $out = [];
@@ -90,9 +108,8 @@ class Event extends Model
 
     public function updateData($data) {
         
-        if ((!isset($data['settlements']) || !sizeof($data['settlements'])) 
-                && (!isset($data['informants']) || !sizeof($data['informants'])) 
-                && (!isset($data['recorders']) || !sizeof($data['recorders']))) {
+        if (empty($data['settlements']) && empty($data['settlements1926']) 
+                && empty($data['informants']) && empty($data['recorders'])) {
             $this->remove();
             return;
         }
@@ -100,26 +117,28 @@ class Event extends Model
         $this->date = $data['date'];
         $this->save();
 
-        $this->settlements()->sync($data['settlements'] ?? []);
-        $this->informants()->sync($data['informants'] ?? []);
-        $this->recorders()->sync($data['recorders'] ?? []);
+        $this->updateAddData($data);
     }
     
     public static function storeData(int $toponym_id, $data) {
         
-        if ((!isset($data['settlements']) || !sizeof($data['settlements'])) 
-                && (!isset($data['informants']) || !sizeof($data['informants'])) 
-                && (!isset($data['recorders']) || !sizeof($data['recorders']))) {
+        if (empty($data['settlements']) && empty($data['settlements1926']) 
+                && empty($data['informants']) && empty($data['recorders'])) {
             return;
         }
         
         $event = Event::create(['toponym_id' => $toponym_id, 
                                  'date' => $data['date']]);         
-        $event->settlements()->sync($data['settlements'] ?? []);
-        $event->informants()->sync($data['informants'] ?? []);
-        $event->recorders()->sync($data['recorders'] ?? []);
+        $event->updateAddData($data);
     }
     
+    public function updateAddData($data) {
+        
+        $this->settlements()->sync($data['settlements'] ?? []);
+        $this->settlements1926()->sync($data['settlements1926'] ?? []);
+        $this->informants()->sync($data['informants'] ?? []);
+        $this->recorders()->sync($data['recorders'] ?? []);
+    }
     public function remove() {
         $this->settlements()->detach();
         $this->informants()->detach();

@@ -1,4 +1,4 @@
-@extends('layouts.page')
+@extends('layouts.wide_page')
 
 @section('headExtra')
     {!!Html::style('css/select2.min.css')!!}  

@@ -29,6 +29,7 @@ return [
     'informant_removed' => 'Информант ":name" удален.',
     
     'record_place' => 'Место записи',
+    'record_places' => 'Места записи/сбора',
     'recorded_by' => 'записал(и)',
     'recorder' => 'собиратель',
     'recorder_removed' => 'Собиратель ":name" удален.',

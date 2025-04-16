@@ -76,7 +76,9 @@ return [
     'only_exact_coords' => 'with exact coordinates only',
     'output_on_map' => 'Display toponyms on the map',
     'outside_bounds' => 'display objects outside the boundaries',
-    
+
+    'place_early' => 'Early 20th-century settlement',
+    'place_now' => 'Modern settlement',    
     'point' => 'to point',
     'popup_all' => 'display object titles',
     'possibly_same_modern_settlement' => 'Possibly the same modern settlement',

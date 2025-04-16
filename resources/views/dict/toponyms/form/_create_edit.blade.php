@@ -268,11 +268,13 @@
 
 <!-- Events -->                
 <?php $count=1;?>
+    <h3>{{trans('misc.record_places')}}</h3>
 <div style="background-color: #eceeed">
 <div class='row'>
-    <div class="col-sm-4"><b>{{trans('misc.record_place')}}</b></div>
+    <div class="col-sm-2"><b>{{trans('toponym.place_now')}}</b></div>
+    <div class="col-sm-3"><b>{{trans('toponym.place_early')}}</b></div>
     <div class="col-sm-2"><b>{{mb_ucfirst(trans('messages.year'))}}</b></div>
-    <div class="col-sm-3"><b>{{trans('navigation.informants')}}</b></div>            
+    <div class="col-sm-2"><b>{{trans('navigation.informants')}}</b></div>            
     <div class="col-sm-3"><b>{{trans('navigation.recorders')}}</b></div>            
 </div>
 @if ($action == 'edit') 
@@ -281,6 +283,7 @@
             'num' => $count++,
             'var_name'=>"events[".$event->id."]", 
             'settlements_value' => $event->settlementsValue(),
+            'settlements1926_value' => $event->settlements1926Value(),
             'informants_value' => $event->informantsValue(),
             'recorders_value' => $event->recordersValue(),
         ])
@@ -291,6 +294,7 @@
             'num' => $count,
             'var_name'=>"new_event",
             'settlements_value' => [],
+            'settlements1926_value' => [],
             'informants_value' => [],
             'recorders_value' => [],
             'event' => null,

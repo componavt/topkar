@@ -145,7 +145,10 @@
         @foreach ($toponym->events as $event)
         <tr>
             <td>{{ $count++ }}</td>
-            <td>{{$event->settlementsToString()}}</td>
+            <td>
+                {{ $event->settlementsToString() }}@if ($event->settlementsToString() && $event->settlements1926ToString()), @endif
+                {{ $event->settlements1926ToString() }}
+            </td>
             <td>{{$event->date}}</td>
             <td>{{$event->informantsToString()}}</td>
             <td>{{$event->recordersToString()}}</td>

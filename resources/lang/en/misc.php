@@ -29,6 +29,7 @@ return [
     'informant_removed' => 'Informant ":name" is removed successfully.',
     
     'record_place' => 'Place of recording',
+    'record_places' => 'Places of recording',
     'recorded_by' => 'recorded by',
     'recorder' => 'recorder',
     'recorder_removed' => 'Recorder ":name" is removed successfully.',
