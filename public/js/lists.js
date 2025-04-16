@@ -141,6 +141,33 @@ function selectSettlement1926(region_var, district_var, selsovet_var, locale='ru
     });   
 }
 
+function selectEventPlace(region_var, locale='ru', placeholder='', allow_clear=true, selector='.select-settlement', form=''){    
+    var route='/dict/settlements/list_with_districts'
+    $(selector).select2({
+        allowClear: allow_clear,
+        placeholder: placeholder,
+        width: '100%',
+//        width: 'resolve',
+        ajax: {
+          url: '/'+locale+route,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+              regions: selectedValuesToURL(form + " #"+region_var),
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },          
+          cache: true
+        }
+    });   
+}
+
 function selectStruct(structhier_var, locale='ru', placeholder='', allow_clear=true, selector='.select-struct', form='', route='/misc/structs/list'){
     $(selector).select2({
         allowClear: allow_clear,

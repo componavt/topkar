@@ -43,7 +43,7 @@ if (!isset($id_name)) {
     </label>
     @endif
     
-    <select{{ $multiple }} class="{{ $class }}" name="{{ $name }}{{$multiple ? '[]': ''}}" id="{{ $id_name }}" placeholder="choooose">
+    <select{{ $multiple }} class="{{ $class }}" name="{{ $name }}{{$multiple ? '[]': ''}}" id="{{ $id_name }}" placeholder="choooose" style="width: 100%;">
         <!--option></option-->
     @if ($grouped)
         @foreach ($values as $group_name=>$group_values)

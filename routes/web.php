@@ -63,6 +63,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'selsovet1926List']);
     Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
     Route::get('/dict/settlements/list', [SettlementController::class, 'sList']);    
+    Route::get('/dict/settlements/list_with_districts', [SettlementController::class, 'listWithDistricts']);    
     Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);

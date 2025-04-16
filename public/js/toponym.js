@@ -116,7 +116,7 @@ function saveSettlement() {
                 'geotype_id': $("#modalAddSettlement #geotype_id").val(),
                 'locale': $("#locale").val()
             };
-console.log(data);
+//console.log(data);
 
     $.ajax({
         url: route, 

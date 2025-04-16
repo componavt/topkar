@@ -261,4 +261,45 @@ class SettlementController extends Controller
         }  
         return Response::json($list);
     }
+    
+    /**
+     * Gets list of settlements for drop down list in JSON format
+     * Test url: /dict/settlements/list?selsovets[]=1&districts[]=1&regions[]=1
+     * 
+     * @return JSON response
+     */
+    public function listWithDistricts(Request $request)
+    {
+        $locale = app()->getLocale();
+        $settlement_name = '%'.$request->input('q').'%';
+        $regions = array_remove_null($request->input('regions'));
+//dd($regions, $districts);
+
+        $list = [];
+        $settlements = Settlement::where(function($q) use ($settlement_name){
+                            $q->where('name_en','like', $settlement_name)
+                              ->orWhere('name_ru','like', $settlement_name);
+                         });
+        if (sizeof($regions)) {                 
+            $settlements -> whereIn('id', function ($q) use ($regions) {
+                $q->select('settlement_id')->from('district_settlement')
+                  ->whereIn('district_id', function ($q2) use ($regions) {
+                        $q2->select('id')->from('districts')
+                           ->whereIn('region_id', $regions);
+                    });
+            });
+        }
+//dd(to_sql($settlements));
+        $settlements = $settlements->orderBy('name_'.$locale)->get();
+                         
+        foreach ($settlements as $settlement) {
+            $name = $settlement->name;
+            if ($settlement->districts()->count()) {
+                $name .= ' ('. join(', ', $settlement->districts()->pluck('name_ru')->toArray()). ')';
+            }
+            $list[]=['id'  => $settlement->id, 
+                     'text'=> $name];
+        }  
+        return Response::json($list);
+    }
 }
