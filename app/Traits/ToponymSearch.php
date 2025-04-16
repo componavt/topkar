@@ -32,6 +32,7 @@ trait ToponymSearch
                     'search_informants'    => (array)$request->input('search_informants'),
                     'search_lang'    => (int)$request->input('search_lang'),
                     'search_record_places' => (array)$request->input('search_record_places'),
+                    'search_record_places1926' => (array)$request->input('search_record_places1926'),
                     'search_recorders'    => (array)$request->input('search_recorders'),
                     'search_regions'     => (array)$request->input('search_regions'),
                     'search_regions1926'     => (array)$request->input('search_regions1926'),
@@ -67,6 +68,7 @@ trait ToponymSearch
         $toponyms = self::searchBySettlements($toponyms, $url_args['search_settlements']);
         $toponyms = self::searchByRegion($toponyms, $url_args['search_regions']);
         $toponyms = self::searchByRecordPlace($toponyms, $url_args['search_record_places']);
+        $toponyms = self::searchByRecordPlace1926($toponyms, $url_args['search_record_places1926']);
         $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
         $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
         $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
@@ -214,6 +216,22 @@ trait ToponymSearch
                 });
             });        
 //dd($toponyms->toSql());                                
+        return $toponyms;
+    }
+    
+    public static function searchByRecordPlace1926($toponyms, $search_settlements) {
+        
+        if(!sizeof($search_settlements)) {
+            return $toponyms;
+        }
+        
+        $toponyms = $toponyms->whereIn('id', function($q1) use ($search_settlements) {
+            $q1->select('toponym_id')->from('events')
+               ->whereIn('id', function($q2) use ($search_settlements) {
+                    $q2->select('event_id')->from('event_settlement1926')
+                       ->whereIn('settlement1926_id', $search_settlements);
+                });
+            });        
         return $toponyms;
     }
     

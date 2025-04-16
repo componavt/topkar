@@ -69,7 +69,7 @@
 </div>    
 <div>{{ trans('toponym.early_adm_div') }}</div>        
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <!-- Region 1926 -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_regions1926', 
@@ -96,7 +96,7 @@
                  'class'=>'select-selsovet1926 form-control'
         ]) 
     </div>       
-    <div class="col-md-3">        
+    <div class="col-md-2">        
         <!-- Settlement1926 -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'search_settlements1926', 
@@ -105,6 +105,15 @@
                  'class'=>'select-settlement1926 form-control'
         ]) 
     </div>
+    <div class="col-md-2">
+        <!-- Record place1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_record_places1926', 
+                 'values' => $settlement1926_values,
+                 'value' => $url_args['search_record_places1926'],
+                 'class'=>'select-record-place1926 form-control'
+        ]) 
+    </div>    
 </div>    
 <div class="row">
     <div class="col-md-4">        
