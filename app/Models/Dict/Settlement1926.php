@@ -102,6 +102,18 @@ class Settlement1926 extends Model
                 })->get();
 //dd(to_sql($s));        
     }
+    
+    public function recordPlaces() {
+        $place_id = $this->id;
+        return Toponym::whereIn('id', function($q1) use ($place_id) {
+                    $q1->select('toponym_id')->from('events')
+                       ->whereIn('id', function($q2) use ($place_id) {
+                            $q2->select('event_id')->from('event_settlement1926')
+                               ->whereSettlement1926Id($place_id);
+                        });
+                    });        
+    }
+    
     /** Gets array of search parameters.
      * 
      * @param type $request

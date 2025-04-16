@@ -29,6 +29,7 @@
                 <td>{{trans('toponym.name')}}</td>
 {{--                <td class='up-first'>{{trans('general.in_karelian')}}</td>
                 <td class='up-first'>{{trans('general.in_english')}}</td> --}}
+                <td>{{trans('misc.record_place')}}</td>
                 <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
                 <td>{{ trans('messages.actions') }}</td>
@@ -48,6 +49,15 @@
                 </td>
 {{--                <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
                 <td data-th="{{trans('general.in_english')}}">{{ $r->name_en }}</td> --}}
+                
+                <td data-th="{{trans('misc.record_place')}}" style="text-align: left">
+                    @if ($r->recordPlaces()->count() > 0)
+                    <a href="{{route('toponyms.index')}}?search_record_places1926[]={{$r->id}}">{{ $r->recordPlaces()->count() }}</a>
+                    @else
+                    0
+                    @endif
+                </td>
+                
                 <td data-th="{{trans('navigation.toponyms')}}" style="text-align: left">
                     @if ($r->toponyms->count() > 0)
                     <a href="{{route('toponyms.index')}}?search_settlements1926[]={{$r->id}}">{{ $r->toponyms->count() }}</a>
