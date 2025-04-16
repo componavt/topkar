@@ -133,11 +133,11 @@ class Event extends Model
     }
     
     public function updateAddData($data) {
-        
-        $this->settlements()->sync($data['settlements'] ?? []);
-        $this->settlements1926()->sync($data['settlements1926'] ?? []);
-        $this->informants()->sync($data['informants'] ?? []);
-        $this->recorders()->sync($data['recorders'] ?? []);
+//dd($data['settlements1926']);        
+        $this->settlements()->sync(remove_empty_items($data['settlements'] ?? []));
+        $this->settlements1926()->sync(remove_empty_items($data['settlements1926'] ?? []));
+        $this->informants()->sync(remove_empty_items($data['informants'] ?? []));
+        $this->recorders()->sync(remove_empty_items($data['recorders'] ?? []));
     }
     public function remove() {
         $this->settlements()->detach();

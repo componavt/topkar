@@ -189,6 +189,15 @@ if (! function_exists('remove_empty_elems')) {
     }
 }
 
+if (! function_exists('remove_empty_items')) {
+    function remove_empty_items(array $arr=NULL)
+    {
+        return array_filter($arr, function ($value) {
+            return !empty($value);
+        });
+    }
+}
+
 if (! function_exists('remove_default')) {
     function remove_default(array $url_args=NULL)
     {

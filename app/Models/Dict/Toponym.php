@@ -491,8 +491,9 @@ class Toponym extends Model
         foreach ((array)$request->source_toponym as $st_id => $st_data) {
             SourceToponym::find($st_id)->updateData($st_data);
         }
-        
+//dd($request->events);                    
         foreach ((array)$request->events as $e_id => $e_data) {
+
             $event = Event::find($e_id);
             $event -> updateData($e_data);
         }
