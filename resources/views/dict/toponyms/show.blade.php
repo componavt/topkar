@@ -61,11 +61,11 @@
         @endif
     @if ($toponym->location || user_can_edit())
             <p><span class='field-name'>{{trans('toponym.location')}}:</span> 
-            <span class='field-value'>{{ $toponym->location }}</span></p>
+            <span class='field-value'>{!! $toponym->location_with_link !!}</span></p>
     @endif
     @if ($toponym->location1926 || user_can_edit())
             <p><span class='field-name'>{{trans('toponym.location_1926')}}:</span> 
-            <span class='field-value'>{{ $toponym->location1926 }}</span></p>
+            <span class='field-value'>{!! $toponym->location1926_with_link !!}</span></p>
     @endif
     @if ($toponym->caseform || user_can_edit())
             <p><span class='field-name'>{{trans('toponym.caseform')}}:</span> 

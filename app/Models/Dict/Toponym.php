@@ -72,9 +72,16 @@ class Toponym extends Model
         return $this->hasMany(Event::class);
     }
 
-    public function settlementsToString() {
-        $locale = app()->getLocale();
-        return join(', ', $this->settlements()->pluck('name_'.$locale)->toArray());
+    public function settlementsToString($with_links=false) {
+        $out = [];
+        foreach ($this->settlements as $settlement) {
+            $name = $settlement->name;
+            if ($with_links) {
+                $name = '<a href="'.route('settlements.show', $settlement->id).'">'.$name.'</a>';
+            }
+            $out[] = $name;
+        }
+        return join(', ', $out);
     }    
     
     /**
@@ -204,6 +211,16 @@ class Toponym extends Model
                $this->settlementsToString();
     }
     
+    public function getLocationWithLinkAttribute()
+    {
+        if (!$this->region_name && !$this->district_name && !$this->settlementsToString()) {
+            return '-';
+        }
+        return $this->region_name.', '. 
+               $this->district_name.', '. 
+               $this->settlementsToString(true);
+    }
+    
     public function getRegionNameAttribute()
     {
 
@@ -237,6 +254,18 @@ class Toponym extends Model
                $this->district1926_name.', '. 
                $this->selsovet1926_name.', '.
                $this->settlement1926_name;
+    }
+
+    public function getLocation1926WithLinkAttribute()
+    {
+        if (!$this->region1926_name && !$this->district1926_name
+               && !$this->selsovet1926_name && !$this->settlement1926_name) {
+            return '-';
+        }
+        return $this->region1926_name.', '. 
+               $this->district1926_name.', '. 
+               $this->selsovet1926_name.', '.
+               '<a href="'.route('settlements1926.show', $this->settlement1926_id).'">'.$this->settlement1926_name.'</a>';
     }
     
     public function getSelsovet1926IdAttribute()
