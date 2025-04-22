@@ -15,7 +15,7 @@
 
 @section('search_form')   
     <h2>{{ trans('navigation.search_by_nladoga'). ' '. mb_strtolower(trans('navigation.on_map')) }}</h2>
-    @include("dict.toponyms.form._search_nladoga", ['route' => 'nladoga.on_map'])
+    @include("dict.toponyms.form._search_nladoga", ['route' => 'nladoga.on_map', 'for_map'=>1])
      <div class="row" style='line-height: 26px;'>  
          <div class="col-sm-6">
     @if ($show_count == $total_rec)

@@ -29,5 +29,9 @@
         ]) 
     </div>    
 </div>                 
-@include("dict.toponyms.form._output_for_map")
+@if (!empty($for_map))
+    @include("dict.toponyms.form._output_for_map")
+@else    
+    @include('widgets.form._output_fields')
+@endif
         {!! Form::close() !!}
