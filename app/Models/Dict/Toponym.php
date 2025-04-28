@@ -429,6 +429,9 @@ class Toponym extends Model
                 $args[] = 'region1926_id='.$this->settlement1926->selsovet1926->district1926->region_id;
             }
         }
+        foreach ($this->events as $event) {
+            $args[] = 'event_id[]='.$event->id;
+        }
         if (!sizeof($args)) {
             return $args_by_get;
         }
@@ -545,7 +548,9 @@ class Toponym extends Model
             SourceToponym::storeData($this->id, $st_data);
         }
         
-        Event::storeData($this->id, $request->new_event);
+        foreach ((array)$request->new_events as $new_event) {
+            Event::storeData($this->id, $new_event);
+        }
 
         $structs = array_filter((array)$request->structs, 'strlen');        
         $this->structs()->sync($structs);   

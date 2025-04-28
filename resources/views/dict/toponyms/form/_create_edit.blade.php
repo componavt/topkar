@@ -288,11 +288,22 @@
             'recorders_value' => $event->recordersValue(),
         ])
     @endforeach
+@elseif(!empty($event_value))
+    @foreach ($event_value as $event)
+        @include('misc.events._create_edit', [
+            'num' => $count,
+            'var_name'=>"new_events[".$count++."]", 
+            'settlements_value' => $event->settlementsValue(),
+            'settlements1926_value' => $event->settlements1926Value(),
+            'informants_value' => $event->informantsValue(),
+            'recorders_value' => $event->recordersValue(),
+        ])
+    @endforeach
 @endif
 
 @include('misc.events._create_edit', [
             'num' => $count,
-            'var_name'=>"new_event",
+            'var_name'=>"new_events[".$count."]",
             'settlements_value' => [],
             'settlements1926_value' => [],
             'informants_value' => [],

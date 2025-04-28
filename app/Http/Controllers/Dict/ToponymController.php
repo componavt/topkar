@@ -13,6 +13,7 @@ use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;
+use App\Models\Misc\Event;
 use App\Models\Dict\Lang;
 use App\Models\Dict\Region;
 use App\Models\Dict\Selsovet1926;
@@ -353,6 +354,9 @@ class ToponymController extends Controller
         $type_values = [''=>NULL] + Settlement::getTypeList();
         $lang_values = [''=>NULL] + Lang::getList();
         $source_values = [''=>NULL] + Source::getList(true);
+
+        $event_ids = (array)$request->input('event_id');
+        $event_value = Event::whereIn('id', $event_ids)->get();
         
         for ($i=0; $i<4; $i++) {
             $structs[]=[];
@@ -364,7 +368,7 @@ class ToponymController extends Controller
         return view('dict.toponyms.modify', 
                 compact('action', 'district_value', 'district_values', 'district1926_value', 
                         'district1926_values', 'ethnos_territory_values', 
-                        'etymology_nation_values', 'geotype_values',  
+                        'etymology_nation_values', 'event_value', 'geotype_values',  
                         'informant_values', 'lang_values', 'recorder_values', 'region_value',
                         'region_values', 'region1926_value', 'selsovet1926_value', 
                         'selsovet1926_values', 'settlement_value', 
