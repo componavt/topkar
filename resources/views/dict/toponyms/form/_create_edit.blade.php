@@ -211,7 +211,7 @@
         @include('widgets.form.formitem._select2', 
                 ['name' => 'ethnos_territory_id', 
                  'values' => $ethnos_territory_values,
-                 'value' => optional($toponym)->ethnosTerritoryValue(),
+                 'value' => $action=='create' && !empty($ethnos_territory_value) ? $ethnos_territory_value : optional($toponym)->ethnosTerritoryValue(),
                  'title' => trans('misc.ethnos_territory'),
                  'is_multiple' => false,
                  'class'=>'select-ethnos-territory form-control'

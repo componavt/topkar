@@ -432,6 +432,9 @@ class Toponym extends Model
         foreach ($this->events as $event) {
             $args[] = 'event_id[]='.$event->id;
         }
+        if ($this->ethnos_territory_id) {
+            $args[] = 'ethnos_territory_id='.$this->ethnos_territory_id;
+        }
         if (!sizeof($args)) {
             return $args_by_get;
         }

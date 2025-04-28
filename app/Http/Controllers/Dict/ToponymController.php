@@ -344,6 +344,7 @@ class ToponymController extends Controller
         $settlement1926_value = [(int)$request->input('settlement1926_id')];
 
         $ethnos_territory_values = [''=>NULL] + EthnosTerritory::getList();
+        $ethnos_territory_value = (int)$request->input('ethnos_territory_id');
         $etymology_nation_values = [''=>NULL] + EtymologyNation::getList();
         $geotype_values = [''=>NULL] + Geotype::getList();
         $informant_values = Informant::getList();
@@ -367,7 +368,7 @@ class ToponymController extends Controller
 
         return view('dict.toponyms.modify', 
                 compact('action', 'district_value', 'district_values', 'district1926_value', 
-                        'district1926_values', 'ethnos_territory_values', 
+                        'district1926_values', 'ethnos_territory_value', 'ethnos_territory_values', 
                         'etymology_nation_values', 'event_value', 'geotype_values',  
                         'informant_values', 'lang_values', 'recorder_values', 'region_value',
                         'region_values', 'region1926_value', 'selsovet1926_value', 
