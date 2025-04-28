@@ -20,21 +20,21 @@ selectSettlement1926('region1926_id', 'district1926_id', 'selsovet1926_id', '{{a
 <?php $i=1; ?>
 @if ($action == 'edit') 
     @foreach ($toponym->events as $event)
-selectEventSettlement('region_id', '{{app()->getLocale()}}', '', true, '.select-event-place{{$i}}', '#toponymForm');
-selectEventSettlement1926('region_id', '{{app()->getLocale()}}', '', true, '.select-event-place1926_{{$i}}', '#toponymForm');
-selectInformant('{{app()->getLocale()}}', '', true, '.select-informant{{$i}}', '#toponymForm');
-selectRecorder('{{app()->getLocale()}}', '', true, '.select-recorder{{$i++}}', '#toponymForm');
+selectEventSettlement('region_id', '{{app()->getLocale()}}', '', false, '.select-event-place{{$i}}', '#toponymForm');
+selectEventSettlement1926('region_id', '{{app()->getLocale()}}', '', false, '.select-event-place1926_{{$i}}', '#toponymForm');
+selectInformant('{{app()->getLocale()}}', '', false, '.select-informant{{$i}}', '#toponymForm');
+selectRecorder('{{app()->getLocale()}}', '', false, '.select-recorder{{$i++}}', '#toponymForm');
     @endforeach
 @elseif(!empty($event_value))
     @foreach ($event_value as $event)
-selectEventSettlement('region_id', '{{app()->getLocale()}}', '', true, '.select-event-place{{$i}}', '#toponymForm');
-selectEventSettlement1926('region_id', '{{app()->getLocale()}}', '', true, '.select-event-place1926_{{$i}}', '#toponymForm');
-selectInformant('{{app()->getLocale()}}', '', true, '.select-informant{{$i}}', '#toponymForm');
-selectRecorder('{{app()->getLocale()}}', '', true, '.select-recorder{{$i++}}', '#toponymForm');
+selectEventSettlement('region_id', '{{app()->getLocale()}}', '', false, '.select-event-place{{$i}}', '#toponymForm');
+selectEventSettlement1926('region_id', '{{app()->getLocale()}}', '', false, '.select-event-place1926_{{$i}}', '#toponymForm');
+selectInformant('{{app()->getLocale()}}', '', false, '.select-informant{{$i}}', '#toponymForm');
+selectRecorder('{{app()->getLocale()}}', '', false, '.select-recorder{{$i++}}', '#toponymForm');
     @endforeach
 @endif
-selectEventSettlement('region_id', '{{app()->getLocale()}}', '', true, '.select-event-place{{$i}}', '#toponymForm');
-selectEventSettlement1926('region_id', '{{app()->getLocale()}}', '', true, '.select-event-place1926_{{$i}}', '#toponymForm');
+selectEventSettlement('region_id', '{{app()->getLocale()}}', '', false, '.select-event-place{{$i}}', '#toponymForm');
+selectEventSettlement1926('region_id', '{{app()->getLocale()}}', '', false, '.select-event-place1926_{{$i}}', '#toponymForm');
 selectInformant('{{app()->getLocale()}}', '', false, '.select-informant{{$i}}', '#toponymForm');
 selectRecorder('{{app()->getLocale()}}', '', false, '.select-recorder{{$i}}', '#toponymForm');
 
