@@ -32,6 +32,7 @@ return [
     'create_new_m' => 'Создать новый',
     'create_new_g' => 'Создать новое',
     'created' => 'создал(а)',
+    'created_at' => 'Создано',
     'created_success' => 'Создание успешно завершено',
     
     'delete' => 'Удалить',
@@ -86,6 +87,7 @@ return [
     'total' => 'всего',
     'translation' => 'Перевод',
     'type' => 'Тип',
+    'updated_at' => 'Обновлено',
     'updated_success' => 'Обновление завершено',
     'view' => 'показать',
     'year' => 'год',

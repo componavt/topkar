@@ -12,9 +12,6 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
-    'short_en' => 'short name (en)',
-    'short_ru' => 'short name (ru)',
     
     'in_english'  => 'in English',
     'in_russian'  => 'in Russian',
@@ -25,4 +22,8 @@ return [
     'password' => 'Password',
     'remember_me' => 'Remember me',
     'reset_password' => 'Forgot your password?',
+
+    'short' => 'short name',
+    'short_en' => 'short name (en)',
+    'short_ru' => 'short name (ru)',
 ];

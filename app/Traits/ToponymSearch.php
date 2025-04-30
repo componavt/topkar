@@ -13,8 +13,10 @@ trait ToponymSearch
      */
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
-                    'in_desc'     => (int)$request->input('in_desc'),
+                    'created_at'     => $request->input('created_at'),
                     'district_link'     => (int)$request->input('district_link'),
+                    'group_by'   => (array)$request->input('group_by'),
+                    'in_desc'     => (int)$request->input('in_desc'),
                     'map_height' => (int)$request->input('map_height'),
                     'max_lat'    => (float)$request->input('max_lat'),
                     'max_lon'    => (float)$request->input('max_lon'),
@@ -93,6 +95,9 @@ trait ToponymSearch
         }         
         if ($url_args['search_etymology_nations']) {
             $toponyms = $toponyms->whereIn('etymology_nation_id',$url_args['search_etymology_nations']);
+        }                
+        if (!empty($url_args['created_at'])) {
+            $toponyms = $toponyms->where('created_at', 'like', $url_args['created_at'].'%');
         }                
         
 //dd(to_sql($toponyms));

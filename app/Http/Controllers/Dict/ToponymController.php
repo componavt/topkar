@@ -316,6 +316,49 @@ class ToponymController extends Controller
                         'total_rec', 'args_by_get', 'url_args' ));
     }
     
+    public function duplicates(Request $request)
+    {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        $group_by = ['name', 'geotype_id', 'district_id', 'settlement1926_id'];
+
+        $toponyms = Toponym::groupBy($group_by)
+                  ->havingRaw('count(*) > 1')->get($group_by);
+//dd($toponyms);        
+        $ids=[];
+        foreach ($toponyms as $toponym) {
+            $dubles = Toponym::where('id','>',0);
+            foreach ($group_by as $field) {
+                $dubles->where($field, $toponym->{$field});
+            }
+//dd($dubles->get());            
+            foreach ($dubles->get('id') as $duble) {
+                $ids[] = $duble->id;
+            }            
+        }
+//dd($ids);
+        $toponyms = Toponym::search($url_args)->whereIn('id', $ids);        
+        $n_records = $toponyms->count();  
+//dd($n_records);        
+        $toponyms = $toponyms->paginate($this->url_args['portion']);
+        
+        $district_values = District::getList();
+        $district1926_values = District1926::getList();
+        $geotype_values = Geotype::getList();
+        $region_values = Region::getList();
+        $selsovet1926_values = Selsovet1926::getList();
+        $settlement_values = Settlement::getList();
+        $settlement1926_values = Settlement1926::getList();
+        $sort_values = Toponym::sortList();
+
+        return view('dict.toponyms.duplicates', 
+                compact('district_values', 'district1926_values', 
+                        'geotype_values', 'region_values', 'selsovet1926_values', 
+                        'settlement_values', 'settlement1926_values', 'sort_values', 
+                        'toponyms', 'n_records', 'args_by_get', 'url_args' ));
+    }
+    
+    
     /**
      * Show the form for creating a new resource.
      *

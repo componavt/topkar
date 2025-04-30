@@ -32,6 +32,7 @@ return [
     'create_new_m' => 'Create another one',
     'create_new_g' => 'Create a new',
     'created' => 'created',
+    'created_at' => 'Created at',
     'created_success' => 'Successfully created',
     
     'delete' => 'Delete',
@@ -85,6 +86,7 @@ return [
     'total' => 'total',
     'translation' => 'Translation',
     'type' => 'Type',
+    'updated_at' => 'Updated at',
     'updated_success' => 'Successfully updated',
     'view' => 'Show',
     'year' => 'year',

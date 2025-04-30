@@ -19,6 +19,7 @@ return [
     'dictionary' => 'Dictionary',
     'districts' => 'Districts',
     'districts1926' => 'Districts (early 20th century)',
+    'duplicates' => 'Duplicates',
     
     'email' => 'Email',
     'enter_for_editors' => 'Enter for editors',

@@ -69,8 +69,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/dict/settlements1926/list_with_districts', [Settlement1926Controller::class, 'listWithDistricts']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     
-    Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
+    Route::get('/dict/toponyms/duplicates', [ToponymController::class, 'duplicates'])->name('toponyms.duplicates');
+    Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
     Route::get('/dict/toponyms/nladoga', [ToponymController::class, 'nLadoga'])->name('toponyms.nladoga');
     Route::get('/dict/toponyms/nladoga/on_map', [ToponymController::class, 'nladogaOnMap'])->name('toponyms.nladoga.on_map');
     Route::get('/dict/toponyms/link_to_settl', [ToponymController::class, 'linkToSettlement'])->name('toponyms.link_to_settl');
