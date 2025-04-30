@@ -20,9 +20,9 @@
         <table class="table table-striped table-hover">
             <tr>
                 <td>&numero;</td>
-                <th>{{trans('general.in_russian')}}</th>
-                <td class='up-first'>{{trans('toponym.name')}}</td>
+                <td>{{trans('toponym.name')}}</td>
                 <td class='up-first'>{{trans('toponym.short_name')}}</td>
+                <th class='up-first'>{{trans('general.in_english')}}</th>
                 <td class='up-first'>{{trans('general.short_en')}}</td>
                 <td>{{trans('navigation.toponyms')}}</td>
                 @if (user_can_edit())
