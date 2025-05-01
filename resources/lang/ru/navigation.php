@@ -19,7 +19,7 @@ return [
     'dictionary' => 'Словарь',
     'districts' => 'Районы',
     'districts1926' => 'Районы (I пол. ХХ в.)',
-    'duplicates' => 'Возможные дубли',
+    'duplicates' => 'Возможные дубликаты',
     
     'email' => 'E-mail',
     'enter_for_editors' => 'Вход для редактора',
