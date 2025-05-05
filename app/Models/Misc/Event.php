@@ -141,6 +141,7 @@ class Event extends Model
     }
     public function remove() {
         $this->settlements()->detach();
+        $this->settlements1926()->detach();
         $this->informants()->detach();
         $this->recorders()->detach();        
         $this->delete();
