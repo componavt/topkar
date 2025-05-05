@@ -30,6 +30,7 @@ return [
     'caseform' => 'Locative form',
     'click_to_select_max_coords' => 'Click on the map to select the coordinates of the upper right corner.',
     'click_to_select_min_coords' => 'Click on the map to select the coordinates of the lower left corner.',
+    'coordinates' => 'Coordinates',
     'coords_from_map' => 'Specify coordinates on the map',
     'coords_max' => 'Coordinates of the upper right corner',
     'coords_min' => 'Coordinates of the lower left corner',

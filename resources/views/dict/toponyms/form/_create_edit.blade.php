@@ -222,7 +222,7 @@
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.etymology')])
                  
-        <p><b>{{trans('misc.struct')}}</b></p>
+        <p><b>{{ trans('misc.struct') }}</b></p>
         @for ($i=0; $i < sizeof($structs); $i++)
         <div class='row'>
             <div class="col-sm-6">

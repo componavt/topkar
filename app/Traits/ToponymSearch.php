@@ -13,6 +13,7 @@ trait ToponymSearch
      */
     public static function urlArgs($request) {
         $url_args = url_args($request) + [
+                    'check_by'   => (array)$request->input('check_by'),
                     'created_at'     => $request->input('created_at'),
                     'district_link'     => (int)$request->input('district_link'),
                     'group_by'   => (array)$request->input('group_by'),

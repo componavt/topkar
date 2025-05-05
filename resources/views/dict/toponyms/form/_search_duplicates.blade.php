@@ -1,10 +1,31 @@
-<p>
-    Дубликатами считаются топонимы с одинаковыми названием, видом объекта, современным районом и поселением&nbsp;нач.&nbsp;XX&nbsp;века.
-</p>
 {!! Form::open(['url' => $route, 
                              'method' => 'get']) 
         !!}
+<p>Дубликатами считаются топонимы с одинаковыми названием, видом объекта и выбранным атрибутам:</p>
+
 <div class="row">    
+@foreach ($group_by_fields->chunk(5) as $chunk)
+    <div class="col-md-12 output-fields-b">
+    @foreach ($chunk    as $field => $f_title)
+        <div class='output-fields-e'>
+            <label><input name="group_by[]" type="checkbox" hidden value="{{ $field }}"{{ 
+                          in_array($field, $url_args['group_by']) ? ' checked' : '' 
+                          }}><span></span></label>
+            <span>{{ $f_title }}</span>
+        </div>
+    @endforeach
+    </div>        
+@endforeach
+    <div class="col-md-12 output-fields-b">
+    @foreach ($check_by_fields  as $field => $f_title)
+        <div class='output-fields-e'>
+            <label><input name="check_by[{{ $field }}]" type="checkbox" hidden value="1"{{ 
+                          !empty($url_args['check_by'][$field]) ? ' checked' : '' 
+                          }}><span></span></label>
+            <span>{{ $f_title }}</span>
+        </div>
+    @endforeach
+    </div>   
     <div class="col-md-3">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_toponym',                  

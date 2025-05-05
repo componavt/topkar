@@ -39,6 +39,9 @@
                 <i>{{trans('toponym.location_1926')}}</i></td>       
             <td>{{ trans('messages.created_at') }}</td>
             <td>{{ trans('messages.updated_at') }}</td>
+            @if (user_can_edit())
+            <td>{{ trans('messages.actions') }}</td>
+            @endif
         </tr>
 
         @foreach( $toponyms as $r ) <?php //dd($r) ?>
@@ -54,12 +57,18 @@
             <td>{{ $r->location }} / <br>
                 <i>{{ $r->location1926 }}</i></td>
 
-            @if (user_can_edit())
             <td data-th="{{ trans('messages.created_at') }}">
                 {{ $r->created_at }}
             </td>
             <td data-th="{{ trans('messages.updated_at') }}">
                 {{ $r->updated_at }}
+            </td>
+            @if (user_can_edit())
+            <td data-th="{{ trans('messages.actions') }}">
+                @include('widgets.form.button._delete', 
+                        ['without_text' => 1,
+                         'route' => 'toponyms.destroy', 
+                         'args'=>['toponym' => $r->id, 'back_route'=>'duplicates']])             
             </td>
             @endif
         </tr>

@@ -320,8 +320,28 @@ class ToponymController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        $group_by = ['name', 'geotype_id', 'district_id', 'settlement1926_id'];
-
+        $group_by = array_merge(['name', 'geotype_id'], (array)$request->input('group_by'));//[], 'district_id', 'settlement1926_id'];
+        if (in_array('coordinates', $group_by)) {
+            $group_by[] = 'longitude';
+        }
+        $group_by_fields = collect(['district_id'=>'Современный район', 
+            'settlement1926_id'=>'Поселение нач. XX века',
+            'latitude'=>trans('toponym.coordinates'),
+            'wd'=>trans('toponym.wd'),
+            'caseform'=>trans('toponym.caseform'),
+            'etymology'=>trans('toponym.etymology'),
+            'etymology_nation_id'=>trans('misc.etymology_nation'),
+            'ethnos_territory_id'=>trans('misc.ethnos_territory'),
+            'ethnos_territory_id'=>trans('misc.ethnos_territory'),
+            'main_info'=>trans('toponym.main_info'),
+            'legend'=>trans('toponym.legend'),
+            ]);
+        $check_by = (array)$request->input('check_by');
+        $check_by_fields = [
+            'updated' => 'Дата создания совпадает, а дата обновления отличается от даты создания не больше, чем на минуту'
+            //'struct'=>trans('misc.struct')
+            ];
+//dd($group_by);
         $toponyms = Toponym::groupBy($group_by)
                   ->havingRaw('count(*) > 1')->get($group_by);
 //dd($toponyms);        
@@ -331,7 +351,13 @@ class ToponymController extends Controller
             foreach ($group_by as $field) {
                 $dubles->where($field, $toponym->{$field});
             }
-//dd($dubles->get());            
+//dd($dubles->get());   
+/*            if (!$dubles->count()) {
+                continue;
+            }*/
+            if (!empty($check_by['updated'])) {
+                $dubles->whereRaw('TIMESTAMPDIFF(SECOND, created_at, updated_at) < 60'); 
+            }
             foreach ($dubles->get('id') as $duble) {
                 $ids[] = $duble->id;
             }            
@@ -352,8 +378,8 @@ class ToponymController extends Controller
         $sort_values = Toponym::sortList();
 
         return view('dict.toponyms.duplicates', 
-                compact('district_values', 'district1926_values', 
-                        'geotype_values', 'region_values', 'selsovet1926_values', 
+                compact('check_by_fields', 'district_values', 'district1926_values', 'geotype_values', 
+                        'group_by_fields', 'region_values', 'selsovet1926_values', 
                         'settlement_values', 'settlement1926_values', 'sort_values', 
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
@@ -552,7 +578,7 @@ class ToponymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(int $id, Request $request)
     {
         $error = false;
         $status_code = 200;
@@ -581,11 +607,13 @@ class ToponymController extends Controller
             $result['message']='Request data is empty';
         }
         
+        $back_route = $request->input('back_route');
+        
         if ($error) {
-                return Redirect::to(route('toponyms.index').($this->args_by_get))
+                return Redirect::to(route('toponyms.'.($back_route ?? 'index')).($this->args_by_get))
                                ->withErrors($result['error_message']);
         } else {
-            return Redirect::to(route('toponyms.index').($this->args_by_get))
+            return Redirect::to(route('toponyms.'.($back_route ?? 'index')).($this->args_by_get))
                   ->withSuccess($result['message']);
         }
     }
