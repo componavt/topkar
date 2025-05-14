@@ -1,6 +1,25 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
        crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+    <style>
+        .custom-cluster div {
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          line-height: 27px;
+          text-align: center;
+          font-size: 12px;
+          font-weight: bold;
+          color: white;
+          border: 2px solid white;
+        }
+
+        .cluster-blue {
+          background-color: rgba(0, 100, 161, 0.7);
+        }
+    </style>
 
     <script>
       // initialize Leaflet
@@ -23,9 +42,22 @@
       map.fitBounds(bounds);
       @endif
 
+      var blueCluster = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+          return L.divIcon({
+            html: '<div class="cluster-blue"><span>' + cluster.getChildCount() + '</span></div>',
+            className: 'custom-cluster',
+            iconSize: L.point(30, 30)
+          });
+        }
+      });
+      
       // show markers on the map
       @foreach ($objs as $obj)
-      L.marker({lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }).bindPopup('{!! $obj["popup"] !!}').addTo(map);
+      var marker = L.marker({lon:{{ $obj['lon'] }} , lat: {{ $obj['lat'] }} }).bindPopup('{!! $obj["popup"] !!}');
+      blueCluster.addLayer(marker);
       @endforeach
+      
+      map.addLayer(blueCluster);  
     </script>
  

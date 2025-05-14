@@ -91,7 +91,7 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function onMap()
+    public function onMap(Request $request)
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;

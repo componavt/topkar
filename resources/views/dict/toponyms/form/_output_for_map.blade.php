@@ -47,6 +47,10 @@
         </div>    
         <div class='col-sm-12 output-fields-b'>
             <div class='output-fields-e'>
+                <label><input name="not_claster" type="checkbox" hidden value="1"{{ $url_args['not_claster']==1 ? ' checked' : '' }}><span></span></label>
+                <span>{!! __('toponym.not_claster') !!}</span>
+            </div>
+            <div class='output-fields-e'>
                 <label><input name="outside_bounds" type="checkbox" hidden value="1"{{ $url_args['outside_bounds']==1 ? ' checked' : '' }}><span></span></label>
                 <span>{{ __('toponym.outside_bounds') }}</span>
             </div>

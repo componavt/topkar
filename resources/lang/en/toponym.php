@@ -70,6 +70,7 @@ return [
     'map_height' => 'Map height',
     'mention' => 'Mention',
     'name' => 'Name',
+    'not_claster' => 'do not group markers',
     
     'official_name' => 'Title name',
     
