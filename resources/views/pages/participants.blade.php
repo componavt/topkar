@@ -10,7 +10,8 @@
         'shibanova' => [99, 'illhportal'],
         'khorokhorin' => [1379, 'illhportal'],
         ],
-        ['nataly' => [22, 'mathem']]
+        ['nataly' => [22, 'mathem'],
+         'kundozerova' => [858, 'illhportal']]
     ];
 ?>
 
