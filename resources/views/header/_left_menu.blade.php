@@ -13,7 +13,7 @@
             @foreach (['participants', 'publications', 'sources'] as $v)
               <li><a class="dropdown-item" href="{{ route('pages', $v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
-              <li><a class="dropdown-item" href="/docs/manual_users.pdf">{{ trans('navigation.manual') }}</a></li>
+              <li><a class="dropdown-item" href="/docs/user_manual_2025-06-09.pdf">{{ trans('navigation.manual') }}</a></li>
             @foreach (['how_to_cite'] as $v)
               <li><a class="dropdown-item" href="{{ route('pages', $v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
