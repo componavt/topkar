@@ -13,6 +13,9 @@ return [
     |
     */
 
+    'datetime_format' => '%d %B %Y в %H:%M',
+    'date_format' => '%d %B %Y',
+    
     'in_english'  => 'по-английски',
     'in_russian'  => 'по-русски',
     'in_karelian' => 'по-карельски',

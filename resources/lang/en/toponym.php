@@ -58,6 +58,7 @@ return [
     'is_map' => 'map',
     
     'lang' => 'language',
+    'last_updated_toponyms' => 'Last updated toponyms',
     'latitude' => 'latitude',
     'legend' => 'Popular interpretation, legends',
     'legend_collect' => 'Texts from VepKar collection "Karelian legends"',
@@ -70,6 +71,7 @@ return [
     'map_height' => 'Map height',
     'mention' => 'Mention',
     'name' => 'Name',
+    'new_toponyms'=>'New toponyms',
     'not_claster' => 'do not group markers',
     
     'official_name' => 'Title name',

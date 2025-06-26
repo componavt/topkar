@@ -901,4 +901,27 @@ class ToponymController extends Controller
     return Response::make(mb_convert_encoding(rtrim($output, "\n"), "utf-8", "windows-1251"), 200, $headers);*/
     }
     
+    public function lastCreated()
+    {
+        $portion = 100;
+        $toponyms = Toponym::lastCreated($portion)
+                    ->groupBy(function ($item, $key) {
+                        return (string)$item['created_at']->formatLocalized(trans('general.date_format'));
+                    });
+        if (!$toponyms) {            
+            return Redirect::to('/');
+        }
+        return view('dict.toponyms.last_created', compact ('toponyms'));
+    }
+    
+    public function lastUpdated()
+    {
+        $portion = 100;
+        $toponyms = Toponym::lastUpdated($portion,1);                                
+        if (!$toponyms) {            
+            return Redirect::to('/');
+        }
+        return view('dict.toponyms.last_updated', compact ('toponyms'));
+    }
+    
 }

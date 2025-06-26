@@ -57,23 +57,31 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     
     Route::get('/dict/districts/list', [DistrictController::class, 'districtList']);
     Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
+    
     Route::get('/dict/districts1926/list', [District1926Controller::class, 'district1926List']);
     Route::get('/dict/districts1926/store', [District1926Controller::class, 'simpleStore']);
+    
     Route::get('/dict/geotypes/store', [GeotypeController::class, 'simpleStore']);
+    
     Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'selsovet1926List']);
     Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
+    
     Route::get('/dict/settlements/list', [SettlementController::class, 'sList']);    
     Route::get('/dict/settlements/list_with_districts', [SettlementController::class, 'listWithDistricts']);    
     Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
+    
     Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
     Route::get('/dict/settlements1926/list_with_districts', [Settlement1926Controller::class, 'listWithDistricts']);    
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
     
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
+    
     Route::get('/dict/toponyms/duplicates', [ToponymController::class, 'duplicates'])->name('toponyms.duplicates');
     Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
     Route::get('/dict/toponyms/nladoga', [ToponymController::class, 'nLadoga'])->name('toponyms.nladoga');
     Route::get('/dict/toponyms/nladoga/on_map', [ToponymController::class, 'nladogaOnMap'])->name('toponyms.nladoga.on_map');
+    Route::get('/dict/toponyms/last_created', [ToponymController::class, 'lastCreated'])->name('toponyms.last_created');
+    Route::get('/dict/toponyms/last_updated', [ToponymController::class, 'lastUpdated'])->name('toponyms.last_updated');
     Route::get('/dict/toponyms/link_to_settl', [ToponymController::class, 'linkToSettlement'])->name('toponyms.link_to_settl');
     Route::post('/dict/toponyms/link_to_settl', [ToponymController::class, 'linkToSettlementSave'])->name('toponyms.link_to_settl.save');
     Route::get('/dict/toponyms/list_for_export', [ToponymController::class, 'listForExport'])->name('toponyms.list_for_export');

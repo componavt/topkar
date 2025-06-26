@@ -4,6 +4,9 @@ namespace App\Models\Dict;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \Venturecraft\Revisionable\Revision;
+
+use App\Models\User;
 
 use App\Models\Dict\Settlement1926;
 //use App\Models\Dict\Source;
@@ -19,11 +22,14 @@ class Toponym extends Model
 {
 //    use HasFactory;
     use \App\Traits\ToponymSearch;
+    use \App\Traits\Methods\LogsUpdatedAt;
     use \Venturecraft\Revisionable\RevisionableTrait;
 
+    protected $revisionable = ['updated_at'];
+    protected $dontKeepRevisionOf = [];
     protected $revisionEnabled = true;
-    protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    protected $historyLimit = 500; //Stop tracking revisions after 500 changes have been made.
+    protected $revisionCleanup = false; // Don't remove old revisions (works only when used with $historyLimit)
+    protected $historyLimit = 999999; // Stop tracking revisions after 999999 changes have been made.
     protected $revisionCreationsEnabled = true; // By default the creation of a new model is not stored as a revision. Only subsequent changes to a model is stored.
     protected $revisionFormattedFields = array(
 //        'title'  => 'string:<strong>%s</strong>',
@@ -65,6 +71,10 @@ class Toponym extends Model
     public static function boot()
     {
         parent::boot();
+        static::updating(function ($model) {
+            \Log::info('Dirty fields:', $model->getDirty());
+        });
+        
     }
     
     public function events()
@@ -504,7 +514,6 @@ class Toponym extends Model
         $this->save();
         
         foreach ((array)$request->topnames as $t_id => $t_info) {
-//dd($t_name);            
             $topname = Topname::find($t_id);
             if (!$t_info['n']) {
                 $topname->delete();
@@ -514,7 +523,6 @@ class Toponym extends Model
         }
         
         foreach ((array)$request->wrongnames as $t_id => $t_info) {
-//dd($t_name);            
             $wrongname = Wrongname::find($t_id);
             if (!$t_info['n']) {
                 $wrongname->delete();
@@ -526,7 +534,6 @@ class Toponym extends Model
         foreach ((array)$request->source_toponym as $st_id => $st_data) {
             SourceToponym::find($st_id)->updateData($st_data);
         }
-//dd($request->events);                    
         foreach ((array)$request->events as $e_id => $e_data) {
 
             $event = Event::find($e_id);
@@ -538,7 +545,7 @@ class Toponym extends Model
     
     public function updateAddInfo(array $data, $request) {
         $this->settlements()->sync(!empty($request->settlement_id) ? remove_empty($request->settlement_id) : []);
-//dd($request->new_topname);        
+        
         foreach ((array)$request->new_topname as $t_info) {
             Topname::storeData($this->id, $t_info);
         }
@@ -562,7 +569,8 @@ class Toponym extends Model
             $this->texts()->sync(preg_split('/;\s*/', $data['text_ids']));
         } else {
             $this->texts()->detach();
-        }       
+        }   
+        $this->logTouch();
     }
     
     public function remove() {
@@ -583,4 +591,78 @@ class Toponym extends Model
         }
         return false;
     }
+    
+    public static function lastCreated($limit='') {
+        $toponyms = self::latest();
+        if ($limit) {
+            $toponyms = $toponyms->take($limit);
+        }
+        $toponyms = $toponyms->with('geotype')->get();
+        
+        $toponymIds = $toponyms->pluck('id')->all();
+
+        // Получаем последние ревизии по созданию для всех топонимов
+        $revisions = Revision::where('revisionable_type', 'like', '%Toponym')
+            ->where('key', 'created_at')
+            ->whereIn('revisionable_id', $toponymIds)
+            ->latest()
+            ->get()
+            ->unique('revisionable_id')
+            ->keyBy('revisionable_id');
+
+        // Получаем id пользователей, чтобы не дёргать по одному
+        $userIds = $revisions->pluck('user_id')->unique()->all();
+        $users = User::whereIn('id', $userIds)->get()->keyBy('id');
+
+        // Назначаем user-имя каждому топониму
+        foreach ($toponyms as $toponym) {
+            $revision = $revisions->get($toponym->id);
+            if ($revision) {
+                $toponym->user = $users[$revision->user_id]->name ?? null;
+            }
+        }
+        
+        return $toponyms;
+    }
+    
+    public static function lastUpdated($limit='',$is_grouped=0) {
+        // Получаем ревизии одним запросом
+        $revisions = Revision::where('revisionable_type', 'like', '%Toponym')
+            ->where('key', 'updated_at')
+            ->latest()
+            ->get()
+            ->unique('revisionable_id')  // берём только одну ревизию на каждый топоним
+            ->take($limit);
+
+        // Собираем id топонимов и пользователей
+        $toponymIds = $revisions->pluck('revisionable_id')->all();
+//dd($toponymIds);        
+        $userIds = $revisions->pluck('user_id')->filter()->unique()->all();
+
+        // Загружаем топонимы и пользователей пачкой
+        $toponyms = self::whereIn('id', $toponymIds)->get()->keyBy('id');
+        $users = User::whereIn('id', $userIds)->get()->keyBy('id');
+
+        $result = [];
+
+        foreach ($revisions as $revision) {
+            $toponym = $toponyms->get($revision->revisionable_id);
+            if (!$toponym) {
+                continue;
+            }
+
+            // Добавляем имя пользователя
+            $toponym->user = $users[$revision->user_id]->name ?? null;
+
+            if ($is_grouped) {
+                $updated_date = $toponym->updated_at->formatLocalized(trans('general.date_format'));
+                $result[$updated_date][] = $toponym;
+            } else {
+                $result[] = $toponym;
+            }
+        }
+
+        return $result;
+    }    
+
 }

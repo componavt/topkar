@@ -11,8 +11,8 @@ class Topname extends Model
     use \Venturecraft\Revisionable\RevisionableTrait;
 
     protected $revisionEnabled = true;
-    protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
-    protected $historyLimit = 500; //Stop tracking revisions after 500 changes have been made.
+    protected $revisionCleanup = false; // Don't remove old revisions (works only when used with $historyLimit)
+    protected $historyLimit = 999999; // Stop tracking revisions after 999999 changes have been made.
     protected $revisionCreationsEnabled = true; // By default the creation of a new model is not stored as a revision. Only subsequent changes to a model is stored.
     protected $revisionFormattedFields = array(
         'updated_at' => 'datetime:m/d/Y g:i A'

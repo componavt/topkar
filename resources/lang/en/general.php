@@ -12,6 +12,9 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+
+    'datetime_format' => '%B %d, %Y in %H:%M',
+    'date_format' => '%B %d, %Y',
     
     'in_english'  => 'in English',
     'in_russian'  => 'in Russian',
