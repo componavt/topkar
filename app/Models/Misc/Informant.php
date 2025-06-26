@@ -13,7 +13,6 @@ class Informant extends Model
     use \Venturecraft\Revisionable\RevisionableTrait;
 
     protected $revisionEnabled = true;
-    protected $revisionCleanup = true; //Remove old revisions (works only when used with $historyLimit)
     protected $revisionCleanup = false; // Don't remove old revisions (works only when used with $historyLimit)
     protected $historyLimit = 999999; // Stop tracking revisions after 999999 changes have been made.
     protected $revisionFormattedFields = array(
