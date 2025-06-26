@@ -417,3 +417,10 @@ if (!function_exists('js')) {
         return '<script src="/js/'.$filename.'.js?'. filemtime(env('APP_ROOT').'public/js/'.$filename.'.js'). '"></script>';
     }
 }
+
+if (!function_exists('format_number')) {
+    function format_number($total) {
+        return number_format($total, 0, ',', ' ');
+    }
+}
+

@@ -6,6 +6,7 @@ return [
         'krl'=> 'Карельские топонимы', 
         'vep'=> 'Вепсские топонимы', 
         'fi'=> 'Финские топонимы'],
+    'stats_by_editors' => 'Statistics by editors',
     'total_toponyms'  => 'Число топонимов',
     'total_toponyms_with_etimology' => 'Число топонимов с этимологией',
     'total_toponyms_with_legends' => 'Число топонимов с народными толкованиями или преданиями',

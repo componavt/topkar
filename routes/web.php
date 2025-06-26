@@ -101,6 +101,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/pages/{page}', [HomeController::class, 'page'])->name('pages');        
 
     Route::get('/stats', [StatsController::class, 'index'])->name('stats');        
+    Route::get('/stats/by_editors', [StatsController::class, 'byEditors'])->name('stats.by_editors');        
+    Route::get('/stats/by_editor/{user}', [StatsController::class, 'byEditor'])->name('stats.by_editor');        
     
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])

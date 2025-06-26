@@ -50,4 +50,9 @@
                    }}">{{number_format($total_toponyms_with_legends, 0, ',', ' ')}}</a></td>
         </tr>
     </table>
+    
+    @if (user_can_edit())
+    <p style='margin-top: 20px'><a href="{{ route('stats.by_editors') }}">{{ trans('stats.stats_by_editors') }}</a></p>
+    @endif
+
 @stop
