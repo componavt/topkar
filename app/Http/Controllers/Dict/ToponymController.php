@@ -924,4 +924,17 @@ class ToponymController extends Controller
         return view('dict.toponyms.last_updated', compact ('toponyms'));
     }
     
+    public function history(Toponym $toponym)
+    {
+        if (!$toponym) {
+            return Redirect::to('/dict/toponym/')
+                           ->withErrors(\Lang::get('messages.record_not_exists'));
+        }
+        return view('dict.toponyms.history')
+                  ->with(['toponym' => $toponym,
+                        'args_by_get'    => $this->args_by_get,
+                        'url_args'       => $this->url_args,
+                          ]);
+    }
+
 }

@@ -618,7 +618,7 @@ class Toponym extends Model
         foreach ($toponyms as $toponym) {
             $revision = $revisions->get($toponym->id);
             if ($revision) {
-                $toponym->user = $users[$revision->user_id]->name ?? null;
+                $toponym->user = $users[$revision->user_id]->full_name ?? null;
             }
         }
         
@@ -652,7 +652,7 @@ class Toponym extends Model
             }
 
             // Добавляем имя пользователя
-            $toponym->user = $users[$revision->user_id]->name ?? null;
+            $toponym->user = $users[$revision->user_id]->full_name ?? null;
 
             if ($is_grouped) {
                 $updated_date = $toponym->updated_at->formatLocalized(trans('general.date_format'));
@@ -665,4 +665,69 @@ class Toponym extends Model
         return $result;
     }    
 
+    public function allHistory() {
+        $all_history = $this->revisionHistory->filter(function ($item) {
+                            return $item['key'] != 'updated_at' 
+/*                                   && $item['key'] != 'text_xml'
+                                   && $item['key'] != 'transtext_id'
+                                   && $item['key'] != 'event_id'
+                                   && $item['key'] != 'checked'
+                                   && $item['key'] != 'text_structure' */
+                                   && $item['key'] != 'name_for_search';
+                                 //&& !($item['key'] == 'reflexive' && $item['old_value'] == null && $item['new_value'] == 0);
+                        });
+        foreach ($all_history as $history) {
+            $history->what_created = trans('history.toponym_a');
+        }
+ 
+        if ($this->transtext) {
+            $transtext_history = $this->transtext->revisionHistory->filter(function ($item) {
+                                return $item['key'] != 'text_xml';
+                            });
+            foreach ($transtext_history as $history) {
+                    $history->what_created = trans('history.transtext_accusative');
+                    $fieldName = $history->fieldName();
+                    $history->field_name = trans('history.'.$fieldName.'_accusative')
+                            . ' '. trans('history.transtext_genetiv');
+                }
+                $all_history = $all_history -> merge($transtext_history);
+        }
+        
+        if ($this->event) {
+            $event_history = $this->event->revisionHistory->filter(function ($item) {
+                                return $item['key'] != 'text_xml';
+                            });
+            foreach ($event_history as $history) {
+                    $fieldName = $history->fieldName();
+                    $history->field_name = trans('history.'.$fieldName.'_accusative')
+                            . ' '. trans('history.event_genetiv');
+                }
+                $all_history = $all_history -> merge($event_history);
+        }
+        
+        if ($this->source) {
+            $source_history = $this->source->revisionHistory->filter(function ($item) {
+                                return $item['key'] != 'text_xml';
+                            });
+            foreach ($source_history as $history) {
+                    $fieldName = $history->fieldName();
+                    $history->field_name = trans('history.'.$fieldName.'_accusative')
+                            . ' '. trans('history.source_genetiv');
+                }
+                $all_history = $all_history -> merge($source_history);
+        }
+         
+        $all_history = $all_history->sortByDesc('id')
+                      ->groupBy(function ($item, $key) {
+                            return (string)$item['updated_at'];
+                        });
+//dd($all_history);                        
+        return $all_history;
+    }
+    
+    public function getRevisionFormattedFieldNames() {
+        return [
+            'name' => 'toponym_name',
+        ];
+    }
 }

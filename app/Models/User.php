@@ -58,4 +58,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    
+    public function getFullNameAttribute() {
+        if (empty($this->fio)) {
+            return $this->name;
+        }
+        return $this->fio;
+    }
 }

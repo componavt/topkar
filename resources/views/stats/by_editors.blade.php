@@ -16,7 +16,7 @@
         </tr>
         @foreach ($editors as $editor)
         <tr>
-            <td><a href="{{ route('stats.by_editor', $editor) }}">{{ $editor->name }}</a></td>
+            <td><a href="{{ route('stats.by_editor', $editor) }}">{{ $editor->full_name }}</a></td>
             <td>{{ $editor->count }}</td>
             <td>{{ $editor->last_time }}</td>
         </tr>

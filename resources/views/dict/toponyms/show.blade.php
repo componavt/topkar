@@ -37,6 +37,7 @@
         {!! to_create('toponym', $args_by_get, trans('messages.create_new_m')) !!}
         {!! to_create('toponym', $toponym->argsForAnotherOne($args_by_get), trans('toponym.in_this_settl')) !!}
     @endif             
+        {!! to_link(trans('navigation.history'), route('toponyms.history', $toponym), $args_by_get, 'top-icon to-history') !!}
 @endsection            
 
 @section('content')   

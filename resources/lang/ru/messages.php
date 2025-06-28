@@ -36,6 +36,7 @@ return [
     'created_success' => 'Создание успешно завершено',
     
     'delete' => 'Удалить',
+    'deleted' => 'удалил(а)',
     'delete_confirmation' => 'Подтверждение удаления',
     
     'edit' => 'Редактировать',

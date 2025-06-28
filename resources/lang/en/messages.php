@@ -36,6 +36,7 @@ return [
     'created_success' => 'Successfully created',
     
     'delete' => 'Delete',
+    'deleted' => 'deleted',
     'delete_confirmation' => 'Delete confirmation',
     
     'edit' => 'Edit',

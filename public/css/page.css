@@ -61,6 +61,10 @@
     content: url('../images/icons/show.png');
 }
 
+.to-history::before {
+    content: url('../images/icons/history.png');
+}
+
 .field-name {
     color: #8f9b96;
     padding-right: 5px;

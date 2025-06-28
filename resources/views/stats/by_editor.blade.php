@@ -8,7 +8,7 @@
 @endsection
 
 @section('main')   
-    по редактору: <b>{{ $user->name }}</b> 
+    по редактору: <b>{{ $user->full_name }}</b> 
     
     {!! Form::open(array('method'=>'GET', 'route' => ['stats.by_editor', $user])) !!}
     <div style="display: flex; padding: 10px 0 0 20px; align-items: baseline; background-color: #d1dff554;">

@@ -29,6 +29,7 @@ return [
     
     'geotypes' => 'Geotypes',
     
+    'history' => 'History',
     'how_to_cite' => 'How to cite',
     
     'informants' => 'Informants',

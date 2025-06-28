@@ -78,6 +78,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     
     Route::get('/dict/toponyms/duplicates', [ToponymController::class, 'duplicates'])->name('toponyms.duplicates');
     Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
+    Route::get('/dict/toponyms/history/{toponym}', [ToponymController::class, 'history'])->name('toponyms.history');
     Route::get('/dict/toponyms/nladoga', [ToponymController::class, 'nLadoga'])->name('toponyms.nladoga');
     Route::get('/dict/toponyms/nladoga/on_map', [ToponymController::class, 'nladogaOnMap'])->name('toponyms.nladoga.on_map');
     Route::get('/dict/toponyms/last_created', [ToponymController::class, 'lastCreated'])->name('toponyms.last_created');
