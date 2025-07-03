@@ -1,4 +1,4 @@
-<?php namespace App\Traits;
+<?php namespace App\Traits\Search;
 
 use App\Models\Dict\Toponym;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Methods;
+namespace App\Traits\Modify;
 
 use Illuminate\Support\Carbon;
 

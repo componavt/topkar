@@ -25,7 +25,6 @@ class District1926 extends Model
     const SortList=['name_ru', 'id'];
     
     use \App\Traits\Methods\getNameAttribute;
-    use \App\Traits\Methods\getList;
     use \App\Traits\Methods\search\byName;
     use \App\Traits\Methods\sortList;
     
@@ -83,5 +82,24 @@ class District1926 extends Model
             $districts = $districts->whereIn('region_id',$url_args['search_regions']);
         }         
         return $districts;
-    }    
+    }  
+    
+    public static function getList($short=false, $region_id=null)
+    {     
+        $locale = app()->getLocale();
+        $field_name = $short ? 'short' : 'name';
+        
+        $objects = self::orderBy($field_name.'_'.$locale);
+        if ($region_id) {
+            $objects->whereRegionId($region_id);
+        }
+        $objects = $objects->get();
+        
+        $list = array();
+        foreach ($objects as $row) {
+            $list[$row->id] = $row->{$field_name};
+        }
+        
+        return $list;         
+    }
 }

@@ -58,9 +58,6 @@ function selectDistrict1926(region_var, locale='ru', placeholder='', allow_clear
 
 function selectSelsovet1926(region_var, district_var, locale='ru', placeholder='', allow_clear=true, selector='.select-selsovet1926', form=''){
     var route='/dict/selsovets1926/list';
-/*console.log(form);   
-console.log(region_var);   
-console.log(selectedValuesToURL(form + "#"+region_var));   */
     $(form + ' ' + selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,
@@ -73,6 +70,33 @@ console.log(selectedValuesToURL(form + "#"+region_var));   */
             return {
               q: params.term, // search term
               regions: selectedValuesToURL(form + " #"+region_var),
+              districts: selectedValuesToURL(form + " #"+district_var)
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },          
+          cache: true
+        }
+    });   
+}
+
+function selectSelsovet1926ForRegions(regions, district_var, locale='ru', placeholder='', allow_clear=true, selector='.select-selsovet1926', form=''){
+    var route='/dict/selsovets1926/list';
+    $(form + ' ' + selector).select2({
+        allowClear: allow_clear,
+        placeholder: placeholder,
+        width: '100%',
+        ajax: {
+          url: '/'+locale+route,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+              regions: regions,
               districts: selectedValuesToURL(form + " #"+district_var)
             };
           },
@@ -113,6 +137,49 @@ function selectSettlement(region_var, district_var, locale='ru', placeholder='',
     });   
 }
 
+function selectSettlementForDistricts(district_var, locale='ru', placeholder='', allow_clear=true, selector='.select-settlement', form=''){    
+    var route='/dict/settlements/list'
+    $(selector).select2({
+        allowClear: allow_clear,
+        placeholder: placeholder,
+        width: '100%',
+        ajax: {
+          url: '/'+locale+route,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            let $select = $(form + " #" + district_var);
+            let selected = $select.val(); // может быть null, строкой или массивом
+
+            let districts;
+
+            if (selected && selected.length > 0) {
+                districts = Array.isArray(selected) ? selected.join(',') : selected;
+            } else {
+                // Выбрать все option, у которых есть value
+                districts = $select.find('option')
+                    .map(function () {
+                        return $(this).val();
+                    })
+                    .get()
+                    .filter(Boolean) // убираем пустые значения
+                    .join(',');
+            }
+            return {
+              q: params.term, // search term
+              districts: districts,
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },          
+          cache: true
+        }
+    });   
+}
+
 function selectSettlement1926(region_var, district_var, selsovet_var, locale='ru', placeholder='', allow_clear=true, selector='.select-settlement1926', form=''){
     var route='/dict/settlements1926/list'
     $(selector).select2({
@@ -127,6 +194,34 @@ function selectSettlement1926(region_var, district_var, selsovet_var, locale='ru
             return {
               q: params.term, // search term
               regions: selectedValuesToURL(form + " #"+region_var),
+              districts: selectedValuesToURL(form + " #"+district_var),
+              selsovets: selectedValuesToURL(form + " #"+selsovet_var)
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },          
+          cache: true
+        }
+    });   
+}
+
+function selectSettlement1926ForRegions(regions, district_var, selsovet_var, locale='ru', placeholder='', allow_clear=true, selector='.select-settlement1926', form=''){
+    var route='/dict/settlements1926/list'
+    $(selector).select2({
+        allowClear: allow_clear,
+        placeholder: placeholder,
+        width: '100%',
+        ajax: {
+          url: '/'+locale+route,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+              regions: regions,
               districts: selectedValuesToURL(form + " #"+district_var),
               selsovets: selectedValuesToURL(form + " #"+selsovet_var)
             };

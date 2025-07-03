@@ -4,9 +4,6 @@ namespace App\Models\Dict;
 
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use \Venturecraft\Revisionable\Revision;
-
-use App\Models\User;
 
 use App\Models\Dict\Settlement1926;
 //use App\Models\Dict\Source;
@@ -21,8 +18,9 @@ use App\Models\Misc\Struct;
 class Toponym extends Model
 {
 //    use HasFactory;
-    use \App\Traits\ToponymSearch;
-    use \App\Traits\Methods\LogsUpdatedAt;
+    use \App\Traits\History\ToponymHistory;
+    use \App\Traits\Modify\ToponymModify;
+    use \App\Traits\Search\ToponymSearch;
     use \Venturecraft\Revisionable\RevisionableTrait;
 
     protected $revisionable = ['updated_at'];
@@ -43,18 +41,29 @@ class Toponym extends Model
 //        'small_name' => 'Nickname',
 //        'deleted_at' => 'Deleted At'
     );
+
+    public function getRevisionFormattedFieldNames() {
+        return [
+            'name' => 'toponym_name',
+        ];
+    }
     
+//    protected $appends = ['settlement_id'];
+//    protected $hidden = ['settlement_id']; // чтобы не мешал в toArray()
     protected $fillable = ['name', 'name_for_search', 'district_id', 'lang_id', 
                            'settlement1926_id', 'geotype_id', 'etymology', 
                            'etymology_nation_id', 'ethnos_territory_id', 
                            'caseform', 'main_info', 'folk', 'legend', 'wd', 
                            'latitude', 'longitude'];
     const SortList=['name', 'id'];
-    const nLadogaDistricts=[6, 14, 9, 22];
+    const nLadogaDistricts = [6, 14, 9, 22];
+    const nLadogaRegion1926 = 6;
     
     //use \App\Traits\Methods\getNameAttribute;    
-    use \App\Traits\Methods\wdURL;    
     use \App\Traits\Methods\sortList;
+    use \App\Traits\Methods\wdURL;    
+    use \App\Traits\Modify\LogsRelationRevisions;
+    use \App\Traits\Modify\LogsUpdatedAt;
     
     //Scopes
     use \App\Traits\Scopes\WithCoords;
@@ -495,239 +504,11 @@ class Toponym extends Model
         return $toponyms_with->merge($toponyms_without);
     }
 
-    public static function storeData(array $data, $request) {
-        $toponym = Toponym::create($data); 
-        $toponym->name_for_search = to_search_form($toponym->name);
-        $toponym->save(); 
-        
-        $toponym->updateAddInfo($data, $request);
-        
-        return $toponym;
-    }
-    
-    public function updateData(array $data, $request) {
-        $this->fill($data);
-        if (!$this->district_id && $this->settlement && $this->settlement->district_id) {
-            $this->district_id = $this->settlement->district_id;
-        }
-        $this->name_for_search = to_search_form($this->name);
-        $this->save();
-        
-        foreach ((array)$request->topnames as $t_id => $t_info) {
-            $topname = Topname::find($t_id);
-            if (!$t_info['n']) {
-                $topname->delete();
-            } else {
-                $topname->updateData($t_info); 
-            }
-        }
-        
-        foreach ((array)$request->wrongnames as $t_id => $t_info) {
-            $wrongname = Wrongname::find($t_id);
-            if (!$t_info['n']) {
-                $wrongname->delete();
-            } else {
-                $wrongname->updateData($t_info); 
-            }
-        }
-        
-        foreach ((array)$request->source_toponym as $st_id => $st_data) {
-            SourceToponym::find($st_id)->updateData($st_data);
-        }
-        foreach ((array)$request->events as $e_id => $e_data) {
-
-            $event = Event::find($e_id);
-            $event -> updateData($e_data);
-        }
-        
-        $this->updateAddInfo($data, $request);        
-    }
-    
-    public function updateAddInfo(array $data, $request) {
-        $this->settlements()->sync(!empty($request->settlement_id) ? remove_empty($request->settlement_id) : []);
-        
-        foreach ((array)$request->new_topname as $t_info) {
-            Topname::storeData($this->id, $t_info);
-        }
-        
-        foreach ((array)$request->new_wrongname as $t_info) {
-            Wrongname::storeData($this->id, $t_info);
-        }
-
-        foreach ((array)$request->new_source_toponym as $i => $st_data) {
-            SourceToponym::storeData($this->id, $st_data);
-        }
-        
-        foreach ((array)$request->new_events as $new_event) {
-            Event::storeData($this->id, $new_event);
-        }
-
-        $structs = array_filter((array)$request->structs, 'strlen');        
-        $this->structs()->sync($structs);   
-        
-        if ($data['text_ids']) {
-            $this->texts()->sync(preg_split('/;\s*/', $data['text_ids']));
-        } else {
-            $this->texts()->detach();
-        }   
-        $this->logTouch();
-    }
-    
-    public function remove() {
-        $this->structs()->detach();
-        $this->settlements()->detach();
-        foreach ($this->sourceToponyms as $st) {
-            $st->delete();
-        } 
-        foreach ($this->events as $event) {
-            $event->remove();
-        } 
-        $this->delete();
-    }
-    
     public function fromNLadoga() {
         if (in_array($this->district_id, self::nLadogaDistricts)) {
             return true;
         }
         return false;
     }
-    
-    public static function lastCreated($limit='') {
-        $toponyms = self::latest();
-        if ($limit) {
-            $toponyms = $toponyms->take($limit);
-        }
-        $toponyms = $toponyms->with('geotype')->get();
         
-        $toponymIds = $toponyms->pluck('id')->all();
-
-        // Получаем последние ревизии по созданию для всех топонимов
-        $revisions = Revision::where('revisionable_type', 'like', '%Toponym')
-            ->where('key', 'created_at')
-            ->whereIn('revisionable_id', $toponymIds)
-            ->latest()
-            ->get()
-            ->unique('revisionable_id')
-            ->keyBy('revisionable_id');
-
-        // Получаем id пользователей, чтобы не дёргать по одному
-        $userIds = $revisions->pluck('user_id')->unique()->all();
-        $users = User::whereIn('id', $userIds)->get()->keyBy('id');
-
-        // Назначаем user-имя каждому топониму
-        foreach ($toponyms as $toponym) {
-            $revision = $revisions->get($toponym->id);
-            if ($revision) {
-                $toponym->user = $users[$revision->user_id]->full_name ?? null;
-            }
-        }
-        
-        return $toponyms;
-    }
-    
-    public static function lastUpdated($limit='',$is_grouped=0) {
-        // Получаем ревизии одним запросом
-        $revisions = Revision::where('revisionable_type', 'like', '%Toponym')
-            ->where('key', 'updated_at')
-            ->latest()
-            ->get()
-            ->unique('revisionable_id')  // берём только одну ревизию на каждый топоним
-            ->take($limit);
-
-        // Собираем id топонимов и пользователей
-        $toponymIds = $revisions->pluck('revisionable_id')->all();
-//dd($toponymIds);        
-        $userIds = $revisions->pluck('user_id')->filter()->unique()->all();
-
-        // Загружаем топонимы и пользователей пачкой
-        $toponyms = self::whereIn('id', $toponymIds)->get()->keyBy('id');
-        $users = User::whereIn('id', $userIds)->get()->keyBy('id');
-
-        $result = [];
-
-        foreach ($revisions as $revision) {
-            $toponym = $toponyms->get($revision->revisionable_id);
-            if (!$toponym) {
-                continue;
-            }
-
-            // Добавляем имя пользователя
-            $toponym->user = $users[$revision->user_id]->full_name ?? null;
-
-            if ($is_grouped) {
-                $updated_date = $toponym->updated_at->formatLocalized(trans('general.date_format'));
-                $result[$updated_date][] = $toponym;
-            } else {
-                $result[] = $toponym;
-            }
-        }
-
-        return $result;
-    }    
-
-    public function allHistory() {
-        $all_history = $this->revisionHistory->filter(function ($item) {
-                            return $item['key'] != 'updated_at' 
-/*                                   && $item['key'] != 'text_xml'
-                                   && $item['key'] != 'transtext_id'
-                                   && $item['key'] != 'event_id'
-                                   && $item['key'] != 'checked'
-                                   && $item['key'] != 'text_structure' */
-                                   && $item['key'] != 'name_for_search';
-                                 //&& !($item['key'] == 'reflexive' && $item['old_value'] == null && $item['new_value'] == 0);
-                        });
-        foreach ($all_history as $history) {
-            $history->what_created = trans('history.toponym_a');
-        }
- 
-        if ($this->transtext) {
-            $transtext_history = $this->transtext->revisionHistory->filter(function ($item) {
-                                return $item['key'] != 'text_xml';
-                            });
-            foreach ($transtext_history as $history) {
-                    $history->what_created = trans('history.transtext_accusative');
-                    $fieldName = $history->fieldName();
-                    $history->field_name = trans('history.'.$fieldName.'_accusative')
-                            . ' '. trans('history.transtext_genetiv');
-                }
-                $all_history = $all_history -> merge($transtext_history);
-        }
-        
-        if ($this->event) {
-            $event_history = $this->event->revisionHistory->filter(function ($item) {
-                                return $item['key'] != 'text_xml';
-                            });
-            foreach ($event_history as $history) {
-                    $fieldName = $history->fieldName();
-                    $history->field_name = trans('history.'.$fieldName.'_accusative')
-                            . ' '. trans('history.event_genetiv');
-                }
-                $all_history = $all_history -> merge($event_history);
-        }
-        
-        if ($this->source) {
-            $source_history = $this->source->revisionHistory->filter(function ($item) {
-                                return $item['key'] != 'text_xml';
-                            });
-            foreach ($source_history as $history) {
-                    $fieldName = $history->fieldName();
-                    $history->field_name = trans('history.'.$fieldName.'_accusative')
-                            . ' '. trans('history.source_genetiv');
-                }
-                $all_history = $all_history -> merge($source_history);
-        }
-         
-        $all_history = $all_history->sortByDesc('id')
-                      ->groupBy(function ($item, $key) {
-                            return (string)$item['updated_at'];
-                        });
-//dd($all_history);                        
-        return $all_history;
-    }
-    
-    public function getRevisionFormattedFieldNames() {
-        return [
-            'name' => 'toponym_name',
-        ];
-    }
 }

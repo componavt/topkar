@@ -91,8 +91,7 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function onMap(Request $request)
-    {
+    public function onMap(Request $request)    {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         $limit = 1000;
@@ -129,8 +128,7 @@ class ToponymController extends Controller
                         'total_rec', 'args_by_get', 'url_args' ));
     }
 
-    public function withWD()
-    {
+    public function withWD()    {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
@@ -150,8 +148,7 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function withWrongnames()
-    {
+    public function withWrongnames()    {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
@@ -199,8 +196,7 @@ class ToponymController extends Controller
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function withCoords()
-    {
+    public function withCoords()    {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
@@ -230,8 +226,7 @@ class ToponymController extends Controller
                 compact('bounds', 'objs', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function shaidomozero()
-    {
+    public function shaidomozero()    {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
         $lat1 = 62.68;
@@ -268,25 +263,33 @@ class ToponymController extends Controller
                 compact('objs', 'n_records', 'args_by_get', 'url_args' ));
     }
     
-    public function nLadoga()
-    {
+    public function nLadoga()    {
         $url_args = $this->url_args;
-        $url_args['search_districts'] = Toponym::nLadogaDistricts;
+        $nladoga_districts = Toponym::nLadogaDistricts;
+        $nladoga_region1926 = Toponym::nLadogaRegion1926;
         $args_by_get = search_values_by_URL($url_args);
 
         $toponyms = Toponym::search($url_args);
+//        if (empty($url_args['search_districts']) || !array_intersect($url_args['search_districts'], $nladoga_districts)!=$url_args['search_districts']) {
+            $toponyms = $toponyms->whereIn('district_id',$nladoga_districts);
+//            $url_args['search_districts'] = [];
+//        }         
+        
         $n_records = $toponyms->count();        
         $toponyms = $toponyms->paginate($this->url_args['portion']);
         
-        $district_values = District::getList();
         $geotype_values = Geotype::getList();
-        $region_values = Region::getList();
+        $district_values = array_intersect_key(District::getList(), array_flip($nladoga_districts)); // array_flip() превращает массив ключей в ассоциативный массив (['key1' => 0, 'key2' => 1, ...]), и array_intersect_key() оставляет в getList() только те элементы, у которых ключ есть в nladoga_districts.
+        $district1926_values = District1926::getList(false, $nladoga_region1926);
+        $selsovet1926_values = Selsovet1926::getList(false, $nladoga_region1926);
         $settlement_values = Settlement::getList();
+        $settlement1926_values = Settlement1926::getList();
         $sort_values = Toponym::sortList();
 
         return view('dict.toponyms.nladoga', 
-                compact('district_values', 'geotype_values', 'region_values', 
-                        'settlement_values', 'sort_values',
+                compact('district_values', 'district1926_values', 'geotype_values', 
+                        'nladoga_region1926', 'selsovet1926_values', 'settlement_values', 
+                        'settlement1926_values', 'sort_values',
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     

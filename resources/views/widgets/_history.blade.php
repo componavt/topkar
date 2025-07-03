@@ -12,31 +12,35 @@ foreach($histories as $history) {
         $history->field_name = trans('history.'.$fieldName.'_a');
     }    
     
-    if ($fieldName == 'created_at') :
-        if (isset($history->what_created)):
+    if ($fieldName == 'created_at') :                          // создан новый экземпляр
+        if (!empty($history->what_created)):
             $history_strings[] = trans('messages.created'). ' '
                                . $history->what_created;
         endif;
-    elseif (empty($history->oldValue())) : 
-            $history_strings[] = trans('messages.created'). ' '
-                               . $history->field_name .': <b>'
-                               . $history->newValue().'</b>';
-    elseif (!empty($history->oldValue()) && empty($history->newValue())) : 
-            $history_strings[] = trans('messages.deleted'). ' '
-                               . $history->field_name .'</b>';
-    elseif ($fieldName == 'text') :
-//            $diff = \Diff::compare($history->oldValue(), $history->newValue());
-            $htmlDiff = HtmlDiff::create($history->oldValue(), $history->newValue(),$diffConfig);
+        
+    elseif (empty($history->old_value)) :                     // добавлен атрибут
+        $history_strings[] = trans('messages.created'). ' '
+                           . $history->field_name .': <b>'
+                           . $history->new_value.'</b>';
+    
+    elseif (!empty($history->old_value) && empty($history->new_value)) :  // удален атрибут
+        $history_strings[] = trans('messages.deleted'). ' '
+                           . $history->field_name .'</b>';
+
+//    elseif ($fieldName == 'settlement_id') :                            // фиктивное поле
+        
+    
+    elseif ($fieldName == 'main_info') :
+            $htmlDiff = HtmlDiff::create($history->old_value, $history->new_value,$diffConfig);
             $history_strings[] = trans('messages.changed'). ' '
-//                               . $history->field_name. '<br>'.$diff->toHTML();
                                . $history->field_name. '<br>'.$htmlDiff->build();
     else :
             $history_strings[] = trans('messages.changed'). ' '
                                . $history->field_name. '<br>'
                                . trans('messages.from'). ' ' 
-                               . ' <span class="old-value">'. $history->oldValue(). '</span><br>' 
+                               . ' <span class="old-value">'. $history->old_value. '</span><br>' 
                                . trans('messages.to'). ' '
-                               . '<span class="new-value">'. $history->newValue(). '</span>';
+                               . '<span class="new-value">'. $history->new_value. '</span>';
     endif;
 }
 ?>

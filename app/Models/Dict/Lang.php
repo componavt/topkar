@@ -69,10 +69,8 @@ class Lang extends Model
      */
     public static function getNameByID($id) : String
     {
-        $lang = self::where('id',$id)->first();
-        if ($lang) {
-            return $lang->name;
-        }
+        $obj = self::find($id);
+        return $obj ? $obj->name : '';
     }
                 
     /** Gets list of languages

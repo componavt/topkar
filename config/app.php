@@ -242,6 +242,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 
+        'HtmlDiff'   => Caxy\HtmlDiff\HtmlDiff::class,
     ],
 
 ];

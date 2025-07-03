@@ -423,4 +423,3 @@ if (!function_exists('format_number')) {
         return number_format($total, 0, ',', ' ');
     }
 }
-

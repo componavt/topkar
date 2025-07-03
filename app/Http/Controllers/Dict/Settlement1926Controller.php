@@ -234,8 +234,10 @@ class Settlement1926Controller extends Controller
         }
         if (sizeof($districts) || sizeof($regions)) {                 
             $settlements -> whereIn('selsovet_id', function ($q) use ($districts, $regions) {
-                $q->select('id')->from('selsovets1926')
-                  ->whereIn('district1926_id', $districts);
+                $q->select('id')->from('selsovets1926');
+                if (sizeof($districts)) {
+                    $q->whereIn('district1926_id', $districts);
+                }
                 if (sizeof($regions)) {
                     $q->whereIn('district1926_id', function ($q2) use ($regions) {
                         $q2->select('id')->from('districts1926')

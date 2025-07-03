@@ -32,7 +32,6 @@ class Selsovet1926 extends Model
     const SortList=['name_ru', 'id'];
     
     use \App\Traits\Methods\getNameAttribute;
-    use \App\Traits\Methods\getList;
     use \App\Traits\Methods\search\byNameKRL;
     use \App\Traits\Methods\sortList;
     
@@ -119,5 +118,26 @@ class Selsovet1926 extends Model
             $query -> select ('id') -> from ('districts1926') 
                     -> whereIn('region_id', $search_regions );
         });
+    }
+    
+    public static function getList($short=false, $region_id=null)
+    {     
+        $locale = app()->getLocale();
+        $field_name = $short ? 'short' : 'name';
+        
+        $objects = self::orderBy($field_name.'_'.$locale);
+        if (!empty($region_id)) {
+            $objects->whereIn('district1926_id', function ($q) use ($region_id) {
+                $q->select('id')->from('districts1926')
+                  ->whereRegionId($region_id);
+            });
+        }
+        $objects = $objects->get();
+        $list = array();
+        foreach ($objects as $row) {
+            $list[$row->id] = $row->{$field_name};
+        }
+        
+        return $list;         
     }
 }

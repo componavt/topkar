@@ -73,5 +73,10 @@ class District extends Model
             $districts = $districts->whereIn('region_id',$url_args['search_regions']);
         }         
         return $districts;
-    }    
+    }  
+    
+    public static function getNameById($id) {
+        $obj = self::find($id);
+        return $obj ? $obj->name : '';
+    }
 }
