@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lang extends Model
 {
 //    use HasFactory;
+    use \App\Traits\Methods\getNameById;
     
     public $timestamps = false;
     //protected $fillable = ['name_ru', 'code', 'sequence_number'];
@@ -63,16 +64,6 @@ class Lang extends Model
         }
     }
            
-    /** Gets name of this lang by code, takes into account locale.
-     * 
-     * @return String
-     */
-    public static function getNameByID($id) : String
-    {
-        $obj = self::find($id);
-        return $obj ? $obj->name : '';
-    }
-                
     /** Gets list of languages
      * 
      * @return Array [1=>'Vepsian',..]

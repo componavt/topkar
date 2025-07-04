@@ -19,7 +19,7 @@ foreach($histories as $history) {
         endif;
         
     elseif (empty($history->old_value)) :                     // добавлен атрибут
-        $history_strings[] = trans('messages.created'). ' '
+        $history_strings[] = trans('messages.added'). ' '
                            . $history->field_name .': <b>'
                            . $history->new_value.'</b>';
     
@@ -33,7 +33,7 @@ foreach($histories as $history) {
     elseif ($fieldName == 'main_info') :
             $htmlDiff = HtmlDiff::create($history->old_value, $history->new_value,$diffConfig);
             $history_strings[] = trans('messages.changed'). ' '
-                               . $history->field_name. '<br>'.$htmlDiff->build();
+                               . $history->field_name. ':<br><b>'.$htmlDiff->build().'</b>';
     else :
             $history_strings[] = trans('messages.changed'). ' '
                                . $history->field_name. '<br>'

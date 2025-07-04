@@ -158,7 +158,6 @@ class Toponym extends Model
     
     public function topnames()
     {
-        //                                       
         return $this->hasMany(Topname::class);
     }
     

@@ -11,6 +11,7 @@ return [
     */
     
     'actions' => 'Actions',
+    'added' => 'added',
     
     'back_to_list' => 'Return to list',
     'back_to_show' => 'Return to review',

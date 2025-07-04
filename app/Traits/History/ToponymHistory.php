@@ -7,7 +7,11 @@ use App\Models\User;
 use App\Models\Dict\District;
 use App\Models\Dict\Lang;
 use App\Models\Dict\Settlement;
+use App\Models\Dict\Settlement1926;
+
+use App\Models\Misc\Geotype;
 use App\Models\Misc\EthnosTerritory;
+use App\Models\Misc\EtymologyNation;
 
 trait ToponymHistory
 {
@@ -85,6 +89,15 @@ trait ToponymHistory
     }    
 
     public function allHistory() {
+        $modelMap = [
+            'district_id'         => District::class,
+            'ethnos_territory_id' => EthnosTerritory::class,
+            'etymology_nation_id' => EtymologyNation::class,
+            'geotype_id'          => Geotype::class,
+            'lang_id'             => Lang::class,
+            'settlement1926_id'   => Settlement1926::class,
+        ];   
+        
         $all_history = $this->revisionHistory->filter(function ($item) {
                             return $item['key'] != 'updated_at' 
 /*                                   && $item['key'] != 'text_xml'
@@ -103,19 +116,10 @@ trait ToponymHistory
                 $history->new_value = Settlement::getNamesByIds(preg_split("/,\s*/", $history->new_value)); 
             }
 
-            if ($history->key == 'lang_id') {
-                $history->old_value = Lang::getNameById($history->old_value); 
-                $history->new_value = Lang::getNameById($history->new_value); 
-            }
-            
-            if ($history->key == 'district_id') {
-                $history->old_value = District::getNameById($history->old_value); 
-                $history->new_value = District::getNameById($history->new_value); 
-            }
-            
-            if ($history->key == 'ethnos_territory_id') {
-                $history->old_value = EthnosTerritory::getNameById($history->old_value); 
-                $history->new_value = EthnosTerritory::getNameById($history->new_value); 
+            if (isset($modelMap[$history->key])) {
+                $class = $modelMap[$history->key];
+                $history->old_value = $class::getNameById($history->old_value);
+                $history->new_value = $class::getNameById($history->new_value);
             }
         }
  
@@ -164,4 +168,38 @@ trait ToponymHistory
         return $all_history;
     }
     
+    public function topnamesForHistory() {
+        return $this->topnames()->with('lang')->get()->map(function ($t) {
+            $lang = optional($t->lang)->code ?? '—';
+            return "{$t->name} ({$lang})";
+        })->toArray();
+    }
+    
+    public function wrongnamesForHistory() {
+        return $this->wrongnames()->with('lang')->get()->map(function ($t) {
+            $lang = optional($t->lang)->code ?? '—';
+            return "{$t->name} ({$lang})";
+        })->toArray();
+    }
+    
+    public function structsForHistory() {
+        return $this->structs()->with('structhier')->get()->map(function ($t) {
+            $structhier = optional($t->structhier)->nameToString() ?? '—'; 
+            return "{$t->name} ({$structhier})";
+        })->toArray();
+    }
+    
+    public function sourcesForHistory() {
+        return $this->sourceToponyms()->get()->map(function ($t) {
+            return "{$t->sequence_number}. {$t->mention} // {$t->sourceToString()}";
+        })->toArray();
+    }
+    
+    public function eventsForHistory() {
+        return $this->events()->get()->map(function ($t) {
+            return $t->settlementsToString().(($t->settlementsToString() && $t->settlements1926ToString()) ? ',' : '')
+                .$t->settlements1926ToString().(($t->date) ? ', '.$t->date : '')
+                ." ({$t->informantsToString()}, {$t->recordersToString()})";
+        })->toArray();
+    }
 }

@@ -114,7 +114,7 @@
                              'value' => optional($toponym)->textIds(),
                              'title'=>trans('toponym.vepkar_text_id')])
                 </div>
-            </div>         
+            </div>    
         <div class="row"><!-- Row with coordinates and Wikidata ID-->
             <div class="col-sm-4">
                 @include('widgets.form.formitem._text', 

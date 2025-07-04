@@ -31,6 +31,7 @@ class Settlement1926 extends Model
     const SortList=['name_ru', 'id'];
     
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;    
     use \App\Traits\Methods\search\byNameKRL;
     use \App\Traits\Methods\sortList;

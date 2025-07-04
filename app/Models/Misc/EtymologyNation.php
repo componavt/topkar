@@ -9,5 +9,6 @@ class EtymologyNation extends Model
 {
 //    use HasFactory;
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;
 }

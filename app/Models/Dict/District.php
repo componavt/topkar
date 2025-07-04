@@ -23,6 +23,7 @@ class District extends Model
     const SortList=['region_id', 'name_ru', 'id'];
     
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\search\byName;
     use \App\Traits\Methods\sortList;
@@ -75,8 +76,4 @@ class District extends Model
         return $districts;
     }  
     
-    public static function getNameById($id) {
-        $obj = self::find($id);
-        return $obj ? $obj->name : '';
-    }
 }

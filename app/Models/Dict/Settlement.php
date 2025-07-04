@@ -46,6 +46,7 @@ class Settlement extends Model
 
 
     use \App\Traits\Methods\getNameAttribute;
+    use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\wdURL;    
 //    use \App\Traits\Methods\search\byNameKRL;
@@ -258,11 +259,6 @@ class Settlement extends Model
         return $info;
     }
     
-    public static function getNameById($id) {
-        $place = self::find($id);
-        return $place ? $place->name : '';
-    }
- 
     public static function getNamesByIds($ids) {
         $out = [];
         $places = self::whereIn('id', $ids)->get();

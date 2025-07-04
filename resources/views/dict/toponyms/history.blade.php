@@ -13,6 +13,7 @@
 @endsection            
 
 @section('top_links')   
+    {!! to_edit('toponym', $toponym, $args_by_get) !!}
     {!! back_to_show('toponym', $toponym, $args_by_get) !!}
     {!! to_list('toponym', $args_by_get) !!}
 @endsection            
