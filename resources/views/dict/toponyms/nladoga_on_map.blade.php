@@ -58,6 +58,8 @@
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});        
         selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
         selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
+        selectSelsovet1926ForRegions([{{ $nladoga_region1926 }}], 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet_volost')}}', false);
+        selectSettlement1926ForRegions([{{ $nladoga_region1926 }}], 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
         
         $('input[type=reset]').on('click', function (e) {
         @foreach (['geotypes', 'ethnos_territories', 'etymology_nations', 'regions',

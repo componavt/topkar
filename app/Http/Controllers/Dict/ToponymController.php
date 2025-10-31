@@ -307,16 +307,22 @@ class ToponymController extends Controller
         list($total_rec, $show_count, $objs, $limit, $bounds, $url_args) 
                 = Toponym::forMap($limit, $url_args);                  
 //dd($total_rec);
-        $district_values = District::getList();
+//        $district_values = District::getList();
+        $nladoga_region1926 = Toponym::nLadogaRegion1926;
+        $district_values = array_intersect_key(District::getList(), array_flip(Toponym::nLadogaDistricts));
+        $district1926_values = District1926::getList(false, $nladoga_region1926);
+        $selsovet1926_values = Selsovet1926::getList(false, $nladoga_region1926);
+        $settlement1926_values = Settlement1926::getList();
         $geotype_values = Geotype::getList();
         $settlement_values = Settlement::getList();
         $sort_values = Toponym::sortList();
 
         return view('dict.toponyms.nladoga_on_map', 
-                compact('bounds', 'district_values', 'objs', 'limit',
-                        'geotype_values', 'show_count',
-                        'settlement_values', 'sort_values', 
-                        'total_rec', 'args_by_get', 'url_args' ));
+                compact('bounds', 'district_values', 'district1926_values', 
+                        'geotype_values', 'objs', 'limit', 'nladoga_region1926', 
+                        'selsovet1926_values', 
+                        'settlement_values', 'settlement1926_values', 'show_count', 
+                        'sort_values', 'total_rec', 'args_by_get', 'url_args' ));
     }
     
     public function duplicates(Request $request)
