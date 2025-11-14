@@ -62,8 +62,11 @@ if (! function_exists('to_show')) {
 }
 
 if (! function_exists('plural_from_model')) {
-    function plural_from_model($model)
+    function plural_from_model($model, $is_full=false)
     {
+        if ($is_full) {
+            $model = strtolower(class_basename($model));
+        }
         if (preg_match("/^(.+)1926$/",$model, $regs)) {
             $plural = Str::plural(class_basename($regs[1]));
             return Str::camel($plural).'1926';            

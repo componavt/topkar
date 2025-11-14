@@ -52,6 +52,7 @@ return [
     'history' => 'history',
     
     'in_desc' => 'In decreasing<br>order',
+    'in_detail' => 'in detail',
     'in_english' => 'in English',
     'in_karelian' => 'in Karelian',
     'in_pl' => 'in plural',

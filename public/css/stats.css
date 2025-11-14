@@ -2,3 +2,21 @@
     text-align: right;
     white-space: nowrap;
 }
+
+.detail-list {
+    font-size: 0.9em; 
+    line-height: 1.6;
+    margin: 0 0 2rem 4rem; 
+}
+.detail-list .date {
+    padding-top: 0;
+}
+
+.detail-r {
+    margin-bottom: 1rem;
+}
+
+.detail-list .time {
+    color: #999;
+    margin-right: 1rem;
+}
