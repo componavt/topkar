@@ -4,7 +4,7 @@
         {!!Html::style('css/select2.min.css')!!}  
 @stop
 
-@section('header', trans('toponym.selsovets_1926'))
+@section('header', __('toponym.selsovets_1926'))
 
 @section('search_form')
         @include("dict.selsovets1926._form_search")
@@ -22,15 +22,15 @@
     <h2>{{ __('search.search_results') }}</h2>
         <table class="table table-striped table-hover">
             <tr><td>&numero;</td>
-                <td>{{trans('toponym.region')}}</td>
-                <td>{{trans('toponym.district')}}</td>
-                <td>{{trans('toponym.name')}}</td>
-                <td class='up-first'>{{ trans('general.in_karelian') }}</td>
-                <td class='up-first'>{{ trans('general.in_english') }}</td>
-                <td>{{trans('navigation.settlements')}}</td>
-                <td>{{trans('navigation.toponyms')}}</td>
+                <td>{{ __('toponym.region') }}</td>
+                <td>{{ __('toponym.district') }}</td>
+                <td>{{ __('toponym.name') }}</td>
+                <td class='up-first'>{{ __('general.in_karelian') }}</td>
+                <td class='up-first'>{{ __('general.in_english') }}</td>
+                <td>{{ __('navigation.settlements') }}</td>
+                <td>{{ __('navigation.toponyms') }}</td>
                 @if (user_can_edit())
-                <td>{{ trans('messages.actions') }}</td>
+                <td>{{ __('messages.actions') }}</td>
                 @endif
             </tr>
                     
@@ -80,7 +80,7 @@
         {!!Html::script('js/lists.js')!!}
 @stop
 @section('jqueryFunc')
-        recDelete('{{ trans('messages.confirm_delete') }}');
-        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-        selectDistrict1926('search_regions', '{{trans('toponym.district1926')}}', false);
+        recDelete('{{ __('messages.confirm_delete') }}');
+        $('.select-region').select2({allowClear: false, placeholder: '{{ __('toponym.region') }}'});
+        selectDistrict1926('search_regions', '{{ app()->getLocale() }}', '{{ __('toponym.district1926') }}', false);
 @stop
