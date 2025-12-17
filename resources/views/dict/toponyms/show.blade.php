@@ -68,21 +68,9 @@
             <p><span class='field-name'>{{trans('toponym.location_1926')}}:</span> 
             <span class='field-value'>{!! $toponym->location1926_with_link !!}</span></p>
     @endif
-    @if ($toponym->caseform || user_can_edit())
-            <p><span class='field-name'>{{trans('toponym.caseform')}}:</span> 
-            <span class='field-value'>{{ $toponym->caseform }}</span></p>
-    @endif
     @if (optional($toponym->ethnosTerritory)->name || user_can_edit())
             <p><span class='field-name'>{{trans('misc.ethnos_territory')}}:</span> 
             <span class='field-value'>{{ optional($toponym->ethnosTerritory)->name }}</span></p>
-    @endif
-    @if (optional($toponym->etymologyNation)->name || user_can_edit())
-            <p><span class='field-name'>{{trans('misc.etymology_nation')}}:</span> 
-            <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
-    @endif
-    @if ($toponym->etymology || user_can_edit())
-            <p><span class='field-name'>{{trans('toponym.etymology')}}:</span> 
-            <span class='field-value'>{{ $toponym->etymology }}</span></p>
     @endif
     @if ($toponym->main_info || user_can_edit())
             @if (preg_match("/\n/", $toponym->main_info))
@@ -92,6 +80,23 @@
             <p><span class='field-name'>{{trans('toponym.main_info')}}:</span> 
                 <span class='field-value'>{{ $toponym->main_info }}</span></p>
             @endif
+    @endif
+    @if (optional($toponym->etymologyNation)->name || user_can_edit())
+            <p><span class='field-name'>{{trans('misc.etymology_nation')}}:</span> 
+            <span class='field-value'>{{ optional($toponym->etymologyNation)->name }}</span></p>
+    @endif
+    @if ($toponym->caseform || user_can_edit())
+            <p><span class='field-name'>{{trans('toponym.caseform')}}:</span> 
+            <span class='field-value'>{{ $toponym->caseform }}</span></p>
+    @endif
+    @if ($toponym->objOnMap())
+        </div>
+    </div>    
+    @endif
+
+    @if ($toponym->etymology || user_can_edit())
+            <p><span class='field-name'>{{trans('toponym.etymology')}}:</span> 
+            <span class='field-value'>{{ $toponym->etymology }}</span></p>
     @endif
     @if ($toponym->legend || user_can_edit())
             <p><span class='field-name'>{{trans('toponym.legend')}}:</span> 
@@ -128,11 +133,6 @@
         </ol>
     @endif
     
-    @if ($toponym->objOnMap())
-        </div>
-    </div>    
-    @endif
-
     @if (sizeof($toponym->events) || user_can_edit())
     <?php $count=1;?>
     <table class="table table-bordered">
