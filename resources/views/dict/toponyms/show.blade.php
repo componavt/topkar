@@ -114,7 +114,7 @@
                 @if ($st->sourceToString())
                 <i>{{ $st->mention }}</i> 
                 @if ($st->mention) // @endif
-                {{$st->sourceToString()}}
+                {!! $st->sourceToString(0, 1) !!}
                 @endif
             </li> 
         @endforeach

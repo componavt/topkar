@@ -53,6 +53,7 @@ class SourceController extends Controller
             'name_ru'  => 'required|max:200',
             'short_en'  => 'max:50',
             'name_en'  => 'max:150',
+            'year' => 'integer',
         ]);
     }
     

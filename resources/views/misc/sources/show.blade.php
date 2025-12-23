@@ -16,7 +16,13 @@
     @endif             
 @endsection            
 
-@section('content')   
+@section('content')
+
+    @if (user_can_edit() || $source->year)
+    <p style="margin-top: 20px"><span class='h3'>{{ mb_ucfirst(trans('messages.year')) }}</span>: 
+        <span class='field-value'>{{ $source->year }}</span></p>
+    @endif 
+    
     @if (user_can_edit() || $source->name_ru || $source->short_ru)
         <h3>{{mb_ucfirst(trans('messages.in_russian'))}}</h3>
         @if (user_can_edit() || $source->name_ru)
@@ -42,6 +48,16 @@
         <span class='field-value'>{{ $source->short_en }}</span></p>
         @endif 
     @endif 
+    
+    <h3>
+        {{ trans('navigation.toponyms') }}: 
+        @if ($source->toponyms->count() > 0)
+        <a href="{{route('toponyms.index')}}?search_sources[]={{$source->id}}">{{ $source->toponyms->count() }}</a>
+        @else
+        0
+        @endif
+    </h3>
+    
 @stop
 
 @section('footScriptExtra')
