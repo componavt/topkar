@@ -48,6 +48,8 @@ trait ToponymSearch
                     'search_structs'    => (array)$request->input('search_structs'),
                     'search_structhiers'    => (array)$request->input('search_structhiers'),
                     'search_toponym'    => $request->input('search_toponym'),
+                    'search_year_from'    => (int)$request->input('search_year_from') ? $request->input('search_year_from') : null,
+                    'search_year_to'    => (int)$request->input('search_year_to') ? (int)$request->input('search_year_to') : null,
                     'settlement_link'     => (int)$request->input('settlement_link'),
                     'sort_by' => $request->input('sort_by'),
                 ];
@@ -76,7 +78,7 @@ trait ToponymSearch
         $toponyms = self::searchByLocation1926($toponyms, $url_args['search_selsovets1926'], $url_args['search_districts1926'], $url_args['search_regions1926']);
         $toponyms = self::searchByStruct($toponyms, $url_args['search_structs'], $url_args['search_structhiers']);
         $toponyms = self::searchByEvents($toponyms, $url_args['search_informants'], $url_args['search_recorders']);
-        $toponyms = self::searchBySources($toponyms, $url_args['search_sources']);
+        $toponyms = self::searchBySources($toponyms, $url_args['search_sources'], $url_args['search_year_from'], $url_args['search_year_to']);
         $toponyms = self::searchBySourceText($toponyms, $url_args['search_source_text']);
     //    $toponyms = self::searchByBounds($toponyms, $url_args); не выбираются топонимы без точных координат
         
@@ -138,15 +140,28 @@ trait ToponymSearch
                         });
     }
     
-    public static function searchBySources($toponyms, $search_sources) {
-        if(!sizeof($search_sources)) {
+    public static function searchBySources($toponyms, $sources, $year_from, $year_to) {
+        if(!sizeof($sources) && empty($year_from) && empty($year_to)) {
             return $toponyms;
         }   
         
-        return $toponyms->whereIn('id', function ($q) use ($search_sources){
-                            $q->select('toponym_id')->from('source_toponym')
-                              ->whereIn('source_id', $search_sources);
-                        });
+        return $toponyms->whereIn('id', function ($q) use ($sources, $year_from, $year_to){
+                    $q->select('toponym_id')->from('source_toponym');
+                    if (sizeof($sources)) {
+                      $q->whereIn('source_id', $sources);
+                    }
+                    if ($year_from || $year_to) {
+                        $q->whereIn('source_id', function ($q2) use ($year_from, $year_to) {
+                            $q2->select('id')->from('sources');
+                            if ($year_from) {
+                                $q2->where('year','>=',$year_from);
+                            }
+                            if ($year_to) {
+                                $q2->where('year','<=',$year_to);
+                            }
+                        } );
+                    }
+                });                
     }
     
     /** Search toponym by names. 

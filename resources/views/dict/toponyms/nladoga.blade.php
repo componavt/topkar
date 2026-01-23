@@ -77,7 +77,7 @@
         selectSettlementForDistricts('search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
         selectSelsovet1926ForRegions([{{ $nladoga_region1926 }}], 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet_volost')}}', false);
         selectSettlement1926ForRegions([{{ $nladoga_region1926 }}], 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
-        
+        selectSource();
         $('input[type=reset]').on('click', function (e) {
         @foreach (['geotypes', 'districts', 'settlements', 'record_places', 'districts1926', 'selsovets1926', 'settlements1926'] as $f)
             $('#search_{{ $f }}').val(null).trigger('change');

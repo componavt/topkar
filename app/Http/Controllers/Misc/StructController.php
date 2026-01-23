@@ -195,7 +195,7 @@ class StructController extends Controller
     }
     
     /**
-     * Gets list of districts1926 for drop down list in JSON format
+     * Gets list of structs for drop down list in JSON format
      * Test url: /misc/structs/list?structhiers[]=3
      * 
      * @return JSON response

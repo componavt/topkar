@@ -201,4 +201,40 @@ class SourceController extends Controller
                   ->withSuccess($result['message']);
         }
     }
+    
+    /**
+     * Gets list of sources for drop down list in JSON format
+     * Test url: /misc/sources/list?year_from=1500&year_to=1500
+     * 
+     * @return JSON response
+     */
+    public function sList(Request $request)
+    {
+        $locale = app()->getLocale();
+        $sname = '%'.$request->input('q').'%';
+        $year_from = (int)$request->input('year_from');
+        $year_to = (int)$request->input('year_to');
+
+        $list = [];
+        $sources = Source::where(function($q) use ($sname){
+                            $q->where('name_en',  'like',  $sname)
+                              ->orWhere('name_ru','like',  $sname)
+                              ->orWhere('short_en','like',  $sname)
+                              ->orWhere('short_ru','like',  $sname);
+                         });
+        if (!empty($year_from)) {
+            $sources -> where('year','>=',$year_from);
+        }
+        if (!empty($year_to)) {
+            $sources -> where('year','<=',$year_to);
+        }
+        
+        $sources = $sources->orderBy('name_'.$locale)->get();
+                         
+        foreach ($sources as $source) {
+            $list[]=['id'  => $source->id, 
+                     'text'=> $source->short];
+        }  
+        return Response::json($list);
+    }
 }
