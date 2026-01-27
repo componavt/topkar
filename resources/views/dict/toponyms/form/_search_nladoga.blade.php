@@ -85,7 +85,7 @@
         <!-- Sourse year to -->
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_year_to',                  
-                 'value' => $url_args['search_year_from'],
+                 'value' => $url_args['search_year_to'],
                  'attributes' => ['placeholder' => trans('search.year_to')],
                 ])                               
     </div>       
