@@ -22,7 +22,8 @@ class SourceController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','show', 'sList']]);
+//                         ['except' => ['index','show','sList']]);
+                         ['only' => ['create', 'destroy', 'edit', 'simpleStore', 'store', 'update']]);
         $this->url_args = Source::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
@@ -208,8 +209,7 @@ class SourceController extends Controller
      * 
      * @return JSON response
      */
-    public function sList(Request $request)
-    {
+    public function sList(Request $request) {
         $locale = app()->getLocale();
         $sname = '%'.$request->input('q').'%';
         $year_from = (int)$request->input('year_from');

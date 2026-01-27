@@ -44,7 +44,9 @@ class Source extends Model
         $url_args = url_args($request) + [
                     'in_desc'     => (int)$request->input('in_desc'),
                     'search_name'    => $request->input('search_name'),
-                    'search_year'    => (int)$request->input('search_name'),
+                    'search_year'    => (int)$request->input('search_year'),
+                    'search_year_from'    => (int)$request->input('search_year_from'),
+                    'search_year_to'    => (int)$request->input('search_year_to'),
                     'sort_by' => $request->input('sort_by'),
                 ];
         $sort_list = self::SortList;
@@ -65,8 +67,12 @@ class Source extends Model
         
         $recs = self::searchByName($recs, $url_args['search_name']);
         
-        if (!empty($url_args['search_year'])) {
-            $recs->where('year', $url_args['search_year']);
+        if (!empty($url_args['search_year_from'])) {
+            $recs->where('year', '>=', $url_args['search_year_from']);
+        }
+        
+        if (!empty($url_args['search_year_to'])) {
+            $recs->where('year', '<=', $url_args['search_year_to']);
         }
         
         return $recs;

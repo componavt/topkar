@@ -2,7 +2,7 @@
                              'method' => 'get']) 
         !!}
         <div class="row"> 
-            <div class="col-sm-9">
+            <div class="col-sm-6">
         @include('widgets.form.formitem._text', 
                 ['name' => 'search_name',                  
                  'value' => $url_args['search_name'],
@@ -11,9 +11,16 @@
             </div>
             <div class="col-sm-3">
         @include('widgets.form.formitem._text', 
-                ['name' => 'search_year',                  
-                 'value' => $url_args['search_year'] ? $url_args['search_year'] : '',
-                 'attributes' => ['placeholder' => mb_ucfirst(trans('messages.year'))],
+                ['name' => 'search_year_from',                  
+                 'value' => $url_args['search_year_from'] ? $url_args['search_year_from'] : '',
+                 'attributes' => ['placeholder' => trans('search.year_from')],
+                ])      
+            </div>
+            <div class="col-sm-3">
+        @include('widgets.form.formitem._text', 
+                ['name' => 'search_year_to',                  
+                 'value' => $url_args['search_year_to'] ? $url_args['search_year_to'] : '',
+                 'attributes' => ['placeholder' => trans('search.year_to')],
                 ])      
             </div>
         </div>
