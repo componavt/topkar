@@ -22,7 +22,7 @@ class SourceController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('is_editor', 
-                         ['except' => ['index','show']]);
+                         ['except' => ['index','show', 'sList']]);
         $this->url_args = Source::urlArgs($request);  
         
         $this->args_by_get = search_values_by_URL($this->url_args);
