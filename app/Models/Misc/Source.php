@@ -17,7 +17,7 @@ class Source extends Model
         'updated_at' => 'datetime:m/d/Y g:i A'
     );
     
-    protected $fillable = ['short_ru','name_ru', 'short_en', 'name_en'];
+    protected $fillable = ['short_ru','name_ru', 'short_en', 'name_en', 'year'];
     public $timestamps = false;
     const SortList=['name_ru', 'id'];
     
@@ -44,6 +44,9 @@ class Source extends Model
         $url_args = url_args($request) + [
                     'in_desc'     => (int)$request->input('in_desc'),
                     'search_name'    => $request->input('search_name'),
+                    'search_year'    => (int)$request->input('search_year'),
+                    'search_year_from'    => (int)$request->input('search_year_from'),
+                    'search_year_to'    => (int)$request->input('search_year_to'),
                     'sort_by' => $request->input('sort_by'),
                 ];
         $sort_list = self::SortList;
@@ -63,6 +66,14 @@ class Source extends Model
         $recs = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
         
         $recs = self::searchByName($recs, $url_args['search_name']);
+        
+        if (!empty($url_args['search_year_from'])) {
+            $recs->where('year', '>=', $url_args['search_year_from']);
+        }
+        
+        if (!empty($url_args['search_year_to'])) {
+            $recs->where('year', '<=', $url_args['search_year_to']);
+        }
         
         return $recs;
     }    

@@ -285,11 +285,12 @@ class ToponymController extends Controller
         $settlement_values = Settlement::getList();
         $settlement1926_values = Settlement1926::getList();
         $sort_values = Toponym::sortList();
+        $source_values = [''=>NULL] + Source::getList(true);
 
         return view('dict.toponyms.nladoga', 
                 compact('district_values', 'district1926_values', 'geotype_values', 
                         'nladoga_region1926', 'selsovet1926_values', 'settlement_values', 
-                        'settlement1926_values', 'sort_values',
+                        'settlement1926_values', 'sort_values', 'source_values',
                         'toponyms', 'n_records', 'args_by_get', 'url_args' ));
     }
     
@@ -316,13 +317,14 @@ class ToponymController extends Controller
         $geotype_values = Geotype::getList();
         $settlement_values = Settlement::getList();
         $sort_values = Toponym::sortList();
+        $source_values = [''=>NULL] + Source::getList(true);
 
         return view('dict.toponyms.nladoga_on_map', 
                 compact('bounds', 'district_values', 'district1926_values', 
                         'geotype_values', 'objs', 'limit', 'nladoga_region1926', 
                         'selsovet1926_values', 
                         'settlement_values', 'settlement1926_values', 'show_count', 
-                        'sort_values', 'total_rec', 'args_by_get', 'url_args' ));
+                        'sort_values', 'source_values', 'total_rec', 'args_by_get', 'url_args' ));
     }
     
     public function duplicates(Request $request)

@@ -31,13 +31,14 @@ class SourceToponym extends Model
         parent::boot();
     }
     
-    public function sourceToString($short=false) {
+    public function sourceToString($short=false, $with_url=false) {
         if (!$this->source && !$this->source_text) {
             return;
         }
         $out = [];
         if ($this->source) {
-            $out[] = $short ? $this->source->short : $this->source->name;
+            $source = $short ? $this->source->short : $this->source->name;
+            $out[] = $with_url ? '<a href="'.route('sources.show', $this->source_id).'">'. $source. '</a>' : $source;
         }
         if ($this->source_text) {
             $out[] = $this->source_text;

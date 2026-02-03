@@ -426,3 +426,13 @@ if (!function_exists('format_number')) {
         return number_format($total, 0, ',', ' ');
     }
 }
+
+if (!function_exists('mb_ucfirst')) {
+    function mb_ucfirst($str, $encoding = 'UTF-8') {
+        if (empty($str)) {
+            return $str;
+        }
+        return mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding) .
+               mb_substr($str, 1, null, $encoding);
+    }
+}

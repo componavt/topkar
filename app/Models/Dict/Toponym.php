@@ -211,11 +211,14 @@ class Toponym extends Model
 
     public function sourceToponyms()
     {
-        //                                       
         return $this->hasMany(SourceToponym::class)
-                ->orderBy('sequence_number');
-    }
-        
+            ->select('source_toponym.*') // Явно выбираем поля pivot-таблицы
+            ->join('sources', 'sources.id', '=', 'source_toponym.source_id')
+//            ->orderBy('sources.year')
+            ->orderByRaw('ISNULL(sources.year) ASC, sources.year ASC')
+            ->orderBy('source_toponym.sequence_number'); // Дополнительная сортировка для стабильности
+    }       
+    
     /**
      * Get 'Region, district, SETTLEMENT (String)' concatenated by comma.
      */

@@ -71,6 +71,34 @@
         ]) 
     </div>
 </div>    
+<div>{{ trans('toponym.sources') }}</div>        
+<div class="row">
+    <div class="col-md-2">
+        <!-- Sourse year from -->
+        @include('widgets.form.formitem._text', 
+                ['name' => 'search_year_from',                  
+                 'value' => $url_args['search_year_from'],
+                 'attributes' => ['placeholder' => trans('search.year_from')],
+                ])                               
+    </div>       
+    <div class="col-md-2">        
+        <!-- Sourse year to -->
+        @include('widgets.form.formitem._text', 
+                ['name' => 'search_year_to',                  
+                 'value' => $url_args['search_year_to'],
+                 'attributes' => ['placeholder' => trans('search.year_to')],
+                ])                               
+    </div>       
+    <div class="col-md-8">        
+        <!-- Settlement1926 -->
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'search_sources', 
+                 'values' => $source_values,
+                 'value' => $url_args['search_sources'],
+                 'class'=>'select-source form-control'
+        ]) 
+    </div>
+</div>    
 @if (!empty($for_map))
     @include("dict.toponyms.form._output_for_map")
 @else    

@@ -363,3 +363,28 @@ function selectRecorder(locale='ru', placeholder='', allow_clear=true, selector=
     });   
 }
 
+function selectSource(locale='ru', placeholder='', allow_clear=true, selector='.select-source', form='', route='/dict/sources/list'){
+    $(selector).select2({
+        allowClear: allow_clear,
+        placeholder: placeholder,
+        width: '100%',
+        ajax: {
+          url: '/'+locale+route,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term, // search term
+              year_from: $(form + " #search_year_from").val(),
+              year_to: $(form + " #search_year_to").val()
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data
+            };
+          },          
+          cache: true
+        }
+    });   
+}

@@ -88,17 +88,18 @@
                  'class'=>'select-settlement form-control'
         ]) 
                 
-        <!-- Locative form -->
-        @include('widgets.form.formitem._text', 
-                ['name' => 'caseform', 
-                 'title'=>trans('toponym.caseform')])
-                 
         <!-- Main information -->
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'main_info', 
                  'special_symbol' => true,
                  'attributes' => ['rows' => 3],
                  'title'=>trans('toponym.main_info')])
+                 
+        <!-- Locative form -->
+        @include('widgets.form.formitem._text', 
+                ['name' => 'caseform', 
+                 'title'=>trans('toponym.caseform')])
+                 
             <div class="row">
                 <div class="col-sm-8">
                 <!-- Popular interpretation, Legend -->
@@ -199,6 +200,14 @@
                  'class'=>'select-settlement1926 form-control'
         ]) 
         
+        @include('widgets.form.formitem._select2', 
+                ['name' => 'ethnos_territory_id', 
+                 'values' => $ethnos_territory_values,
+                 'value' => $action=='create' && !empty($ethnos_territory_value) ? $ethnos_territory_value : optional($toponym)->ethnosTerritoryValue(),
+                 'title' => trans('misc.ethnos_territory'),
+                 'is_multiple' => false,
+                 'class'=>'select-ethnos-territory form-control'
+        ])
         <!-- Etymology nation -->
         @include('widgets.form.formitem._select2', 
                 ['name' => 'etymology_nation_id', 
@@ -207,14 +216,6 @@
                  'title' => trans('misc.etymology_nation'),
                  'is_multiple' => false,
                  'class'=>'select-etymology-nation form-control'
-        ])
-        @include('widgets.form.formitem._select2', 
-                ['name' => 'ethnos_territory_id', 
-                 'values' => $ethnos_territory_values,
-                 'value' => $action=='create' && !empty($ethnos_territory_value) ? $ethnos_territory_value : optional($toponym)->ethnosTerritoryValue(),
-                 'title' => trans('misc.ethnos_territory'),
-                 'is_multiple' => false,
-                 'class'=>'select-ethnos-territory form-control'
         ])
         @include('widgets.form.formitem._textarea', 
                 ['name' => 'etymology', 
