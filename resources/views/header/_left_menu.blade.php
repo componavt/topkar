@@ -10,7 +10,7 @@
             <ul class="dropdown-menu" role="menu" id='menu1-sub'>
               <li><a class="dropdown-item" href="/">{{ trans('navigation.start') }}</a></li>
               <li><a class="dropdown-item" href="/stats/">{{ trans('navigation.stats') }}</a></li>
-            @foreach (['participants', 'publications', 'sources'] as $v)
+            @foreach (['participants', 'awards', 'publications', 'sources'] as $v)
               <li><a class="dropdown-item" href="{{ route('pages', $v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
               <li><a class="dropdown-item" href="/docs/user_manual_2025-06-09.pdf">{{ trans('navigation.manual') }}</a></li>
@@ -22,14 +22,14 @@
 
           <li class="nav-item dropdown" id='menu2'>
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-              {{ trans('navigation.toponyms') }} 
+              {{ trans('navigation.toponyms') }}
             </a>
             <ul class="dropdown-menu" role="menu" id='menu2-sub'>
               <li><a class="dropdown-item" href="{{ route('toponyms.index') }}">{{ trans('navigation.search') }}</a></li>
             @foreach (['with_wrongnames', 'with_wd', 'with_legends', 'nladoga', 'last_created'] as $v)
               <li><a class="dropdown-item" href="{{ route('toponyms.'.$v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
-            @if (user_can_edit()) 
+            @if (user_can_edit())
                 @foreach (['duplicates', 'link_to_settl'] as $v)
                   <li><a class="dropdown-item" href="{{ route('toponyms.'.$v) }}">{{ trans('navigation.'.$v) }}</a></li>
                 @endforeach
@@ -39,10 +39,10 @@
           </li>
           <li class="nav-item dropdown" id='menu3'>
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-              {{ trans('navigation.auxiliaries') }} 
+              {{ trans('navigation.auxiliaries') }}
             </a>
             <ul class="dropdown-menu" role="menu" id='menu3-sub'>
-            @foreach (['regions', 'districts', 'settlements', 'districts1926', 'selsovets1926', 'settlements1926', 
+            @foreach (['regions', 'districts', 'settlements', 'districts1926', 'selsovets1926', 'settlements1926',
                          'geotypes', 'informants', 'recorders', 'structs', 'sources'] as $v)
               <li><a class="dropdown-item" href="{{ route($v.'.index') }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
