@@ -11,6 +11,7 @@ use App\Http\Controllers\Dict\RegionController;
 use App\Http\Controllers\Dict\Selsovet1926Controller;
 use App\Http\Controllers\Dict\SettlementController;
 use App\Http\Controllers\Dict\Settlement1926Controller;
+use App\Http\Controllers\Dict\StreetController;
 use App\Http\Controllers\Dict\TopnameController;
 use App\Http\Controllers\Dict\ToponymController;
 use App\Http\Controllers\Dict\WrongnameController;
@@ -38,46 +39,48 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::group(['prefix' => LaravelLocalization::setLocale()], function()
-{
+Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     /** ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-/*    Route::get('/map_example', function () {
+    /*    Route::get('/map_example', function () {
         return view('map_example'); // return view('dashboard');
     });*/
 
-//    Route::get('/service/tmp_fill_events', [ServiceController::class, 'tmp_fill_events']);
-//    Route::get('/service/tmp_fill_settlements', [ServiceController::class, 'tmp_fill_settlements']);
-//    Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
-//    Route::get('/service/tmp_fill_sources', [ServiceController::class, 'tmp_fill_sources']);
-//    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
+    //    Route::get('/service/tmp_fill_events', [ServiceController::class, 'tmp_fill_events']);
+    //    Route::get('/service/tmp_fill_settlements', [ServiceController::class, 'tmp_fill_settlements']);
+    //    Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
+    //    Route::get('/service/tmp_fill_sources', [ServiceController::class, 'tmp_fill_sources']);
+    //    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
 
     Route::get('/misc/informants/list', [InformantController::class, 'informantList']);
     Route::get('/misc/recorders/list', [RecorderController::class, 'recorderList']);
     Route::get('/misc/structs/list', [StructController::class, 'structList']);
-    
+
     Route::get('/dict/districts/list', [DistrictController::class, 'districtList']);
     Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
-    
+
     Route::get('/dict/districts1926/list', [District1926Controller::class, 'district1926List']);
     Route::get('/dict/districts1926/store', [District1926Controller::class, 'simpleStore']);
-    
+
     Route::get('/dict/geotypes/store', [GeotypeController::class, 'simpleStore']);
-    
+
     Route::get('/dict/selsovets1926/list', [Selsovet1926Controller::class, 'selsovet1926List']);
     Route::get('/dict/selsovets1926/store', [Selsovet1926Controller::class, 'simpleStore']);
-    
-    Route::get('/dict/settlements/list', [SettlementController::class, 'sList']);    
-    Route::get('/dict/settlements/list_with_districts', [SettlementController::class, 'listWithDistricts']);    
+
+    Route::get('/dict/settlements/list', [SettlementController::class, 'sList']);
+    Route::get('/dict/settlements/list_with_districts', [SettlementController::class, 'listWithDistricts']);
     Route::get('/dict/settlements/store', [SettlementController::class, 'simpleStore']);
-    
-    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);    
-    Route::get('/dict/settlements1926/list_with_districts', [Settlement1926Controller::class, 'listWithDistricts']);    
+
+    Route::get('/dict/settlements1926/list', [Settlement1926Controller::class, 'slist']);
+    Route::get('/dict/settlements1926/list_with_districts', [Settlement1926Controller::class, 'listWithDistricts']);
     Route::get('/dict/settlements1926/store', [Settlement1926Controller::class, 'simpleStore']);
-    
-    Route::get('/dict/sources/list', [SourceController::class, 'slist']);    
-    
+
+    Route::get('/dict/streets/list', [StreetController::class, 'sList']);
+    Route::get('/dict/streets/store', [StreetController::class, 'simpleStore']);
+
+    Route::get('/dict/sources/list', [SourceController::class, 'slist']);
+
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);
-    
+
     Route::get('/dict/toponyms/duplicates', [ToponymController::class, 'duplicates'])->name('toponyms.duplicates');
     Route::post('/dict/toponyms/export', [ToponymController::class, 'export'])->name('toponyms.export');
     Route::get('/dict/toponyms/history/{toponym}', [ToponymController::class, 'history'])->name('toponyms.history');
@@ -101,12 +104,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::get('/misc/source_toponym/extract_sources', [SourceToponymController::class, 'extractSources']);
     Route::get('/misc/source_toponym', [SourceToponymController::class, 'index']);
 
-    Route::get('/pages/{page}', [HomeController::class, 'page'])->name('pages');        
+    Route::get('/pages/{page}', [HomeController::class, 'page'])->name('pages');
 
-    Route::get('/stats', [StatsController::class, 'index'])->name('stats');        
-    Route::get('/stats/by_editors', [StatsController::class, 'byEditors'])->name('stats.by_editors');        
-    Route::get('/stats/by_editor/{user}', [StatsController::class, 'byEditor'])->name('stats.by_editor');        
-    
+    Route::get('/stats', [StatsController::class, 'index'])->name('stats');
+    Route::get('/stats/by_editors', [StatsController::class, 'byEditors'])->name('stats.by_editors');
+    Route::get('/stats/by_editor/{user}', [StatsController::class, 'byEditor'])->name('stats.by_editor');
+
     //Route::get('/{param1}', [WelcomeController::class, 'indexParam'])->name('welcome');
     Route::middleware(['auth:sanctum', 'verified'])
         ->get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
@@ -115,26 +118,25 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 
 //    Route::get('/dumps', [DumpDownloadController::class, 'index']);
 
-/** OTHER PAGES THAT SHOULD NOT BE LOCALIZED **/
-//Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+    /** OTHER PAGES THAT SHOULD NOT BE LOCALIZED **/
+    //Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 
     // Route::get('/dict/toponyms', [ToponymController::class, 'index'])->name('dict-toponyms');
-Route::resources([
-    'dict/districts' => DistrictController::class,
-    'dict/districts1926' => District1926Controller::class,
-    'dict/regions' => RegionController::class,
-    'dict/selsovets1926' => Selsovet1926Controller::class,
-    'dict/settlements' => SettlementController::class,
-    'dict/settlements1926' => Settlement1926Controller::class,
-    'dict/toponyms' => ToponymController::class,
-    
-    'misc/geotypes' => GeotypeController::class,
-    'misc/informants' => InformantController::class,
-    'misc/recorders' => RecorderController::class,
-    'misc/sources' => SourceController::class,
-    'misc/structs' => StructController::class,
-]);
+    Route::resources([
+        'dict/districts' => DistrictController::class,
+        'dict/districts1926' => District1926Controller::class,
+        'dict/regions' => RegionController::class,
+        'dict/selsovets1926' => Selsovet1926Controller::class,
+        'dict/settlements' => SettlementController::class,
+        'dict/settlements1926' => Settlement1926Controller::class,
+        'dict/streets' => StreetController::class,
+        'dict/toponyms' => ToponymController::class,
 
-
+        'misc/geotypes' => GeotypeController::class,
+        'misc/informants' => InformantController::class,
+        'misc/recorders' => RecorderController::class,
+        'misc/sources' => SourceController::class,
+        'misc/structs' => StructController::class,
+    ]);
 }); // eo LaravelLocalization
