@@ -13,8 +13,11 @@ class Street extends Model
     use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\sortList;
+    use \App\Traits\Modify\LogsUpdatedAt;
     use \App\Traits\Search\StreetSearch;
 
+    protected $revisionable = ['updated_at'];
+    protected $dontKeepRevisionOf = [];
     protected $revisionEnabled = true;
     protected $revisionCleanup = false;
     protected $historyLimit = 999999;

@@ -165,6 +165,7 @@ class StreetController extends Controller
         }
 
         $street->save();
+        $street->logTouch();
         return Redirect::to(route('streets.show', $street) . ($this->args_by_get))
             ->withSuccess(\Lang::get('messages.updated_success'));
     }
