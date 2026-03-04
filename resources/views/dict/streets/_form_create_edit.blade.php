@@ -7,6 +7,7 @@
         @include('widgets.form.formitem._select',
                 ['name' => 'geotype_id',
                  'values' =>$geotype_values,
+                 'value' => isset($street) ? $street->geotype_id : \App\Models\Dict\Street::Types[0],
                  'title' => trans('misc.type')])
 
         @include('widgets.form.formitem._text',

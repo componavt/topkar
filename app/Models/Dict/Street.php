@@ -30,4 +30,18 @@ class Street extends Model
     ];
 
     const SortList = ['name_ru', 'id'];
+
+    /**
+     * Допустимые типы геообъектов для улиц (урбанонимы)
+     * ID геотипов из таблицы geotypes
+     */
+    const Types = [
+        62, // улица (street)
+        131, // - проспект (avenue)
+        132, // - площадь (square)
+        133, // - проезд (passage)
+        134, // - шоссе (highway)
+        135, // - парк (park)
+        136, // - бульвар (boulevard)
+    ];
 }

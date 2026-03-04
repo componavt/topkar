@@ -46,7 +46,7 @@ class StreetController extends Controller
         $streets = $streets->with('geotype')->paginate($this->url_args['portion']);
         $n_records = $streets->total();
 
-        $geotype_values = ['' => NULL] + Geotype::getList();
+        $geotype_values = Geotype::streetTypes();
         $sort_values = Street::sortList();
 
         return view(
@@ -68,11 +68,13 @@ class StreetController extends Controller
      */
     public function validateRequest(Request $request)
     {
+        $allowed_types = implode(',', Street::Types);
+
         $this->validate($request, [
             'name_ru'  => 'required|string|max:150',
             'name_krl' => 'nullable|string|max:150',
             'name_fin' => 'nullable|string|max:150',
-            'geotype_id' => 'nullable|integer|exists:geotypes,id',
+            'geotype_id' => 'nullable|integer|in:' . $allowed_types,
             'history' => 'nullable|string',
         ]);
         return $request->only(['name_ru', 'name_krl', 'name_fin', 'geotype_id', 'history']);
@@ -88,7 +90,7 @@ class StreetController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
-        $geotype_values = ['' => NULL] + Geotype::getList();
+        $geotype_values = Geotype::streetTypes();
 
         return view(
             'dict.streets.create',
@@ -138,7 +140,7 @@ class StreetController extends Controller
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
 
-        $geotype_values = ['' => NULL] + Geotype::getList();
+        $geotype_values = Geotype::streetTypes();
 
         return view(
             'dict.streets.edit',

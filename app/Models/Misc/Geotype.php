@@ -5,9 +5,12 @@ namespace App\Models\Misc;
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Dict\Settlement;
+use App\Models\Dict\Street;
+
 class Geotype extends Model
 {
-//    use HasFactory;
+    //    use HasFactory;
     use \Venturecraft\Revisionable\RevisionableTrait;
 
     protected $revisionEnabled = true;
@@ -16,54 +19,83 @@ class Geotype extends Model
     protected $revisionFormattedFields = array(
         'updated_at' => 'datetime:m/d/Y g:i A'
     );
-    
+
     public $timestamps = false;
-    protected $fillable = ['short_ru','name_ru', 'desc_ru', 'short_en', 'name_en', 'desc_en'];
-    const SortList=['name_ru', 'id'];
-    
+    protected $fillable = ['short_ru', 'name_ru', 'desc_ru', 'short_en', 'name_en', 'desc_en'];
+    const SortList = ['name_ru', 'id'];
+
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\getShortNameAttribute;
     use \App\Traits\Methods\search\byName;
     use \App\Traits\Methods\sortList;
-    
+
     use \App\Traits\Relations\HasMany\Toponyms;
-    
+
     public static function boot()
     {
         parent::boot();
     }
-    
+
     /** Gets array of search parameters.
-     * 
+     *
      * @param type $request
      * @return type
      */
-    public static function urlArgs($request) {
+    public static function urlArgs($request)
+    {
         $url_args = url_args($request) + [
-                    'in_desc'     => (int)$request->input('in_desc'),
-                    'search_name'    => $request->input('search_name'),
-                    'sort_by' => $request->input('sort_by'),
-                ];
+            'in_desc'     => (int)$request->input('in_desc'),
+            'search_name'    => $request->input('search_name'),
+            'sort_by' => $request->input('sort_by'),
+        ];
         $sort_list = self::SortList;
         if (!in_array($url_args['sort_by'], $sort_list)) {
-            $url_args['sort_by']= $sort_list[0];
+            $url_args['sort_by'] = $sort_list[0];
         }
         return remove_empty_elems($url_args);
     }
-    
-    /** Search district by various parameters. 
-     * 
+
+    /** Search district by various parameters.
+     *
      * @param array $url_args
      * @return type
      */
-    public static function search(Array $url_args) {
-        
+    public static function search(array $url_args)
+    {
+
         $districts = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
-        
+
         $districts = self::searchByName($districts, $url_args['search_name']);
-        
+
         return $districts;
-    }    
+    }
+
+    /**
+     * Получить список типов для улиц (урбанонимов)
+     *
+     * @return array
+     */
+    public static function streetTypes()
+    {
+        return ['' => NULL] + self::whereIn('id', Street::Types)
+            ->orderBy('name_ru')
+            ->pluck('name_ru', 'id')
+            ->toArray();
+    }
+
+    /**
+     * Получить список типов для поселений
+     *
+     * @return array
+     */
+    public static function settlementTypes()
+    {
+        $locale = app()->getLocale();
+        return self::whereIn('id', Settlement::Types)
+            ->orderBy('name_' . $locale)
+            ->pluck('name_' . $locale, 'id')
+            ->toArray();
+    }
 }
