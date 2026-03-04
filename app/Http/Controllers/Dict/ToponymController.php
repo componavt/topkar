@@ -1073,7 +1073,7 @@ class ToponymController extends Controller
 
         return response()->download($filename)
             ->deleteFileAfterSend(true);
-
+    }
 
     public function lastCreated()
     {
