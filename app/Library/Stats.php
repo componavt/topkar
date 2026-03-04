@@ -12,6 +12,7 @@ class Stats
 {
     protected $models = [
         'App\Models\Dict\Toponym'  => 'топонимов',
+        'App\Models\Dict\Street'  => 'улиц',
         'App\Models\Dict\District' => 'районов',
         'App\Models\Dict\District1926' => 'районов нач. XX в.',
         'App\Models\Dict\Selsovet1926' => 'сельсоветов нач. XX в.',
@@ -40,8 +41,8 @@ class Stats
 
         if (empty($min_date) || empty($max_date)) {
             $rec = Revision::where('user_id', $userId)
-                     ->selectRaw('min(created_at) as min, max(created_at) as max')
-                     ->first();
+                ->selectRaw('min(created_at) as min, max(created_at) as max')
+                ->first();
 
             if (!$rec) {
                 // Если нет записей, вернуть сегодня
@@ -58,7 +59,7 @@ class Stats
 
         return [$minDate, $maxDate, $min_date, $max_date];
     }
-    
+
     /**
      * Получить статистику по созданным объектам.
      */
@@ -157,10 +158,10 @@ class Stats
                 ->where('key', '<>', 'created_at')
                 ->whereNotIn('revisionable_id', function ($q) use ($userId, $minDate, $maxDate, $modelClass) {
                     $q->select('revisionable_id')->from('revisions')
-                      ->where('user_id', $userId)
-                      ->whereBetween('updated_at', [$minDate, $maxDate])
-                      ->where('key', 'created_at')
-                      ->where('revisionable_type', $modelClass);
+                        ->where('user_id', $userId)
+                        ->whereBetween('updated_at', [$minDate, $maxDate])
+                        ->where('key', 'created_at')
+                        ->where('revisionable_type', $modelClass);
                 })
                 ->distinct('revisionable_id')
                 ->count('revisionable_id');
@@ -185,10 +186,10 @@ class Stats
                 ->where('key', '<>', 'created_at') // Только изменения
                 ->whereNotIn('revisionable_id', function ($q) use ($userId, $minDate, $maxDate, $modelClass) {
                     $q->select('revisionable_id')->from('revisions')
-                      ->where('user_id', $userId)
-                      ->whereBetween('updated_at', [$minDate, $maxDate])
-                      ->where('key', 'created_at')
-                      ->where('revisionable_type', $modelClass);
+                        ->where('user_id', $userId)
+                        ->whereBetween('updated_at', [$minDate, $maxDate])
+                        ->where('key', 'created_at')
+                        ->where('revisionable_type', $modelClass);
                 })
                 ->orderBy('updated_at', 'desc')
                 ->get();

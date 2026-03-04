@@ -18,52 +18,63 @@ use App\Models\Dict\Toponym;
 
 class StatsController extends Controller
 {
-    public $statsService=null;
-    
-    public function __construct(Request $request) {
-        $this->statsService = new Stats(); 
+    public $statsService = null;
+
+    public function __construct(Request $request)
+    {
+        $this->statsService = new Stats();
     }
-    
+
     public function index()
     {
         $total_toponyms = Toponym::count();
         $total_toponyms_with_coords = Toponym::whereNotNull('latitude')
-                                             ->whereNotNull('longitude')->count();
-        $total_langs=[];
-        foreach (trans('stats.langs') as $code=>$name) {
+            ->whereNotNull('longitude')->count();
+        $total_langs = [];
+        foreach (trans('stats.langs') as $code => $name) {
             $lang = Lang::whereCode($code)->first();
-            $total_langs[$name] = ['id'=>$lang->id,
-                'count'=>Toponym::whereLangId($lang->id)->count()];
+            $total_langs[$name] = [
+                'id' => $lang->id,
+                'count' => Toponym::whereLangId($lang->id)->count()
+            ];
         }
-        
-        $total_toponyms_with_etymology = Toponym::whereNotNull('etymology')->count();
-        
-        $total_settlements_with_toponyms 
-                = Settlement::whereIn('id', function($q) {
-                    $q -> select('settlement_id')->from('settlement_toponym');
-                  })->count();
-        
-        $total_toponyms_with_sources 
-                = Toponym::whereIn('id', function($q) {
-                    $q -> select('toponym_id')->from('source_toponym');
-                  })->count();
-        
-        $total_wd = Toponym::whereNotNull('wd')->count();    
-        
-        $total_toponyms_with_legends = Toponym::where(function($q) {
-                    $q->whereNotNull('legend')
-                      ->orWhereIn('id', function($q2) {
-                          $q2->select('toponym_id')->from('text_toponym');
-                      });
-                })->count();        
 
-        return view('stats.index',
-                compact('total_langs', 'total_settlements_with_toponyms', 
-                        'total_toponyms', 'total_toponyms_with_legends', 
-                        'total_toponyms_with_coords', 'total_toponyms_with_sources', 
-                        'total_toponyms_with_etymology', 'total_wd'));
+        $total_toponyms_with_etymology = Toponym::whereNotNull('etymology')->count();
+
+        $total_settlements_with_toponyms
+            = Settlement::whereIn('id', function ($q) {
+                $q->select('settlement_id')->from('settlement_toponym');
+            })->count();
+
+        $total_toponyms_with_sources
+            = Toponym::whereIn('id', function ($q) {
+                $q->select('toponym_id')->from('source_toponym');
+            })->count();
+
+        $total_wd = Toponym::whereNotNull('wd')->count();
+
+        $total_toponyms_with_legends = Toponym::where(function ($q) {
+            $q->whereNotNull('legend')
+                ->orWhereIn('id', function ($q2) {
+                    $q2->select('toponym_id')->from('text_toponym');
+                });
+        })->count();
+
+        return view(
+            'stats.index',
+            compact(
+                'total_langs',
+                'total_settlements_with_toponyms',
+                'total_toponyms',
+                'total_toponyms_with_legends',
+                'total_toponyms_with_coords',
+                'total_toponyms_with_sources',
+                'total_toponyms_with_etymology',
+                'total_wd'
+            )
+        );
     }
-    
+
     public function byEditors()
     {
         // Получаем агрегированные данные по ревизиям
@@ -84,16 +95,18 @@ class StatsController extends Controller
             $user->last_time = $stats->last_time;
             return $user;
         })->sortByDesc('last_time');
-        //dd($editors);        
-        return view('stats.by_editors', 
-                compact('editors'));
+        //dd($editors);
+        return view(
+            'stats.by_editors',
+            compact('editors')
+        );
     }
-    
+
     public function byEditor(User $user, Request $request)
     {
         $models = $this->statsService->getModelsList();
-        
-/*        $models = [
+
+        /*        $models = [
             'App\Models\Dict\Toponym'  => 'топонимов',
             'App\Models\Dict\District' => 'районов',
             'App\Models\Dict\District1926' => 'районов нач. XX в.',
@@ -109,10 +122,10 @@ class StatsController extends Controller
         // Проверка дат
         $min_date = $request->input('min_date');
         $max_date = $request->input('max_date'); */
-        
-        list($minDate, $maxDate, $min_date, $max_date) 
-                = $this->statsService->getMinMaxDates($request, $user->id);
-        
+
+        list($minDate, $maxDate, $min_date, $max_date)
+            = $this->statsService->getMinMaxDates($request, $user->id);
+
         $in_detail = $request->input('in_detail');
 
         $history_created = $this->statsService->getCreatedStats($user->id, $minDate, $maxDate);
@@ -128,21 +141,21 @@ class StatsController extends Controller
         if (!empty($in_detail) && $in_detail == 1) {
             $detailed_updated = $this->statsService->getDetailedUpdatedStats($user->id, $minDate, $maxDate);
         }
-//dd($detailed_updated);
-/*        if (empty($min_date) || empty($max_date)) {
+        //dd($detailed_updated);
+        /*        if (empty($min_date) || empty($max_date)) {
             $rec = Revision::where('user_id',$user->id)
                      ->selectRaw('min(created_at) as min, max(created_at) as max')
                      ->first();
-            
+
             if (!$rec) { return;}
-            
+
             $min_date = Carbon::parse($rec->min)->toDateString();
             $max_date = Carbon::parse($rec->max)->toDateString();
         }
 
         $minDate = Carbon::parse($min_date)->startOfDay();
         $maxDate = Carbon::parse($max_date)->endOfDay();
-        
+
         $history_created = Revision::where('user_id',$user->id)
                      ->whereBetween('updated_at', [$minDate, $maxDate])
                      ->where('key', 'created_at')
@@ -152,12 +165,12 @@ class StatsController extends Controller
                      ->select('revisionable_type', DB::raw('count(*) as count'))
                      ->get()
                      ->keyBy('revisionable_type');
-        
+
         $detailed_created = [];
         if (!empty($in_detail) && $in_detail == 1) {
             foreach ($models as $modelClass => $label) {
                 if (!isset($history_created[$modelClass])) {
-//                    \Log::debug("Skipping model {$modelClass}, not in history_created");            
+//                    \Log::debug("Skipping model {$modelClass}, not in history_created");
                     continue;
                 }
 //        \Log::debug("Processing model {$modelClass} for detail view");
@@ -219,12 +232,12 @@ class StatsController extends Controller
                                 'items' => []
                             ];
                         }
-                        
+
                         $detailed_list[$date_key]['items'][] = [
                             'time' => $time,
                             'name' => $modelInstance->name ?? 'Без названия',
                             'url' => route(plural_from_model($modelClass, true) . '.show', $modelInstance->id),
-                            'type' => optional($modelInstance->geotype)->name, 
+                            'type' => optional($modelInstance->geotype)->name,
                         ];
         //dd($detailed_list);
                     } catch (\Exception $e) {
@@ -247,7 +260,7 @@ class StatsController extends Controller
             }
         }
 //dd($detailed_created);
-        $history_updated = [];        
+        $history_updated = [];
         foreach ($models as $modelClass => $label) {
             $count = Revision::where('user_id', $user->id)
                 ->whereBetween('updated_at', [$minDate, $maxDate])
@@ -265,17 +278,29 @@ class StatsController extends Controller
 
             $history_updated[$label] = $count;
 
-        }   
-*/        
-        $quarter_query = '?min_date='.Carbon::now()->startOfQuarter()->format('Y-m-d')
-                       . '&max_date='. Carbon::now()->format('Y-m-d');
-        $year_query = '?min_date='.Carbon::now()->startOfYear()->format('Y-m-d')
-                       . '&max_date='. Carbon::now()->format('Y-m-d');
-        
-        
-        return view('stats.by_editor', 
-                compact('detailed_created', 'detailed_updated', 'history_created', 'history_updated', 
-                        'in_detail', 'max_date', 'min_date', 'models', 
-                        'quarter_query', 'year_query', 'user'));
+        }
+*/
+        $quarter_query = '?min_date=' . Carbon::now()->startOfQuarter()->format('Y-m-d')
+            . '&max_date=' . Carbon::now()->format('Y-m-d');
+        $year_query = '?min_date=' . Carbon::now()->startOfYear()->format('Y-m-d')
+            . '&max_date=' . Carbon::now()->format('Y-m-d');
+
+
+        return view(
+            'stats.by_editor',
+            compact(
+                'detailed_created',
+                'detailed_updated',
+                'history_created',
+                'history_updated',
+                'in_detail',
+                'max_date',
+                'min_date',
+                'models',
+                'quarter_query',
+                'year_query',
+                'user'
+            )
+        );
     }
 }
