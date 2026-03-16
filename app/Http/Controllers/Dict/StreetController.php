@@ -216,7 +216,7 @@ class StreetController extends Controller
             try {
                 $name = $street->name;                    
                 $street->remove();
-                $result['message'] = \Lang::get('toponym.street_removed', ['name' => $obj_name]);
+                $result['message'] = \Lang::get('toponym.street_removed', ['name' => $name]);
             } catch (\Exception $ex) {
                 $error = true;
                 $status_code = $ex->getCode();
