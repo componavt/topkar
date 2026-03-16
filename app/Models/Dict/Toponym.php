@@ -6,14 +6,12 @@ namespace App\Models\Dict;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Dict\Settlement1926;
-//use App\Models\Dict\Source;
 use App\Models\Dict\Wrongname;
 
 use App\Models\Misc\Event;
 use App\Models\Misc\EtymologyNation;
 use App\Models\Misc\EthnosTerritory;
 use App\Models\Misc\SourceToponym;
-use App\Models\Misc\Struct;
 
 class Toponym extends Model
 {
@@ -89,14 +87,15 @@ class Toponym extends Model
     // Belongs To Many Relations
     use \App\Traits\Relations\BelongsToMany\Settlements;
     use \App\Traits\Relations\BelongsToMany\Sources;
+    use \App\Traits\Relations\BelongsToMany\Structs;
     use \App\Traits\Relations\BelongsToMany\Texts;
 
     public static function boot()
     {
         parent::boot();
-        static::updating(function ($model) {
+/*        static::updating(function ($model) {
             \Log::info('Dirty fields:', $model->getDirty());
-        });
+        });*/
     }
 
     public function events()
@@ -160,14 +159,6 @@ class Toponym extends Model
     public function informants()
     {
         return $this->hasManyThrough('Informant', 'Event', 'toponym_id', 'event_id');
-    }
-
-    /**
-     * The structures that belong to the toponym. (many to many relation)
-     */
-    public function structs()
-    {
-        return $this->belongsToMany(Struct::class);
     }
 
     public function topnames()

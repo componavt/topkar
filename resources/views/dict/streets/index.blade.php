@@ -41,7 +41,7 @@
                     {!!to_link($r->name_ru, route('streets.show', $r).$args_by_get)!!}
                 </td>
                 <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
-                <td data-th="{{trans('messages.in_finnish')}}">{{ $r->name_fin }}</td>
+                <td data-th="{{trans('messages.in_finnish')}}">{{ $r->name_fi }}</td>
 
                  @if (user_can_edit())
                 <td data-th="{{ trans('messages.actions') }}">
@@ -70,4 +70,13 @@
 @section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.type')}}'});
+        $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
+        selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
+        
+        $('input[type=reset]').on('click', function (e) {
+        @foreach (['geotypes', 'structhiers', 'structs'] as $f)
+            $('#search_{{ $f }}').val(null).trigger('change');
+        @endforeach
+            $('#search_name').attr('value','');
+        });
 @endsection

@@ -30,7 +30,7 @@ foreach($histories as $history) {
 //    elseif ($fieldName == 'settlement_id') :                            // фиктивное поле
         
     
-    elseif ($fieldName == 'main_info') :
+    elseif ($fieldName == 'main_info' || $fieldName == 'history') :
             $htmlDiff = HtmlDiff::create($history->old_value, $history->new_value,$diffConfig);
             $history_strings[] = trans('messages.changed'). ' '
                                . $history->field_name. ':<br><b>'.$htmlDiff->build().'</b>';

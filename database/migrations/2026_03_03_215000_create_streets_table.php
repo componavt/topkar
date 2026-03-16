@@ -18,10 +18,14 @@ class CreateStreetsTable extends Migration
 
             $table->string('name_ru', 150);
             $table->string('name_krl', 150)->nullable();
-            $table->string('name_fin', 150)->nullable();
+            $table->string('name_fi', 150)->nullable();
+            $table->string('name_for_search_ru', 150)->nullable();
+            $table->string('name_for_search_krl', 150)->nullable();
+            $table->string('name_for_search_fi', 150)->nullable();
 
             $table->unsignedSmallInteger('geotype_id')->nullable();
             $table->text('history')->nullable();
+            $table->text('main_info')->nullable();
 
             $table->timestamps();
 

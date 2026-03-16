@@ -1,19 +1,28 @@
 <?php
-
 namespace App\Models\Dict;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Misc\Geotype;
 
 class Street extends Model
 {
     use \Venturecraft\Revisionable\RevisionableTrait;
+    
+    // Belongs To One Relations
     use \App\Traits\Relations\BelongsTo\Geotype;
+    
+    // Belongs To Many Relations
+    use \App\Traits\Relations\BelongsToMany\Structs;
+    
+    // Methods
     use \App\Traits\Methods\getNameAttribute;
     use \App\Traits\Methods\getNameById;
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\sortList;
+    
+    use \App\Traits\History\ToponymHistory;
+    use \App\Traits\Modify\LogsRelationRevisions;
     use \App\Traits\Modify\LogsUpdatedAt;
+    use \App\Traits\Modify\StreetModify;
     use \App\Traits\Search\StreetSearch;
 
     protected $revisionable = ['updated_at'];
@@ -25,8 +34,16 @@ class Street extends Model
     protected $revisionFormattedFields = array(
         'updated_at' => 'datetime:m/d/Y g:i A'
     );
+    
+    public function getRevisionFormattedFieldNames()
+    {
+        return [
+            'name' => 'name_ru',
+        ];
+    }
+    
 
-    protected $fillable = ['name_ru', 'name_krl', 'name_fin', 'geotype_id', 'history'];
+    protected $fillable = ['name_ru', 'name_krl', 'name_fi', 'geotype_id', 'history', 'main_info'];
 
     protected $casts = [
         'geotype_id' => 'integer',
@@ -47,4 +64,6 @@ class Street extends Model
         135, // - парк (park)
         136, // - бульвар (boulevard)
     ];
+    
+    
 }

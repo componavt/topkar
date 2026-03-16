@@ -9,6 +9,8 @@ use Response;
 
 use App\Models\Dict\Street;
 use App\Models\Misc\Geotype;
+use App\Models\Misc\Struct;
+use App\Models\Misc\Structhier;
 
 class StreetController extends Controller
 {
@@ -48,6 +50,8 @@ class StreetController extends Controller
 
         $geotype_values = Geotype::streetTypes();
         $sort_values = Street::sortList();
+        $struct_values = Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
 
         return view(
             'dict.streets.index',
@@ -55,8 +59,10 @@ class StreetController extends Controller
                 'geotype_values',
                 'locale',
                 'n_records',
-                'streets',
                 'sort_values',
+                'streets',
+                'struct_values',
+                'structhier_values',
                 'args_by_get',
                 'url_args'
             )
@@ -73,11 +79,12 @@ class StreetController extends Controller
         $this->validate($request, [
             'name_ru'  => 'required|string|max:150',
             'name_krl' => 'nullable|string|max:150',
-            'name_fin' => 'nullable|string|max:150',
+            'name_fi' => 'nullable|string|max:150',
             'geotype_id' => 'nullable|integer|in:' . $allowed_types,
             'history' => 'nullable|string',
+            'main_info' => 'nullable|string',
         ]);
-        return $request->only(['name_ru', 'name_krl', 'name_fin', 'geotype_id', 'history']);
+        return $request->only(['name_ru', 'name_krl', 'name_fi', 'geotype_id', 'history', 'main_info']);
     }
 
     /**
@@ -91,10 +98,20 @@ class StreetController extends Controller
         $url_args = $this->url_args;
 
         $geotype_values = Geotype::streetTypes();
+        $struct_values = ['' => NULL] + Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
+
+        for ($i = 0; $i < 4; $i++) {
+            $structs[] = [];
+            $structhiers[] = [];
+        }
 
         return view(
             'dict.streets.create',
-            compact('geotype_values', 'args_by_get', 'url_args')
+            compact('geotype_values', 'structs', 'structhiers', 
+                'struct_values',
+                'structhier_values',
+                    'args_by_get', 'url_args')
         );
     }
 
@@ -106,7 +123,7 @@ class StreetController extends Controller
      */
     public function store(Request $request)
     {
-        $street = Street::create($this->validateRequest($request));
+        $street = Street::storeData($this->validateRequest($request), $request);
 
         return Redirect::to(route('streets.show', $street) . ($this->args_by_get))
             ->withSuccess(\Lang::get('messages.created_success'));
@@ -141,10 +158,25 @@ class StreetController extends Controller
         $url_args = $this->url_args;
 
         $geotype_values = Geotype::streetTypes();
+        $struct_values = ['' => NULL] + Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
 
+        $structs = $structhiers = [];
+        foreach ($street->structs as $struct) {
+            $structs[] = [$struct->id];
+            $structhiers[] = [$struct->structhier_id];
+        }
+        for ($i = sizeof($street->structs); $i < 4; $i++) {
+            $structs[] = [];
+            $structhiers[] = [];
+        }
+        
         return view(
             'dict.streets.edit',
-            compact('geotype_values', 'street', 'args_by_get', 'url_args')
+            compact('geotype_values', 'street', 'structs', 'structhiers', 
+                'struct_values',
+                'structhier_values',
+                    'args_by_get', 'url_args')
         );
     }
 
@@ -157,7 +189,7 @@ class StreetController extends Controller
      */
     public function update(Request $request, Street $street)
     {
-        $street->fill($this->validateRequest($request));
+        $street->updateData($this->validateRequest($request), $request);
 
         if ($street->isClean()) {
             return Redirect::to(route('streets.show', $street) . ($this->args_by_get))
@@ -178,10 +210,32 @@ class StreetController extends Controller
      */
     public function destroy(Street $street)
     {
-        $street->delete();
+        $status_code = 200;
+        $result = [];
+        if ($street) {
+            try {
+                $name = $street->name;                    
+                $street->remove();
+                $result['message'] = \Lang::get('toponym.street_removed', ['name' => $obj_name]);
+            } catch (\Exception $ex) {
+                $error = true;
+                $status_code = $ex->getCode();
+                $result['error_code'] = $ex->getCode();
+                $result['error_message'] = $ex->getMessage();
+            }
+        } else {
+            $error = true;
+            $status_code = 400;
+            $result['message'] = 'Request data is empty';
+        }
 
-        return Redirect::to(route('streets.index') . ($this->args_by_get))
-            ->withSuccess(\Lang::get('messages.deleted_success'));
+        if ($error) {
+            return Redirect::to(route('streets.index') . $this->args_by_get)
+                ->withErrors($result['error_message']);
+        } else {
+            return Redirect::to(route('streets.index') . $this->args_by_get)
+                ->withSuccess($result['message']);
+        }
     }
 
     /**
@@ -198,7 +252,7 @@ class StreetController extends Controller
             $streets = $streets->where(function ($q) use ($search) {
                 $q->where('name_ru', 'like', '%' . $search . '%')
                     ->orWhere('name_krl', 'like', '%' . $search . '%')
-                    ->orWhere('name_fin', 'like', '%' . $search . '%');
+                    ->orWhere('name_fi', 'like', '%' . $search . '%');
             });
         }
 
@@ -235,5 +289,19 @@ class StreetController extends Controller
             'id' => $street->id,
             'text' => $street->name
         ]);
+    }
+    
+    public function history(Street $street)
+    {
+        if (!$street) {
+            return Redirect::to('/dict/street/')
+                ->withErrors(\Lang::get('messages.record_not_exists'));
+        }
+        return view('dict.streets.history')
+            ->with([
+                'street' => $street,
+                'args_by_get'    => $this->args_by_get,
+                'url_args'       => $this->url_args,
+            ]);
     }
 }

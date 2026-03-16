@@ -115,6 +115,7 @@ return [
     'source' => 'Source',
     'source_text' => 'Reference',
     'sources' => 'Mentions in sources',
+    'street_removed' => 'Street ":name" is removed.',
 
     'topnames' => 'Other names',
     'toponym' => 'Toponym',

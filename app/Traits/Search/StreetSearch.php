@@ -14,6 +14,8 @@ trait StreetSearch
             'search_id' => (int)$request->input('search_id') ? (int)$request->input('search_id') : null,
             'search_name' => $request->input('search_name'),
             'search_geotype' => (int)$request->input('search_geotype') ? (int)$request->input('search_geotype') : null,
+            'search_structs'    => (array)$request->input('search_structs'),
+            'search_structhiers'    => (array)$request->input('search_structhiers'),
             'sort_by' => $request->input('sort_by'),
         ];
 
@@ -35,6 +37,7 @@ trait StreetSearch
         $streets = self::searchByName($streets, $url_args['search_name']);
         $streets = self::searchByID($streets, $url_args['search_id']);
         $streets = self::searchByGeotype($streets, $url_args['search_geotype']);
+        $toponyms = self::searchByStruct($streets, $url_args['search_structs'], $url_args['search_structhiers']);
 
         return $streets;
     }
@@ -56,7 +59,7 @@ trait StreetSearch
         return $streets->where(function ($q) use ($search_name) {
             $q->where('name_ru', 'like', $search_name)
                 ->orWhere('name_krl', 'like', $search_name)
-                ->orWhere('name_fin', 'like', $search_name);
+                ->orWhere('name_fi', 'like', $search_name);
         });
     }
 
@@ -83,4 +86,29 @@ trait StreetSearch
 
         return $streets->where('geotype_id', $search_geotype);
     }
+    
+    public static function searchByStruct($builder, $search_structs, $search_structhiers) {
+        
+        if(!sizeof($search_structs) && !$search_structhiers) {
+            return $builder;
+        }
+        
+        $builder = $builder->whereIn('id', function($q1) use ($search_structs, $search_structhiers) {
+            $q1->select('street_id')->from('street_struct');
+            if (sizeof($search_structs)) {
+                $q1->whereIn('struct_id', $search_structs);
+            }
+            if ($search_structhiers) {
+                $q1->whereIn('struct_id', function ($q2) use ($search_structhiers) {
+                    $q2->select('id')->from('structs');
+                    if ($search_structhiers) {
+                        $q2->whereIn('structhier_id', $search_structhiers);                        
+                    }
+                    
+                });
+            }
+        });
+        return $builder;
+    }
+    
 }
