@@ -11,7 +11,7 @@ trait StreetModify
         
         $street->updateAddInfo($data, $request);
         
-        return $toponym;
+        return $street;
     }
     
     public function updateData(array $data, $request) {
