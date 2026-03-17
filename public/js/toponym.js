@@ -241,10 +241,12 @@ function saveGeotype() {
 function addStruct(structhier_id) {
     // Сбрасываем форму и активируем кнопку при открытии модального окна
     $("#modalAddStruct .modal-footer button[type='submit']").prop('disabled', false);
+    // Сбрасываем атрибут disabled для поля structhier_id
+    $('#modalAddStruct #structhier_id').prop('disabled', false);
 
     if (structhier_id) {
-        // Если передан structhier_id, используем его (для улиц)
-        $('#modalAddStruct #structhier_id').val(structhier_id);
+        // Если передан structhier_id, используем его (для улиц) и делаем поле недоступным для изменения
+        $('#modalAddStruct #structhier_id').val(structhier_id).prop('disabled', true);
     } else {
         // Для топонимов берем значение из первого списка иерархий
         var current_structhier = $("#structhiers_0_").val();
