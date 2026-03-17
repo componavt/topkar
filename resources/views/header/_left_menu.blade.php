@@ -29,7 +29,7 @@
             @foreach (['with_wrongnames', 'with_wd', 'with_legends', 'nladoga', 'last_created'] as $v)
               <li><a class="dropdown-item" href="{{ route('toponyms.'.$v) }}">{{ trans('navigation.'.$v) }}</a></li>
             @endforeach
-              <!--li><a class="dropdown-item" href="{{ route('streets.index') }}">{{ trans('navigation.streets') }}</a></li-->
+              <li><a class="dropdown-item" href="{{ route('streets.index') }}">{{ trans('navigation.streets') }}</a></li>
             @if (user_can_edit())
                 @foreach (['duplicates', 'link_to_settl'] as $v)
                   <li><a class="dropdown-item" href="{{ route('toponyms.'.$v) }}">{{ trans('navigation.'.$v) }}</a></li>

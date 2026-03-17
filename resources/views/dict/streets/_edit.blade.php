@@ -1,12 +1,3 @@
-@extends('layouts.page')
-
-@section('headExtra')
-    {!!Html::style('css/select2.min.css')!!}
-@endsection
-
-@section('headTitle', $street->name)
-@section('header', 'Улицы Петрозаводска')
-
 @section('page_top')
     <h2>{{ $street->name }}</h2>
     <p><span class="important">TopKar ID: {{ $street->id }}</span></p>
@@ -27,15 +18,3 @@
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
 @endsection
-
-@section('footScriptExtra')
-    {!!Html::script('js/select2.min.js')!!}
-@endsection
-
-@section('jqueryFunc')
-    $('.select-geotype').select2({
-        allowClear: true,
-        placeholder: '{{trans('misc.type')}}',
-        width: '100%'
-    });
-@stop

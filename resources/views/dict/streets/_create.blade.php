@@ -1,14 +1,8 @@
-@extends('layouts.page')
+@section('headTitle', 'Создать урбононим')
 
-@section('headExtra')
-    {!!Html::style('css/select2.min.css')!!}
-@endsection
-
-@section('headTitle', 'Создать улицу')
-@section('header', 'Улицы Петрозаводска')
 
 @section('page_top')
-    <h2>Создать улицу</h2>
+    <h2>Создать урбононим</h2>
 @endsection
 
 @section('top_links')
@@ -26,15 +20,3 @@
     @include('widgets.form.formitem._submit', ['title' => trans('messages.create')])
     {!! Form::close() !!}
 @endsection
-
-@section('footScriptExtra')
-    {!!Html::script('js/select2.min.js')!!}
-@endsection
-
-@section('jqueryFunc')
-    $('.select-geotype').select2({
-        allowClear: true,
-        placeholder: '{{trans('misc.type')}}',
-        width: '100%'
-    });
-@stop

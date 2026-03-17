@@ -98,20 +98,23 @@ class StreetController extends Controller
         $url_args = $this->url_args;
 
         $geotype_values = Geotype::streetTypes();
-        $struct_values = ['' => NULL] + Struct::getList();
-        $structhier_values = Structhier::getGroupedList();
-
-        for ($i = 0; $i < 4; $i++) {
-            $structs[] = [];
-            $structhiers[] = [];
+        $structhier_values = Street::structhierList();
+        foreach (array_keys($structhier_values) as $structhier_id) {
+            $struct_values[$structhier_id] = ['' => NULL] + Struct::getList(false, $structhier_id);
         }
 
+        $action = 'create';
+
         return view(
-            'dict.streets.create',
-            compact('geotype_values', 'structs', 'structhiers', 
+            'dict.streets.modify',
+            compact(
+                'action',
+                'geotype_values',
                 'struct_values',
                 'structhier_values',
-                    'args_by_get', 'url_args')
+                'args_by_get',
+                'url_args'
+            )
         );
     }
 
@@ -158,25 +161,24 @@ class StreetController extends Controller
         $url_args = $this->url_args;
 
         $geotype_values = Geotype::streetTypes();
-        $struct_values = ['' => NULL] + Struct::getList();
-        $structhier_values = Structhier::getGroupedList();
+        $structhier_values = Street::structhierList();
+        foreach (array_keys($structhier_values) as $structhier_id) {
+            $struct_values[$structhier_id] = ['' => NULL] + Struct::getList(false, $structhier_id);
+        }
 
-        $structs = $structhiers = [];
-        foreach ($street->structs as $struct) {
-            $structs[] = [$struct->id];
-            $structhiers[] = [$struct->structhier_id];
-        }
-        for ($i = sizeof($street->structs); $i < 4; $i++) {
-            $structs[] = [];
-            $structhiers[] = [];
-        }
-        
+        $action = 'edit';
+
         return view(
-            'dict.streets.edit',
-            compact('geotype_values', 'street', 'structs', 'structhiers', 
+            'dict.streets.modify',
+            compact(
+                'action',
+                'geotype_values',
+                'street',
                 'struct_values',
                 'structhier_values',
-                    'args_by_get', 'url_args')
+                'args_by_get',
+                'url_args'
+            )
         );
     }
 
@@ -214,7 +216,7 @@ class StreetController extends Controller
         $result = [];
         if ($street) {
             try {
-                $name = $street->name;                    
+                $name = $street->name;
                 $street->remove();
                 $result['message'] = \Lang::get('toponym.street_removed', ['name' => $name]);
             } catch (\Exception $ex) {
@@ -290,7 +292,7 @@ class StreetController extends Controller
             'text' => $street->name
         ]);
     }
-    
+
     public function history(Street $street)
     {
         if (!$street) {

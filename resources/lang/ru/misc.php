@@ -12,29 +12,29 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-    
+
     'add_geotype' => 'Добавить вид объекта',
-    
+
     'birth_date' => 'год рождения',
     'desc' => 'Описание',
-    
-    'ethnos_territory' => 'Территория бытования',    
+
+    'ethnos_territory' => 'Территория бытования',
     'etymology_nation' => 'Язык происхождения',
     'events' => 'События записи',
-    
+
     'geotype' => 'Вид объекта',
     'geotype_removed' => 'Вид объекта ":name" удален.',
-    
+
     'informant' => 'информант',
     'informant_removed' => 'Информант ":name" удален.',
-    
+
     'record_place' => 'Место записи',
     'record_place_brief' => 'М. записи',
     'record_places' => 'Места записи/сбора',
     'recorded_by' => 'записал(и)',
     'recorder' => 'собиратель',
     'recorder_removed' => 'Собиратель ":name" удален.',
-    
+
     'short_name' => 'Сокращение',
     'source' => 'источник',
     'source_removed' => 'Источник  ":name" удален.',
@@ -43,7 +43,7 @@ return [
     'struct_removed' => 'Структура ":name" удалена.',
     'structhier' => 'Тип структуры',
 
-    'type' => 'Тип',
-    'types' => 'Типы',
-    
+    'type' => 'Вид',
+    'types' => 'Виды',
+
 ];

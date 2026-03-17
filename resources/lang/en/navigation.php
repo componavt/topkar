@@ -67,6 +67,7 @@ return [
     'sources' => 'Sources',
     'start' => 'Start page',
     'stats' => 'Statistics',
+    'streets' => 'Urban names of Petrozavodsk',
     'structs' => 'Structure',
     'toponyms' => 'Toponyms',
     'toponyms_with_coords' => 'Toponyms with coordinates',

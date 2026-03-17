@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Structhier extends Model
 {
-//    use HasFactory;
+    //    use HasFactory;
     use \Venturecraft\Revisionable\RevisionableTrait;
 
     protected $revisionEnabled = true;
@@ -17,31 +17,42 @@ class Structhier extends Model
     protected $revisionFormattedFields = array(
         'updated_at' => 'datetime:m/d/Y g:i A'
     );
-    
+
     public $timestamps = false;
     protected $fillable = ['name_ru',  'name_en', 'parent_id'];
     const SHORT_NAMES = [
-        1 => ['ru'=>'Рус.', 'en'=>'Rus.'], 
-        2 => ['ru'=>'Приб.-фин.', 'en'=>'Balt-fin.'], 
-        10 => ['ru'=>'Саам.', 'en'=>'Sam.']];
-    
+        1 => ['ru' => 'Рус.', 'en' => 'Rus.'],
+        2 => ['ru' => 'Приб.-фин.', 'en' => 'Balt-fin.'],
+        10 => ['ru' => 'Саам.', 'en' => 'Sam.']
+    ];
+
     use \App\Traits\Methods\getNameAttribute;
-    
+
     public static function boot()
     {
         parent::boot();
     }
-    
+
+    public function getFullNameAttribute()
+    {
+        $locale = app()->getLocale();
+        if (empty($this->parent_id)) {
+            return $this->name;
+        }
+        return self::SHORT_NAMES[$this->parent_id][$locale]
+            . ' ' . mb_strtolower($this->name);
+    }
+
     public function parent()
     {
         return $this->belongsTo(self::class, 'parent_id');
     }
-    
+
     public function children()
     {
         return $this->hasMany(self::class, 'id', 'parent_id');
     }
-    
+
     public function getShortNameAttribute()
     {
         $locale = app()->getLocale();
@@ -51,35 +62,34 @@ class Structhier extends Model
         }
         return $this->name;
     }
-    
-    public function nameToString() {
+
+    public function nameToString()
+    {
         $out = $this->name;
         if ($this->parent) {
-            $out = $this->parent->short_name. ' '. mb_strtolower($out);
+            $out = $this->parent->short_name . ' ' . mb_strtolower($out);
         }
         return $out;
-    }    
-    
+    }
+
     /** Gets list of objects
-     * 
+     *
      * @return Array [1=>'Object name',..]
      */
     public static function getGroupedList()
-    {     
+    {
         $locale = app()->getLocale();
         $list = [];
-        
-        $parents = self::whereNull('parent_id')->orderBy('name_'.$locale)->get();
+
+        $parents = self::whereNull('parent_id')->orderBy('name_' . $locale)->get();
         foreach ($parents as $parent) {
             $objects = self::whereParentId($parent->id)
-                           ->orderBy('name_'.$locale)->get();
+                ->orderBy('name_' . $locale)->get();
             foreach ($objects as $row) {
-                $list[$parent->name][$row->id] 
-                        = self::SHORT_NAMES[$parent->id][$locale] 
-                        .' '. mb_strtolower($row->name);
+                $list[$parent->name][$row->id]
+                    = $row->full_name;
             }
-        }                
-        return $list;         
+        }
+        return $list;
     }
-    
 }
