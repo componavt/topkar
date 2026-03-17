@@ -9,11 +9,16 @@
 
 @section('header', trans('navigation.streets'))
 
+@section('modals')
+    @include('dict.streets.modals_for_edition')
+@endsection
+
 @include('dict.streets._'.$action)
 
 @section('footScriptExtra')
     {!!Html::script('js/select2.min.js')!!}
     {!!Html::script('js/special_symbols.js')!!}
+    {!!Html::script('js/toponym.js')!!}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
        crossorigin=""></script>

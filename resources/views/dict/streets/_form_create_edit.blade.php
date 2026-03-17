@@ -27,7 +27,7 @@
 
         <!--p><b>{{ trans('misc.struct') }}</b></p-->
         @foreach ($structhier_values as $structhier_id => $structhier_name)
-        <p><b>{{ $structhier_name }}</b></p>
+        <p><b>{{ $structhier_name }}</b> <i onclick="addStruct({{ $structhier_id }})" class="call-add fa fa-plus fa-lg" title="{{trans('messages.insert_new_field')}}"></i></p>
             @include('widgets.form.formitem._select2',
                     ['name' => 'structs['.$structhier_id.']',
                      'values' => $struct_values[$structhier_id],

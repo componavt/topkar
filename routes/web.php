@@ -54,6 +54,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/misc/informants/list', [InformantController::class, 'informantList']);
     Route::get('/misc/recorders/list', [RecorderController::class, 'recorderList']);
     Route::get('/misc/structs/list', [StructController::class, 'structList']);
+    Route::get('/misc/structs/simpleStore', [StructController::class, 'simpleStore']);
 
     Route::get('/dict/districts/list', [DistrictController::class, 'districtList']);
     Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
