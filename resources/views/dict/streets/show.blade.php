@@ -1,7 +1,7 @@
 @extends('layouts.page')
 
 @section('headTitle', $street->name)
-@section('header', 'Улицы Петрозаводска')
+@section('header', trans('navigation.streets'))
 
 @section('page_top')
     <h2>{{ $street->name }}</h2>
@@ -43,22 +43,22 @@
     <p><span class='field-name'>{{trans('toponym.history')}}</span>:
     <span class='field-value'>{!! nl2br(e(optional($street)->history)) !!}</span></p>
     @endif
-    
+
     @if (optional($street)->history || user_can_edit())
     <p><span class='field-name'>{{trans('toponym.main_info')}}</span>:
     <span class='field-value'>{!! nl2br(e(optional($street)->main_info)) !!}</span></p>
     @endif
-    
+
     @if (sizeof($street->structs) || user_can_edit())
         {{-- Structure of toponym word --}}
         <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
         <ol>
         @foreach ($street->structs as $struct)
         <li>
-            <span class='field-value'>{{ optional($struct)->name }}</span> 
+            <span class='field-value'>{{ optional($struct)->name }}</span>
             ({{ $struct && $struct->structhier ? $struct->structhier->parent->name. ' '. mb_strtolower($struct->structhier->name) : '' }})
         </li>
-        @endforeach 
+        @endforeach
         </ol>
     @endif
 @endsection

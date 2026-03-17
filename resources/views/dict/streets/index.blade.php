@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('headTitle', 'Улицы Петрозаводска')
-@section('header', 'Улицы Петрозаводска')
+@section('headTitle', trans('navigation.streets'))
+@section('header', trans('navigation.streets'))
 
 @section('headExtra')
         {!!Html::style('css/select2.min.css')!!}
@@ -72,7 +72,7 @@
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.type')}}'});
         $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
         selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
-        
+
         $('input[type=reset]').on('click', function (e) {
         @foreach (['geotypes', 'structhiers', 'structs'] as $f)
             $('#search_{{ $f }}').val(null).trigger('change');
