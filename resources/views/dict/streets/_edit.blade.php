@@ -6,7 +6,7 @@
 @section('top_links')
     {!! to_list('street', $args_by_get) !!}
     @if (user_can_edit())
-        {!! to_show('street', $street, $args_by_get) !!}
+        {!! back_to_show('street', $street, $args_by_get) !!}
         {!! to_delete('street', $street, $args_by_get) !!}
         {!! to_create('street', $args_by_get, trans('messages.create_new_f')) !!}
     @endif

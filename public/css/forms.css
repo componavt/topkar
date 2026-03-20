@@ -27,6 +27,21 @@ select.form-control {
 .form-control::placeholder {
     color: #5f749b/*#9ba9c2*/;
     opacity: 0.5;
+    font-size: 12px;
+}
+
+/* Для кроссбраузерности */
+.form-control::-webkit-input-placeholder {
+    font-size: 12px;
+}
+
+.form-control::-moz-placeholder {
+    font-size: 12px;
+    opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+    font-size: 12px;
 }
 
 input[type="checkbox"]+span,
