@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Redirect;
 use Response;
 
@@ -42,7 +45,6 @@ class StreetController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        $locale = app()->getLocale();
 
         $streets = Street::search($url_args);
         $streets = $streets->with('geotype')->paginate($this->url_args['portion']);
@@ -57,12 +59,46 @@ class StreetController extends Controller
             'dict.streets.index',
             compact(
                 'geotype_values',
-                'locale',
                 'n_records',
                 'sort_values',
                 'streets',
                 'struct_values',
                 'structhier_values',
+                'args_by_get',
+                'url_args'
+            )
+        );
+    }
+
+    public function onMap(Request $request)
+    {
+        $args_by_get = $this->args_by_get;
+        $url_args = $this->url_args;
+        $limit = 1000;
+        if (empty($url_args['map_height'])) {
+            $url_args['map_height'] = 1700;
+        }
+
+        /*        list($total_rec, $show_count, $objs, $limit, $bounds, $url_args)
+            = Toponym::forMap($limit, $url_args);*/
+
+        $geotype_values = Geotype::getList();
+        $struct_values = Struct::getList();
+        $structhier_values = Structhier::getGroupedList();
+        $sort_values = Street::sortList();
+
+        return view(
+            'dict.streets.on_map',
+            compact(
+                /*                'bounds',
+                'objs',
+                'limit',*/
+                'geotype_values',
+                //                'show_count',
+                'sort_values',
+                'struct_values',
+                'structhier_values',
+                //                'total_rec',
                 'args_by_get',
                 'url_args'
             )
@@ -129,7 +165,7 @@ class StreetController extends Controller
         $street = Street::storeData($this->validateRequest($request), $request);
 
         return Redirect::to(route('streets.show', $street) . ($this->args_by_get))
-            ->withSuccess(\Lang::get('messages.created_success'));
+            ->withSuccess(trans('messages.created_success'));
     }
 
     /**
@@ -195,13 +231,13 @@ class StreetController extends Controller
 
         if ($street->isClean()) {
             return Redirect::to(route('streets.show', $street) . ($this->args_by_get))
-                ->withWarning(\Lang::get('messages.edit_warning'));
+                ->withWarning(trans('messages.edit_warning'));
         }
 
         $street->save();
         $street->logTouch();
         return Redirect::to(route('streets.show', $street) . ($this->args_by_get))
-            ->withSuccess(\Lang::get('messages.updated_success'));
+            ->withSuccess(trans('messages.updated_success'));
     }
 
     /**
@@ -218,7 +254,7 @@ class StreetController extends Controller
             try {
                 $name = $street->name;
                 $street->remove();
-                $result['message'] = \Lang::get('toponym.street_removed', ['name' => $name]);
+                $result['message'] = trans('toponym.street_removed', ['name' => $name]);
             } catch (\Exception $ex) {
                 $error = true;
                 $status_code = $ex->getCode();
@@ -297,7 +333,7 @@ class StreetController extends Controller
     {
         if (!$street) {
             return Redirect::to('/dict/street/')
-                ->withErrors(\Lang::get('messages.record_not_exists'));
+                ->withErrors(trans('messages.record_not_exists'));
         }
         return view('dict.streets.history')
             ->with([
@@ -305,5 +341,115 @@ class StreetController extends Controller
                 'args_by_get'    => $this->args_by_get,
                 'url_args'       => $this->url_args,
             ]);
+    }
+
+    public function geometry(Street $street): JsonResponse
+    {
+        $streetName = trim((string) $street->name_ru);
+
+        abort_if($streetName === '', 404, 'Street name is empty');
+
+        $cacheKey = 'street-geometry:petrozavodsk:' . $street->id . ':' . md5($streetName);
+
+        $geojson = Cache::remember($cacheKey, now()->addHours(12), function () use ($streetName) {
+            $query = $this->buildOverpassQuery($streetName);
+
+            $endpoints = [
+                'https://overpass.kumi.systems/api/interpreter',
+                'https://lz4.overpass-api.de/api/interpreter',
+                'https://overpass-api.de/api/interpreter',
+            ];
+
+            foreach ($endpoints as $endpoint) {
+                $response = Http::asForm()
+                    ->timeout(45)
+                    ->retry(2, 1500)
+                    ->post($endpoint, [
+                        'data' => $query,
+                    ]);
+
+                if ($response->successful()) {
+                    return $this->overpassToGeoJson($response->json(), $streetName);
+                }
+
+                if (!in_array($response->status(), [429, 502, 504], true)) {
+                    abort(502, 'Overpass request failed: HTTP ' . $response->status());
+                }
+            }
+
+            abort(502, 'Overpass is temporarily unavailable');
+        });
+
+        return response()->json($geojson);
+    }
+
+    protected function buildOverpassQuery(string $streetName): string
+    {
+        $safeName = $this->escapeOverpassRegex($streetName);
+
+        // Ищем внутри административной области Петрозаводска.
+        // name~"...",i — без учёта регистра.
+        // out geom — возвращает координаты way, чтобы рисовать линию.
+        return <<<OVERPASS
+[out:json][timeout:12];
+area["name"="Петрозаводск"]["boundary"="administrative"]->.city;
+(
+  way["highway"]["name"~"{$safeName}",i](area.city);
+);
+out geom;
+OVERPASS;
+    }
+
+    protected function escapeOverpassRegex(string $value): string
+    {
+        $value = trim($value);
+        $value = preg_quote($value, '/');
+        return str_replace('"', '\\"', $value);
+    }
+
+    protected function overpassToGeoJson(array $osmJson, string $streetName): array
+    {
+        $features = [];
+
+        foreach (($osmJson['elements'] ?? []) as $el) {
+            if (($el['type'] ?? null) !== 'way') {
+                continue;
+            }
+
+            if (empty($el['geom']) || count($el['geom']) < 2) {
+                continue;
+            }
+
+            $coordinates = [];
+            foreach ($el['geom'] as $point) {
+                if (!isset($point['lon'], $point['lat'])) {
+                    continue;
+                }
+
+                $coordinates[] = [(float) $point['lon'], (float) $point['lat']];
+            }
+
+            if (count($coordinates) < 2) {
+                continue;
+            }
+
+            $features[] = [
+                'type' => 'Feature',
+                'properties' => [
+                    'osm_id' => $el['id'] ?? null,
+                    'name' => $el['tags']['name'] ?? $streetName,
+                    'highway' => $el['tags']['highway'] ?? null,
+                ],
+                'geometry' => [
+                    'type' => 'LineString',
+                    'coordinates' => $coordinates,
+                ],
+            ];
+        }
+
+        return [
+            'type' => 'FeatureCollection',
+            'features' => $features,
+        ];
     }
 }

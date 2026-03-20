@@ -1,8 +1,8 @@
 <?php
 
-//use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\WelcomeController;
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //use App\Http\Controllers\Library\ServiceController;
 
 use App\Http\Controllers\Dict\DistrictController;
@@ -78,6 +78,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/dict/streets/history/{street}', [StreetController::class, 'history'])->name('streets.history');
     Route::get('/dict/streets/list', [StreetController::class, 'sList']);
     Route::get('/dict/streets/store', [StreetController::class, 'simpleStore']);
+    Route::get('/dict/streets/on_map', [StreetController::class, 'onMap'])->name('streets.on_map');
+    Route::get('/dict/streets/{street}/geometry', [StreetController::class, 'geometry'])
+        ->name('streets.geometry');
 
     Route::get('/dict/sources/list', [SourceController::class, 'slist']);
 
