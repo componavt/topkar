@@ -223,7 +223,7 @@ class StructController extends Controller
         $locale = app()->getLocale();
         $struct_name = '%' . $request->input('q') . '%';
         $structhiers = (array)$request->input('structhiers');
-        //dd($region_id);
+
         $list = [];
         $structs = Struct::where(function ($q) use ($struct_name) {
             $q->where('name_en',  'like',  $struct_name)

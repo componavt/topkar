@@ -290,7 +290,7 @@ function selectEventSettlement1926(region_var, locale='ru', placeholder='', allo
     });   
 }
 
-function selectStruct(structhier_var, locale='ru', placeholder='', allow_clear=true, selector='.select-struct', form='', route='/misc/structs/list'){
+function selectStruct(structhier_var, locale='ru', placeholder='', allow_clear=true, selector='.select-struct', form='', structhier_id=null, route='/misc/structs/list'){
     $(selector).select2({
         allowClear: allow_clear,
         placeholder: placeholder,
@@ -302,7 +302,7 @@ function selectStruct(structhier_var, locale='ru', placeholder='', allow_clear=t
           data: function (params) {
             return {
               q: params.term, // search term
-              structhiers: selectedValuesToURL(form + " #"+structhier_var),
+              structhiers: structhier_id !== null ? structhier_id : selectedValuesToURL(form + " #"+structhier_var),
             };
           },
           processResults: function (data) {

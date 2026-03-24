@@ -70,12 +70,14 @@
 @section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
         $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.type')}}'});
-        $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
-        selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
+        @foreach ($structhier_values as $hier_id => $hier_name)
+            selectStruct('', '{{app()->getLocale()}}', '{{ $hier_name }}', false, '.select-struct{{ $hier_id }}', '', {{ $hier_id }});
+        @endforeach
 
         $('input[type=reset]').on('click', function (e) {
-        @foreach (['geotypes', 'structhiers', 'structs'] as $f)
-            $('#search_{{ $f }}').val(null).trigger('change');
+            $('#search_geotypes').val(null).trigger('change');
+        @foreach ([7,8] as $hier_id)
+            $('.select-struct{{ $hier_id }}').val(null).trigger('change');
         @endforeach
             $('#search_name').attr('value','');
         });

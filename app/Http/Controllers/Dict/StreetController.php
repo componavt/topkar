@@ -53,7 +53,7 @@ class StreetController extends Controller
         $geotype_values = Geotype::streetTypes();
         $sort_values = Street::sortList();
         $struct_values = Struct::getList();
-        $structhier_values = Structhier::getGroupedList();
+        $structhier_values = Street::structhierList();
 
         return view(
             'dict.streets.index',
