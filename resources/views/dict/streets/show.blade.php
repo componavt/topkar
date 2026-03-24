@@ -6,7 +6,6 @@
 @section('headExtra')
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
     <style>
         .street-map-box {
             margin-top: 24px;
@@ -106,15 +105,14 @@
         </ol>
     @endif
 
-    @if (!empty($street->name_ru))
+    @if (optional($street)->name_ru || user_can_edit())
         <div class="street-map-box">
             <div class="street-map-head">
                 <h3 class="street-map-title">Улица на карте</h3>
                 <div id="streetMapStatus" class="street-map-status">
-                    Загружаю геометрию улицы {{ $street->name_ru }}...
+                    Загружаю геометрию...
                 </div>
             </div>
-
             <div id="streetMap"></div>
         </div>
     @endif
@@ -135,8 +133,7 @@
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            const resultLayer = L.layerGroup().addTo(map);
-            const url = @json(route('streets.geometry', $street));
+            const url = @json(route('streets.geometry.local', $street));
             const streetName = @json($street->name_ru);
 
             function setStatus(text, type = '') {
@@ -146,9 +143,7 @@
 
             try {
                 const response = await fetch(url, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    headers: { 'Accept': 'application/json' }
                 });
 
                 if (!response.ok) {
@@ -158,11 +153,11 @@
                 const geojson = await response.json();
 
                 if (!geojson.features || !geojson.features.length) {
-                    setStatus('Геометрия для этой улицы в OSM не найдена.');
+                    setStatus('Локальная геометрия для этой улицы не загружена.');
                     return;
                 }
 
-                const geoLayer = L.geoJSON(geojson, {
+                const layer = L.geoJSON(geojson, {
                     style: {
                         color: '#2563eb',
                         weight: 5,
@@ -170,24 +165,23 @@
                         lineCap: 'round',
                         lineJoin: 'round'
                     },
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup(
-                            '<strong>' + (feature.properties?.name || streetName) + '</strong>' +
-                            '<br>OSM way: ' + (feature.properties?.osm_id || '')
+                    onEachFeature: function (feature, leafletLayer) {
+                        leafletLayer.bindPopup(
+                            '<strong>' + (feature.properties?.name || streetName) + '</strong>'
                         );
                     }
-                }).addTo(resultLayer);
+                }).addTo(map);
 
-                const bounds = geoLayer.getBounds();
+                const bounds = layer.getBounds();
                 if (bounds.isValid()) {
                     map.fitBounds(bounds.pad(0.15), { maxZoom: 17 });
                 }
 
-                setStatus('Геометрия загружена: найдено линий ' + geojson.features.length + '.', 'success');
+                setStatus('Геометрия загружена.', 'success');
                 setTimeout(() => map.invalidateSize(), 100);
             } catch (error) {
                 console.error(error);
-                setStatus('Не удалось загрузить геометрию улицы.', 'error');
+                setStatus('Не удалось загрузить локальную геометрию.', 'error');
             }
         });
     </script>

@@ -79,9 +79,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/dict/streets/list', [StreetController::class, 'sList']);
     Route::get('/dict/streets/store', [StreetController::class, 'simpleStore']);
     Route::get('/dict/streets/on_map', [StreetController::class, 'onMap'])->name('streets.on_map');
-    Route::get('/dict/streets/{street}/geometry', [StreetController::class, 'geometry'])
-        ->name('streets.geometry');
-
+    Route::get('/dict/streets/{street}/geometry-local', [StreetController::class, 'geometryLocal'])->name('streets.geometry.local');
     Route::get('/dict/sources/list', [SourceController::class, 'slist']);
 
     Route::get('/dict/topnames/create', [TopnameController::class, 'create']);

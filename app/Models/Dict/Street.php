@@ -4,6 +4,7 @@ namespace App\Models\Dict;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Misc\StreetGeometry;
 use App\Models\Misc\Structhier;
 
 class Street extends Model
@@ -69,6 +70,11 @@ class Street extends Model
     ];
 
     const Structhiers = [7, 8];
+
+    public function geometry()
+    {
+        return $this->hasOne(StreetGeometry::class);
+    }
 
     public function structhierList()
     {
