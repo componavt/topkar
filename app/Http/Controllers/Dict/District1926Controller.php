@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dict;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Dict\District1926;
