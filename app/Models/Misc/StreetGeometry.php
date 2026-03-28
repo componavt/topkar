@@ -16,6 +16,7 @@ class StreetGeometry extends Model
     ];
 
     protected $casts = [
+        'geojson' => 'array',
         'meta' => 'array',
     ];
 

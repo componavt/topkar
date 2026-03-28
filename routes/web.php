@@ -23,6 +23,7 @@ use App\Http\Controllers\Misc\InformantController;
 use App\Http\Controllers\Misc\RecorderController;
 use App\Http\Controllers\Misc\SourceController;
 use App\Http\Controllers\Misc\SourceToponymController;
+use App\Http\Controllers\Misc\StreetGeometryController;
 use App\Http\Controllers\Misc\StructController;
 
 use App\Http\Controllers\HomeController;
@@ -50,11 +51,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
     //    Route::get('/service/tmp_fill_name_for_search', [ServiceController::class, 'tmp_fill_name_for_search']);
     //    Route::get('/service/tmp_fill_sources', [ServiceController::class, 'tmp_fill_sources']);
     //    Route::get('/service/tmp_fill_topnames_from_variants', [ServiceController::class, 'tmp_fill_topnames_from_variants']);
-
-    Route::get('/misc/informants/list', [InformantController::class, 'informantList']);
-    Route::get('/misc/recorders/list', [RecorderController::class, 'recorderList']);
-    Route::get('/misc/structs/list', [StructController::class, 'structList']);
-    Route::get('/misc/structs/simpleStore', [StructController::class, 'simpleStore']);
 
     Route::get('/dict/districts/list', [DistrictController::class, 'districtList']);
     Route::get('/dict/districts/store', [DistrictController::class, 'simpleStore']);
@@ -103,9 +99,18 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
     Route::get('/dict/wrongnames/create', [WrongnameController::class, 'create']);
 
+    Route::get('/misc/informants/list', [InformantController::class, 'informantList']);
+    Route::get('/misc/recorders/list', [RecorderController::class, 'recorderList']);
+
     Route::get('/misc/source_toponym/create', [SourceToponymController::class, 'create']);
     Route::get('/misc/source_toponym/extract_sources', [SourceToponymController::class, 'extractSources']);
     Route::get('/misc/source_toponym', [SourceToponymController::class, 'index']);
+
+    Route::get('/misc/street-geometry/{street}', [StreetGeometryController::class, 'show'])->name('street-geometry.show');
+    Route::post('/misc/street-geometry/{street}', [StreetGeometryController::class, 'store'])->name('street-geometry.store');
+
+    Route::get('/misc/structs/list', [StructController::class, 'structList']);
+    Route::get('/misc/structs/simpleStore', [StructController::class, 'simpleStore']);
 
     Route::get('/pages/{page}', [HomeController::class, 'page'])->name('pages');
 

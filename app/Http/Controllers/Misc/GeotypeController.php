@@ -4,27 +4,29 @@ namespace App\Http\Controllers\Misc;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Redirect;
-use Response;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 
 use App\Models\Misc\Geotype;
 
 class GeotypeController extends Controller
 {
-    public $url_args=[];
-    public $args_by_get='';
-    
-     /**
+    public $url_args = [];
+    public $args_by_get = '';
+
+    /**
      * Instantiate a new new controller instance.
      *
      * @return void
      */
     public function __construct(Request $request)
     {
-        $this->middleware('is_editor', 
-                         ['except' => ['index','show']]);
-        $this->url_args = Geotype::urlArgs($request);  
-        
+        $this->middleware(
+            'is_editor',
+            ['except' => ['index', 'show']]
+        );
+        $this->url_args = Geotype::urlArgs($request);
+
         $this->args_by_get = search_values_by_URL($this->url_args);
     }
 
@@ -37,17 +39,20 @@ class GeotypeController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        
+
         $geotypes = Geotype::search($url_args);
-        $n_records = $geotypes->count();        
+        $n_records = $geotypes->count();
         $geotypes = $geotypes->paginate($this->url_args['portion']);
         $sort_values = Geotype::sortList();
-                
-        return view('misc.geotypes.index', 
-                compact('geotypes', 'n_records', 'sort_values', 'args_by_get', 'url_args'));
-   }
 
-    public function validateRequest(Request $request) {
+        return view(
+            'misc.geotypes.index',
+            compact('geotypes', 'n_records', 'sort_values', 'args_by_get', 'url_args')
+        );
+    }
+
+    public function validateRequest(Request $request)
+    {
         return $this->validate($request, [
             'short_ru'  => 'max:32',
             'name_ru'  => 'required|max:64',
@@ -57,7 +62,7 @@ class GeotypeController extends Controller
             'desc_en'  => 'max:255',
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -67,7 +72,7 @@ class GeotypeController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        
+
         return view('misc.geotypes.create', compact('args_by_get', 'url_args'));
     }
 
@@ -79,10 +84,10 @@ class GeotypeController extends Controller
      */
     public function store(Request $request)
     {
-        $obj = Geotype::create($this->validateRequest($request)); 
-        
-        return Redirect::to(route('geotypes.show',$obj).($this->args_by_get))
-                       ->withSuccess(\Lang::get('messages.created_success'));        
+        $obj = Geotype::create($this->validateRequest($request));
+
+        return Redirect::to(route('geotypes.show', $obj) . ($this->args_by_get))
+            ->withSuccess(trans('messages.created_success'));
     }
 
     public function simpleStore(Request $request)
@@ -92,26 +97,26 @@ class GeotypeController extends Controller
         if ($request->name_ru) {
             $geotype = Geotype::where('name_ru', 'like', $request->name_ru)->first();
             if ($geotype) {
-                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+                return Response::json(['id' => $geotype->id, 'name' => $geotype->{$field}]);
             }
         } elseif ($request->short_ru) {
             $geotype = Geotype::where('short_ru', 'like', $request->short_ru)->first();
             if ($geotype) {
-                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+                return Response::json(['id' => $geotype->id, 'name' => $geotype->{$field}]);
             }
         } elseif ($request->name_en) {
             $geotype = Geotype::where('name_en', 'like', $request->name_en)->first();
             if ($geotype) {
-                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+                return Response::json(['id' => $geotype->id, 'name' => $geotype->{$field}]);
             }
         } elseif ($request->short_en) {
             $geotype = Geotype::where('short_en', 'like', $request->short_en)->first();
             if ($geotype) {
-                return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+                return Response::json(['id' => $geotype->id, 'name' => $geotype->{$field}]);
             }
         }
         $geotype = Geotype::create($request->all());
-        return Response::json(['id'=>$geotype->id, 'name'=>$geotype->{$field}]);
+        return Response::json(['id' => $geotype->id, 'name' => $geotype->{$field}]);
     }
 
     /**
@@ -124,9 +129,11 @@ class GeotypeController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        
-        return view('misc.geotypes.show', 
-                compact('geotype', 'args_by_get', 'url_args'));
+
+        return view(
+            'misc.geotypes.show',
+            compact('geotype', 'args_by_get', 'url_args')
+        );
     }
 
     /**
@@ -139,9 +146,11 @@ class GeotypeController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-        
-        return view('misc.geotypes.edit', 
-                compact('geotype', 'args_by_get', 'url_args'));
+
+        return view(
+            'misc.geotypes.edit',
+            compact('geotype', 'args_by_get', 'url_args')
+        );
     }
 
     /**
@@ -154,9 +163,9 @@ class GeotypeController extends Controller
     public function update(Request $request, Geotype $geotype)
     {
         $geotype->fill($this->validateRequest($request))->save();
-       
-        return Redirect::to(route('geotypes.show', $geotype).($this->args_by_get))
-                       ->withSuccess(\Lang::get('messages.updated_success'));        
+
+        return Redirect::to(route('geotypes.show', $geotype) . ($this->args_by_get))
+            ->withSuccess(trans('messages.updated_success'));
     }
 
     /**
@@ -169,37 +178,36 @@ class GeotypeController extends Controller
     {
         $error = false;
         $status_code = 200;
-        $result =[];
-        if($id != "" && $id > 0) {
-            try{
+        $result = [];
+        if ($id != "" && $id > 0) {
+            try {
                 $geotype = Geotype::find($id);
-                if($geotype){
+                if ($geotype) {
                     $geotype_name = $geotype->name;
                     $geotype->delete();
-                    $result['message'] = \Lang::get('misc.geotype_removed', ['name'=>$geotype_name]);
-                }
-                else{
+                    $result['message'] = trans('misc.geotype_removed', ['name' => $geotype_name]);
+                } else {
                     $error = true;
-                    $result['error_message'] = \Lang::get('messages.record_not_exists');
+                    $result['error_message'] = trans('messages.record_not_exists');
                 }
-          }catch(\Exception $ex){
-                    $error = true;
-                    $status_code = $ex->getCode();
-                    $result['error_code'] = $ex->getCode();
-                    $result['error_message'] = $ex->getMessage();
-                }
-        }else{
-            $error =true;
+            } catch (\Exception $ex) {
+                $error = true;
+                $status_code = $ex->getCode();
+                $result['error_code'] = $ex->getCode();
+                $result['error_message'] = $ex->getMessage();
+            }
+        } else {
+            $error = true;
             $status_code = 400;
-            $result['message']='Request data is empty';
+            $result['message'] = 'Request data is empty';
         }
-        
+
         if ($error) {
-                return Redirect::to(route('geotypes.index'))
-                               ->withErrors($result['error_message']);
+            return Redirect::to(route('geotypes.index'))
+                ->withErrors($result['error_message']);
         } else {
             return Redirect::to(route('geotypes.index'))
-                  ->withSuccess($result['message']);
+                ->withSuccess($result['message']);
         }
     }
 }

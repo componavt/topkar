@@ -1,9 +1,11 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
+
+window.L = L;
+
 import 'leaflet-draw';
 
-// Фикс иконок Leaflet в webpack
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -11,7 +13,14 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const map = L.map('map').setView([61.785, 34.346], 13);
+const mapEl = document.getElementById('map');
+const streetId = mapEl.dataset.streetId;
+
+if (!streetId) {
+    console.error('streetId не задан!');
+}
+
+const map = L.map(mapEl).setView([61.785, 34.346], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -24,9 +33,42 @@ const drawControl = new L.Control.Draw({
 
 map.addControl(drawControl);
 
-map.on(L.Draw.Event.CREATED, (e) => {
+// Загрузка существующей геометрии
+fetch(`/misc/street-geometry/${streetId}`)
+    .then(r => r.json())
+    .then(data => {
+        if (data && data.geojson) {
+            const layer = L.geoJSON(JSON.parse(data.geojson));
+            layer.eachLayer(l => drawnItems.addLayer(l));
+            map.fitBounds(drawnItems.getBounds());
+        }
+        // если data === null — просто ничего не делаем, карта пустая
+    })
+    .catch(err => console.error('Ошибка загрузки геометрии:', err));
+
+function saveGeometry() {
+    fetch(`/misc/street-geometry/${streetId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ geojson: drawnItems.toGeoJSON() }),
+    })
+        .then(r => r.json())
+        .then(data => console.log('saved:', data))
+        .catch(err => console.error('error:', err));
+}
+
+map.on('draw:created', function (e) {
     drawnItems.addLayer(e.layer);
-    console.log(drawnItems.toGeoJSON());
+    saveGeometry();
 });
 
-console.log('map init', map);
+map.on('draw:edited', function (e) {
+    saveGeometry();
+});
+
+map.on('draw:deleted', function (e) {
+    saveGeometry(); // если нужно сохранять удаление
+});

@@ -119,6 +119,7 @@ return [
             'driver' => 'custom',
             'via'    => MonthlyLogger::class,
             'level'  => env('LOG_LEVEL', 'debug'),
+            'date_format' => 'Y-m-d H:i:s',
         ],
     ],
 

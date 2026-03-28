@@ -18,6 +18,7 @@
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
 
-    <div id="map" style="height: 500px;"></div>
+    <div id="map" data-street-id="{{ $street->id }}" style="height: 500px;"></div>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/map.js') }}"></script>
 @endsection
