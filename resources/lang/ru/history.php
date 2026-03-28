@@ -21,9 +21,7 @@ return [
     'events_a' => 'события записи',
 
     'geometry_a' => 'геометрию',
-    'geometry_updated' => 'Геометрия обновлена',
-    'geometry_existed' => 'Была геометрия',
-    'geotype_a' => 'географический объект',
+    'geotype_a' => 'вид объекта',
 
     'lang_a' => 'язык',
     'latitude_a' => 'широту',

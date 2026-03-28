@@ -3,7 +3,7 @@
 namespace App\Traits\Modify;
 
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 trait LogsRelationRevisions
 {
@@ -11,8 +11,8 @@ trait LogsRelationRevisions
      * Логирует изменение связи belongsToMany вручную
      *
      * @param string $key — имя связи (используется как revisions.key)
-     * @param array $old — старое значение
-     * @param array $new — новое значение
+     * @param string $old — старое значение
+     * @param string $new — новое значение
      */
     public function logRelationRevision(string $key, string $old, string $new)
     {
@@ -30,7 +30,7 @@ trait LogsRelationRevisions
             ]);
         }
     }
-    
+
     /**
      * Логирует изменение связи belongsToMany вручную
      *

@@ -2,6 +2,8 @@
 
 namespace App\Traits\Search;
 
+use App\Models\Dict\Street;
+
 trait StreetSearch
 {
     /**
@@ -16,9 +18,10 @@ trait StreetSearch
             'search_geotypes' =>  (array)$request->input('search_geotypes'),
             'search_structs'    => (array)$request->input('search_structs'),
             'sort_by' => $request->input('sort_by'),
+            'with_geometry' => (int)$request->input('with_geometry'),
         ];
 
-        $sort_list = self::SortList;
+        $sort_list = Street::SortList;
         if (!in_array($url_args['sort_by'], $sort_list)) {
             $url_args['sort_by'] = $sort_list[0];
         }
@@ -38,6 +41,18 @@ trait StreetSearch
         $streets = self::searchByID($streets, $url_args['search_id']);
         $streets = self::searchByGeotype($streets, $url_args['search_geotypes']);
         $streets = self::searchByStruct($streets, $url_args['search_structs']);
+
+        if ($url_args['with_geometry'] == 1) {
+            $streets->whereIn('id', function ($query) {
+                $query->select('street_id')
+                    ->from('street_geometries');
+            });
+        } elseif ($url_args['with_geometry'] == 2) {
+            $streets->whereNotIn('id', function ($query) {
+                $query->select('street_id')
+                    ->from('street_geometries');
+            });
+        }
 
         return $streets;
     }

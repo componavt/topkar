@@ -95,4 +95,5 @@ return [
     'view' => 'Show',
     'year' => 'year',
     'waiting' => 'Please wait, data is loading...',
+    'with_answers' => [1 => 'yes', 2 => 'no', 0 => "doesn't matter"],
 ];
