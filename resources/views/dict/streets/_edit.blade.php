@@ -17,4 +17,7 @@
     @include('dict.streets._form_create_edit', ['street'=>$street, 'action'=>'edit'])
     @include('widgets.form.formitem._submit', ['title' => trans('messages.save')])
     {!! Form::close() !!}
+
+    <div id="map" style="height: 500px;"></div>
+    <script src="{{ asset('js/map.js') }}"></script>
 @endsection

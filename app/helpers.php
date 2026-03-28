@@ -1,6 +1,9 @@
 <?php
 
-//use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Venturecraft\Revisionable\Revision;
 
 use App\Models\Team;
 
@@ -31,8 +34,8 @@ function createRevisionRecord($obj, $key, $old = null, $new = null)
             'updated_at' => new \DateTime(),
         ]
     ];
-    $revision = new \Venturecraft\Revisionable\Revision;
-    \DB::table($revision->getTable())->insert($revisions);
+    $revision = new Revision;
+    DB::table($revision->getTable())->insert($revisions);
     return true;
 }
 
@@ -40,7 +43,7 @@ function createRevisionRecord($obj, $key, $old = null, $new = null)
 if (! function_exists('to_link')) {
     function to_link($str, $link, $args_by_get = '', $class = '')
     {
-        return '<a href="' . LaravelLocalization::localizeURL($link) . $args_by_get . '"' .
+        return '<a href="/' . app()->getLocale() . '/' . ltrim($link, '/') . $args_by_get . '"' .
             ($class ? ' class="' . $class . '"' : '') . '>' . $str . '</a>';
     }
 }
@@ -79,28 +82,28 @@ if (! function_exists('plural_from_model')) {
 if (! function_exists('create_button')) {
     function create_button($r, $model, $args_by_get = '')
     {
-        return to_link('+ ' . trans('messages.create_new_' . $r), route(plural_from_model($model) . '.create'), $args_by_get, 'link-button');
+        return to_route('+ ' . trans('messages.create_new_' . $r), plural_from_model($model) . '.create', null, $args_by_get, 'link-button');
     }
 }
 
 if (! function_exists('to_list')) {
     function to_list($model, $args_by_get = '')
     {
-        return to_link(trans('messages.back_to_list'), route(plural_from_model($model) . '.index'), $args_by_get, 'top-icon to-list');
+        return to_route(trans('messages.back_to_list'), plural_from_model($model) . '.index', null, $args_by_get, 'top-icon to-list');
     }
 }
 
 if (! function_exists('to_create')) {
     function to_create($model, $args_by_get = '', $title = null)
     {
-        return to_link($title ?? trans('messages.create'), route(plural_from_model($model) . '.create'), $args_by_get, 'top-icon to-create');
+        return to_route($title ?? trans('messages.create'), plural_from_model($model) . '.create', null, $args_by_get, 'top-icon to-create');
     }
 }
 
 if (! function_exists('to_edit')) {
     function to_edit($model, $obj, $args_by_get = '')
     {
-        return to_link(trans('messages.edit'), route(plural_from_model($model) . '.edit', $obj), $args_by_get, 'top-icon to-edit');
+        return to_route(trans('messages.edit'), plural_from_model($model) . '.edit', $obj, $args_by_get, 'top-icon to-edit');
     }
 }
 
@@ -117,7 +120,7 @@ if (! function_exists('to_delete')) {
 if (! function_exists('back_to_show')) {
     function back_to_show($model, $obj, $args_by_get = '')
     {
-        return to_link(trans('messages.back_to_show'), route(plural_from_model($model) . '.show', $obj), $args_by_get, 'top-icon to-show');
+        return to_route(trans('messages.back_to_show'), plural_from_model($model) . '.show', $obj, $args_by_get, 'top-icon to-show');
     }
 }
 
@@ -372,11 +375,12 @@ if (! function_exists('to_search_form')) {
         foreach ($special_chars as $from => $to) {
             $word = str_replace($from, $to, $word);
         }
-        /*    if (preg_match("/^\-(.+)$/u", $word, $regs)) {
-            $word = $regs[1];
-        }*/
+        foreach (['«', '»', '"', "'"] as $c) {
+            $word = str_replace($c, '', $word);
+        }
+
         $word = mb_strtolower($word);
-        return $word;
+        return trim($word);
     }
 }
 
@@ -475,5 +479,29 @@ if (!function_exists('mb_ucfirst')) {
         }
         return mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding) .
             mb_substr($str, 1, null, $encoding);
+    }
+}
+
+if (!function_exists('cut_word_at_start')) {
+    function cut_word_at_start(string $name, array $types): ?array
+    {
+        foreach ($types as $id => $typeName) {
+            if (str_starts_with($name, $typeName . ' ')) {
+                return [$id, to_search_form(substr($name, strlen($typeName)))];
+            }
+        }
+        return null;
+    }
+}
+
+if (!function_exists('cut_word_at_end')) {
+    function cut_word_at_end(string $name, array $types): ?array
+    {
+        foreach ($types as $id => $typeName) {
+            if (str_ends_with($name, ' ' . $typeName)) {
+                return [$id, to_search_form(substr($name, 0, -strlen($typeName)))];
+            }
+        }
+        return null;
     }
 }

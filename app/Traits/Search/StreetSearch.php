@@ -31,12 +31,13 @@ trait StreetSearch
      */
     public static function search($url_args)
     {
-        $streets = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC');
+        $streets = self::orderBy($url_args['sort_by'], $url_args['in_desc'] ? 'DESC' : 'ASC')
+            ->orderBy('name_ru');
 
         $streets = self::searchByName($streets, $url_args['search_name']);
         $streets = self::searchByID($streets, $url_args['search_id']);
         $streets = self::searchByGeotype($streets, $url_args['search_geotypes']);
-        $toponyms = self::searchByStruct($streets, $url_args['search_structs']);
+        $streets = self::searchByStruct($streets, $url_args['search_structs']);
 
         return $streets;
     }
@@ -56,9 +57,9 @@ trait StreetSearch
         }
 
         return $streets->where(function ($q) use ($search_name) {
-            $q->where('name_ru', 'like', $search_name)
-                ->orWhere('name_krl', 'like', $search_name)
-                ->orWhere('name_fi', 'like', $search_name);
+            $q->where('name_for_search_ru', 'like', $search_name)
+                ->orWhere('name_for_search_krl', 'like', $search_name)
+                ->orWhere('name_for_search_fi', 'like', $search_name);
         });
     }
 
@@ -85,20 +86,20 @@ trait StreetSearch
 
         return $streets->where('geotype_id', $search_geotype);
     }
-    
-    public static function searchByStruct($builder, $search_structs) {
-        
-        if(!sizeof($search_structs)) {
+
+    public static function searchByStruct($builder, $search_structs)
+    {
+
+        if (!sizeof($search_structs)) {
             return $builder;
         }
-        
-        $builder = $builder->whereIn('id', function($q1) use ($search_structs) {
+
+        $builder = $builder->whereIn('id', function ($q1) use ($search_structs) {
             $q1->select('street_id')->from('street_struct');
             foreach ($search_structs as $h_id => $structs) {
-               $q1->whereIn('struct_id', $structs);
+                $q1->whereIn('struct_id', $structs);
             }
         });
         return $builder;
     }
-    
 }

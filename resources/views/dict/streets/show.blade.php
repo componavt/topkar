@@ -59,42 +59,42 @@
         {!! to_delete('street', $street, $args_by_get) !!}
         {!! to_create('street', $args_by_get, trans('messages.create_new_f')) !!}
     @endif
-    {!! to_link(trans('navigation.history'), route('streets.history', $street), $args_by_get, 'top-icon to-history') !!}
+    {!! to_route(trans('navigation.history'), 'streets.history', $street, $args_by_get, 'top-icon to-history') !!}
 @endsection
 
 @section('content')
     @if (optional($street->geotype)->name || user_can_edit())
-    <p><span class='field-name'>{{trans('misc.type')}}</span>:
+    <p><span class='field-name'>{{ __('misc.type') }}</span>:
     <span class='field-value'>{{ optional($street->geotype)->name }}</span></p>
     @endif
 
     @if (optional($street)->name_ru || user_can_edit())
-    <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_russian')}}</span>:
+    <p><span class='field-name'>{{ __('toponym.name') }} {{ __('messages.in_russian') }}</span>:
     <span class='field-value'>{{ optional($street)->name_ru }}</span></p>
     @endif
 
     @if (optional($street)->name_krl || user_can_edit())
-    <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_karelian')}}</span>:
+    <p><span class='field-name'>{{ __('toponym.name') }} {{ __('messages.in_karelian') }}</span>:
     <span class='field-value'>{{ optional($street)->name_krl }}</span></p>
     @endif
 
     @if (optional($street)->name_fi || user_can_edit())
-    <p><span class='field-name'>{{trans('toponym.name')}} {{trans('messages.in_finnish')}}</span>:
+    <p><span class='field-name'>{{ __('toponym.name') }} {{ __('messages.in_finnish') }}</span>:
     <span class='field-value'>{{ optional($street)->name_fi }}</span></p>
     @endif
 
     @if (optional($street)->history || user_can_edit())
-    <p><span class='field-name'>{{trans('toponym.history')}}</span>:
+    <p><span class='field-name'>{{ __('toponym.history') }}</span>:
     <span class='field-value'>{!! nl2br(e(optional($street)->history)) !!}</span></p>
     @endif
 
     @if (optional($street)->history || user_can_edit())
-    <p><span class='field-name'>{{trans('toponym.main_info')}}</span>:
+    <p><span class='field-name'>{{ __('toponym.main_info') }}</span>:
     <span class='field-value'>{!! nl2br(e(optional($street)->main_info)) !!}</span></p>
     @endif
 
     @if (sizeof($street->structs) || user_can_edit())
-        <p><span class='field-name'>{{trans('misc.struct')}}</span></p>
+        <p><span class='field-name'>{{ __('misc.struct') }}</span></p>
         <ol>
         @foreach ($street->structs as $struct)
         <li>
@@ -108,7 +108,7 @@
     @if (optional($street)->name_ru || user_can_edit())
         <div class="street-map-box">
             <div class="street-map-head">
-                <h3 class="street-map-title">Улица на карте</h3>
+                <h3 class="street-map-title">Урбаноним на карте</h3>
                 <div id="streetMapStatus" class="street-map-status">
                     Загружаю геометрию...
                 </div>

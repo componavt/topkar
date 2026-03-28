@@ -41,7 +41,8 @@ class ImportPetrozavodskStreetGeometry extends Command
                 continue;
             }
 
-            $norm = $this->normalizeStreetName($name);
+            //            $norm = $this->normalizeStreetName($name);
+            $norm = mb_strtolower(trim($name));
 
             if (!isset($featuresByName[$norm])) {
                 $featuresByName[$norm] = [
@@ -56,7 +57,7 @@ class ImportPetrozavodskStreetGeometry extends Command
         $this->info('Grouped names: ' . count($featuresByName));
 
         $streets = Street::query()
-            ->select(['id', 'name_ru'])
+            ->select(['id', 'name_for_search_ru'])
             ->whereNotNull('name_ru')
             ->get();
 
@@ -65,22 +66,24 @@ class ImportPetrozavodskStreetGeometry extends Command
         DB::beginTransaction();
 
         try {
-            foreach ($streets as $street) {
-                $norm = $this->normalizeStreetName($street->name_ru);
+            foreach ($featuresByName as $norm => $data) {
+                // Ищем улицу с точным совпадением
+                $street = $streets->first(fn($s) => trim($s->name_for_search_ru) === $norm);
 
-                if (!isset($featuresByName[$norm])) {
+                if (!$street) {
+                    $this->line('Not matched: ' . $data['source_name']);
                     continue;
                 }
 
                 $payload = [
                     'type' => 'FeatureCollection',
-                    'features' => $featuresByName[$norm]['features'],
+                    'features' => $data['features'],
                 ];
 
                 StreetGeometry::updateOrCreate(
                     ['street_id' => $street->id],
                     [
-                        'source_name' => $featuresByName[$norm]['source_name'],
+                        'source_name' => $data['source_name'],
                         'geojson' => json_encode($payload, JSON_UNESCAPED_UNICODE),
                         'meta' => [
                             'feature_count' => count($payload['features']),

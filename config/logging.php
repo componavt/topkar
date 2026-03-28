@@ -3,6 +3,7 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use App\Logging\MonthlyLogger;
 
 return [
 
@@ -112,6 +113,12 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'monthly' => [
+            'driver' => 'custom',
+            'via'    => MonthlyLogger::class,
+            'level'  => env('LOG_LEVEL', 'debug'),
         ],
     ],
 

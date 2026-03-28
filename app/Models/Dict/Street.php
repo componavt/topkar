@@ -4,6 +4,7 @@ namespace App\Models\Dict;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Misc\Geotype;
 use App\Models\Misc\StreetGeometry;
 use App\Models\Misc\Structhier;
 
@@ -53,7 +54,7 @@ class Street extends Model
         'geotype_id' => 'integer',
     ];
 
-    const SortList = ['name_ru', 'id'];
+    const SortList = ['name_for_search_ru', 'id'];
 
     /**
      * Допустимые типы геообъектов для улиц (урбанонимы)
@@ -67,6 +68,46 @@ class Street extends Model
         134, // - шоссе (highway)
         135, // - парк (park)
         136, // - бульвар (boulevard)
+        137, // - акватория (water area)
+        138, // - аллея (alley)
+        140, // - банка (bank)
+        141, // - водохранилище (reservoir)
+        142, // - гавань (harbor)
+        143, // - затон (backwater)
+        144, // - источник (source)
+        147, // - канавка (runnel)
+        148, // - канал (canal)
+        149, // - квартал (quarter)
+        150, // - ключ (spring)
+        151, // - магистраль (main road)
+        152, // - месторождение (deposit)
+        153, // - микрорайон (microdistrict)
+        154, // - набережная (embankment)
+        155, // - округ (borough)
+        156, // - плёсы (reaches)
+        157, // - переулок (lane)
+        158, // - пороги (rapids)
+        159, // - порт (port)
+        160, // - проулок (passageway)
+        161, // - район (district)
+        162, // - сад (garden)
+        164, // - сквер (small park)
+        165, // - спуск (descent)
+        167, // - тракт (tract)
+        168, // - тупик (dead end)
+        169, // - часть (part)
+        93, // - город (city)
+        33, // - губа (bay)
+        46, // - залив (gulf)
+        25, // - озеро (lake)
+        5, // - омут (deep pool)
+        51, // - озеро (lake)
+        36, // - пруд (pond)
+        103, // - разъезд (junction)
+        26,  // - река (river)
+        8, // - родник (springhead)
+        23, // - ручей (stream)
+        69, // - территория (territory)
     ];
 
     const Structhiers = [7, 8];
@@ -83,5 +124,34 @@ class Street extends Model
             $list[$struct_id] = Structhier::find($struct_id)->full_name;
         }
         return $list;
+    }
+
+    // Статичный — принимает строку, используется в сидере и любом другом месте
+    // Street::parseNameForSort('улица Ленина') => [geotype_id, 'ленина']
+    public static function parseNameForSort(string $nameRu): array
+    {
+        $nameForSearch = trim(preg_replace('/\b\d\S*\s*/u', '', $nameRu, 1));
+        $types = Geotype::streetTypes();
+
+        [$geotypeId, $nameForSearch] = cut_word_at_start($nameForSearch, $types)
+            ?? cut_word_at_end($nameForSearch, $types)
+            ?? [null, $nameForSearch];
+
+        return [$geotypeId, $nameForSearch];
+    }
+
+    // Нестатичный — берёт name_ru из самой модели и сохраняет поля
+    // $street->syncSortName()
+    public function syncSortName(): void
+    {
+        [$geotype_id, $this->name_for_search_ru] = static::parseNameForSearch($this->name_ru);
+    }
+
+    // Автоматически при каждом сохранении
+    protected static function booted(): void
+    {
+        static::saving(function (Street $street) {
+            [$street->geotype_id, $street->name_for_search_ru] = static::parseNameForSearch($street->name_ru);
+        });
     }
 }

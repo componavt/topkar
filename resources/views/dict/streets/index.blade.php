@@ -23,28 +23,42 @@
         <h2>{{ __('search.search_results') }}</h2>
         <table class="table table-striped table-hover">
             <tr><td>&numero;</td>
-                <td>{{trans('misc.type')}}</td>
-                <td>{{trans('toponym.name')}} (рус.)</td>
-                <td class='up-first'>{{trans('general.in_karelian')}}</td>
-                <td class='up-first'>{{trans('messages.in_finnish')}}</td>
-                @if (user_can_edit())
-                <td>{{ trans('messages.actions') }}</td>
-                @endif
+                <td></td>
+                <td>{{ __('misc.type') }}</td>
+                <td>{{ __('toponym.name') }} (рус.)</td>
+                <td class='up-first'>{{ __('general.in_karelian') }}</td>
+                <td class='up-first'>{{ __('messages.in_finnish') }}</td>
+        @if (user_can_edit())
+                <td>{{ __('messages.actions') }}</td>
+        @endif
             </tr>
 
-            @foreach( $streets as $r )
+        @foreach( $streets as $r )
             <tr>
-                <td data-th="No">{{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}</td>
-
-                <td data-th="{{trans('misc.type')}}">{{ $r->geotype ? $r->geotype->short_name : '' }}</td>
-                <td data-th="{{trans('general.in_russian')}}">
-                    {!!to_link($r->name_ru, route('streets.show', $r).$args_by_get)!!}
+                <td data-th="No">
+                    {{ $loop->iteration + $url_args['portion']*($url_args['page'] - 1) }}
                 </td>
-                <td data-th="{{trans('general.in_karelian')}}">{{ $r->name_krl }}</td>
-                <td data-th="{{trans('messages.in_finnish')}}">{{ $r->name_fi }}</td>
+                <td>
+            @if ($r->geometry)
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+            @endif
+                </td>
 
-                 @if (user_can_edit())
-                <td data-th="{{ trans('messages.actions') }}">
+                <td data-th="{{ __('misc.type') }}">
+                    {{ $r->geotype ? $r->geotype->short_name : '' }}
+                </td>
+                <td data-th="{{ __('general.in_russian') }}">
+                    {!! to_route($r->name_ru, 'streets.show', $r, $args_by_get)!!}
+                </td>
+                <td data-th="{{ __('general.in_karelian') }}">
+                    {{ $r->name_krl }}
+                </td>
+                <td data-th="{{ __('messages.in_finnish') }}">
+                    {{ $r->name_fi }}
+                </td>
+
+            @if (user_can_edit())
+                <td data-th="{{ __('messages.actions') }}">
                     @include('widgets.form.button._edit',
                             ['without_text' => 1,
                              'route' => route('streets.edit', $r)])
@@ -53,9 +67,9 @@
                              'route' => 'streets.destroy',
                              'args'=>['street' => $r->id]])
                 </td>
-                @endif
+            @endif
             </tr>
-            @endforeach
+        @endforeach
         </table>
         {{ $streets->appends($url_args)->onEachSide(3)->links() }}
     @endsection
