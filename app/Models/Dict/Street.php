@@ -54,7 +54,7 @@ class Street extends Model
         'geotype_id' => 'integer',
     ];
 
-    const SortList = ['name_for_search_ru', 'id'];
+    const SortList = ['sort_name', 'id'];
 
     /**
      * Допустимые типы геообъектов для улиц (урбанонимы)
@@ -144,14 +144,14 @@ class Street extends Model
     // $street->syncSortName()
     public function syncSortName(): void
     {
-        [$geotype_id, $this->name_for_search_ru] = static::parseNameForSearch($this->name_ru);
+        [$geotype_id, $this->sort_name] = static::parseNameForSort($this->name_ru);
     }
 
     // Автоматически при каждом сохранении
     protected static function booted(): void
     {
         static::saving(function (Street $street) {
-            [$street->geotype_id, $street->name_for_search_ru] = static::parseNameForSearch($street->name_ru);
+            [$geotype_id, $street->sort_name] = static::parseNameForSort($street->name_ru);
         });
     }
 }

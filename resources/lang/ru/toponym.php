@@ -24,7 +24,7 @@ return [
     //    'by_created_at' => 'по дате создания',
     'by_id' => 'по дате создания',
     'by_name' => 'по названию',
-    'by_name_for_search_ru' => 'по названию',
+    'by_sort_name' => 'по названию',
     'by_name_ru' => 'по названию',
     'by_region_id' => 'по региону',
 

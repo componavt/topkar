@@ -105,7 +105,7 @@
         </ol>
     @endif
 
-    @if (optional($street)->name_ru || user_can_edit())
+    @if (!empty($street->name_ru) && !empty($street->geometry))
         <div class="street-map-box">
             <div class="street-map-head">
                 <h3 class="street-map-title">Урбаноним на карте</h3>
@@ -122,7 +122,7 @@
     {!! Html::script('js/rec-delete-link.js') !!}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    @if (!empty($street->name_ru))
+    @if (!empty($street->name_ru) && !empty($street->geometry))
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const statusEl = document.getElementById('streetMapStatus');

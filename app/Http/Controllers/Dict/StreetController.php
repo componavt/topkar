@@ -178,7 +178,7 @@ class StreetController extends Controller
     {
         $args_by_get = $this->args_by_get;
         $url_args = $this->url_args;
-
+        //dd($street->geometry);
         return view(
             'dict.streets.show',
             compact('street', 'args_by_get', 'url_args')
