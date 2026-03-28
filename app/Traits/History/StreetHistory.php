@@ -8,7 +8,7 @@ use App\Models\User;
 
 use App\Models\Misc\Geotype;
 
-trait ToponymHistory
+trait StreetHistory
 {
     public function allHistory()
     {
@@ -16,10 +16,16 @@ trait ToponymHistory
             'geotype_id'          => Geotype::class,
         ];
 
+        // Поля которые показываем как есть (уже человекочитаемые строки)
+        $plainFields = ['struct'];
+
         $all_history = $this->revisionHistory->filter(function ($item) {
             return $item['key'] != 'updated_at'
-                && $item['key'] != 'name_for_search';
+                && $item['key'] != 'name_for_search_ru'
+                && $item['key'] != 'name_for_search_krl'
+                && $item['key'] != 'name_for_search_fi';
         });
+
         foreach ($all_history as $history) {
             $history->what_created = trans('history.toponym_a');
 
@@ -28,6 +34,22 @@ trait ToponymHistory
                 $history->old_value = $class::getNameById($history->old_value);
                 $history->new_value = $class::getNameById($history->new_value);
             }
+        }
+
+        // Добавляем историю геометрии
+        $geometry = $this->geometry; // hasOne StreetGeometry
+        if ($geometry) {
+            $geoHistory = $geometry->revisionHistory->filter(function ($item) {
+                return $item['key'] === 'geojson';
+            })->map(function ($item) {
+                $item->what_created = trans('history.toponym_a');
+                $item->key = 'geometry';
+                $item->old_value = $item->old_value ? trans('history.geometry_existed') : null;
+                $item->new_value = trans('history.geometry_updated');
+                return $item;
+            });
+
+            $all_history = $all_history->merge($geoHistory);
         }
 
         $all_history = $all_history->sortByDesc('id')
@@ -45,5 +67,4 @@ trait ToponymHistory
             return "{$t->name} ({$structhier})";
         })->toArray();
     }
-
 }

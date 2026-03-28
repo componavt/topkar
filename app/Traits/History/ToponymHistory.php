@@ -135,6 +135,7 @@ trait ToponymHistory
             'settlement1926_id'   => Settlement1926::class,
         ];
 
+
         $all_history = $this->revisionHistory->filter(function ($item) {
             return $item['key'] != 'updated_at'
                 /*                                   && $item['key'] != 'text_xml'

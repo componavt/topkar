@@ -24,7 +24,7 @@ class Street extends Model
     use \App\Traits\Methods\getList;
     use \App\Traits\Methods\sortList;
 
-    use \App\Traits\History\ToponymHistory;
+    use \App\Traits\History\StreetHistory;
     use \App\Traits\Modify\LogsRelationRevisions;
     use \App\Traits\Modify\LogsUpdatedAt;
     use \App\Traits\Modify\StreetModify;
