@@ -58,8 +58,9 @@ class ImportPetrozavodskStreetGeometry extends Command
 
         $streets = Street::query()
             ->select(['id', 'name_for_search_ru'])
-            ->whereNotNull('name_ru')
-            ->get();
+            ->whereNotNull('name_for_search_ru')
+            ->get()
+            ->keyBy('name_for_search_ru');
 
         $imported = 0;
 
@@ -68,7 +69,7 @@ class ImportPetrozavodskStreetGeometry extends Command
         try {
             foreach ($featuresByName as $norm => $data) {
                 // Ищем улицу с точным совпадением
-                $street = $streets->first(fn($s) => trim($s->name_for_search_ru) === $norm);
+                $street = $streets->get($norm);
 
                 if (!$street) {
                     $this->line('Not matched: ' . $data['source_name']);
