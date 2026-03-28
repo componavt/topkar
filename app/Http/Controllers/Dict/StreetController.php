@@ -249,6 +249,7 @@ class StreetController extends Controller
     public function destroy(Street $street)
     {
         $status_code = 200;
+        $error = false;
         $result = [];
         if ($street) {
             try {
