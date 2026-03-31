@@ -126,7 +126,6 @@ return [
 
     'wd' => 'Wikidata ID',
     'wd_URL' => 'Wikidata',
-    'with_answers' => [1 => 'yes', 2 => 'no', '' => "doesn't matter"],
     'with_coords' => 'with coordinates',
     'with_geometry' => 'Is there on the map?',
     'wrongnames' => 'Wrong names',
