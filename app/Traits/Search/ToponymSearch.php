@@ -56,7 +56,7 @@ trait ToponymSearch
             'settlement_link'     => (int)$request->input('settlement_link'),
             'sort_by' => $request->input('sort_by'),
         ];
-        $sort_list = self::SortList;
+        $sort_list = Toponym::SortList;
         if (!in_array($url_args['sort_by'], $sort_list)) {
             $url_args['sort_by'] = $sort_list[0];
         }
