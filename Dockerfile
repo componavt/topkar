@@ -1,5 +1,7 @@
 FROM php:7.4-apache
 
+COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
+
 # ¬ключить mod_rewrite
 RUN a2enmod rewrite
 
@@ -7,8 +9,8 @@ RUN a2enmod rewrite
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
-    libjpeg-dev \
     libfreetype6-dev \
+    libjpeg62-turbo-dev \
     zip \
     unzip \
     git \
