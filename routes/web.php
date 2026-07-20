@@ -148,3 +148,15 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         'misc/structs' => StructController::class,
     ]);
 }); // eo LaravelLocalization
+
+Route::get('/debug-db', function (\Illuminate\Http\Request $request) {
+    return response()->json([
+        'host' => $request->getHost(),
+        'url' => $request->fullUrl(),
+        'route_middleware' => optional($request->route())->gatherMiddleware(),
+
+        'default_connection' => config('database.default'),
+        'toponym_connection' => (new \App\Models\Dict\Toponym)->getConnectionName(),
+        'database' => \Illuminate\Support\Facades\DB::connection()->getDatabaseName(),
+    ]);
+});

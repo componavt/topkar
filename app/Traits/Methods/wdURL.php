@@ -10,8 +10,20 @@ trait wdURL
     {  
         if(!$this->wd) { return ""; }
         
-        return "<a href=\"https://www.wikidata.org/wiki/Q".
-                $this->wd.'">'. ($text ?? 'Q'.$this->wd)."</a>";
+        return '<a href="' . e($this->wikidataUrl()) . '"'
+            . ' target="_blank" rel="noopener noreferrer">'
+            . e($text ?? 'Q' . $this->wd)
+            . '</a>';
+
+    }
+    
+    public function wikidataUrl(): ?string
+    {
+        if (!$this->wd) {
+            return null;
+        }
+
+        return 'https://www.wikidata.org/wiki/Q' . $this->wd;
     }
     
 }

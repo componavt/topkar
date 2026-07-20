@@ -72,5 +72,8 @@ class Kernel extends HttpKernel
         'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
             
         'is_editor' => \App\Http\Middleware\IsEditor::class,
+        'auth.topkar' => \App\Http\Middleware\AuthTopkar::class,
+        'api.locale' => \App\Http\Middleware\SetApiLocale::class,
+        'topkar.database' => \App\Http\Middleware\UseTopkarDatabase::class,
     ];
 }

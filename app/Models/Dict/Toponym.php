@@ -192,7 +192,7 @@ class Toponym extends Model
             if (sizeof($settlements)) {
                 $toponyms->whereIn('id', function ($q) use ($settlements) {
                     $q->select('toponym_id')->from('settlement_toponym')
-                        ->whereIn('id', $settlements);
+                        ->whereIn('settlement_id', $settlements);
                 });
             }
             if ($toponyms->count()) {
@@ -481,7 +481,7 @@ class Toponym extends Model
     {
         $settlements = $this->settlements()->pluck('id')->toArray();
         $settlement1926_id = $this->settlement1926_id;
-        //dd($settlement1926_id);
+
         if (!sizeof($settlements) && !$settlement1926_id) {
             return [];
         }
@@ -492,19 +492,11 @@ class Toponym extends Model
                     ->whereIn('settlement_id', $settlements);
             });
         }
-        //dd($settlements, $settlement1926_id, to_sql($toponyms), $toponyms->get());
-        //dd($settlement1926_id);
 
         if ($settlement1926_id) {
-            //dd($settlement1926_id);
             $toponyms->where('settlement1926_id', $settlement1926_id);
-            //            $toponyms->where('settlement1926_id', 2427);
-            //            $toponyms = $toponyms->where('settlement1926_id', (int)$settlement1926_id);
-            //            $toponyms = $toponyms->whereSettlement1926Id($settlement1926_id);
-            //            $toponyms->whereIn('settlement1926_id', [$settlement1926_id]);
         }
-        //dd($toponyms->get());
-        //dd(to_sql($toponyms));
+
         $toponyms_with = collect();
         $toponyms_without = collect();
 
@@ -517,7 +509,7 @@ class Toponym extends Model
             }
         }
         $toponyms_without = $toponyms_without->sortBy(['geotype_name', 'name']);
-        //dd($toponyms_without);
+        
         return $toponyms_with->merge($toponyms_without);
     }
 
