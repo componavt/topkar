@@ -69,11 +69,11 @@ class RistikanzaToponymController extends Controller
         $toponyms = $toponyms->paginate(
             $url_args['portion']
         );
-/*Log::debug('Ristikanza API locale', [
+        /*Log::debug('Ristikanza API locale', [
     'app_locale' => app()->getLocale(),
     'accept_language' => $request->header('Accept-Language'),
     'location' => $toponyms->first()->location ?? null,
-]);*/        
+]);*/
         $items = $toponyms->getCollection()
             ->map(function ($toponym) {
                 $geotype = $toponym->geotype
@@ -100,7 +100,7 @@ class RistikanzaToponymController extends Controller
             })
             ->values()
             ->all();
-    
+
         return response()->json([
             'data' => $items,
             'current_page' => $toponyms->currentPage(),
@@ -153,11 +153,11 @@ class RistikanzaToponymController extends Controller
             ],
         ]);
     }
-    
-    public function show($oikonym)
+
+    public function show(int $id)
     {
         $toponym = Toponym::query()
-            ->where('id', $id)
+            ->whereId($id)
             ->whereIn('district_id', Toponym::nLadogaDistricts)
             ->where('geotype_id', 63)
             ->with([
@@ -166,162 +166,118 @@ class RistikanzaToponymController extends Controller
                 'ethnosTerritory',
                 'etymologyNation',
 
-                'topnames.lang',
-                'wrongnames.lang',
+                //'topnames.lang',
+                //'wrongnames.lang',
 
-                'settlement1926',
-                'settlements',
+                //'settlement1926',
+                //'settlements',
 
-                'texts',
+                //'texts',
 
-                'sourceToponyms.source',
+                'sourceToponyms',
 
                 'structs.structhier.parent',
 
-                'events.settlements',
-                'events.settlements1926',
-                'events.informants',
-                'events.recorders',
+                'events',
+                //'events.settlements',
+                //'events.settlements1926',
+                //'events.informants',
+                //'events.recorders',
             ])
             ->firstOrFail();
 
-        return response()->json([
-            'data' => $this->toponymData($toponym),
-        ]);
-    }   
-    
+        return response()->json($this->toponymData($toponym));
+    }
+
     protected function toponymData(Toponym $toponym): array
     {
-        $mapObject = $toponym->objOnMap();
-
-        $map = null;
-
-        if ($mapObject && $mapObject->hasCoords()) {
-            $isOwnCoordinates = $mapObject instanceof Toponym
-                && $mapObject->id == $toponym->id;
-
-            $map = [
-                'latitude' => (float) $mapObject->latitude,
-                'longitude' => (float) $mapObject->longitude,
-                'label' => $mapObject->name,
-                'marker_color' => $isOwnCoordinates ? 'blue' : 'grey',
-                'coordinate_source' => $isOwnCoordinates
-                    ? 'toponym'
-                    : ($mapObject === $toponym->settlement1926
-                        ? 'settlement1926'
-                        : 'settlement'),
-            ];
-        }
-
         return [
             'id' => $toponym->id,
             'name' => $toponym->name,
 
-            'lang' => $toponym->lang ? [
-                'short' => $toponym->lang->short,
-            ] : null,
+            'lang' => optional($toponym->lang)->short,
+            'wd_url' => $toponym->wdURL(),
 
-            'wikidata_url' => $toponym->wdURL(),
-
-            'geotype' => $toponym->geotype ? [
-                'id' => $toponym->geotype->id,
-                'name' => $toponym->geotype->name,
-                'short' => $toponym->geotype->short,
-            ] : null,
-
-            'topnames' => $toponym->topnames->map(function ($topname) {
-                return [
-                    'name' => $topname->name,
-                    'lang' => $topname->lang ? $topname->lang->short : null,
-                ];
-            })->values(),
-
-            'wrongnames' => $toponym->wrongnames->map(function ($wrongname) {
-                return [
-                    'name' => $wrongname->name,
-                    'lang' => $wrongname->lang ? $wrongname->lang->short : null,
-                ];
-            })->values(),
+            'topnames' => $toponym->topnamesWithLangs(),
+            'wrongnames' => $toponym->wrongnamesWithLangs(),
 
             'location' => $toponym->location,
             'location_1926' => $toponym->location1926,
 
-            'ethnos_territory' => $toponym->ethnosTerritory ? [
-                'id' => $toponym->ethnosTerritory->id,
-                'name' => $toponym->ethnosTerritory->name,
-            ] : null,
-
             'main_info' => $toponym->main_info,
-
-            'etymology_nation' => $toponym->etymologyNation ? [
-                'id' => $toponym->etymologyNation->id,
-                'name' => $toponym->etymologyNation->name,
-            ] : null,
-
+            'etymology_nation' => optional($toponym->etymologyNation)->name,
             'caseform' => $toponym->caseform,
+
             'etymology' => $toponym->etymology,
             'legend' => $toponym->legend,
 
-            'texts' => $toponym->texts->map(function ($text) {
-                return [
-                    'id' => $text->id,
-                    'title' => $text->title,
-                    'url' => rtrim(env('VEPKAR_URL'), '/') .
-                        '/' . app()->getLocale() .
-                        '/corpus/text/' . $text->id,
-                ];
-            })->values(),
+            'sources' => $toponym->sourceToponyms
+                ->map(function ($sourceToponym) {
+                    return [
+                        'mention' => $sourceToponym->mention,
+                        'source' => $sourceToponym->sourceToString(0, 1),
+                    ];
+                })
+                ->values()
+                ->all(),
 
-            'sources' => $toponym->sourceToponyms->map(function ($sourceToponym) {
-                return [
-                    'mention' => $sourceToponym->mention,
-                    'source_name' => $sourceToponym->source
-                        ? $sourceToponym->source->name
-                        : null,
-                    'source_text' => $sourceToponym->source_text,
-                ];
-            })->values(),
+            'structs' => $toponym->structs
+                ->map(function ($struct) {
+                    return [
+                        'name' => optional($struct)->name,
+                        'group' => $struct && $struct->structhier
+                            ? $struct->structhier->parent->name . ' ' .
+                            mb_strtolower($struct->structhier->name)
+                            : null,
+                    ];
+                })
+                ->values()
+                ->all(),
 
-            'structs' => $toponym->structs->map(function ($struct) {
-                return [
-                    'name' => $struct->name,
-                    'hierarchy' => $struct->structhier
-                        ? trim(
-                            optional($struct->structhier->parent)->name . ' ' .
-                            $struct->structhier->name
-                        )
-                        : null,
-                ];
-            })->values(),
+            'events' => $toponym->events
+                ->map(function ($event) {
+                    return [
+                        'place' => trim(
+                            $event->settlementsToString() .
+                                ($event->settlementsToString() && $event->settlements1926ToString() ? ', ' : '') .
+                                $event->settlements1926ToString()
+                        ),
+                        'date' => $event->date,
+                        'informants' => $event->informantsToString(),
+                        'recorders' => $event->recordersToString(),
+                    ];
+                })
+                ->values()
+                ->all(),
 
-            'events' => $toponym->events->map(function ($event) {
-                return [
-                    'settlements' => $event->settlements->pluck('name')->values(),
-                    'settlements_1926' => $event->settlements1926
-                        ->pluck('name')
-                        ->values(),
-                    'date' => $event->date,
-                    'informants' => $event->informants->map(function ($informant) {
-                        return $informant->informantString();
-                    })->values(),
-                    'recorders' => $event->recorders
-                        ->pluck('name_' . app()->getLocale())
-                        ->filter()
-                        ->values(),
-                ];
-            })->values(),
-
-            'map' => $map,
+            'map' => $this->mapData($toponym),
         ];
     }
-    
+
+    public function mapData(Toponym $toponym)
+    {
+        $object = $toponym->objOnMap();
+
+        if (!$object) {
+            return null;
+        }
+
+        return [
+            'latitude' => $object->latitude,
+            'longitude' => $object->longitude,
+            'zoom' => 11,
+            'color' => $object === $toponym ? 'blue' : 'grey',
+        ];
+    }
+
     public function oikonymFormValues()
     {
         $nladoga_districts = Toponym::nLadogaDistricts;
         $nladoga_region1926 = Toponym::nLadogaRegion1926;
-        
+
         return response()->json([
             'district_values' => array_intersect_key(District::getList(), array_flip($nladoga_districts)),
+            //'region1926_ids' => (array)$nladoga_region1926,
             'district1926_values' => District1926::getList(false, $nladoga_region1926),
             'selsovet1926_values' => Selsovet1926::getList(false, $nladoga_region1926),
             'settlement_values' => Settlement::getList(),
@@ -330,31 +286,31 @@ class RistikanzaToponymController extends Controller
             'source_values' => Source::getList(true),
         ]);
     }
-    
+
     public function oikonymSources(Request $request)
     {
         $locale = app()->getLocale();
-        
+
         $params = $request->validate([
             'q' => ['nullable', 'string', 'max:255'],
             'year_from' => ['nullable', 'integer', 'min:1', 'max:2100'],
             'year_to' => ['nullable', 'integer', 'min:1', 'max:2100'],
         ]);
-        
-        $sname = '%'.trim((string)($params['q'] ?? '')).'%';
+
+        $sname = '%' . trim((string)($params['q'] ?? '')) . '%';
         $year_from = $params['year_from'] ?? null;
         $year_to = $params['year_to'] ?? null;
 
         if ($year_from && $year_to && $year_from > $year_to) {
             return response()->json([]);
         }
-        
+
         $sources = Source::query()
             ->when($sname !== '', function ($query) use ($sname) {
                 $query->where('name_en',  'like',  $sname)
-                      ->orWhere('name_ru','like',  $sname)
-                      ->orWhere('short_en','like',  $sname)
-                      ->orWhere('short_ru','like',  $sname);
+                    ->orWhere('name_ru', 'like',  $sname)
+                    ->orWhere('short_en', 'like',  $sname)
+                    ->orWhere('short_ru', 'like',  $sname);
             })
             ->when($year_from, function ($query) use ($year_from) {
                 $query->where('year', '>=', $year_from);
@@ -362,7 +318,7 @@ class RistikanzaToponymController extends Controller
             ->when($year_to, function ($query) use ($year_to) {
                 $query->where('year', '<=', $year_to);
             })
-            ->orderBy('name_'.$locale)
+            ->orderBy('name_' . $locale)
             ->limit(50)
             ->get()
             ->map(function ($source) {
@@ -376,34 +332,90 @@ class RistikanzaToponymController extends Controller
 
         return response()->json($sources);
     }
-    
+
     public function oikonymSettlements(Request $request)
     {
         $locale = app()->getLocale();
         $params = $request->validate([
             'q' => ['nullable', 'string', 'max:255'],
-            'search_districts' => ['nullable', 'array'],
-            'search_districts.*' => ['integer', 'min:1'],
+            'districts' => ['nullable', 'array'],
+            'districts.*' => ['integer', 'min:1'],
         ]);
-        
-        $settlement_name = '%'.trim((string)($params['q'] ?? '')).'%';
+
+        $settlement_name = '%' . trim((string)($params['q'] ?? '')) . '%';
         $districts = array_remove_null($params['districts'] ?? []);
-        if (empty($districts)) {
+        if (!sizeof($districts)) {
             $districts = Toponym::nLadogaDistricts;
         }
+        //return response()->json($districts);
 
         $settlements = Settlement::query()
-            ->when($settlement_name !== '', function ($q) use ($settlement_name) {
-                $q->where('name_en', 'like', $settlement_name)
-                  ->orWhere('name_ru', 'like', $settlement_name);
+            ->when($settlement_name !== '', function ($query) use ($settlement_name) {
+                $query->where(function ($q) use ($settlement_name) {
+                    $q->where('name_en', 'like', $settlement_name)
+                        ->orWhere('name_ru', 'like', $settlement_name);
+                });
             })
             ->when(sizeof($districts), function ($query) use ($districts) {
                 $query->whereIn('id', function ($q) use ($districts) {
                     $q->select('settlement_id')->from('district_settlement')
-                      ->whereIn('district_id', $districts);
-                });                
+                        ->whereIn('district_id', $districts);
+                });
             })
-            ->orderBy('name_'.$locale)
+            //        return response()->json(to_sql($settlements));
+            ->orderBy('name_' . $locale)
+            //            ->limit(50)
+            ->get()
+            ->map(function ($settlement) {
+                return [
+                    'id' => $settlement->id,
+                    'text' => $settlement->name,
+                ];
+            })
+            ->values()
+            ->all();
+
+        return response()->json($settlements);
+    }
+
+    public function oikonymSettlements1926(Request $request)
+    {
+        $locale = app()->getLocale();
+        $params = $request->validate([
+            'q' => ['nullable', 'string', 'max:255'],
+            'districts' => ['nullable', 'array'],
+            'districts.*' => ['integer', 'min:1'],
+            'selsovets' => ['nullable', 'array'],
+            'selsovets.*' => ['integer', 'min:1'],
+        ]);
+
+        $settlement_name = '%' . trim((string)($params['q'] ?? '')) . '%';
+        $districts1926 = array_remove_null($params['districts'] ?? []);
+        if (empty($districts1926)) {
+            $districts1926 = District1926::whereIn('region_id', Toponym::nLadogaDistricts)->get('id')->toArray();
+        }
+        $selsovets1926 = array_remove_null($params['selsovets'] ?? []);
+        if (empty($selsovets1926)) {
+            $selsovets1926 = Selsovet1926::whereIn('district1926_id', $districts1926)->get('id')->toArray();
+        }
+
+        $settlements1926 = Settlement1926::query()
+            ->when($settlement_name !== '', function ($query) use ($settlement_name) {
+                $query->where(function ($q) use ($settlement_name) {
+                    $q->where('name_en', 'like', $settlement_name)
+                        ->orWhere('name_ru', 'like', $settlement_name);
+                });
+            })
+            ->when(sizeof($selsovets1926), function ($q) use ($selsovets1926) {
+                $q->whereIn('selsovet_id', $selsovets1926);
+            })
+            ->when(sizeof($districts1926), function ($query) use ($districts1926) {
+                $query->whereIn('selsovet_id', function ($q) use ($districts1926) {
+                    $q->select('id')->from('selsovets1926')
+                        ->whereIn('district1926_id', $districts1926);
+                });
+            })
+            ->orderBy('name_' . $locale)
             ->limit(50)
             ->get()
             ->map(function ($settlement) {
@@ -414,7 +426,47 @@ class RistikanzaToponymController extends Controller
             })
             ->values()
             ->all();
-            
-        return response()->json($settlements);
+
+        return response()->json($settlements1926);
+    }
+
+    public function oikonymSelsovets1926(Request $request)
+    {
+        $locale = app()->getLocale();
+        $params = $request->validate([
+            'q' => ['nullable', 'string', 'max:255'],
+            'districts' => ['nullable', 'array'],
+            'districts.*' => ['integer', 'min:1'],
+        ]);
+
+        $sname = '%' . trim((string)($params['q'] ?? '')) . '%';
+        $districts1926 = array_remove_null($params['districts'] ?? []);
+        if (empty($districts1926)) {
+            $districts1926 = District1926::whereIn('region_id', Toponym::nLadogaDistricts)->get('id')->toArray();
+        }
+
+        $selsovets1926 = Selsovet1926::query()
+            ->when($sname !== '', function ($query) use ($sname) {
+                $query->where(function ($q) use ($sname) {
+                    $q->where('name_en', 'like', $sname)
+                        ->orWhere('name_ru', 'like', $sname);
+                });
+            })
+            ->when(sizeof($districts1926), function ($q) use ($districts1926) {
+                $q->whereIn('district1926_id', $districts1926);
+            })
+            ->orderBy('name_' . $locale)
+            ->limit(50)
+            ->get()
+            ->map(function ($selsovet) {
+                return [
+                    'id' => $selsovet->id,
+                    'text' => $selsovet->name,
+                ];
+            })
+            ->values()
+            ->all();
+
+        return response()->json($selsovets1926);
     }
 }
