@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\DB;
 //use Illuminate\Support\Facades\Log;
-use Response;
+//use Response;
 
 use App\Models\Dict\District;
 use App\Models\Dict\District1926;
@@ -61,8 +61,7 @@ class RistikanzaToponymController extends Controller
         $toponyms = Toponym::search($url_args)
             ->with([
                 'topnames',
-                'lang',
-                'geotype',
+                'lang'
             ]);
         $n_records = $toponyms->count();
 
@@ -90,6 +89,7 @@ class RistikanzaToponymController extends Controller
                 return [
                     'id' => $toponym->id,
                     'name' => $toponym->name,
+                    'lang' => $toponym->lang ? $toponym->lang->short : '',
                     'topname' => $topname,
                     'geotype' => $geotype,
                     'location' => $toponym->location,
@@ -127,29 +127,20 @@ class RistikanzaToponymController extends Controller
         $limit = 3000;
 
         list($total_rec, $show_count, $objs, $limit, $bounds, $url_args)
-            = Toponym::forMap($limit, $url_args);
-
+            = Toponym::forMap($limit, $url_args, false);
+        
+        //Log::info('total_rec: '.$total_rec);
         return response()->json([
-            'data' => collect($objs)->map(function ($obj) {
-                return [
-                    'id' => $obj['id'],
-                    'lat' => (float) $obj['lat'],
-                    'lon' => (float) $obj['lon'],
-                    'color' => $obj['color'],
-                    'name' => $obj['name'],
-                    'popup' => [
-                        'title' => $obj['name'],
-                        'topnames' => $obj['topnames'] ?? [],
-                        'geotype' => $obj['geotype'] ?? null,
-                        'location' => $obj['location'] ?? null,
-                    ],
-                ];
-            })->values(),
+            'data' => $objs,
             'meta' => [
                 'total_rec' => $total_rec,
                 'show_count' => $show_count,
                 'limit' => $limit,
                 'bounds' => $bounds,
+/*                'min_lat' => $url_args['min_lat'],
+                'min_lon' => $url_args['min_lon'],
+                'max_lat' => $url_args['max_lat'],
+                'max_lon' => $url_args['max_lon'],*/
             ],
         ]);
     }

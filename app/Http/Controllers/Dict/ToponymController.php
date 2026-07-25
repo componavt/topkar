@@ -407,7 +407,7 @@ class ToponymController extends Controller
 
         list($total_rec, $show_count, $objs, $limit, $bounds, $url_args)
             = Toponym::forMap($limit, $url_args);
-        //dd($total_rec);
+        //dd($objs);
         //        $district_values = District::getList();
         $nladoga_region1926 = Toponym::nLadogaRegion1926;
         $district_values = array_intersect_key(District::getList(), array_flip(Toponym::nLadogaDistricts));

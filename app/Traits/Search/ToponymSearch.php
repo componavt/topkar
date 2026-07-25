@@ -349,23 +349,23 @@ trait ToponymSearch
         return $toponyms;
     }
 
-    public static function forMap($limit, $url_args)
+    public static function forMap($limit, $url_args, $with_links=true)
     {
         $toponyms = self::search($url_args);
         $total_rec = $toponyms->count();
         if (user_can_edit()) {
             $limit = $total_rec;
         }
-        list($show_count, $objs, $checked_ids) = self::toponymsWithCoordsforMap($toponyms, $limit, $url_args);
+        list($show_count, $objs, $checked_ids) = self::toponymsWithCoordsforMap($toponyms, $limit, $url_args, $with_links);
         //dd($objs);
 
         if (empty($url_args['only_exact_coords']) && $show_count < $limit) {
             list($show_count, $objs, $checked_ids)
-                = self::toponymsWithSettl26CoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids);
+                = self::toponymsWithSettl26CoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids, $with_links);
 
             if ($show_count < $limit) {
                 list($show_count, $objs)
-                    = self::toponymsWithSettlCoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids);
+                    = self::toponymsWithSettlCoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids, $with_links);
             }
         }
         arsort($objs);
@@ -419,7 +419,7 @@ trait ToponymSearch
         return [$bounds, $url_args];
     }
 
-    public static function toponymsWithCoordsforMap($toponyms, $limit, $url_args)
+    public static function toponymsWithCoordsforMap($toponyms, $limit, $url_args, $with_links=true)
     {
         $objs = [];
         $checked_ids = [];
@@ -445,9 +445,17 @@ trait ToponymSearch
         foreach ($toponyms_with_coords as $toponym) {
             $lat = $toponym->latitude;
             $lon = $toponym->longitude;
-            $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important') . (!$url_args['popup_all'] && $toponym->geotype ? ' (' . $toponym->geotype->name . ')' : '');
+            if ($with_links) {
+                $popup = to_show($toponym->name, 'toponym', $toponym, '', 'important') . (!$url_args['popup_all'] && $toponym->geotype ? ' (' . $toponym->geotype->name . ')' : '');
+            } else {
+                $popup = [$toponym->id => $toponym->name];
+            }
             if (isset($objs[$lat . '_' . $lon])) {
-                $objs[$lat . '_' . $lon]['popup'] .= '<br>' . $popup;
+                if ($with_links) {               
+                    $objs[$lat . '_' . $lon]['popup'] .= '<br>' . $popup;
+                } else {
+                    $objs[$lat . '_' . $lon]['popup'][$toponym->id] = $toponym->name;
+                }
             } else {
                 $objs[$lat . '_' . $lon]
                     = ['lat' => $lat, 'lon' => $lon, 'popup' => $popup, 'color' => 'blue'];
@@ -459,7 +467,7 @@ trait ToponymSearch
         return [$show_count, $objs, $checked_ids];
     }
 
-    public static function toponymsWithSettl26CoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids)
+    public static function toponymsWithSettl26CoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids, $with_links=true)
     {
         $toponyms = Toponym::search($url_args)
             ->whereNotIn('id', $checked_ids)
@@ -488,13 +496,13 @@ trait ToponymSearch
         //dump($show_count.',');
 
         foreach ($toponyms as $toponym) {
-            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlement1926, $url_args);
+            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlement1926, $url_args, $with_links);
             $checked_ids[] = $toponym->id;
         }
         return [$show_count, $objs, $checked_ids];
     }
 
-    public static function toponymsWithSettlCoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids)
+    public static function toponymsWithSettlCoordsforMap($objs, $show_count, $limit, $url_args, $checked_ids, $with_links=true)
     {
         $toponyms = Toponym::search($url_args)
             ->whereNotIn('id', $checked_ids)
@@ -528,33 +536,42 @@ trait ToponymSearch
         //dump($show_count.',');
 
         foreach ($toponyms as $toponym) {
-            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlements()->withCoords()->first(), $url_args);
+            $objs = self::setToponymToSettlement($objs, $toponym, $toponym->settlements()->withCoords()->first(), $url_args, $with_links);
         }
         return [$show_count, $objs];
     }
 
-    public static function setToponymToSettlement($objs, $toponym, $settlement, $url_args)
+    public static function setToponymToSettlement($objs, $toponym, $settlement, $url_args, $with_links=true)
     {
-        $popup = to_show($toponym->name, 'toponym', $toponym)
-            . (!$url_args['popup_all'] && $toponym->geotype ? ' (' . $toponym->geotype->name . ')' : '');
+        if ($with_links) {
+            $popup = to_show($toponym->name, 'toponym', $toponym)
+                . (!$url_args['popup_all'] && $toponym->geotype ? ' (' . $toponym->geotype->name . ')' : '');
+        }
         $lat = $settlement->latitude;
         $lon = $settlement->longitude;
         if (isset($objs[$lat . '_' . $lon])) {
+            if ($with_links) {               
+                $objs[$lat . '_' . $lon]['popup'] .= ($objs[$lat . '_' . $lon]['color'] == 'blue' ? '<br>' : '; '). $popup;
+            } else {
+                $objs[$lat . '_' . $lon]['popup'][$toponym->id] = $toponym->name;
+            }
             if ($objs[$lat . '_' . $lon]['color'] == 'blue') {
                 $objs[$lat . '_' . $lon]['color'] = 'violet';
-                $objs[$lat . '_' . $lon]['popup'] .= '<br>';
-            } else {
-                $objs[$lat . '_' . $lon]['popup'] .= '; ';
             }
-            $objs[$lat . '_' . $lon]['popup'] .= $popup;
         } else {
             $objs[$lat . '_' . $lon]
                 = [
                     'lat' => $lat,
                     'lon' => $lon,
-                    'color' => 'grey',
-                    'popup' => '<b>' . $settlement->name . '</b><br>' . $popup
+                    'color' => 'grey'
                 ];
+            if ($with_links) {               
+                $objs[$lat . '_' . $lon]['popup'] = '<b>' . $settlement->name . '</b><br>' . $popup;
+            } else {
+                $objs[$lat . '_' . $lon]['popup'] = ['s' => $settlement->name, $toponym->id => $toponym->name];
+                
+            }
+            
         }
         return $objs;
     }

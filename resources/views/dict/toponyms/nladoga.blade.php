@@ -16,7 +16,7 @@
          </div>
          <div class="col-sm-8 output_in">
             @if ($n_records)
-            <a class="big" href="{{ route('toponyms.nladoga.on_map').$args_by_get }}">{!! trans_choice('toponym.output_on_map',$n_records) !!}</a>
+            <a class="big" href="{{ route('toponyms.nladoga.on_map').$args_by_get }}">{!! __('toponym.output_on_map') !!}</a>
             @endif 
          </div>
     </div>

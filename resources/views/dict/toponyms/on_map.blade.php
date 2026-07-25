@@ -36,11 +36,11 @@
     @if (empty($url_args['only_exact_coords']))
     <div class="row" style="margin-bottom: 20px;">
         <div class="col-sm-4"><img src="/images/markers/marker-icon-blue.png" class="legend-icon"> 
-            топонимы с точными координатами</div>
+            {{ __('toponym.coord_toponym') }}</div>
         <div class="col-sm-4"><img src="/images/markers/marker-icon-grey.png" class="legend-icon"> 
-            топонимы, привязанные к координатам поселения</div>
+            {{ __('toponym.coord_settl') }}</div>
         <div class="col-sm-4"><img src="/images/markers/marker-icon-violet.png" class="legend-icon"> 
-            топонимы и поселения с одинаковыми координатами</div>
+            {{ __('toponym.coord_toponyms') }}</div>
     </div>
     @endif
     <div id="mapid" style="width: 100%; height: {{ $url_args['map_height'] }}px;"></div>
