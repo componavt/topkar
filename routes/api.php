@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::middleware(['auth.topkar', 'api.locale', 'topkar.database'])
+Route::middleware(['auth.ristikanza', 'api.locale', 'topkar.database'])
     ->prefix('ristikanza/nladoga')
     ->group(function () {
         Route::get('oikonyms/form-values', [RistikanzaToponymController::class, 'oikonymFormValues']);

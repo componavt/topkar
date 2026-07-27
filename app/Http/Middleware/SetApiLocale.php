@@ -9,7 +9,7 @@ class SetApiLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        $locale = $request->getPreferredLanguage(['ru', 'en', 'fi']) ?: 'ru';
+        $locale = $request->getPreferredLanguage(['ru', 'en']) ?: 'ru';
 
         app()->setLocale($locale);
 

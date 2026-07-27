@@ -63,16 +63,16 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        
+
         /**** OTHER MIDDLEWARE ****/
         'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
         'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
         'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
         'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
         'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
-            
+
         'is_editor' => \App\Http\Middleware\IsEditor::class,
-        'auth.topkar' => \App\Http\Middleware\AuthTopkar::class,
+        'auth.ristikanza' => \App\Http\Middleware\AuthRistikanza::class,
         'api.locale' => \App\Http\Middleware\SetApiLocale::class,
         'topkar.database' => \App\Http\Middleware\UseTopkarDatabase::class,
     ];
