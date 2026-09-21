@@ -107,15 +107,15 @@
 @endsection
 @section('jqueryFunc')
         recDelete('{{ trans('messages.confirm_delete') }}');
-        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}'});
-        $('.select-informant').select2({allowClear: false, placeholder: '{{trans('navigation.informants')}}'});
-        $('.select-recorder').select2({allowClear: false, placeholder: '{{trans('navigation.recorders')}}'});
-        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
-        $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}'});
-        $('.select-source').select2({allowClear: false, placeholder: '{{trans('toponym.source')}}'});
-        $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}'});
-        $('.select-ethnos_territory').select2({allowClear: false, placeholder: '{{trans('misc.ethnos_territory')}}'});
-        $('.select-etymology_nation').select2({allowClear: false, placeholder: '{{trans('misc.etymology_nation')}}'});
+        $('.select-geotype').select2({allowClear: false, placeholder: '{{trans('misc.geotype')}}', width: '100%'});
+        $('.select-informant').select2({allowClear: false, placeholder: '{{trans('navigation.informants')}}', width: '100%'});
+        $('.select-recorder').select2({allowClear: false, placeholder: '{{trans('navigation.recorders')}}', width: '100%'});
+        $('.select-region').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}', width: '100%'});
+        $('.select-region1926').select2({allowClear: false, placeholder: '{{trans('toponym.region1926')}}', width: '100%'});
+        $('.select-source').select2({allowClear: false, placeholder: '{{trans('toponym.source')}}', width: '100%'});
+        $('.select-structhier').select2({allowClear: false, placeholder: '{{trans('misc.structhier')}}', width: '100%'});
+        $('.select-ethnos_territory').select2({allowClear: false, placeholder: '{{trans('misc.ethnos_territory')}}', width: '100%'});
+        $('.select-etymology_nation').select2({allowClear: false, placeholder: '{{trans('misc.etymology_nation')}}', width: '100%'});
         
         selectDistrict('search_regions', '{{app()->getLocale()}}', '{{trans('toponym.district')}}', false);
         selectSettlement('search_regions', 'search_districts', '{{app()->getLocale()}}', '{{trans('toponym.settlement')}}', false);
@@ -123,6 +123,7 @@
         selectDistrict1926('search_regions1926', '{{app()->getLocale()}}', '{{trans('toponym.district1926')}}', false);
         selectSelsovet1926('search_regions1926', 'search_districts1926', '{{app()->getLocale()}}', '{{trans('toponym.selsovet1926')}}', false);
         selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('toponym.settlement1926')}}', false);
+        selectSettlement1926('search_regions1926', 'search_districts1926', 'search_selsovets1926', '{{app()->getLocale()}}', '{{trans('misc.record_place')}}', false, '.select-record-place1926');
         selectStruct('search_structhiers', '{{app()->getLocale()}}', '{{trans('misc.struct')}}', false);
 
         $('.select-region-link').select2({allowClear: false, placeholder: '{{trans('toponym.region')}}'});
