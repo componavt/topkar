@@ -73,8 +73,8 @@ class ToponymController extends Controller
         $url_args = $this->url_args;
 
         $toponyms = Toponym::search($url_args);
-        $n_records = $toponyms->count();
         $toponyms = $toponyms->paginate($this->url_args['portion']);
+        $n_records = $toponyms->total();
 
         $district_values = District::getList();
         $district1926_values = District1926::getList();
