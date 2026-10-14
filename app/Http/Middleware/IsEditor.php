@@ -19,13 +19,35 @@ class IsEditor
      */
     public function handle(Request $request, Closure $next)
     {
+        $route = $request->route();
+
+        $is_history = $route && in_array($route->getName(), ['toponyms.history', 'streets.history'], true);
+
         $user = Auth::user();
+
+        // Гостю не нужна выборка команды редакторов.
+        if (!$user) {
+            if ($is_history) {
+                return response('Forbidden', 403)
+                    ->header('Content-Type', 'text/plain; charset=UTF-8');
+            }
+
+            return redirect('/')->withErrors("You don't have admin access.");
+        }
+
         $team = Team::whereName('TopKar editors')->first();
-        if($user && $user->belongsToTeam($team) && 
-            ($user->hasTeamRole($team, 'admin') || $user->hasTeamRole($team, 'editor'))){
+
+        if ($team && $user->belongsToTeam($team) && ($user->hasTeamRole($team, 'admin') || $user->hasTeamRole($team, 'editor'))) {
             return $next($request);
         }
-   
+
+        // Авторизованному пользователю без нужной роли
+        // история также недоступна, но перенаправления нет.
+        if ($is_history) {
+            return response('Forbidden', 403)
+                ->header('Content-Type', 'text/plain; charset=UTF-8');
+        }
+
         return redirect('/')->withErrors("You don't have admin access.");
     }
 }
