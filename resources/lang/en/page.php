@@ -20,6 +20,12 @@ return [
                   <br><a href="https://creativecommons.org/licenses/by/4.0/">More about the CC BY 4.0 license</a>',
 
     'list_of_publications' => '',
+    'list_of_videos' => '<h2>Videos</h2>'
+        . '<ol>'
+        . '<li><a href="https://www.youtube.com/watch?v=Hv7FrSJL_QU">Interactive map of geographical names</a>, 2026'
+        . '<li><a href="https://www.youtube.com/watch?v=7khxXmWET5o">Toponymy of Karelia and Linked data</a>, 2023'
+        . '</ol>',
+
 
     'site_title'  => 'Project "TopKar - Toponymy of Karelia"',
 
